@@ -1,0 +1,16 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { Hero } from '../components/Hero';
+import { About } from '../components/About';
+import { Teachings } from '../components/Teachings';
+import { Posters } from '../components/Posters';
+import { Visit } from '../components/Visit';
+---
+
+<BaseLayout title="Gold Coast Dharma Realm" theme="light">
+  <Hero />
+  <About />
+  <Teachings />
+  <Posters client:only="react" />
+  <Visit client:load />
+</BaseLayout>

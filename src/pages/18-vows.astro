@@ -1,0 +1,8 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { EighteenVows } from '../components/EighteenVows';
+---
+
+<BaseLayout title="The 18 Vows - GCDR" theme="dark">
+  <EighteenVows client:only="react" />
+</BaseLayout>
