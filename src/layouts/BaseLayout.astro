@@ -10,7 +10,7 @@ interface Props {
 }
 
 const { title = 'Gold Coast Dharma Realm', theme = 'light' } = Astro.props;
-const bgClass = theme === 'dark' ? 'min-h-screen bg-[#1c1917]' : 'min-h-screen bg-stone-50';
+const bgClass = theme === 'dark' ? 'min-h-screen bg-dark-bg' : 'min-h-screen bg-stone-50';
 const googleFontsUrl = getGoogleFontsUrl();
 ---
 

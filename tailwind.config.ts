@@ -45,6 +45,11 @@ export default {
           DEFAULT: 'var(--color-card)',
           foreground: 'var(--color-card-foreground)',
         },
+        // GCDR Theme Colors
+        'dark-bg': 'var(--color-dark-bg)',
+        'dark-text': 'var(--color-dark-text)',
+        'accent-gold': 'var(--color-accent-gold)',
+        'dark-card': 'var(--color-dark-card)',
       },
       borderRadius: {
         sm: 'var(--radius-sm)',
