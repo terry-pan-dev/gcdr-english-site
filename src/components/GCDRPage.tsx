@@ -33,7 +33,7 @@ export function GCDRPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#1c1917] text-[#EBE9CF]">
+    <div className="min-h-screen bg-[#1c1917] text-[#EBE9CF] overflow-x-hidden w-full">
       {/* Hero Section */}
       <section className="relative h-screen w-full overflow-hidden flex items-center justify-center">
         <div className="absolute inset-0 z-0">
