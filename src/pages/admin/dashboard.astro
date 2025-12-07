@@ -1,0 +1,24 @@
+---
+import AdminLayout from "../../layouts/AdminLayout.astro";
+import { DashboardLayout } from "../../components/admin/DashboardLayout";
+
+// Get API base URL and Cognito config from environment variables
+// SST will inject this at build/deploy time
+const apiBaseUrl = import.meta.env.PUBLIC_API_BASE_URL || "";
+const cognitoUserPoolId = import.meta.env.PUBLIC_COGNITO_USER_POOL_ID || "";
+const cognitoClientId = import.meta.env.PUBLIC_COGNITO_USER_POOL_CLIENT_ID || "";
+const awsRegion = import.meta.env.PUBLIC_AWS_REGION || "ap-southeast-2";
+---
+
+<AdminLayout title="Admin Dashboard - GCDR">
+  <script is:inline define:vars={{ apiBaseUrl, cognitoUserPoolId, cognitoClientId, awsRegion }}>
+    // Inject API base URL and Cognito config into global scope for client-side use
+    window.__API_BASE_URL__ = apiBaseUrl;
+    window.__COGNITO_USER_POOL_ID__ = cognitoUserPoolId;
+    window.__COGNITO_USER_POOL_CLIENT_ID__ = cognitoClientId;
+    window.__AWS_REGION__ = awsRegion;
+  </script>
+  <DashboardLayout client:load />
+</AdminLayout>
+
+

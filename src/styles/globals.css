@@ -139,6 +139,12 @@
   --color-dark-text: var(--dark-text);
   --color-accent-gold: var(--accent-gold);
   --color-dark-card: var(--dark-card);
+  
+  /* Tailwind v4 theme colors - these will be available as utilities */
+  --color-dark-bg-rgb: 28, 25, 23;
+  --color-dark-text-rgb: 235, 233, 207;
+  --color-accent-gold-rgb: 201, 160, 80;
+  --color-dark-card-rgb: 42, 37, 34;
 }
 
 @layer base {

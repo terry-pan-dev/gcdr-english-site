@@ -1,0 +1,180 @@
+import { useState, useEffect } from "react";
+import { BlogList } from "./BlogList";
+import { BlogEditor } from "./BlogEditor";
+import { MediaManager } from "./MediaManager";
+import type { BlogPost } from "../../lib/admin-api";
+import { authApi, blogApi } from "../../lib/admin-api";
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarFooter,
+  SidebarGroup,
+  SidebarGroupContent,
+  SidebarHeader,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+  SidebarProvider,
+  SidebarInset,
+} from "../ui/sidebar";
+import { Button } from "../ui/button";
+import { FileText, Image, LogOut, Plus } from "lucide-react";
+import { Separator } from "../ui/separator";
+
+type View = "blogs" | "editor" | "media";
+type EditorMode = "new" | "edit";
+
+export function DashboardLayout() {
+  const [currentView, setCurrentView] = useState<View>("blogs");
+  const [editorMode, setEditorMode] = useState<EditorMode>("new");
+  const [selectedBlogId, setSelectedBlogId] = useState<string | null>(null);
+  const [blogs, setBlogs] = useState<BlogPost[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    // Check authentication
+    if (!authApi.isAuthenticated()) {
+      window.location.href = "/admin/login";
+      return;
+    }
+
+    // Load blogs
+    loadBlogs();
+  }, []);
+
+  const loadBlogs = async () => {
+    setLoading(true);
+    try {
+      const result = await blogApi.list();
+      if (result.data) {
+        setBlogs(result.data.blogs);
+      }
+    } catch (error) {
+      console.error("Error loading blogs:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleNewBlog = () => {
+    setEditorMode("new");
+    setSelectedBlogId(null);
+    setCurrentView("editor");
+  };
+
+  const handleEditBlog = (id: string) => {
+    setEditorMode("edit");
+    setSelectedBlogId(id);
+    setCurrentView("editor");
+  };
+
+  const handleBackToList = () => {
+    setCurrentView("blogs");
+    loadBlogs();
+  };
+
+  const handleLogout = () => {
+    authApi.logout();
+    window.location.href = "/admin/login";
+  };
+
+  if (loading && currentView === "blogs") {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <div className="text-muted-foreground">Loading...</div>
+      </div>
+    );
+  }
+
+  return (
+    <SidebarProvider>
+      <div className="min-h-screen flex w-full">
+        <Sidebar>
+          <SidebarHeader className="border-b">
+            <div className="flex items-center gap-2 px-4 py-3">
+              <h2 className="text-lg font-semibold">Admin Dashboard</h2>
+            </div>
+          </SidebarHeader>
+          <SidebarContent>
+            <SidebarGroup>
+              <SidebarGroupContent>
+                <SidebarMenu>
+                  <SidebarMenuItem>
+                    <SidebarMenuButton
+                      onClick={handleNewBlog}
+                      isActive={currentView === "editor"}
+                      tooltip="Create New Blog Post"
+                    >
+                      <Plus className="size-4" />
+                      <span>Create New Blog Post</span>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                  <SidebarMenuItem>
+                    <SidebarMenuButton
+                      onClick={() => setCurrentView("blogs")}
+                      isActive={currentView === "blogs"}
+                      tooltip="View All Blogs"
+                    >
+                      <FileText className="size-4" />
+                      <span>Blog Posts</span>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                  <SidebarMenuItem>
+                    <SidebarMenuButton
+                      onClick={() => setCurrentView("media")}
+                      isActive={currentView === "media"}
+                      tooltip="Media Library"
+                    >
+                      <Image className="size-4" />
+                      <span>Media</span>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                </SidebarMenu>
+              </SidebarGroupContent>
+            </SidebarGroup>
+          </SidebarContent>
+          <SidebarFooter className="border-t">
+            <SidebarMenu>
+              <SidebarMenuItem>
+                <SidebarMenuButton onClick={handleLogout} tooltip="Logout">
+                  <LogOut className="size-4" />
+                  <span>Logout</span>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            </SidebarMenu>
+          </SidebarFooter>
+        </Sidebar>
+        <SidebarInset className="flex flex-col">
+          {currentView === "blogs" && (
+            <>
+              <div className="border-b bg-background">
+                <div className="flex h-16 items-center justify-between px-6">
+                  <h1 className="text-2xl font-semibold">Blog Posts</h1>
+                  <Button onClick={handleNewBlog}>
+                    <Plus className="mr-2 size-4" />
+                    New Blog Post
+                  </Button>
+                </div>
+              </div>
+              <div className="flex-1 overflow-auto p-6">
+                <BlogList blogs={blogs} onEdit={handleEditBlog} onDelete={loadBlogs} />
+              </div>
+            </>
+          )}
+
+          {currentView === "editor" && (
+            <BlogEditor
+              mode={editorMode}
+              blogId={selectedBlogId}
+              onBack={handleBackToList}
+              onSave={loadBlogs}
+            />
+          )}
+
+          {currentView === "media" && <MediaManager />}
+        </SidebarInset>
+      </div>
+    </SidebarProvider>
+  );
+}
+

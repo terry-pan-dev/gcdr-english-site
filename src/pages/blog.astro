@@ -7,8 +7,38 @@ import { BlogCard } from '../components/BlogCard';
 import { BlogSidebar } from '../components/BlogSidebar';
 import { TimelineConnector } from '../components/TimelineConnector';
 import { getGoogleFontsUrl, getPrimaryFontFamily, getSecondaryFontFamily } from '../config/fonts';
+import { getS3Blogs } from '../lib/server-blog-api';
 
-const posts = await getCollection('posts');
+// Get file-based posts
+const filePosts = await getCollection('posts');
+
+// Get S3-based posts (if available)
+let s3Posts: any[] = [];
+try {
+  const s3Blogs = await getS3Blogs();
+  // Convert S3 blogs to the same format as file-based posts
+  s3Posts = s3Blogs.map((blog) => ({
+    id: blog.id,
+    data: {
+      title: blog.title,
+      date: new Date(blog.date),
+      author: blog.author,
+      category: blog.category,
+      excerpt: blog.excerpt,
+      image: blog.image,
+      featured: blog.featured,
+      pinned: blog.pinned,
+      tags: blog.tags,
+      publish: blog.publish,
+      seo: blog.seo,
+    },
+  }));
+} catch (error) {
+  console.warn('Could not fetch S3 blogs:', error);
+}
+
+// Merge both sources
+const posts = [...filePosts, ...s3Posts];
 
 // Filter posts: only show published posts with current or past dates
 const now = new Date();

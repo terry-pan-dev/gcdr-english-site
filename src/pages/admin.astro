@@ -1,0 +1,24 @@
+---
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin - GCDR</title>
+  </head>
+  <body>
+    <div>Redirecting...</div>
+    <script is:inline>
+      // Check authentication and redirect
+      const token = localStorage.getItem("cognito_access_token");
+      if (!token) {
+        window.location.href = "/admin/login";
+      } else {
+        window.location.href = "/admin/dashboard";
+      }
+    </script>
+  </body>
+</html>
+

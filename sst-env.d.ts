@@ -5,9 +5,34 @@
 
 declare module "sst" {
   export interface Resource {
+    "AdminAPI": {
+      "name": string
+      "type": "sst.aws.Function"
+      "url": string
+    }
+    "AdminUserPool": {
+      "id": string
+      "type": "sst.aws.CognitoUserPool"
+    }
+    "BlogPosts": {
+      "name": string
+      "type": "sst.aws.Dynamo"
+    }
+    "BlogStorage": {
+      "name": string
+      "type": "sst.aws.Bucket"
+    }
     "GCDR": {
       "type": "sst.aws.Astro"
       "url": string
+    }
+    "MediaAssets": {
+      "name": string
+      "type": "sst.aws.Dynamo"
+    }
+    "MediaStorage": {
+      "name": string
+      "type": "sst.aws.Bucket"
     }
   }
 }
