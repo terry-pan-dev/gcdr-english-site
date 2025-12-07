@@ -46,10 +46,10 @@ export default {
           foreground: 'var(--color-card-foreground)',
         },
         // GCDR Theme Colors
-        'dark-bg': 'var(--color-dark-bg)',
-        'dark-text': 'var(--color-dark-text)',
-        'accent-gold': 'var(--color-accent-gold)',
-        'dark-card': 'var(--color-dark-card)',
+        'dark-bg': '#1c1917',
+        'dark-text': '#EBE9CF',
+        'accent-gold': '#c9a050',
+        'dark-card': '#2a2522',
       },
       borderRadius: {
         sm: 'var(--radius-sm)',

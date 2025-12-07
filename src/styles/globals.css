@@ -134,13 +134,13 @@
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
   
-  /* GCDR Theme Colors */
-  --color-dark-bg: var(--dark-bg);
-  --color-dark-text: var(--dark-text);
-  --color-accent-gold: var(--accent-gold);
-  --color-dark-card: var(--dark-card);
+  /* GCDR Theme Colors - Defined directly for Tailwind v4 */
+  --color-dark-bg: #1c1917;
+  --color-dark-text: #EBE9CF;
+  --color-accent-gold: #c9a050;
+  --color-dark-card: #2a2522;
   
-  /* Tailwind v4 theme colors - these will be available as utilities */
+  /* RGB values for opacity support */
   --color-dark-bg-rgb: 28, 25, 23;
   --color-dark-text-rgb: 235, 233, 207;
   --color-accent-gold-rgb: 201, 160, 80;
