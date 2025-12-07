@@ -1,0 +1,415 @@
+# GCDR Project Rules
+
+## Project Overview
+
+**GCDR** (Gold Coast Dharma Realm) is a spiritual/religious organization website for a Buddhist temple community. The project was originally designed in Figma and has been migrated from React/Vite to Astro + SST for AWS deployment.
+
+**Purpose:** A content-rich website featuring Buddhist teachings, temple information, events, blog posts, dharma master biographies, and administrative content management.
+
+**Original Design:** https://www.figma.com/design/u8ftuFeUOrnab2P5Lq4fMQ/GCDR--Copy-
+
+---
+
+## CRITICAL: Package Manager
+
+**This project exclusively uses pnpm. Never use npm or yarn.**
+
+```bash
+# ✅ Correct
+pnpm install
+pnpm add package-name
+pnpm add -D package-name
+pnpm run dev
+pnpm run build
+
+# ❌ Never use
+npm install
+npm add
+yarn add
+```
+
+**Evidence:** `pnpm-lock.yaml` exists in project root.
+
+---
+
+## Technology Stack
+
+### Core Framework
+- **Astro 5.16.4** - Server-first web framework with file-based routing
+- **React 18.3** - Used for interactive components (via `@astrojs/react`)
+- **TypeScript** - Type safety (strict mode disabled)
+- **Tailwind CSS** - Utility-first CSS framework
+- **SST 3.17.25** - Serverless Stack for AWS deployment
+
+### UI Components
+- **Radix UI** - Headless UI primitives
+- **shadcn/ui** - Pre-built component library (in `src/components/ui/`)
+- **Motion** - Animation library (preferred for React components)
+- **GSAP** - Advanced animations (for complex timelines/scroll effects)
+
+### AWS Services (via SST)
+- **Lambda Functions** - API endpoints and serverless functions
+- **DynamoDB** - Blog posts and media assets storage
+- **S3** - File storage (blog content, media uploads)
+- **Cognito** - User authentication for admin panel
+- **CloudFront** - CDN (via Astro SST adapter)
+
+### Content Management
+- **MDX** - Markdown with JSX support (`@astrojs/mdx`)
+- **Astro Content Collections** - Structured content management
+- **TipTap** - Rich text editor for admin panel
+
+---
+
+## Project Architecture
+
+### Current State: Astro + SST (Migrated from React/Vite)
+
+The project has been migrated from React/Vite hash-based routing to Astro's file-based routing system.
+
+### File-Based Routing
+
+Astro uses `src/pages/` directory for routing:
+- `src/pages/index.astro` → `/` (homepage)
+- `src/pages/about.astro` → `/about`
+- `src/pages/events.astro` → `/events`
+- `src/pages/blog.astro` → `/blog` (blog listing)
+- `src/pages/blog/[slug].astro` → `/blog/:slug` (blog post)
+- `src/pages/admin/*.astro` → `/admin/*` (admin routes)
+- `src/pages/api/*.ts` → `/api/*` (API endpoints)
+
+### Project Structure
+
+```
+GCDR/
+├── src/
+│   ├── pages/              # Astro pages (file-based routing)
+│   │   ├── index.astro     # Homepage
+│   │   ├── blog.astro      # Blog listing
+│   │   ├── blog/[slug].astro # Dynamic blog post
+│   │   ├── admin/          # Admin pages
+│   │   └── api/            # API endpoints
+│   ├── components/         # React components (reusable)
+│   │   ├── ui/            # shadcn/ui components
+│   │   ├── admin/         # Admin panel components
+│   │   ├── figma/         # Figma asset utilities
+│   │   └── mdx/           # MDX components
+│   ├── layouts/           # Astro layout components
+│   │   ├── BaseLayout.astro
+│   │   ├── BlogLayout.astro
+│   │   └── AdminLayout.astro
+│   ├── functions/         # Lambda function handlers
+│   │   ├── api/          # Main API handler
+│   │   ├── auth/         # Authentication
+│   │   ├── blogs/        # Blog CRUD operations
+│   │   └── media/        # Media upload/management
+│   ├── content/          # Content collections
+│   │   └── posts/        # MDX blog posts
+│   ├── lib/              # Utility libraries
+│   │   ├── admin-api.ts  # Admin API client
+│   │   └── server-blog-api.ts # Server-side blog API
+│   ├── config/           # Configuration files
+│   │   └── fonts.ts      # Font configuration
+│   ├── styles/           # Global styles
+│   │   └── globals.css   # Global CSS
+│   └── assets/           # Static assets (images, etc.)
+├── public/               # Public static assets (copied as-is)
+├── scripts/             # Build/deployment scripts
+├── astro.config.mjs      # Astro configuration
+├── sst.config.ts         # SST infrastructure definition
+├── tailwind.config.ts    # Tailwind configuration
+└── tsconfig.json         # TypeScript configuration
+```
+
+---
+
+## Development Guidelines
+
+### React Components in Astro
+
+React components must use client directives for interactivity:
+
+```astro
+---
+import Navigation from '../components/Navigation.tsx';
+import Events from '../components/Events.tsx';
+---
+
+<Navigation client:load />  {/* Load immediately */}
+<Events client:idle />      {/* Load when idle */}
+```
+
+**Client Directives:**
+- `client:load` - Load immediately (for critical interactivity)
+- `client:idle` - Load when browser is idle
+- `client:visible` - Load when element becomes visible
+- `client:media="(min-width: 768px)"` - Load based on media query
+- `client:only="react"` - Client-side only (no SSR)
+
+### Styling
+
+- **Tailwind CSS** for all styling
+- Use `cn()` utility from `@/components/ui/utils` for conditional classes
+- Theme colors: Stone palette (light), `#1c1917` (dark)
+- Responsive: Mobile-first with `sm:`, `md:`, `lg:`, `xl:` breakpoints
+- Custom fonts configured in `src/config/fonts.ts`
+
+#### Color Usage - Use Semantic Theme Values
+
+**CRITICAL: Always use semantic theme values instead of hardcoded colors.**
+
+The project defines semantic color values in `tailwind.config.ts` and `src/styles/globals.css`. These should be used instead of arbitrary color values.
+
+**Available Theme Colors:**
+- `accent-gold` - Gold accent color (`#c9a050`)
+- `dark-bg` - Dark background (`#1c1917`)
+- `dark-text` - Dark theme text (`#EBE9CF`)
+- `dark-card` - Dark card background (`#2a2522`)
+
+**Examples:**
+
+```tsx
+// ✅ Correct - Use semantic theme values
+<div className="bg-dark-bg text-dark-text">
+  <h1 className="text-accent-gold">Title</h1>
+  <div className="border border-accent-gold/30 bg-dark-card/50">
+    Content
+  </div>
+</div>
+
+// ❌ Wrong - Hardcoded colors
+<div className="bg-[#1c1917] text-[#EBE9CF]">
+  <h1 className="text-[#c9a050]">Title</h1>
+  <div className="border border-[#c9a050]/30 bg-[#2a2522]/50">
+    Content
+  </div>
+</div>
+```
+
+**Benefits:**
+- Smaller CSS bundle (reuses CSS variables instead of generating new rules)
+- Easier maintenance (change colors in one place: `globals.css`)
+- Better performance (CSS variables are more efficient)
+- Consistent theming across the codebase
+
+**Opacity modifiers work with theme colors:**
+- `text-accent-gold/20` - 20% opacity
+- `bg-accent-gold/10` - 10% opacity
+- `border-accent-gold/30` - 30% opacity
+
+### Path Aliases
+
+- `@/` → `src/` directory
+- Use `@/components/ui/utils` for `cn()` utility
+
+### Content Management
+
+**Blog Posts:**
+- Stored in DynamoDB (`BlogPosts` table)
+- Content stored in S3 (`BlogStorage` bucket)
+- Metadata includes: title, author, date, category, excerpt, tags, featured, pinned, publish status
+- MDX format for rich content
+
+**Content Collections:**
+- Defined in `src/content.config.ts`
+- MDX files in `src/content/posts/`
+- Schema validation using Zod
+
+### API Structure
+
+**Main API Handler:** `src/functions/api/handler.ts`
+- Routes: `/api/blogs`, `/api/blogs/:id`, `/api/media`, `/api/media/:id`
+- Methods: GET, POST, PUT, DELETE
+- Authentication: Cognito JWT tokens
+- CORS: Configured at Lambda Function URL level
+
+**Environment Variables:**
+- `PUBLIC_API_BASE_URL` - API endpoint URL
+- `PUBLIC_COGNITO_USER_POOL_ID` - Cognito User Pool ID
+- `PUBLIC_COGNITO_USER_POOL_CLIENT_ID` - Cognito Client ID
+- `PUBLIC_AWS_REGION` - AWS region (ap-southeast-2)
+
+---
+
+## AWS Infrastructure (SST)
+
+### Resources Defined in `sst.config.ts`
+
+1. **DynamoDB Tables:**
+   - `BlogPosts` - Blog post metadata
+   - `MediaAssets` - Media asset metadata
+
+2. **S3 Buckets:**
+   - `BlogStorage` - Private bucket for blog content
+   - `MediaStorage` - Public bucket for media assets
+
+3. **Cognito:**
+   - `AdminUserPool` - User authentication
+   - `AdminClient` - Client application
+
+4. **Lambda Functions:**
+   - `AdminAPI` - Main API handler (Function URL enabled)
+
+5. **Astro Site:**
+   - `GCDR` - Main website deployment
+
+### Region
+- **ap-southeast-2** (Sydney, Australia)
+
+### Resource Linking
+
+SST automatically links resources. Access via `Resource` object:
+```typescript
+import { Resource } from "sst";
+const tableName = Resource.BlogPosts.name;
+```
+
+---
+
+## Development Commands
+
+```bash
+# Install dependencies
+pnpm install
+
+# Development server (Astro)
+pnpm run dev              # Runs on http://localhost:4321
+
+# Development with SST (connects to AWS)
+pnpm run sst:dev          # Runs `sst dev astro dev`
+
+# Build
+pnpm run build            # Output: dist/
+
+# Deploy
+pnpm run deploy           # Deploy to default stage
+pnpm run sst:deploy:prod  # Deploy to production stage
+
+# Configure CORS (after deployment)
+pnpm run configure-cors
+```
+
+---
+
+## Key Conventions
+
+### Component Organization
+- **React components** (.tsx) in `src/components/` - Reusable across pages
+- **Astro pages** (.astro) in `src/pages/` - Route definitions
+- **Layouts** (.astro) in `src/layouts/` - Page wrappers
+- **UI components** in `src/components/ui/` - shadcn/ui primitives
+
+### Naming Conventions
+- Components: PascalCase (e.g., `Navigation.tsx`)
+- Pages: kebab-case (e.g., `master-about.astro`)
+- Functions: camelCase (e.g., `handleBlogList`)
+- Files: Match component/page names
+
+### Theme Handling
+- Light theme: `bg-stone-50` background
+- Dark theme: `bg-dark-bg` background (use semantic value, not `bg-[#1c1917]`)
+- Theme prop passed to `BaseLayout`: `theme="light" | "dark"`
+
+### Animation Guidelines
+- **Motion** - Use for React components, scroll-triggered animations, gestures
+- **GSAP** - Use for complex timelines, scroll effects, SVG animations
+- Both can coexist in the project
+
+---
+
+## Admin Panel
+
+**Location:** `/admin/*`
+
+**Features:**
+- Blog post creation/editing (MDX editor)
+- Media asset management (upload/delete)
+- Authentication via AWS Cognito
+- Dashboard with blog listing
+
+**Components:**
+- `src/components/admin/BlogEditor.tsx` - MDX editor
+- `src/components/admin/MediaManager.tsx` - Media upload/management
+- `src/components/admin/LoginForm.tsx` - Authentication
+- `src/pages/admin/dashboard.astro` - Admin dashboard
+
+**API Endpoints:**
+- `GET /api/blogs` - List all blogs
+- `GET /api/blogs/:id` - Get single blog
+- `POST /api/blogs` - Create blog
+- `PUT /api/blogs/:id` - Update blog
+- `DELETE /api/blogs/:id` - Delete blog
+- `GET /api/media` - List media assets
+- `POST /api/media` - Upload media
+- `DELETE /api/media/:id` - Delete media
+
+---
+
+## Important Notes
+
+1. **Migration Status:** Project has been migrated from React/Vite to Astro. Old `App.tsx` routing logic exists but is not used in Astro mode.
+
+2. **TypeScript:** Strict mode is disabled (`"strict": false` in tsconfig.json)
+
+3. **No Testing:** No test framework or linting configured
+
+4. **CORS:** Configured at Lambda Function URL level, not in code (see `CORS_SETUP.md`)
+
+5. **Content:** Blog posts can be created via admin panel or added as MDX files in `src/content/posts/`
+
+6. **Assets:** 
+   - Static assets in `public/assets/` are served as-is
+   - Images referenced from `public/` use absolute paths (e.g., `/assets/logo.png`)
+
+7. **Fonts:** Custom fonts configured via Google Fonts in `src/config/fonts.ts`
+
+---
+
+## Reference Documentation
+
+- **Astro:** Use Context7 `/withastro/docs`
+- **SST:** Use Context7 `/websites/sst_dev`
+- **Motion:** Use Context7 `/websites/motion-dev-docs`
+- **GSAP:** Use Context7 `/websites/gsap_v3`
+
+---
+
+## Common Tasks
+
+### Adding a New Page
+1. Create `.astro` file in `src/pages/` (e.g., `src/pages/new-page.astro`)
+2. Import and use `BaseLayout`
+3. Add React components with appropriate client directives
+4. Update navigation if needed
+
+### Adding a New React Component
+1. Create `.tsx` file in `src/components/`
+2. Export as named export
+3. Import in Astro pages with client directive
+
+### Adding a New API Endpoint
+1. Add route handler in `src/functions/api/handler.ts`
+2. Export route from handler
+3. Create API page in `src/pages/api/` if needed
+
+### Deploying Changes
+1. Run `pnpm run build` to test build
+2. Run `pnpm run sst:deploy:prod` for production
+3. Configure CORS if API endpoints changed: `pnpm run configure-cors`
+
+---
+
+## Project-Specific Context
+
+**GCDR** stands for **Gold Coast Dharma Realm**, a Buddhist temple community website featuring:
+- Temple information and visit details
+- Buddhist teachings and principles
+- Dharma master biographies
+- Event listings
+- Blog posts about Buddhism
+- Eighteen Vows and Six Principles teachings
+- White Universe poem
+- Warning Century content
+
+The website serves both public visitors and administrators who manage content through the admin panel.
+

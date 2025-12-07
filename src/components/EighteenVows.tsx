@@ -24,7 +24,7 @@ export function EighteenVows() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#1c1917] text-[#EBE9CF]">
+    <div className="min-h-screen bg-dark-bg text-dark-text">
       {/* Hero Banner */}
       <div className="relative h-[50vh] min-h-[400px] w-full overflow-hidden">
         <div className="absolute inset-0">
@@ -33,7 +33,7 @@ export function EighteenVows() {
             alt="Background Texture"
             className="w-full h-full object-cover opacity-50 grayscale"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-[#1c1917]/40 via-[#1c1917]/60 to-[#1c1917]" />
+          <div className="absolute inset-0 bg-gradient-to-b from-dark-bg/40 via-dark-bg/60 to-dark-bg" />
         </div>
 
         <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-4">
@@ -42,10 +42,10 @@ export function EighteenVows() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.2 }}
           >
-            <h1 className="text-4xl md:text-6xl font-serif italic mb-4 tracking-wide text-[#c9a050]">
+            <h1 className="text-4xl md:text-6xl font-serif italic mb-4 tracking-wide text-accent-gold">
               The Eighteen Great Vows
             </h1>
-            <div className="h-1 w-24 bg-[#c9a050] mx-auto mb-6" />
+            <div className="h-1 w-24 bg-accent-gold mx-auto mb-6" />
             <p className="text-xl md:text-2xl font-light tracking-widest uppercase opacity-90">
               of the Venerable Master Hsuan Hua
             </p>
@@ -68,8 +68,8 @@ export function EighteenVows() {
             before the Buddhas on the 19th day of the sixth lunar month of the
             year of Zhitong
           </p>
-          <div className="p-8 border border-[#c9a050]/30 rounded-lg bg-[#2a2522]/50 italic relative">
-            <span className="absolute top-4 left-4 text-4xl text-[#c9a050]/20">
+          <div className="p-8 border border-accent-gold/30 rounded-lg bg-dark-card/50 italic relative">
+            <span className="absolute top-4 left-4 text-4xl text-accent-gold/20">
               "
             </span>
             <p className="mb-4">
@@ -86,7 +86,7 @@ export function EighteenVows() {
               Realm will attain Utmost, Right, and Equal, Proper Enlightenment
               at the same time as I.
             </p>
-            <span className="absolute bottom-4 right-4 text-4xl text-[#c9a050]/20 rotate-180">
+            <span className="absolute bottom-4 right-4 text-4xl text-accent-gold/20 rotate-180">
               "
             </span>
           </div>
@@ -112,7 +112,7 @@ export function EighteenVows() {
                 whileHover={{ scale: 1.1, rotate: 5 }}
                 transition={{ type: "spring", stiffness: 300 }}
               >
-                <span className="flex items-center justify-center w-10 h-10 rounded-full border-2 border-[#c9a050] text-[#c9a050] font-serif text-xl bg-[#c9a050]/10">
+                <span className="flex items-center justify-center w-10 h-10 rounded-full border-2 border-accent-gold text-accent-gold font-serif text-xl leading-none bg-accent-gold/10">
                   {index + 1}
                 </span>
               </motion.div>
@@ -131,8 +131,8 @@ export function EighteenVows() {
           transition={{ duration: 0.6 }}
           className="mt-24 pt-12 border-t border-stone-800"
         >
-          <div className="p-8 border border-[#c9a050]/30 rounded-lg bg-[#2a2522]/50 italic relative">
-            <span className="absolute top-4 left-4 text-4xl text-[#c9a050]/20">
+          <div className="p-8 border border-accent-gold/30 rounded-lg bg-dark-card/50 italic relative">
+            <span className="absolute top-4 left-4 text-4xl text-accent-gold/20">
               "
             </span>
             <p className="text-lg md:text-xl text-stone-300 leading-relaxed mb-4">
@@ -141,10 +141,10 @@ export function EighteenVows() {
               illimitable Dharma-doors. I vow to accomplish the unsurpassed
               Buddha Way.
             </p>
-            <p className="text-[#c9a050] text-base md:text-lg font-serif not-italic">
+            <p className="text-accent-gold text-base md:text-lg font-serif not-italic">
               <strong>Venerable Master Hsuan Hua</strong>
             </p>
-            <span className="absolute bottom-4 right-4 text-4xl text-[#c9a050]/20 rotate-180">
+            <span className="absolute bottom-4 right-4 text-4xl text-accent-gold/20 rotate-180">
               "
             </span>
           </div>
