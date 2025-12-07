@@ -10,7 +10,7 @@ export function Footer() {
           {/* About */}
           <div>
             <div className="flex items-center space-x-3 mb-4">
-              <a href="/">
+              <a href="/" className="cursor-pointer">
                 <img
                   src={logo}
                   alt="Gold Coast Dharma Realm"

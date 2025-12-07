@@ -1,16 +1,7 @@
 import { motion } from "motion/react";
+import type { CollectionEntry } from "astro:content";
 
-interface Post {
-  id: string;
-  data: {
-    title: string;
-    date: Date;
-    author: string;
-    category: string;
-    excerpt: string;
-    image?: string;
-  };
-}
+type Post = CollectionEntry<"posts">;
 
 interface Props {
   previousPost: Post | null;

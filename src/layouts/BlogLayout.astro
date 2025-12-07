@@ -2,19 +2,10 @@
 import '../styles/globals.css';
 import { Navigation } from '../components/Navigation';
 import { Footer } from '../components/Footer';
+import type { CollectionEntry } from 'astro:content';
 
 interface Props {
-  post: {
-    id: string;
-    data: {
-      title: string;
-      date: Date;
-      author: string;
-      category: string;
-      excerpt: string;
-      image?: string;
-    };
-  };
+  post: CollectionEntry<'posts'>;
 }
 
 const { post } = Astro.props;
