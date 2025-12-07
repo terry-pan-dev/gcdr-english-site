@@ -10,11 +10,13 @@ export function Footer() {
           {/* About */}
           <div>
             <div className="flex items-center space-x-3 mb-4">
-              <img 
-                src={logo} 
-                alt="Gold Coast Dharma Realm" 
-                className="h-12 w-auto object-contain"
-              />
+              <a href="/" className="cursor-pointer">
+                <img 
+                  src={logo} 
+                  alt="Gold Coast Dharma Realm" 
+                  className="h-12 w-auto object-contain"
+                />
+              </a>
             </div>
             <p style={{ color: '#EBE9CF', opacity: 0.7 }}>
               A sanctuary of peace, wisdom, and spiritual awakening for all who seek

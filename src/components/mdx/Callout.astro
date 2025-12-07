@@ -1,0 +1,26 @@
+---
+interface Props {
+  type?: 'insight' | 'warning' | 'tip';
+}
+const { type = 'insight' } = Astro.props;
+
+const icons: Record<string, string> = {
+  insight: '',
+  warning: '',
+  tip: '',
+};
+
+const icon = icons[type] || icons.insight;
+---
+
+<div
+  class="my-6 py-3 px-4 rounded-lg border-l-4"
+  style="border-color: #c9a050; background-color: rgba(201, 160, 80, 0.1);"
+>
+  <div class="flex items-start gap-4">
+    <span class="text-2xl flex-shrink-0" style="color: #c9a050;">{icon}</span>
+    <div class="prose prose-stone prose-p:my-0 prose-p:leading-relaxed">
+      <slot />
+    </div>
+  </div>
+</div>

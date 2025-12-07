@@ -84,6 +84,7 @@ export function Navigation() {
         },
       ],
     },
+    { name: "Blog", href: "/blog" },
     {
       name: "Master Hsuan Hua",
       href: "#",
@@ -128,17 +129,19 @@ export function Navigation() {
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
           <div className="flex items-center space-x-3 transition-all duration-300">
-            <img
-              src={logo}
-              alt="Gold Coast Dharma Realm"
-              className="h-12 w-auto object-contain transition-all duration-300"
-              style={{
-                filter: isScrolled
-                  ? "brightness(1.5)"
-                  : "drop-shadow(0 2px 4px rgba(0,0,0,0.8))",
-                mixBlendMode: isScrolled ? "normal" : "overlay",
-              }}
-            />
+            <a href="/" className="cursor-pointer">
+              <img
+                src={logo}
+                alt="Gold Coast Dharma Realm"
+                className="h-12 w-auto object-contain transition-all duration-300"
+                style={{
+                  filter: isScrolled
+                    ? "brightness(1.5)"
+                    : "drop-shadow(0 2px 4px rgba(0,0,0,0.8))",
+                  mixBlendMode: isScrolled ? "normal" : "overlay",
+                }}
+              />
+            </a>
           </div>
 
           {/* Desktop Navigation */}
