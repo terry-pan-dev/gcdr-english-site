@@ -25,43 +25,50 @@ export function Visit() {
   ];
 
   return (
-    <section id="visit" className="py-20 bg-stone-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
-          <div className="inline-block px-4 py-1 bg-amber-100 text-amber-800 rounded-full mb-4">
-            Visit Us
+    <section id="visit" className="bg-stone-50">
+      {/* Dark Top Half - for navigation visibility */}
+      <div className="bg-[#1c1917] py-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <div className="inline-block px-4 py-1 bg-amber-100 text-amber-800 rounded-full mb-4">
+              Visit Us
+            </div>
+            <h2 className="text-4xl md:text-5xl text-white mb-6">
+              Welcome All Seekers
+            </h2>
+            <p className="text-stone-300 max-w-2xl mx-auto text-lg">
+              Our doors are open to everyone, regardless of background or belief.
+              Come experience the tranquility of our temple.
+            </p>
           </div>
-          <h2 className="text-4xl md:text-5xl text-stone-900 mb-6">
-            Welcome All Seekers
-          </h2>
-          <p className="text-stone-600 max-w-2xl mx-auto text-lg">
-            Our doors are open to everyone, regardless of background or belief.
-            Come experience the tranquility of our temple.
-          </p>
-        </div>
 
-        <div className="max-w-3xl mx-auto">
-          {/* Contact Info */}
-          <div className="space-y-6">
-            {contactInfo.map((info) => (
-              <div key={info.label} className="flex items-start gap-4">
-                <div
-                  className="flex-shrink-0 w-12 h-12 rounded-full text-white flex items-center justify-center"
-                  style={{ backgroundColor: "#c9a050" }}
-                >
-                  <info.icon size={24} />
+          <div className="max-w-3xl mx-auto">
+            {/* Contact Info */}
+            <div className="space-y-6">
+              {contactInfo.map((info) => (
+                <div key={info.label} className="flex items-start gap-4">
+                  <div
+                    className="flex-shrink-0 w-12 h-12 rounded-full text-white flex items-center justify-center"
+                    style={{ backgroundColor: "#c9a050" }}
+                  >
+                    <info.icon size={24} />
+                  </div>
+                  <div>
+                    <h3 className="text-white mb-1">{info.label}</h3>
+                    <p className="text-stone-300">{info.value}</p>
+                  </div>
                 </div>
-                <div>
-                  <h3 className="text-stone-900 mb-1">{info.label}</h3>
-                  <p className="text-stone-600">{info.value}</p>
-                </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
+      </div>
 
-        {/* Detailed Visitor Guidelines */}
-        <div className="mt-16 p-8 bg-white rounded-lg shadow-sm border border-stone-200">
+      {/* Light Bottom Half - Visitor Guidelines */}
+      <div className="py-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Detailed Visitor Guidelines */}
+          <div className="p-8 bg-white rounded-lg shadow-sm border border-stone-200">
           <h3 className="text-2xl text-stone-900 mb-8 font-serif border-b pb-4 border-amber-100">
             Visitor Guidelines
           </h3>
@@ -142,6 +149,7 @@ export function Visit() {
               </p>
             </div>
           </div>
+        </div>
         </div>
       </div>
     </section>

@@ -1,8 +1,11 @@
 ---
+import { getPrimaryFontFamily } from '../../config/fonts';
+
 interface Props {
   author?: string;
 }
 const { author } = Astro.props;
+const primaryFont = getPrimaryFontFamily();
 ---
 
 <blockquote
@@ -11,7 +14,7 @@ const { author } = Astro.props;
 >
   <p
     class="text-xl leading-relaxed"
-    style="color: #1c1917; font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic;"
+    style={`color: #1c1917; font-family: ${primaryFont}; font-style: italic;`}
   >
     <slot />
   </p>

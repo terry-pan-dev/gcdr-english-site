@@ -116,68 +116,67 @@ export function AboutPage() {
       {/* Buddhism Historical Perspective Section */}
       <section className="py-24 px-4 sm:px-6 lg:px-8 bg-[#2a2522]/30">
         <div className="max-w-7xl mx-auto">
-          <div className="grid md:grid-cols-2 gap-16 items-center mb-20">
-            <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8 }}
-            >
-              <h2 className="text-4xl md:text-5xl font-light mb-8 text-[#c9a050] tracking-wide">
-                Buddhism: A Historical Perspective
-              </h2>
-              <div className="space-y-6 text-lg font-light leading-relaxed text-stone-300">
-                <p>
-                  Several thousand years ago, Siddhartha Gautama was born as a
-                  prince in a small kingdom. Upon his birth, a seer foretold
-                  that he would either become a spiritual guide or a great
-                  ruler. His father wanted his son to be the next ruler to carry
-                  on his family line, so he attempted to shield his son from all
-                  the unpleasantness of life.
-                </p>
-                <p>
-                  However, when Prince Siddhartha turned twenty-nine, he
-                  witnessed sickness, old age, and death, and resolved to find
-                  an answer to these universal sufferings. He left the palace
-                  and studied under meditation masters of his time, but after
-                  mastering their techniques, he found that he had not answered
-                  his fundamental questions.
-                </p>
-                <p>
-                  He then undertook strict ascetic practices, to a point where
-                  he was near death, but found himself still no closer to
-                  liberation. Reflecting on his previous experiences, he
-                  realized that the path consisted of the Middle Way, which
-                  avoided the extremes of self-indulgence and
-                  self-mortification.
-                </p>
-                <p>
-                  He then made a vow that he would sit under the Bodhi tree
-                  until he attained complete liberation. During the very first
-                  night, Prince Siddhartha awoke to the Dharma, the way things
-                  truly are, and became known as the Buddha, "The Awakened One."
-                </p>
-                <p>
-                  Upon his awakening, Prince Siddhartha realized that all beings
-                  have the capacity to be fully awake, but their inherent
-                  potential is covered by deluded thinking and worldly
-                  attachments. Hence, his teachings over the next forty-nine
-                  years aimed at helping people return to their original
-                  enlightened nature.
-                </p>
-              </div>
-            </motion.div>
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="mb-20"
+          >
+            <h2 className="text-4xl md:text-5xl font-light mb-8 text-[#c9a050] tracking-wide">
+              Buddhism: A Historical Perspective
+            </h2>
+            <div className="space-y-6 text-lg font-light leading-relaxed text-stone-300">
+              <p>
+                Several thousand years ago, Siddhartha Gautama was born as a
+                prince in a small kingdom. Upon his birth, a seer foretold
+                that he would either become a spiritual guide or a great
+                ruler. His father wanted his son to be the next ruler to carry
+                on his family line, so he attempted to shield his son from all
+                the unpleasantness of life.
+              </p>
+              <p>
+                However, when Prince Siddhartha turned twenty-nine, he
+                witnessed sickness, old age, and death, and resolved to find
+                an answer to these universal sufferings. He left the palace
+                and studied under meditation masters of his time, but after
+                mastering their techniques, he found that he had not answered
+                his fundamental questions.
+              </p>
+              <p>
+                He then undertook strict ascetic practices, to a point where
+                he was near death, but found himself still no closer to
+                liberation. Reflecting on his previous experiences, he
+                realized that the path consisted of the Middle Way, which
+                avoided the extremes of self-indulgence and
+                self-mortification.
+              </p>
+              <p>
+                He then made a vow that he would sit under the Bodhi tree
+                until he attained complete liberation. During the very first
+                night, Prince Siddhartha awoke to the Dharma, the way things
+                truly are, and became known as the Buddha, "The Awakened One."
+              </p>
+              <p>
+                Upon his awakening, Prince Siddhartha realized that all beings
+                have the capacity to be fully awake, but their inherent
+                potential is covered by deluded thinking and worldly
+                attachments. Hence, his teachings over the next forty-nine
+                years aimed at helping people return to their original
+                enlightened nature.
+              </p>
+            </div>
+          </motion.div>
 
-            <motion.div
-              initial={{ opacity: 0, x: 30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8 }}
-              className="relative h-[500px] rounded-xl overflow-hidden shadow-2xl"
-            >
-              <ImageCarousel images={carouselImages} autoplaySpeed={4000} />
-            </motion.div>
-          </div>
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="relative h-[500px] rounded-xl overflow-hidden shadow-2xl mb-20"
+          >
+            <ImageCarousel images={carouselImages} autoplaySpeed={4000} />
+          </motion.div>
 
           <motion.div
             initial={{ opacity: 0, y: 30 }}

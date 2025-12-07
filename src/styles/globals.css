@@ -133,6 +133,8 @@
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
+    /* Primary font - matches src/config/fonts.ts */
+    font-family: 'Roboto', sans-serif;
   }
 }
 

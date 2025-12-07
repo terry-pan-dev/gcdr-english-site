@@ -1,4 +1,5 @@
 import type { Config } from 'tailwindcss'
+import { getPrimaryFontFamily, getSecondaryFontFamily } from './src/config/fonts'
 
 export default {
   content: [
@@ -6,6 +7,10 @@ export default {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        sans: getPrimaryFontFamily().split(',').map(f => f.trim().replace(/'/g, '')),
+        serif: getSecondaryFontFamily().split(',').map(f => f.trim().replace(/'/g, '')),
+      },
       colors: {
         border: 'var(--color-border)',
         input: 'var(--color-input)',

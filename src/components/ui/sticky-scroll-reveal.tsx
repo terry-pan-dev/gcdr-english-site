@@ -199,7 +199,7 @@ export const StickyScroll = ({
         {content.map((item, index) => (
           <div
             key={`text-${index}`}
-            className="text-section min-h-[55vh] lg:min-h-screen py-8 px-6 lg:py-16 lg:px-12 flex flex-col justify-start border-b border-[#222] bg-black"
+            className="text-section min-h-[55vh] lg:min-h-screen py-8 px-6 lg:py-16 lg:px-12 flex flex-col justify-center border-b border-[#222] bg-black"
           >
             <h2 className="text-2xl lg:text-4xl font-bold text-white mb-6">
               {item.title}
