@@ -221,7 +221,7 @@ export function AboutPage() {
                 src="/assets/master-hua-giving-smile.jpg"
                 alt="Master Hua giving smile"
                 className="w-full h-full object-cover rounded-xl"
-                style={{ borderRadius: '0.75rem' }}
+                style={{ borderRadius: "0.75rem" }}
               />
             </motion.div>
 

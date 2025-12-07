@@ -7,7 +7,10 @@ interface ImageCarouselProps {
   autoplaySpeed?: number;
 }
 
-export function ImageCarousel({ images, autoplaySpeed = 4000 }: ImageCarouselProps) {
+export function ImageCarousel({
+  images,
+  autoplaySpeed = 4000,
+}: ImageCarouselProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
@@ -23,7 +26,9 @@ export function ImageCarousel({ images, autoplaySpeed = 4000 }: ImageCarouselPro
   };
 
   const goToPrevious = () => {
-    setCurrentIndex((prevIndex) => (prevIndex - 1 + images.length) % images.length);
+    setCurrentIndex(
+      (prevIndex) => (prevIndex - 1 + images.length) % images.length
+    );
   };
 
   const goToNext = () => {
@@ -40,7 +45,7 @@ export function ImageCarousel({ images, autoplaySpeed = 4000 }: ImageCarouselPro
             className={`absolute inset-0 transition-opacity duration-500 rounded-xl ${
               index === currentIndex ? "opacity-100" : "opacity-0"
             }`}
-            style={{ borderRadius: '0.75rem' }}
+            style={{ borderRadius: "0.75rem" }}
           >
             <ImageWithFallback
               src={image.src}
@@ -48,7 +53,7 @@ export function ImageCarousel({ images, autoplaySpeed = 4000 }: ImageCarouselPro
               className={`w-full h-full object-cover rounded-xl ${
                 image.src.includes("master_hua") ? "object-left" : ""
               }`}
-              style={{ borderRadius: '0.75rem' }}
+              style={{ borderRadius: "0.75rem" }}
             />
           </div>
         ))}

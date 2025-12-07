@@ -17,17 +17,17 @@ export function Hero() {
           <source src="/assets/hero-video.mp4" type="video/mp4" />
         </video>
         <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/30 to-black/50" />
-        
+
         {/* Mesh Overlay */}
-        <div 
-          className="absolute inset-0" 
+        <div
+          className="absolute inset-0"
           style={{
             backgroundImage: `
               linear-gradient(rgba(64, 64, 64, 0.4) 1px, transparent 1px),
               linear-gradient(90deg, rgba(64, 64, 64, 0.4) 1px, transparent 1px)
             `,
-            backgroundSize: '2px 2px',
-            opacity: 0.6
+            backgroundSize: "2px 2px",
+            opacity: 0.6,
           }}
         />
       </div>
@@ -38,12 +38,12 @@ export function Hero() {
           <div className="mb-6">
             <span className="text-6xl"></span>
           </div>
-          <motion.h1 
+          <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="text-5xl md:text-6xl mb-6 tracking-wide font-serif italic" 
-            style={{ color: '#EBE9CF' }}
+            className="text-5xl md:text-6xl mb-6 tracking-wide font-serif italic"
+            style={{ color: "#EBE9CF" }}
           >
             A quiet Chan temple nestled in a hushed forest.
           </motion.h1>
@@ -51,16 +51,20 @@ export function Hero() {
             <a
               href="#visit"
               className="px-8 py-3 rounded transition-colors"
-              style={{ backgroundColor: '#c9a050', color: '#1c1917' }}
-              onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#b8944a'}
-              onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#c9a050'}
+              style={{ backgroundColor: "#c9a050", color: "#1c1917" }}
+              onMouseEnter={(e) =>
+                (e.currentTarget.style.backgroundColor = "#b8944a")
+              }
+              onMouseLeave={(e) =>
+                (e.currentTarget.style.backgroundColor = "#c9a050")
+              }
             >
               Plan Your Visit
             </a>
             <a
               href="#teachings"
               className="px-8 py-3 bg-white/10 backdrop-blur-sm border-2 border-white rounded hover:bg-white/20 transition-colors"
-              style={{ color: '#EBE9CF' }}
+              style={{ color: "#EBE9CF" }}
             >
               Explore Teachings
             </a>

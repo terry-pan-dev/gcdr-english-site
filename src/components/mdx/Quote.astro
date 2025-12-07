@@ -1,0 +1,28 @@
+---
+interface Props {
+  author?: string;
+}
+const { author } = Astro.props;
+---
+
+<blockquote
+  class="my-8 py-4 px-4 rounded-lg border-l-4 not-italic"
+  style="border-color: #c9a050; background-color: rgba(201, 160, 80, 0.04);"
+>
+  <p
+    class="text-xl leading-relaxed"
+    style="color: #1c1917; font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic;"
+  >
+    <slot />
+  </p>
+  {
+    author && (
+      <cite
+        class="block mt-4 text-sm not-italic font-medium"
+        style="color: #c9a050;"
+      >
+        &mdash; {author}
+      </cite>
+    )
+  }
+</blockquote>

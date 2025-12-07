@@ -35,8 +35,8 @@ export function Visit() {
             Welcome All Seekers
           </h2>
           <p className="text-stone-600 max-w-2xl mx-auto text-lg">
-            Our doors are open to everyone, regardless of background or belief. Come
-            experience the tranquility of our temple.
+            Our doors are open to everyone, regardless of background or belief.
+            Come experience the tranquility of our temple.
           </p>
         </div>
 
@@ -45,7 +45,10 @@ export function Visit() {
           <div className="space-y-6">
             {contactInfo.map((info) => (
               <div key={info.label} className="flex items-start gap-4">
-                <div className="flex-shrink-0 w-12 h-12 rounded-full text-white flex items-center justify-center" style={{ backgroundColor: '#c9a050' }}>
+                <div
+                  className="flex-shrink-0 w-12 h-12 rounded-full text-white flex items-center justify-center"
+                  style={{ backgroundColor: "#c9a050" }}
+                >
                   <info.icon size={24} />
                 </div>
                 <div>
@@ -59,7 +62,9 @@ export function Visit() {
 
         {/* Detailed Visitor Guidelines */}
         <div className="mt-16 p-8 bg-white rounded-lg shadow-sm border border-stone-200">
-          <h3 className="text-2xl text-stone-900 mb-8 font-serif border-b pb-4 border-amber-100">Visitor Guidelines</h3>
+          <h3 className="text-2xl text-stone-900 mb-8 font-serif border-b pb-4 border-amber-100">
+            Visitor Guidelines
+          </h3>
           <div className="grid gap-8">
             <div>
               <h4 className="font-bold text-stone-800 mb-2 text-lg flex items-center gap-2">
@@ -67,17 +72,28 @@ export function Visit() {
                 Separation of Men and Women
               </h4>
               <p className="text-stone-600 leading-relaxed pl-4 border-l-2 border-amber-50 ml-1">
-                Usually, the first thing people notice when they visit is that men and women are separated. The reason for this separation is to allow everyone to focus on the practice with fewer distractions.
+                Usually, the first thing people notice when they visit is that
+                men and women are separated. The reason for this separation is
+                to allow everyone to focus on the practice with fewer
+                distractions.
               </p>
             </div>
-            
+
             <div>
               <h4 className="font-bold text-stone-800 mb-2 text-lg flex items-center gap-2">
                 <span className="w-2 h-2 rounded-full bg-[#c9a050]"></span>
                 Comfortable and Modest Clothing
               </h4>
               <p className="text-stone-600 leading-relaxed pl-4 border-l-2 border-amber-50 ml-1">
-                Clothing in the monastery should be comfortable and modest. Comfortable clothing is ideal for meditation and cultivation because it allows you to bow and sit cross-legged unimpeded. Modest clothing is important because it causes fewer distractions for other people. As a visitor, please refrain from wearing clothing such as mini-skirts, shorts, and sleeveless shirts. (If you already are wearing them, don't worry about it. We are very happy to have you, but please try to be more careful next time you visit.)
+                Clothing in the monastery should be comfortable and modest.
+                Comfortable clothing is ideal for meditation and cultivation
+                because it allows you to bow and sit cross-legged unimpeded.
+                Modest clothing is important because it causes fewer
+                distractions for other people. As a visitor, please refrain from
+                wearing clothing such as mini-skirts, shorts, and sleeveless
+                shirts. (If you already are wearing them, don't worry about it.
+                We are very happy to have you, but please try to be more careful
+                next time you visit.)
               </p>
             </div>
 
@@ -87,7 +103,12 @@ export function Visit() {
                 Cherishing All Forms of Life
               </h4>
               <p className="text-stone-600 leading-relaxed pl-4 border-l-2 border-amber-50 ml-1">
-                Please refrain from killing any living creatures in the monastery, including even small insects such as spiders, ants, flies, or mosquitoes. Buddhists practice non-harming in order to cultivate a heart of compassion and empathy for others. In Buddhism, all life forms are interconnected, and all creatures are considered "family."
+                Please refrain from killing any living creatures in the
+                monastery, including even small insects such as spiders, ants,
+                flies, or mosquitoes. Buddhists practice non-harming in order to
+                cultivate a heart of compassion and empathy for others. In
+                Buddhism, all life forms are interconnected, and all creatures
+                are considered "family."
               </p>
             </div>
 
@@ -97,7 +118,16 @@ export function Visit() {
                 Respecting Buddhist Sutras and Texts
               </h4>
               <p className="text-stone-600 leading-relaxed pl-4 border-l-2 border-amber-50 ml-1">
-                Buddhist Sutras and texts are the words of the Buddhist sages that give instructions on how to become awakened, and for this reason, they are treated with utmost care and respect. Furthermore, our attitude toward a sacred text affects our ability to access the teachings contained within it. Hence, people are encouraged not to put Buddhist books on the ground or bring them into the bathroom. Other customs in the monastery are keeping Sutras in good condition and making sure one’s hands are clean before reading them. In general, the intent of all these customs is the same —to show one’s respect for the text.
+                Buddhist Sutras and texts are the words of the Buddhist sages
+                that give instructions on how to become awakened, and for this
+                reason, they are treated with utmost care and respect.
+                Furthermore, our attitude toward a sacred text affects our
+                ability to access the teachings contained within it. Hence,
+                people are encouraged not to put Buddhist books on the ground or
+                bring them into the bathroom. Other customs in the monastery are
+                keeping Sutras in good condition and making sure one’s hands are
+                clean before reading them. In general, the intent of all these
+                customs is the same —to show one’s respect for the text.
               </p>
             </div>
 
@@ -107,7 +137,8 @@ export function Visit() {
                 Things Not to Bring into the Monastery
               </h4>
               <p className="text-stone-600 leading-relaxed pl-4 border-l-2 border-amber-50 ml-1">
-                Please do not bring alcohol, meat (including fish & poultry), eggs, illicit drugs, or cigarettes into the monastery.
+                Please do not bring alcohol, meat (including fish & poultry),
+                eggs, illicit drugs, or cigarettes into the monastery.
               </p>
             </div>
           </div>

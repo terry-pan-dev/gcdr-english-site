@@ -1,0 +1,317 @@
+---
+title: "Complete Guide to Blog Post Formatting"
+date: 2025-01-20
+author: "Dharma Master"
+category: "Teachings"
+excerpt: "A comprehensive demonstration of all available formatting features including headers, text styles, images, videos, quotes, lists, tables, and more."
+featured: true
+---
+
+import Callout from "../../components/mdx/Callout.astro";
+import Quote from "../../components/mdx/Quote.astro";
+
+This comprehensive guide demonstrates all the formatting features available in blog posts. Use this as a reference when creating your own content.
+
+## Headings
+
+Different heading levels help organize your content hierarchically. Here are all available heading sizes:
+
+# H1 Heading (Rarely used in posts, as the title is already H1)
+
+## H2 Heading - Main Section
+
+This is typically used for major sections of your post.
+
+### H3 Heading - Subsection
+
+Used for subsections within a major section.
+
+#### H4 Heading - Sub-subsection
+
+For even more granular organization.
+
+##### H5 Heading - Minor Subsection
+
+For very specific points.
+
+###### H6 Heading - Smallest Heading
+
+The smallest heading level, rarely needed.
+
+## Text Formatting
+
+### Bold, Italic, and Combined
+
+You can make text **bold** using double asterisks or double underscores. You can make text _italic_ using single asterisks or single underscores. You can also combine them: **_bold and italic_**.
+
+### Underline
+
+Standard markdown doesn't support underline, but you can use HTML: <u>This text is underlined</u>. However, underlines are generally discouraged in modern web design as they're typically reserved for links.
+
+### Strikethrough
+
+You can mark text as ~~deleted or outdated~~ using double tildes.
+
+### Inline Code
+
+Use backticks for `inline code` like variable names or file paths: `src/components/BlogCard.tsx`
+
+### Emphasized Text
+
+You can emphasize important text with **_bold italic_** formatting.
+
+## Paragraphs
+
+Paragraphs are separated by blank lines. This is the first paragraph.
+
+This is the second paragraph with multiple sentences. Notice how they flow naturally. Each paragraph can contain as much text as needed to fully develop your ideas. You can include multiple sentences and thoughts within a single paragraph.
+
+This is a third paragraph demonstrating the spacing between paragraphs. The prose styles automatically handle proper line height and spacing for optimal readability.
+
+## Lists
+
+### Unordered Lists
+
+You can create bulleted lists with dashes, asterisks, or plus signs:
+
+- First item
+- Second item
+  - Nested item one
+  - Nested item two
+    - Deeply nested item
+- Third item
+- Fourth item with **bold text** and _italic text_
+
+### Ordered Lists
+
+Numbered lists are useful for step-by-step instructions:
+
+1. First step in the process
+2. Second step with a nested list:
+   - Sub-item A
+   - Sub-item B
+3. Third step
+4. Fourth step
+5. Fifth and final step
+
+### Mixed Lists
+
+You can mix list types:
+
+1. Primary item
+   - Sub-item using bullets
+   - Another sub-item
+2. Another primary item
+   - More sub-items
+
+## Links
+
+You can create links in several ways:
+
+- [Inline link](https://example.com) to an external site
+- [Internal link](/blog) to another page
+- [Link with title](https://example.com "Example Website")
+- Or just use a raw URL: https://example.com
+
+## Images
+
+Images can be embedded using standard markdown syntax:
+
+![Alt text for image](https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=800&q=80)
+
+You can also use local images from the public folder:
+
+![Temple image](/assets/temple-1.jpg)
+
+### Image with Caption
+
+You can add descriptive text after an image to serve as a caption. The image above demonstrates how images are displayed within the blog post layout.
+
+## Videos
+
+Videos can be embedded using HTML video tags. Here's an example:
+
+<video
+  controls
+  class="w-full rounded-lg my-8"
+  style="max-width: 800px; margin: 2rem auto; display: block;"
+>
+  <source src="/assets/hero-video.mp4" type="video/mp4" />
+  Your browser does not support the video tag.
+</video>
+
+You can also embed videos from YouTube or other platforms using iframes:
+
+<div
+  class="my-8"
+  style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;"
+>
+  <iframe
+    style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"
+    src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+    frameborder="0"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+    allowfullscreen
+  ></iframe>
+</div>
+
+## Quotes
+
+### Using the Quote Component
+
+The Quote component provides beautifully styled blockquotes:
+
+<Quote author="Venerable Master Hsuan Hua">
+  Everything is made from the mind alone. The myriad dharmas are only
+  consciousness.
+</Quote>
+
+<Quote author="The Buddha">
+  All conditioned things are impermanent. When one sees this with wisdom, one
+  turns away from suffering.
+</Quote>
+
+### Standard Blockquotes
+
+You can also use standard markdown blockquotes:
+
+> This is a standard blockquote. It appears slightly different from the Quote component but still provides visual emphasis for important passages.
+
+> You can have multiple paragraphs in a blockquote by ensuring proper spacing between them.
+>
+> This is the second paragraph of the blockquote.
+
+## Callouts
+
+The Callout component provides three types of highlighted information boxes:
+
+<Callout type="insight">
+  This is an insight callout. Use it to highlight important realizations or key
+  understandings that readers should pay special attention to.
+</Callout>
+
+<Callout type="tip">
+  This is a tip callout. Perfect for providing helpful advice or practical
+  suggestions that can aid in practice or understanding.
+</Callout>
+
+<Callout type="warning">
+  This is a warning callout. Use it to caution readers about potential pitfalls
+  or important considerations they should be aware of.
+</Callout>
+
+## Tables
+
+Tables are useful for presenting structured data:
+
+| Feature         | Description             | Status       |
+| --------------- | ----------------------- | ------------ |
+| **Headers**     | H1-H6 headings          | ✅ Available |
+| **Text Styles** | Bold, italic, underline | ✅ Available |
+| **Lists**       | Ordered and unordered   | ✅ Available |
+| **Images**      | Standard and local      | ✅ Available |
+| **Videos**      | HTML video tags         | ✅ Available |
+| **Quotes**      | Quote component         | ✅ Available |
+| **Callouts**    | Three types             | ✅ Available |
+
+You can also align table columns:
+
+| Left Aligned   |  Center Aligned  |   Right Aligned |
+| :------------- | :--------------: | --------------: |
+| Left content   |  Center content  |   Right content |
+| More left      |   More center    |      More right |
+| Even more left | Even more center | Even more right |
+
+## Code Blocks
+
+### Inline Code
+
+Use single backticks for `inline code snippets`.
+
+### Code Blocks
+
+Use triple backticks for code blocks with syntax highlighting:
+
+```javascript
+function greet(name) {
+  return `Hello, ${name}! Welcome to the Dharma Realm.`;
+}
+
+const message = greet("Practitioner");
+console.log(message);
+```
+
+```python
+def cultivate_mindfulness():
+    """Practice mindful awareness."""
+    breath_in = "Awareness"
+    breath_out = "Letting go"
+    return f"{breath_in}... {breath_out}..."
+```
+
+```html
+<div class="dharma-practice">
+  <h2>Daily Practice</h2>
+  <p>May all beings be happy and free from suffering.</p>
+</div>
+```
+
+## Horizontal Rules
+
+You can create visual separators using horizontal rules:
+
+---
+
+This section is separated by a horizontal rule above.
+
+## Combining Elements
+
+You can combine different formatting elements for rich content. For example:
+
+1. **First important point** with a list:
+
+   - Supporting detail
+   - Another detail with _emphasis_
+
+2. **Second point** with a quote:
+
+<Quote author="Dharma Master">
+  Practice is the bridge between understanding and realization.
+</Quote>
+
+3. **Third point** with an image and caption:
+
+![Meditation practice](https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=600&q=80)
+
+The image above shows the peaceful practice of meditation, which is essential to the path.
+
+## Special Characters and Symbols
+
+You can use special characters:
+
+- Copyright: ©
+- Trademark: ™
+- Registered: ®
+- Ellipsis: …
+- Em dash: — (used for parenthetical statements)
+- En dash: – (used for ranges like "pages 10–20")
+
+## Best Practices
+
+<Callout type="tip">
+  When writing blog posts, remember to: 1. Use headings to create a clear
+  structure 2. Break up long paragraphs for readability 3. Use callouts for
+  important information 4. Include images to support your content 5. Use quotes
+  to add authority and beauty to your writing
+</Callout>
+
+## Conclusion
+
+This comprehensive guide has demonstrated all the formatting features available in your blog posts. Feel free to reference this post when creating your own content to ensure you're using all available tools effectively.
+
+<Quote author="Venerable Master Hsuan Hua">
+  Study the teachings, practice them diligently, and share the wisdom with all
+  beings.
+</Quote>
+
+May this guide help you create beautiful and meaningful content that inspires others on their spiritual journey.

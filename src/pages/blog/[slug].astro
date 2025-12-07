@@ -1,0 +1,66 @@
+---
+import { getCollection, getEntry, render } from "astro:content";
+import BlogLayout from "../../layouts/BlogLayout.astro";
+import Callout from "../../components/mdx/Callout.astro";
+import Quote from "../../components/mdx/Quote.astro";
+import { BlogNavigation } from "../../components/BlogNavigation";
+
+const { slug } = Astro.params;
+
+// For SSR mode, fetch the post dynamically
+const post = await getEntry("posts", slug as string);
+
+if (!post) {
+  return Astro.redirect("/blog");
+}
+
+// Check if post is published and date has arrived
+const isPublished = post.data.publish ?? true;
+if (!isPublished) {
+  return Astro.redirect("/blog");
+}
+
+const now = new Date();
+const postDate = new Date(post.data.date);
+postDate.setHours(0, 0, 0, 0);
+const today = new Date(now);
+today.setHours(0, 0, 0, 0);
+
+if (postDate > today) {
+  return Astro.redirect("/blog");
+}
+
+// Get all published posts for navigation
+const allPosts = await getCollection("posts");
+const publishedPosts = allPosts.filter((p) => {
+  const isPub = p.data.publish ?? true;
+  if (!isPub) return false;
+
+  const pDate = new Date(p.data.date);
+  pDate.setHours(0, 0, 0, 0);
+  return pDate <= today;
+});
+
+// Sort posts: pinned first, then by date (newest first)
+const sortedPosts = publishedPosts.sort((a, b) => {
+  const aPinned = a.data.pinned ?? false;
+  const bPinned = b.data.pinned ?? false;
+  if (aPinned !== bPinned) {
+    return bPinned ? 1 : -1;
+  }
+  return new Date(b.data.date).getTime() - new Date(a.data.date).getTime();
+});
+
+// Find current post index
+const currentIndex = sortedPosts.findIndex((p) => p.id === post.id);
+const previousPost = currentIndex > 0 ? sortedPosts[currentIndex - 1] : null;
+const nextPost =
+  currentIndex < sortedPosts.length - 1 ? sortedPosts[currentIndex + 1] : null;
+
+const { Content } = await render(post);
+---
+
+<BlogLayout post={post}>
+  <Content components={{ Callout, Quote }} />
+  <BlogNavigation previousPost={previousPost} nextPost={nextPost} client:load />
+</BlogLayout>
