@@ -35,6 +35,10 @@ export const StickyScroll = ({
   // Check if desktop layout
   const isDesktop = () =>
     typeof window !== "undefined" && window.innerWidth >= 768;
+  
+  // Check if mobile (not tablet) - typically < 640px for mobile, 640-768px is tablet
+  const isMobile = () =>
+    typeof window !== "undefined" && window.innerWidth < 640;
 
   // Animate to specific image based on section index
   const animateToImage = useCallback(
@@ -43,31 +47,8 @@ export const StickyScroll = ({
 
       const track = imageTrackRef.current;
       const percentPerImage = 100 / content.length;
-      const previousIndex = currentImageIndexRef.current;
 
-      // Fade out previous image
-      if (previousIndex !== index && imageSlideRefs.current[previousIndex]) {
-        gsap.to(imageSlideRefs.current[previousIndex], {
-          opacity: 0,
-          duration: 0.3,
-          ease: "power2.out",
-        });
-      }
-
-      // Fade in new image
-      if (imageSlideRefs.current[index]) {
-        // Set initial opacity to 0 if it's a new image
-        if (previousIndex !== index) {
-          gsap.set(imageSlideRefs.current[index], { opacity: 0 });
-        }
-        gsap.to(imageSlideRefs.current[index], {
-          opacity: 1,
-          duration: 0.5,
-          ease: "power2.out",
-        });
-      }
-
-      // Animate track position
+      // Animate track position (like the reference implementation)
       if (isDesktop()) {
         // Desktop: vertical movement (yPercent)
         gsap.to(track, {
@@ -93,11 +74,37 @@ export const StickyScroll = ({
 
   // Setup scroll triggers for each section
   const setupScrollTriggers = useCallback(() => {
-    if (!textSectionsRef.current || !imageTrackRef.current) return;
+    if (!textSectionsRef.current || !imageTrackRef.current || !scrollRevealRef.current) return;
 
     // Clear existing triggers
     triggersRef.current.forEach((trigger) => trigger.kill());
     triggersRef.current = [];
+
+    // Pin the image container using GSAP ScrollTrigger (more reliable than CSS sticky)
+    const imageContainer = scrollRevealRef.current.querySelector(".image-container") as HTMLElement;
+    if (imageContainer) {
+      const sections = textSectionsRef.current.querySelectorAll(".text-section");
+      const lastSection = sections[sections.length - 1] as HTMLElement;
+      
+      // On mobile, account for navigation bar height (80px = h-20)
+      const navBarHeight = isMobile() ? 80 : 0;
+      const startPosition = navBarHeight > 0 ? `top ${navBarHeight}px` : "top top";
+      
+      // End pinning when the text sections container's bottom reaches the bottom of the viewport
+      // This allows the image to scroll away with the text after all sections have passed
+      // Use endTrigger with text sections container for reliable calculation
+      const pinTrigger = ScrollTrigger.create({
+        trigger: scrollRevealRef.current,
+        start: startPosition,
+        endTrigger: textSectionsRef.current,
+        end: "bottom bottom",
+        pin: imageContainer,
+        pinSpacing: false, // Don't add spacing since we're handling layout manually
+        markers: false,
+        invalidateOnRefresh: true, // Recalculate on refresh
+      });
+      triggersRef.current.push(pinTrigger);
+    }
 
     const sections = textSectionsRef.current.querySelectorAll(".text-section");
 
@@ -106,8 +113,13 @@ export const StickyScroll = ({
         trigger: section as HTMLElement,
         start: "top 50%",
         end: "bottom 50%",
-        onEnter: () => animateToImage(index),
-        onEnterBack: () => animateToImage(index),
+        onEnter: () => {
+          animateToImage(index);
+        },
+        onEnterBack: () => {
+          animateToImage(index);
+        },
+        markers: false, // Set to true for debugging
       });
       triggersRef.current.push(trigger);
     });
@@ -138,14 +150,6 @@ export const StickyScroll = ({
           // Reset position
           gsap.set(imageTrackRef.current, { xPercent: 0, yPercent: 0 });
         }
-        // Reset opacity states
-        imageSlideRefs.current.forEach((slide, index) => {
-          if (slide) {
-            gsap.set(slide, {
-              opacity: index === currentImageIndexRef.current ? 1 : 0,
-            });
-          }
-        });
         setupScrollTriggers();
         ScrollTrigger.refresh();
       }, 250);
@@ -162,13 +166,22 @@ export const StickyScroll = ({
     <div
       ref={scrollRevealRef}
       className="scroll-reveal relative flex flex-col lg:flex-row"
+      style={{ 
+        position: 'relative',
+        overflow: 'visible',
+        minHeight: '100vh', // Ensure container has enough height for sticky
+      }}
     >
       {/* Sticky image container - top on mobile, right side on desktop */}
       <div
         className={cn(
-          "image-container sticky top-20 lg:top-0 w-full lg:w-1/2 h-[40vh] lg:h-screen overflow-hidden bg-[#111] z-10 order-1 lg:order-2",
+          "image-container w-full lg:w-1/2 h-[40vh] lg:h-screen overflow-hidden bg-[#111] z-10 order-1 lg:order-2",
           contentClassName
         )}
+        style={{
+          // Remove CSS sticky - using GSAP pin instead
+          alignSelf: 'flex-start', // Important for flex containers
+        }}
       >
         <div
           ref={imageTrackRef}
@@ -181,7 +194,6 @@ export const StickyScroll = ({
                 imageSlideRefs.current[index] = el;
               }}
               className="image-slide w-1/3 lg:w-full h-full lg:h-1/3 flex-shrink-0 flex items-center justify-center"
-              style={{ opacity: index === 0 ? 1 : 0 }}
             >
               <div className="h-full w-full flex items-center justify-center bg-black">
                 {item.content ?? null}
@@ -194,7 +206,7 @@ export const StickyScroll = ({
       {/* Scrollable text sections - below image on mobile, left side on desktop */}
       <div
         ref={textSectionsRef}
-        className="text-sections relative z-5 w-full lg:w-1/2 order-2 lg:order-1"
+        className="text-sections relative z-[5] w-full lg:w-1/2 order-2 lg:order-1"
       >
         {content.map((item, index) => (
           <div

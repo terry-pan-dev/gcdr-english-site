@@ -57,7 +57,7 @@ const dharmaMastersContent: StickyScrollContent[] = [
 
 export function DharmaMasters() {
   return (
-    <div className="min-h-screen bg-[#1c1917] text-[#EBE9CF]">
+    <div className="min-h-screen bg-[#1c1917] text-[#EBE9CF]" style={{ overflow: 'visible' }}>
       {/* Hero Section with Prism Background */}
       <div className="relative h-screen flex items-center justify-center overflow-hidden bg-black">
         {/* Prism Background */}
@@ -91,7 +91,7 @@ export function DharmaMasters() {
       </div>
 
       {/* Content Section */}
-      <div className="w-full">
+      <div className="w-full" style={{ overflow: 'visible' }}>
         <StickyScroll content={dharmaMastersContent} />
       </div>
     </div>
