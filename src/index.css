@@ -912,6 +912,10 @@
     animation: var(--animate-bounce);
   }
 
+  .animate-bounce-centered {
+    animation: bounce-centered 1s infinite;
+  }
+
   .cursor-pointer {
     cursor: pointer;
   }
@@ -2659,5 +2663,17 @@ html {
   50% {
     animation-timing-function: cubic-bezier(0, 0, .2, 1);
     transform: none;
+  }
+}
+
+@keyframes bounce-centered {
+  0%, 100% {
+    animation-timing-function: cubic-bezier(.8, 0, 1, 1);
+    transform: translate(-50%, -25%);
+  }
+
+  50% {
+    animation-timing-function: cubic-bezier(0, 0, .2, 1);
+    transform: translate(-50%, 0);
   }
 }

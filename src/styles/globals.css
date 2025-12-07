@@ -130,11 +130,18 @@
     outline-opacity: 0.5;
   }
 
+  html {
+    overflow-x: hidden;
+  }
+
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
     /* Primary font - matches src/config/fonts.ts */
     font-family: 'Roboto', sans-serif;
+    overflow-x: hidden;
+    width: 100%;
+    max-width: 100%;
   }
 }
 
@@ -195,4 +202,29 @@
 
 html {
   font-size: var(--font-size);
+}
+
+/* Scroll indicator wrapper - ensures proper centering */
+.scroll-indicator-wrapper {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* Custom bounce animation that preserves horizontal centering */
+@keyframes bounce-centered {
+  0%, 100% {
+    animation-timing-function: cubic-bezier(.8, 0, 1, 1);
+    transform: translateY(-25%);
+  }
+
+  50% {
+    animation-timing-function: cubic-bezier(0, 0, .2, 1);
+    transform: translateY(0);
+  }
+}
+
+.animate-bounce-centered {
+  animation: bounce-centered 1s infinite;
 }
