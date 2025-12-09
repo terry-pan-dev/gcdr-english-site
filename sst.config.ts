@@ -124,6 +124,22 @@ export default $config({
       },
       buildCommand: "pnpm run build",
       link: [apiFn, blogPostsTable, blogStorage], // Link resources for blog access
+      // Explicitly grant S3 permissions to the Astro server function
+      // This ensures the SSR function can read blog content from S3
+      permissions: [
+        {
+          actions: ["s3:GetObject", "s3:ListBucket"],
+          resources: [
+            $interpolate`${blogStorage.arn}`,
+            $interpolate`${blogStorage.arn}/*`,
+          ],
+        },
+      ],
+      // Force CloudFront invalidation for all paths including dynamic blog routes
+      invalidation: {
+        paths: "all",
+        wait: true, // Wait for invalidation to complete
+      },
       environment: {
         PUBLIC_API_BASE_URL: apiFn.url,
         PUBLIC_COGNITO_USER_POOL_ID: userPool.id,

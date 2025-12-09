@@ -36,7 +36,7 @@ export function BlogNavigation({ previousPost, nextPost }: Props) {
         {/* Previous Post */}
         {previousPost ? (
           <motion.a
-            href={`/blog/${previousPost.id}`}
+            href={`/post/${previousPost.id}`}
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.3 }}
@@ -91,7 +91,7 @@ export function BlogNavigation({ previousPost, nextPost }: Props) {
         {/* Next Post */}
         {nextPost ? (
           <motion.a
-            href={`/blog/${nextPost.id}`}
+            href={`/post/${nextPost.id}`}
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.3 }}

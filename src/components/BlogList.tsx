@@ -159,11 +159,11 @@ export function BlogList({ apiBaseUrl, initialCategory, initialPage = 1 }: BlogL
   }));
 
   return (
-    <div className="flex flex-col lg:flex-row gap-8">
+    <div className="flex flex-col lg:flex-row gap-8 lg:items-start">
       {/* Blog List - 2/3 width on desktop */}
-      <div className="w-full lg:w-2/3 space-y-4 sm:space-y-8">
+      <div className="w-full lg:w-2/3">
         {/* Mobile Categories - Only visible on phones */}
-        <div className="block sm:hidden mb-6 -mt-8">
+        <div className="block sm:hidden mb-6">
           <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
             <button
               onClick={() => handleCategoryChange(null)}
@@ -197,22 +197,24 @@ export function BlogList({ apiBaseUrl, initialCategory, initialPage = 1 }: BlogL
           </div>
         </div>
 
-        {formattedPosts.length > 0 ? (
-          formattedPosts.map((post, index) => (
-            <React.Fragment key={post.id}>
-              <BlogCard post={post} index={startIndex + index} />
-              {index < formattedPosts.length - 1 && (
-                <TimelineConnector index={startIndex + index} />
-              )}
-            </React.Fragment>
-          ))
-        ) : (
-          <div className="text-center py-12">
-            <p className="text-stone-600 text-lg">No posts found.</p>
-          </div>
-        )}
+        {/* Blog cards container with proper spacing */}
+        <div className="space-y-4 sm:space-y-8">
+          {formattedPosts.length > 0 ? (
+            formattedPosts.map((post, index) => (
+              <React.Fragment key={post.id}>
+                <BlogCard post={post} index={startIndex + index} />
+                {index < formattedPosts.length - 1 && (
+                  <TimelineConnector index={startIndex + index} />
+                )}
+              </React.Fragment>
+            ))
+          ) : (
+            <div className="text-center py-12">
+              <p className="text-stone-600 text-lg">No posts found.</p>
+            </div>
+          )}
 
-        {/* Pagination Controls */}
+          {/* Pagination Controls */}
         {totalPages > 1 && (
           <div className="flex flex-col items-center gap-3 mt-20 sm:mt-24 -mb-8 sm:-mb-6">
             <div className="flex items-center gap-2">
@@ -311,6 +313,7 @@ export function BlogList({ apiBaseUrl, initialCategory, initialPage = 1 }: BlogL
             </p>
           </div>
         )}
+        </div>
       </div>
 
       {/* Sidebar - 1/3 width on desktop */}

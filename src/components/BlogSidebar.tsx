@@ -131,7 +131,7 @@ export function BlogSidebar({
         <ul className="space-y-4">
           {recentPosts.map((post) => (
             <li key={post.id}>
-              <a href={`/blog/${post.id}`} className="flex gap-3 group">
+              <a href={`/post/${post.id}`} className="flex gap-3 group">
                 {post.data.image ? (
                   <img
                     src={post.data.image}
