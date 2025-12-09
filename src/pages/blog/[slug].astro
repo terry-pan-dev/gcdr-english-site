@@ -1,67 +1,61 @@
 ---
-import { getCollection, getEntry, render } from "astro:content";
+export const prerender = false;
+
 import BlogLayout from "../../layouts/BlogLayout.astro";
-import Callout from "../../components/mdx/Callout.astro";
-import Quote from "../../components/mdx/Quote.astro";
 import { BlogNavigation } from "../../components/BlogNavigation";
 import { getS3Blogs } from "../../lib/server-blog-api";
 import { S3Client, GetObjectCommand } from "@aws-sdk/client-s3";
 
 const { slug } = Astro.params;
 
-// Try to get file-based post first
-let post = await getEntry("posts", slug as string);
-let isS3Post = false;
+// Fetch S3-based post (remote only)
+let post: any = null;
 let s3Content = "";
 
-// If not found, try S3-based posts
-if (!post) {
-  try {
-    const s3Blogs = await getS3Blogs();
-    const s3Post = s3Blogs.find((blog) => blog.id === slug);
+try {
+  const s3Blogs = await getS3Blogs();
+  const s3Post = s3Blogs.find((blog) => blog.id === slug);
+  
+  if (s3Post) {
+    // Fetch content from S3
+    const s3Client = new S3Client({});
+    const bucketName = process.env.BLOG_STORAGE_BUCKET;
     
-    if (s3Post) {
-      isS3Post = true;
-      // Fetch content from S3
-      const s3Client = new S3Client({});
-      const bucketName = process.env.BLOG_STORAGE_BUCKET;
-      
-      if (bucketName && s3Post.s3Key) {
-        try {
-          const s3Command = new GetObjectCommand({
-            Bucket: bucketName,
-            Key: s3Post.s3Key,
-          });
-          const s3Result = await s3Client.send(s3Command);
-          s3Content = await s3Result.Body?.transformToString() || "";
-          
-          // Convert to post format compatible with BlogLayout
-          post = {
-            id: s3Post.id,
-            data: {
-              title: s3Post.title,
-              date: new Date(s3Post.date),
-              author: s3Post.author,
-              category: s3Post.category,
-              excerpt: s3Post.excerpt,
-              image: s3Post.image,
-              featured: s3Post.featured,
-              pinned: s3Post.pinned,
-              tags: s3Post.tags,
-              publish: s3Post.publish,
-              seo: s3Post.seo,
-            },
-            body: s3Content,
-            slug: s3Post.id,
-          } as any;
-        } catch (s3Error) {
-          console.error("Error fetching S3 content:", s3Error);
-        }
+    if (bucketName && s3Post.s3Key) {
+      try {
+        const s3Command = new GetObjectCommand({
+          Bucket: bucketName,
+          Key: s3Post.s3Key,
+        });
+        const s3Result = await s3Client.send(s3Command);
+        s3Content = await s3Result.Body?.transformToString() || "";
+        
+        // Convert to post format compatible with BlogLayout
+        post = {
+          id: s3Post.id,
+          data: {
+            title: s3Post.title,
+            date: new Date(s3Post.date),
+            author: s3Post.author,
+            category: s3Post.category,
+            excerpt: s3Post.excerpt,
+            image: s3Post.image,
+            featured: s3Post.featured,
+            pinned: s3Post.pinned,
+            tags: s3Post.tags,
+            publish: s3Post.publish,
+            seo: s3Post.seo,
+          },
+          body: s3Content,
+          slug: s3Post.id,
+        };
+      } catch (s3Error) {
+        console.error("Error fetching S3 content:", s3Error);
       }
     }
-  } catch (error) {
-    console.warn("Could not fetch S3 blogs:", error);
   }
+} catch (error) {
+  console.warn("Could not fetch S3 blogs:", error);
 }
 
 if (!post) {
@@ -84,8 +78,7 @@ if (postDate > today) {
   return Astro.redirect("/blog");
 }
 
-// Get all published posts for navigation (file-based + S3-based)
-const filePosts = await getCollection("posts");
+// Get all published posts for navigation (S3-based only)
 let s3Posts: any[] = [];
 try {
   const s3Blogs = await getS3Blogs();
@@ -108,7 +101,7 @@ try {
 } catch (error) {
   console.warn("Could not fetch S3 blogs for navigation:", error);
 }
-const allPosts = [...filePosts, ...s3Posts];
+const allPosts = s3Posts;
 const publishedPosts = allPosts.filter((p) => {
   const isPub = p.data.publish ?? true;
   if (!isPub) return false;
@@ -133,25 +126,9 @@ const currentIndex = sortedPosts.findIndex((p) => p.id === post.id);
 const previousPost = currentIndex > 0 ? sortedPosts[currentIndex - 1] : null;
 const nextPost =
   currentIndex < sortedPosts.length - 1 ? sortedPosts[currentIndex + 1] : null;
-
-let Content: any;
-if (isS3Post) {
-  // For S3 posts, we'll render the markdown content directly
-  Content = () => {
-    // This will be handled by a client component
-    return null;
-  };
-} else {
-  const rendered = await render(post);
-  Content = rendered.Content;
-}
 ---
 
 <BlogLayout post={post}>
-  {isS3Post ? (
-    <div class="prose prose-lg prose-stone max-w-none" set:html={s3Content} />
-  ) : (
-    <Content components={{ Callout, Quote }} />
-  )}
+  <div class="prose prose-lg prose-stone max-w-none" set:html={s3Content} />
   <BlogNavigation previousPost={previousPost} nextPost={nextPost} client:load />
 </BlogLayout>

@@ -2,11 +2,31 @@
 import '../styles/globals.css';
 import { Navigation } from '../components/Navigation';
 import { Footer } from '../components/Footer';
-import type { CollectionEntry } from 'astro:content';
 import { getGoogleFontsUrl, getPrimaryFontFamily, getSecondaryFontFamily } from '../config/fonts';
 
+interface BlogPost {
+  id: string;
+  data: {
+    title: string;
+    date: Date;
+    author: string;
+    category: string;
+    excerpt: string;
+    image?: string;
+    featured?: boolean;
+    pinned?: boolean;
+    tags?: string[];
+    publish?: boolean;
+    seo?: {
+      title?: string;
+      description?: string;
+      keywords?: string[];
+    };
+  };
+}
+
 interface Props {
-  post: CollectionEntry<'posts'>;
+  post: BlogPost;
 }
 
 const { post } = Astro.props;

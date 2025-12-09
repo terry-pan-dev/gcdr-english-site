@@ -9,10 +9,10 @@ import { fileURLToPath } from "url";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 export default defineConfig({
-  output: "server",
+  output: "static",
   adapter: aws(),
   build: {
-    inlineStylesheets: 'never', // Ensure CSS is kept as external files for SSR
+    inlineStylesheets: "never", // Ensure CSS is kept as external files for SSR
   },
   integrations: [
     react(),

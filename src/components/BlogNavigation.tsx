@@ -1,11 +1,29 @@
 import { motion } from "motion/react";
-import type { CollectionEntry } from "astro:content";
 
-type Post = CollectionEntry<"posts">;
+interface BlogPost {
+  id: string;
+  data: {
+    title: string;
+    date: Date;
+    author: string;
+    category: string;
+    excerpt: string;
+    image?: string;
+    featured?: boolean;
+    pinned?: boolean;
+    tags?: string[];
+    publish?: boolean;
+    seo?: {
+      title?: string;
+      description?: string;
+      keywords?: string[];
+    };
+  };
+}
 
 interface Props {
-  previousPost: Post | null;
-  nextPost: Post | null;
+  previousPost: BlogPost | null;
+  nextPost: BlogPost | null;
 }
 
 export function BlogNavigation({ previousPost, nextPost }: Props) {

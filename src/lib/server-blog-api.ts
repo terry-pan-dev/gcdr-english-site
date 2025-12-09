@@ -28,6 +28,7 @@ export interface ServerBlogPost {
     keywords?: string[];
   };
   content?: string;
+  s3Key?: string;
   createdAt: string;
   updatedAt: string;
 }

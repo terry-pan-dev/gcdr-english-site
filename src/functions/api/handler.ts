@@ -62,6 +62,105 @@ async function handleBlogList() {
   };
 }
 
+// Public blog list - returns only published blogs (no auth required)
+async function handlePublicBlogList() {
+  const tableName = process.env.BLOG_POSTS_TABLE;
+  if (!tableName) {
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ error: "Table name not configured" }),
+    };
+  }
+
+  const command = new ScanCommand({ TableName: tableName });
+  const result = await docClient.send(command);
+  
+  // Filter only published blogs with current or past dates
+  const now = new Date();
+  const publishedBlogs = (result.Items || []).filter((blog: any) => {
+    if (!blog.publish) return false;
+    const postDate = new Date(blog.date);
+    postDate.setHours(0, 0, 0, 0);
+    const today = new Date(now);
+    today.setHours(0, 0, 0, 0);
+    return postDate <= today;
+  });
+  
+  // Sort by pinned first, then by date (newest first)
+  publishedBlogs.sort((a: any, b: any) => {
+    const aPinned = a.pinned ?? false;
+    const bPinned = b.pinned ?? false;
+    if (aPinned !== bPinned) {
+      return bPinned ? 1 : -1;
+    }
+    return new Date(b.date).getTime() - new Date(a.date).getTime();
+  });
+
+  return {
+    statusCode: 200,
+    body: JSON.stringify({ blogs: publishedBlogs }),
+  };
+}
+
+// Public blog get - returns single published blog (no auth required)
+async function handlePublicBlogGet(id: string) {
+  const tableName = process.env.BLOG_POSTS_TABLE;
+  const bucketName = process.env.BLOG_STORAGE_BUCKET;
+
+  if (!tableName || !bucketName) {
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ error: "Configuration missing" }),
+    };
+  }
+
+  const command = new GetCommand({ TableName: tableName, Key: { id } });
+  const result = await docClient.send(command);
+
+  if (!result.Item) {
+    return {
+      statusCode: 404,
+      body: JSON.stringify({ error: "Blog not found" }),
+    };
+  }
+
+  // Check if blog is published
+  if (!result.Item.publish) {
+    return {
+      statusCode: 404,
+      body: JSON.stringify({ error: "Blog not found" }),
+    };
+  }
+
+  // Check if blog date is in the past
+  const postDate = new Date(result.Item.date);
+  postDate.setHours(0, 0, 0, 0);
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  if (postDate > today) {
+    return {
+      statusCode: 404,
+      body: JSON.stringify({ error: "Blog not found" }),
+    };
+  }
+
+  // Get content from S3
+  if (result.Item.s3Key) {
+    try {
+      const s3Command = new GetObjectCommand({
+        Bucket: bucketName,
+        Key: result.Item.s3Key,
+      });
+      const s3Result = await s3Client.send(s3Command);
+      result.Item.content = (await s3Result.Body?.transformToString()) || "";
+    } catch (s3Error) {
+      result.Item.content = "";
+    }
+  }
+
+  return { statusCode: 200, body: JSON.stringify(result.Item) };
+}
+
 async function handleBlogGet(id: string) {
   const tableName = process.env.BLOG_POSTS_TABLE;
   const bucketName = process.env.BLOG_STORAGE_BUCKET;
@@ -482,8 +581,11 @@ export async function handler(event: any) {
   // OPTIONS preflight requests are also handled automatically by Function URL
 
   try {
-    // Check authentication for protected routes (all routes except login)
-    if (!rawPath.startsWith("/api/admin/auth/login")) {
+    // Public routes (no auth required)
+    const isPublicRoute = rawPath.startsWith("/api/public/");
+    
+    // Check authentication for protected routes (all routes except login and public routes)
+    if (!rawPath.startsWith("/api/admin/auth/login") && !isPublicRoute) {
       const token = extractToken(event);
       if (!token) {
         return {
@@ -517,7 +619,19 @@ export async function handler(event: any) {
       id && id !== "blogs" && id !== "media" && id !== "admin" && id !== "api";
 
     // Route based on path
-    if (rawPath.startsWith("/api/admin/auth/login") && method === "POST") {
+    // Public routes (no auth required)
+    if (rawPath.startsWith("/api/public/blogs")) {
+      if (method === "GET" && isIdRoute) {
+        result = await handlePublicBlogGet(id);
+      } else if (method === "GET") {
+        result = await handlePublicBlogList();
+      } else {
+        result = {
+          statusCode: 405,
+          body: JSON.stringify({ error: "Method not allowed" }),
+        };
+      }
+    } else if (rawPath.startsWith("/api/admin/auth/login") && method === "POST") {
       result = await handleAuthLogin(body);
     } else if (rawPath.startsWith("/api/admin/blogs")) {
       if (method === "GET" && isIdRoute) {

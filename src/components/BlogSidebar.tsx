@@ -9,6 +9,7 @@ interface Props {
     };
   }>;
   currentCategory?: string | null;
+  onCategoryChange?: (category: string | null) => void;
 }
 
 // Small placeholder for sidebar thumbnails
@@ -60,7 +61,15 @@ export function BlogSidebar({
   categories,
   recentPosts,
   currentCategory,
+  onCategoryChange,
 }: Props) {
+  const handleCategoryClick = (category: string | null, e: React.MouseEvent) => {
+    if (onCategoryChange) {
+      e.preventDefault();
+      onCategoryChange(category);
+    }
+  };
+
   return (
     <aside className="sticky top-24 space-y-8">
       {/* Categories */}
@@ -75,7 +84,8 @@ export function BlogSidebar({
           <li>
             <a
               href="/blog"
-              className={`block px-3 py-2 rounded transition-colors ${
+              onClick={(e) => handleCategoryClick(null, e)}
+              className={`block px-3 py-2 rounded transition-colors cursor-pointer ${
                 !currentCategory ? "font-semibold" : "hover:bg-stone-100"
               }`}
               style={
@@ -91,7 +101,8 @@ export function BlogSidebar({
             <li key={category}>
               <a
                 href={`/blog?category=${encodeURIComponent(category)}`}
-                className={`block px-3 py-2 rounded transition-colors ${
+                onClick={(e) => handleCategoryClick(category, e)}
+                className={`block px-3 py-2 rounded transition-colors cursor-pointer ${
                   currentCategory === category
                     ? "font-semibold"
                     : "hover:bg-stone-100"
