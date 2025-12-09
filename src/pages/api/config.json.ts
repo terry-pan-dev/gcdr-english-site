@@ -1,6 +1,8 @@
 import type { APIRoute } from "astro";
 import { Resource } from "sst";
 
+export const prerender = false; // Explicitly disable prerendering
+
 export const GET: APIRoute = async () => {
   try {
     // Get API base URL from SST resource

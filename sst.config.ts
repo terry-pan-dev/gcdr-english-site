@@ -123,6 +123,7 @@ export default $config({
         url: "http://localhost:4321",
       },
       buildCommand: "pnpm run build",
+      link: [apiFn], // Link AdminAPI resource so Resource.AdminAPI is available
       environment: {
         PUBLIC_API_BASE_URL: apiFn.url,
         PUBLIC_COGNITO_USER_POOL_ID: userPool.id,
