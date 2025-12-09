@@ -1,53 +1,18 @@
 // API client for admin dashboard
 // Note: API URLs will be injected from SST config at runtime
 
-import { CognitoUserPool, CognitoUser, AuthenticationDetails } from "amazon-cognito-identity-js";
+import {
+  signIn,
+  signOut,
+  getCurrentUser,
+  fetchAuthSession,
+  fetchUserAttributes,
+} from "aws-amplify/auth";
+import { ensureAmplifyConfigured } from "./amplify-config";
 
 // Cache for API base URL
 let apiBaseUrlCache: string | null = null;
 let apiBaseUrlPromise: Promise<string> | null = null;
-
-// Cache for Cognito config
-let cognitoConfig: {
-  userPoolId: string;
-  clientId: string;
-  region: string;
-} | null = null;
-
-const loadCognitoConfig = (): {
-  userPoolId: string;
-  clientId: string;
-  region: string;
-} => {
-  if (cognitoConfig) {
-    return cognitoConfig;
-  }
-
-  // Try to get from window first (injected by pages)
-  if (typeof window !== "undefined") {
-    const win = window as any;
-    if (win.__COGNITO_USER_POOL_ID__ && win.__COGNITO_USER_POOL_CLIENT_ID__ && win.__AWS_REGION__) {
-      cognitoConfig = {
-        userPoolId: win.__COGNITO_USER_POOL_ID__,
-        clientId: win.__COGNITO_USER_POOL_CLIENT_ID__,
-        region: win.__AWS_REGION__,
-      };
-      return cognitoConfig;
-    }
-  }
-
-  // Try environment variables
-  const userPoolId = import.meta.env.PUBLIC_COGNITO_USER_POOL_ID || "";
-  const clientId = import.meta.env.PUBLIC_COGNITO_USER_POOL_CLIENT_ID || "";
-  const region = import.meta.env.PUBLIC_AWS_REGION || "ap-southeast-2";
-
-  if (userPoolId && clientId) {
-    cognitoConfig = { userPoolId, clientId, region };
-    return cognitoConfig;
-  }
-
-  throw new Error("Cognito configuration not found. Please ensure environment variables are set.");
-};
 
 const loadApiBaseUrl = async (): Promise<string> => {
   if (apiBaseUrlCache) {
@@ -102,35 +67,76 @@ const loadApiBaseUrl = async (): Promise<string> => {
 
 const getApiUrl = async (endpoint: string): Promise<string> => {
   const baseUrl = await loadApiBaseUrl();
-  
+
   if (!baseUrl) {
     return "";
   }
 
   // Normalize base URL (remove trailing slash) and endpoint (ensure leading slash)
   const normalizedBase = baseUrl.replace(/\/+$/, "");
-  const normalizedEndpoint = endpoint.startsWith("/") ? endpoint : `/${endpoint}`;
-  
+  const normalizedEndpoint = endpoint.startsWith("/")
+    ? endpoint
+    : `/${endpoint}`;
+
   // Combine: baseUrl + endpoint
   // e.g., https://xxx.lambda-url...on.aws + /api/admin/auth/login
   return `${normalizedBase}${normalizedEndpoint}`;
 };
 
-const getAuthToken = (): string | null => {
+/**
+ * Gets the access token from Amplify session
+ * Also sets a cookie for server-side middleware to read
+ */
+export const getAuthToken = async (): Promise<string | null> => {
   if (typeof window === "undefined") return null;
-  return localStorage.getItem("cognito_access_token");
+
+  try {
+    ensureAmplifyConfigured();
+    const session = await fetchAuthSession();
+
+    if (session.tokens?.accessToken) {
+      const token = session.tokens.accessToken.toString();
+
+      // Also set cookie for server-side middleware to read
+      // Set cookie with 7 days expiration (same as typical Cognito token lifetime)
+      const expires = new Date();
+      expires.setTime(expires.getTime() + 7 * 24 * 60 * 60 * 1000); // 7 days
+      document.cookie = `cognito_access_token=${token}; expires=${expires.toUTCString()}; path=/; SameSite=Lax`;
+
+      return token;
+    }
+
+    return null;
+  } catch (error) {
+    console.error("Error getting auth token:", error);
+    return null;
+  }
 };
 
-const setAuthToken = (token: string): void => {
-  if (typeof window === "undefined") return;
-  localStorage.setItem("cognito_access_token", token);
-};
-
+/**
+ * Removes auth tokens (called on logout)
+ */
 const removeAuthToken = (): void => {
   if (typeof window === "undefined") return;
-  localStorage.removeItem("cognito_access_token");
-  localStorage.removeItem("cognito_id_token");
-  localStorage.removeItem("cognito_refresh_token");
+  // Remove cookie
+  document.cookie =
+    "cognito_access_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+};
+
+/**
+ * Ensures the access token is valid
+ * Amplify automatically handles token refresh, so we just need to get the current session
+ * @returns Valid access token or null if not authenticated
+ */
+const ensureValidToken = async (): Promise<string | null> => {
+  try {
+    ensureAmplifyConfigured();
+    // Amplify automatically refreshes tokens, so we just fetch the current session
+    return await getAuthToken();
+  } catch (error) {
+    console.error("Error ensuring valid token:", error);
+    return null;
+  }
 };
 
 interface ApiResponse<T> {
@@ -144,7 +150,7 @@ const apiRequest = async <T>(
 ): Promise<ApiResponse<T>> => {
   try {
     const url = await getApiUrl(endpoint);
-    
+
     // Check if URL is empty
     if (!url) {
       console.error(`API URL not configured for endpoint: ${endpoint}`);
@@ -152,19 +158,28 @@ const apiRequest = async <T>(
         window: typeof window !== "undefined" && (window as any).__API_URLS__,
         env: import.meta.env.PUBLIC_API_AUTH_LOGIN,
       });
-      return { 
-        error: `API URL not configured for ${endpoint}. Please check your deployment and ensure Lambda function URLs are available.` 
+      return {
+        error: `API URL not configured for ${endpoint}. Please check your deployment and ensure Lambda function URLs are available.`,
       };
     }
-    
+
     console.log(`Making API request to: ${url}`);
-    const token = getAuthToken();
-    
+
+    // Ensure we have a valid token before making the request
+    // Amplify automatically handles token refresh
+    const token = await ensureValidToken();
+
+    if (!token) {
+      return {
+        error: "Authentication required. Please log in again.",
+      };
+    }
+
     const response = await fetch(url, {
       ...options,
       headers: {
         "Content-Type": "application/json",
-        ...(token && { Authorization: `Bearer ${token}` }),
+        Authorization: `Bearer ${token}`,
         ...options.headers,
       },
     });
@@ -175,14 +190,56 @@ const apiRequest = async <T>(
       const text = await response.text();
       console.error("Non-JSON response received. URL:", url);
       console.error("Response preview:", text.substring(0, 200));
-      console.error("This usually means the API URL is pointing to the wrong endpoint (e.g., Astro page instead of Lambda function)");
-      return { 
-        error: `Server returned HTML instead of JSON (${response.status}). The API URL may be incorrect. Check browser console for details.` 
+      console.error(
+        "This usually means the API URL is pointing to the wrong endpoint (e.g., Astro page instead of Lambda function)"
+      );
+      return {
+        error: `Server returned HTML instead of JSON (${response.status}). The API URL may be incorrect. Check browser console for details.`,
       };
     }
 
+    // Handle 401 Unauthorized - token might be expired
+    // Amplify should handle refresh automatically, but if we get 401, try once more
+    if (response.status === 401) {
+      // Try getting a fresh token (Amplify may have refreshed it)
+      const refreshedToken = await ensureValidToken();
+      if (refreshedToken) {
+        // Retry the request with the refreshed token
+        const retryResponse = await fetch(url, {
+          ...options,
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${refreshedToken}`,
+            ...options.headers,
+          },
+        });
+
+        if (!retryResponse.ok) {
+          const errorData = await retryResponse
+            .json()
+            .catch(() => ({ error: "Unknown error" }));
+          // If still 401 after refresh, authentication failed
+          if (retryResponse.status === 401) {
+            removeAuthToken();
+            return { error: "Authentication failed. Please log in again." };
+          }
+          return { error: errorData.error || `HTTP ${retryResponse.status}` };
+        }
+
+        // Success after refresh - return the successful response
+        const data = await retryResponse.json();
+        return { data };
+      } else {
+        // No token available - clear and return error
+        removeAuthToken();
+        return { error: "Session expired. Please log in again." };
+      }
+    }
+
     if (!response.ok) {
-      const errorData = await response.json().catch(() => ({ error: "Unknown error" }));
+      const errorData = await response
+        .json()
+        .catch(() => ({ error: "Unknown error" }));
       return { error: errorData.error || `HTTP ${response.status}` };
     }
 
@@ -198,113 +255,101 @@ const apiRequest = async <T>(
 export const authApi = {
   login: async (email: string, password: string) => {
     try {
-      const config = loadCognitoConfig();
-      const userPool = new CognitoUserPool({
-        UserPoolId: config.userPoolId,
-        ClientId: config.clientId,
+      ensureAmplifyConfigured();
+
+      // Use Amplify signIn - email is used as username
+      const result = await signIn({
+        username: email,
+        password: password,
       });
 
-      const authenticationDetails = new AuthenticationDetails({
-        Username: email,
-        Password: password,
-      });
-
-      const cognitoUser = new CognitoUser({
-        Username: email,
-        Pool: userPool,
-      });
-
-      return new Promise<{ data?: { user: { email: string } }; error?: string }>((resolve) => {
-        cognitoUser.authenticateUser(authenticationDetails, {
-          onSuccess: (result) => {
-            // Store tokens
-            const accessToken = result.getAccessToken().getJwtToken();
-            const idToken = result.getIdToken().getJwtToken();
-            const refreshToken = result.getRefreshToken().getToken();
-
-            setAuthToken(accessToken);
-            localStorage.setItem("cognito_id_token", idToken);
-            localStorage.setItem("cognito_refresh_token", refreshToken);
-
-            resolve({
-              data: {
-                user: { email },
-              },
-            });
+      // Check if sign-in requires additional steps (MFA, etc.)
+      if (result.isSignedIn) {
+        // Successfully signed in
+        return {
+          data: {
+            user: { email },
           },
-          onFailure: (err) => {
-            console.error("Cognito authentication error:", err);
-            resolve({
-              error: err.message || "Authentication failed",
-            });
-          },
-        });
-      });
+        };
+      } else {
+        // Sign-in requires additional steps (not expected for basic email/password)
+        return {
+          error:
+            "Sign-in requires additional steps. Please contact administrator.",
+        };
+      }
     } catch (error: any) {
+      console.error("Amplify authentication error:", error);
+
+      // Handle specific Amplify error types
+      let errorMessage = "Authentication failed";
+      if (error.name === "NotAuthorizedException") {
+        errorMessage = "Incorrect email or password";
+      } else if (error.name === "UserNotFoundException") {
+        errorMessage = "User not found";
+      } else if (error.name === "UserNotConfirmedException") {
+        errorMessage = "User account is not confirmed";
+      } else if (error.message) {
+        errorMessage = error.message;
+      }
+
       return {
-        error: error.message || "Login failed",
+        error: errorMessage,
       };
     }
   },
 
-  logout: () => {
+  logout: async () => {
     try {
-      const config = loadCognitoConfig();
-      const userPool = new CognitoUserPool({
-        UserPoolId: config.userPoolId,
-        ClientId: config.clientId,
-      });
+      ensureAmplifyConfigured();
 
-      const cognitoUser = userPool.getCurrentUser();
-      if (cognitoUser) {
-        cognitoUser.signOut();
-      }
+      // Sign out from Amplify (clears session and tokens)
+      await signOut();
     } catch (error) {
       console.error("Logout error:", error);
     } finally {
+      // Always clear local tokens/cookies
       removeAuthToken();
     }
   },
 
-  isAuthenticated: (): boolean => {
-    return !!getAuthToken();
+  isAuthenticated: async (): Promise<boolean> => {
+    try {
+      ensureAmplifyConfigured();
+      await getCurrentUser();
+      return true;
+    } catch (error) {
+      return false;
+    }
   },
 
   getCurrentUser: async (): Promise<{ email: string } | null> => {
     try {
-      const config = loadCognitoConfig();
-      const userPool = new CognitoUserPool({
-        UserPoolId: config.userPoolId,
-        ClientId: config.clientId,
-      });
+      console.log("getCurrentUser: Starting...");
+      ensureAmplifyConfigured();
 
-      const cognitoUser = userPool.getCurrentUser();
-      if (!cognitoUser) {
+      // Get current user from Amplify
+      const user = await getCurrentUser();
+
+      if (!user) {
+        console.log("getCurrentUser: No user found");
         return null;
       }
 
-      return new Promise((resolve) => {
-        cognitoUser.getSession((err: any, session: any) => {
-          if (err || !session || !session.isValid()) {
-            removeAuthToken();
-            resolve(null);
-            return;
-          }
+      // Fetch user attributes to get email
+      const attributes = await fetchUserAttributes();
+      const email = attributes.email || user.username || "";
 
-          cognitoUser.getUserAttributes((err: any, attributes: any) => {
-            if (err) {
-              resolve(null);
-              return;
-            }
+      console.log("getCurrentUser: Success, email:", email || "not found");
 
-            const emailAttr = attributes?.find((attr: any) => attr.Name === "email");
-            resolve({
-              email: emailAttr?.Value || "",
-            });
-          });
-        });
-      });
-    } catch (error) {
+      if (!email) {
+        console.error("getCurrentUser: No email found in user");
+        return null;
+      }
+
+      return { email };
+    } catch (error: any) {
+      console.error("getCurrentUser: Exception:", error?.message || error);
       return null;
     }
   },
@@ -348,7 +393,9 @@ export const blogApi = {
     });
   },
 
-  create: async (blog: Partial<BlogPost> & { content: string }): Promise<ApiResponse<BlogPost>> => {
+  create: async (
+    blog: Partial<BlogPost> & { content: string }
+  ): Promise<ApiResponse<BlogPost>> => {
     return apiRequest<BlogPost>("/api/admin/blogs", {
       method: "POST",
       body: JSON.stringify(blog),
@@ -395,10 +442,13 @@ export const mediaApi = {
     type: "image" | "video",
     size?: number
   ): Promise<ApiResponse<{ uploadUrl: string; media: MediaAsset }>> => {
-    return apiRequest<{ uploadUrl: string; media: MediaAsset }>("/api/admin/media", {
-      method: "POST",
-      body: JSON.stringify({ filename, type, size }),
-    });
+    return apiRequest<{ uploadUrl: string; media: MediaAsset }>(
+      "/api/admin/media",
+      {
+        method: "POST",
+        body: JSON.stringify({ filename, type, size }),
+      }
+    );
   },
 
   delete: async (id: string): Promise<ApiResponse<{ message: string }>> => {
@@ -410,4 +460,3 @@ export const mediaApi = {
 
 // Explicit type exports for Vite compatibility
 export type { BlogPost, MediaAsset };
-
