@@ -5,7 +5,7 @@ import Link from "@tiptap/extension-link";
 import Image from "@tiptap/extension-image";
 import { EditorContent } from "@tiptap/react";
 import { MetadataPanel } from "./MetadataPanel";
-import { MDXPreview } from "./MDXPreview";
+import { BlogPreview } from "./BlogPreview";
 import { Button } from "../ui/button";
 import type { BlogPost } from "../../lib/admin-api";
 import { blogApi } from "../../lib/admin-api";
@@ -24,13 +24,18 @@ import {
   Heading3,
   List,
   ListOrdered,
-  Quote,
+  Quote as QuoteIcon,
   Image as ImageIcon,
   Link as LinkIcon,
   ArrowLeft,
   Save,
+  Lightbulb,
+  AlertTriangle,
+  MessageSquare,
 } from "lucide-react";
 import { Separator } from "../ui/separator";
+import { Quote } from "./extensions/Quote";
+import { Callout, type CalloutType } from "./extensions/Callout";
 
 interface Props {
   mode: "new" | "edit";
@@ -72,6 +77,8 @@ export function BlogEditor({ mode, blogId, onBack, onSave }: Props) {
           class: "max-w-full rounded-lg",
         },
       }),
+      Quote,
+      Callout,
     ],
     content: "",
     onUpdate: ({ editor }) => {
@@ -256,7 +263,50 @@ export function BlogEditor({ mode, blogId, onBack, onSave }: Props) {
                         size="sm"
                         onClick={() => editor.chain().focus().toggleBlockquote().run()}
                       >
-                        <Quote className="size-4" />
+                        <QuoteIcon className="size-4" />
+                      </Button>
+                      <Separator orientation="vertical" className="h-6" />
+                      <Button
+                        variant={editor.isActive("quote") ? "default" : "ghost"}
+                        size="sm"
+                        onClick={() => {
+                          const author = window.prompt("Author name (optional):");
+                          editor.chain().focus().toggleQuote({ author: author || undefined }).run();
+                        }}
+                        title="Insert Quote Component"
+                      >
+                        <QuoteIcon className="size-4" />
+                        <span className="ml-1 text-xs">Q</span>
+                      </Button>
+                      <Button
+                        variant={editor.isActive("callout", { type: "insight" }) ? "default" : "ghost"}
+                        size="sm"
+                        onClick={() => {
+                          editor.chain().focus().toggleCallout({ type: "insight" }).run();
+                        }}
+                        title="Insert Insight Callout"
+                      >
+                        <Lightbulb className="size-4" />
+                      </Button>
+                      <Button
+                        variant={editor.isActive("callout", { type: "warning" }) ? "default" : "ghost"}
+                        size="sm"
+                        onClick={() => {
+                          editor.chain().focus().toggleCallout({ type: "warning" }).run();
+                        }}
+                        title="Insert Warning Callout"
+                      >
+                        <AlertTriangle className="size-4" />
+                      </Button>
+                      <Button
+                        variant={editor.isActive("callout", { type: "tip" }) ? "default" : "ghost"}
+                        size="sm"
+                        onClick={() => {
+                          editor.chain().focus().toggleCallout({ type: "tip" }).run();
+                        }}
+                        title="Insert Tip Callout"
+                      >
+                        <MessageSquare className="size-4" />
                       </Button>
                       <Separator orientation="vertical" className="h-6" />
                       <Button variant="ghost" size="sm" onClick={addLink}>
@@ -285,13 +335,11 @@ export function BlogEditor({ mode, blogId, onBack, onSave }: Props) {
           <ResizablePanel defaultSize={35} minSize={25}>
             <Card className="h-full flex flex-col rounded-none border-0 border-r">
               <CardHeader className="border-b">
-                <CardTitle className="text-base">Preview</CardTitle>
+                <CardTitle className="text-base">Live Preview</CardTitle>
               </CardHeader>
               <CardContent className="flex-1 overflow-hidden p-0">
                 <ScrollArea className="h-full">
-                  <div className="p-6">
-                    <MDXPreview content={content} frontmatter={metadata} />
-                  </div>
+                  <BlogPreview content={content} frontmatter={metadata} />
                 </ScrollArea>
               </CardContent>
             </Card>

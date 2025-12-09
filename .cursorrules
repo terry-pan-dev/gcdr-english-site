@@ -10,6 +10,46 @@
 
 ---
 
+## 🚨 CRITICAL: NEVER Deploy to Production
+
+**AI agents must NEVER deploy to production under any circumstances.**
+
+**FORBIDDEN Commands:**
+```bash
+# ❌ NEVER run these commands
+pnpm sst deploy --stage production
+pnpm run sst:deploy:prod
+sst deploy --stage production
+pnpm run deploy:prod
+
+# ❌ NEVER run any command with these flags
+--stage production
+--stage prod
+```
+
+**Allowed Commands:**
+```bash
+# ✅ Development deployment only (with user approval)
+pnpm sst deploy
+pnpm run deploy
+sst deploy
+
+# ✅ Development server
+pnpm run dev
+pnpm run sst:dev
+```
+
+**Rules:**
+1. **NEVER** run deployment commands without explicit user approval
+2. **NEVER** deploy to production stage under any circumstances
+3. **ALWAYS** cancel and warn the user if they request production deployment
+4. **ONLY** suggest deployment commands - let the user run them manually
+5. If deployment is needed, inform the user what command to run and why
+
+**This is a live production website serving a Buddhist temple community. Production deployments must be done manually by authorized personnel only.**
+
+---
+
 ## CRITICAL: Package Manager
 
 **This project exclusively uses pnpm. Never use npm or yarn.**

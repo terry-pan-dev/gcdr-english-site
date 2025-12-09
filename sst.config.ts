@@ -123,13 +123,15 @@ export default $config({
         url: "http://localhost:4321",
       },
       buildCommand: "pnpm run build",
-      link: [apiFn], // Link AdminAPI resource so Resource.AdminAPI is available
+      link: [apiFn, blogPostsTable, blogStorage], // Link resources for blog access
       environment: {
         PUBLIC_API_BASE_URL: apiFn.url,
         PUBLIC_COGNITO_USER_POOL_ID: userPool.id,
         PUBLIC_COGNITO_USER_POOL_CLIENT_ID: userPoolClient.id,
         PUBLIC_COGNITO_IDENTITY_POOL_ID: identityPool.id,
         PUBLIC_AWS_REGION: "ap-southeast-2",
+        BLOG_POSTS_TABLE: blogPostsTable.name,
+        BLOG_STORAGE_BUCKET: blogStorage.name,
       },
     });
 
