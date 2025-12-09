@@ -2,21 +2,29 @@
 import AdminLayout from "../../layouts/AdminLayout.astro";
 import { LoginForm } from "../../components/admin/LoginForm";
 
+// The LoginForm component handles authentication client-side using Cognito
+
 // Get API base URL and Cognito config from environment variables
 // SST will inject this at build/deploy time
 const apiBaseUrl = import.meta.env.PUBLIC_API_BASE_URL || "";
 const cognitoUserPoolId = import.meta.env.PUBLIC_COGNITO_USER_POOL_ID || "";
 const cognitoClientId = import.meta.env.PUBLIC_COGNITO_USER_POOL_CLIENT_ID || "";
+const cognitoIdentityPoolId = import.meta.env.PUBLIC_COGNITO_IDENTITY_POOL_ID || "";
 const awsRegion = import.meta.env.PUBLIC_AWS_REGION || "ap-southeast-2";
+
+// Get redirect parameter if user was redirected here from a protected route
+const redirectTo = Astro.url.searchParams.get("redirect") || "/admin/dashboard";
 ---
 
 <AdminLayout title="Admin Login - GCDR">
-  <script is:inline define:vars={{ apiBaseUrl, cognitoUserPoolId, cognitoClientId, awsRegion }}>
+  <script is:inline define:vars={{ apiBaseUrl, cognitoUserPoolId, cognitoClientId, cognitoIdentityPoolId, awsRegion, redirectTo }}>
     // Inject API base URL and Cognito config into global scope for client-side use
     window.__API_BASE_URL__ = apiBaseUrl;
     window.__COGNITO_USER_POOL_ID__ = cognitoUserPoolId;
     window.__COGNITO_USER_POOL_CLIENT_ID__ = cognitoClientId;
+    window.__COGNITO_IDENTITY_POOL_ID__ = cognitoIdentityPoolId;
     window.__AWS_REGION__ = awsRegion;
+    window.__REDIRECT_TO__ = redirectTo;
   </script>
   <LoginForm client:load />
 </AdminLayout>

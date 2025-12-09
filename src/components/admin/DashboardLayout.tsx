@@ -31,30 +31,41 @@ export function DashboardLayout() {
   const [blogs, setBlogs] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    // Check authentication
-    if (!authApi.isAuthenticated()) {
-      window.location.href = "/admin/login";
-      return;
-    }
-
-    // Load blogs
-    loadBlogs();
-  }, []);
-
   const loadBlogs = async () => {
     setLoading(true);
     try {
+      console.log("DashboardLayout: Loading blogs...");
       const result = await blogApi.list();
-      if (result.data) {
-        setBlogs(result.data.blogs);
+      console.log("DashboardLayout: Blog API result:", result);
+
+      if (result.error) {
+        console.error("DashboardLayout: Error loading blogs:", result.error);
+        // Still set blogs to empty array and stop loading
+        setBlogs([]);
+      } else if (result.data) {
+        console.log(
+          "DashboardLayout: Blogs loaded:",
+          result.data.blogs?.length || 0,
+          "blogs"
+        );
+        setBlogs(result.data.blogs || []);
+      } else {
+        console.warn("DashboardLayout: No data or error in result");
+        setBlogs([]);
       }
-    } catch (error) {
-      console.error("Error loading blogs:", error);
+    } catch (error: any) {
+      console.error("DashboardLayout: Exception loading blogs:", error);
+      setBlogs([]);
     } finally {
+      console.log("DashboardLayout: Setting loading to false");
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    // Load blogs on mount - authentication is already verified by AdminPageWrapper
+    loadBlogs();
+  }, []);
 
   const handleNewBlog = () => {
     setEditorMode("new");
@@ -73,16 +84,77 @@ export function DashboardLayout() {
     loadBlogs();
   };
 
-  const handleLogout = () => {
-    authApi.logout();
+  const handleLogout = async () => {
+    await authApi.logout();
     window.location.href = "/admin/login";
   };
 
+  // Show loading state only for blogs view
+  // But still render the sidebar so users can navigate
   if (loading && currentView === "blogs") {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-background">
-        <div className="text-muted-foreground">Loading...</div>
-      </div>
+      <SidebarProvider>
+        <div className="min-h-screen flex w-full">
+          <Sidebar>
+            <SidebarHeader className="border-b">
+              <div className="flex items-center gap-2 px-4 py-3">
+                <h2 className="text-lg font-semibold">Admin Dashboard</h2>
+              </div>
+            </SidebarHeader>
+            <SidebarContent>
+              <SidebarGroup>
+                <SidebarGroupContent>
+                  <SidebarMenu>
+                    <SidebarMenuItem>
+                      <SidebarMenuButton
+                        onClick={handleNewBlog}
+                        tooltip="Create New Blog Post"
+                      >
+                        <Plus className="size-4" />
+                        <span>Create New Blog Post</span>
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                    <SidebarMenuItem>
+                      <SidebarMenuButton
+                        onClick={() => setCurrentView("blogs")}
+                        isActive={true}
+                        tooltip="View All Blogs"
+                      >
+                        <FileText className="size-4" />
+                        <span>Blog Posts</span>
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                    <SidebarMenuItem>
+                      <SidebarMenuButton
+                        onClick={() => setCurrentView("media")}
+                        tooltip="Media Library"
+                      >
+                        <Image className="size-4" />
+                        <span>Media</span>
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                  </SidebarMenu>
+                </SidebarGroupContent>
+              </SidebarGroup>
+            </SidebarContent>
+            <SidebarFooter className="border-t">
+              <SidebarMenu>
+                <SidebarMenuItem>
+                  <SidebarMenuButton onClick={handleLogout} tooltip="Logout">
+                    <LogOut className="size-4" />
+                    <span>Logout</span>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              </SidebarMenu>
+            </SidebarFooter>
+          </Sidebar>
+          <SidebarInset className="flex flex-col">
+            <div className="flex-1 flex items-center justify-center">
+              <div className="text-muted-foreground">Loading blogs...</div>
+            </div>
+          </SidebarInset>
+        </div>
+      </SidebarProvider>
     );
   }
 
@@ -157,7 +229,11 @@ export function DashboardLayout() {
                 </div>
               </div>
               <div className="flex-1 overflow-auto p-6">
-                <BlogList blogs={blogs} onEdit={handleEditBlog} onDelete={loadBlogs} />
+                <BlogList
+                  blogs={blogs}
+                  onEdit={handleEditBlog}
+                  onDelete={loadBlogs}
+                />
               </div>
             </>
           )}
@@ -177,4 +253,3 @@ export function DashboardLayout() {
     </SidebarProvider>
   );
 }
-

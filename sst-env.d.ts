@@ -10,6 +10,15 @@ declare module "sst" {
       "type": "sst.aws.Function"
       "url": string
     }
+    "AdminClient": {
+      "id": string
+      "secret": string
+      "type": "sst.aws.CognitoUserPoolClient"
+    }
+    "AdminIdentityPool": {
+      "id": string
+      "type": "sst.aws.CognitoIdentityPool"
+    }
     "AdminUserPool": {
       "id": string
       "type": "sst.aws.CognitoUserPool"

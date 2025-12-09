@@ -1,22 +1,57 @@
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
-import { DynamoDBDocumentClient, ScanCommand, GetCommand, PutCommand, DeleteCommand } from "@aws-sdk/lib-dynamodb";
-import { S3Client, GetObjectCommand, PutObjectCommand, DeleteObjectCommand } from "@aws-sdk/client-s3";
+import {
+  DynamoDBDocumentClient,
+  ScanCommand,
+  GetCommand,
+  PutCommand,
+  DeleteCommand,
+} from "@aws-sdk/lib-dynamodb";
+import {
+  S3Client,
+  GetObjectCommand,
+  PutObjectCommand,
+  DeleteObjectCommand,
+} from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
-import { CognitoIdentityProviderClient, GetUserCommand } from "@aws-sdk/client-cognito-identity-provider";
+import { CognitoJwtVerifier } from "aws-jwt-verify";
 import { v4 as uuidv4 } from "uuid";
 
 const dynamoClient = new DynamoDBClient({});
 const docClient = DynamoDBDocumentClient.from(dynamoClient);
 const s3Client = new S3Client({});
-const cognitoClient = new CognitoIdentityProviderClient({});
 
 const COGNITO_USER_POOL_ID = process.env.COGNITO_USER_POOL_ID;
+const COGNITO_USER_POOL_CLIENT_ID = process.env.COGNITO_USER_POOL_CLIENT_ID;
+
+// Create JWT verifier (cached)
+let jwtVerifier: ReturnType<typeof CognitoJwtVerifier.create> | null = null;
+
+const getJwtVerifier = () => {
+  if (jwtVerifier) {
+    return jwtVerifier;
+  }
+
+  if (!COGNITO_USER_POOL_ID) {
+    throw new Error("COGNITO_USER_POOL_ID environment variable is not set");
+  }
+
+  jwtVerifier = CognitoJwtVerifier.create({
+    userPoolId: COGNITO_USER_POOL_ID,
+    tokenUse: "access",
+    ...(COGNITO_USER_POOL_CLIENT_ID && { clientId: COGNITO_USER_POOL_CLIENT_ID }),
+  });
+
+  return jwtVerifier;
+};
 
 // Blog handlers
 async function handleBlogList() {
   const tableName = process.env.BLOG_POSTS_TABLE;
   if (!tableName) {
-    return { statusCode: 500, body: JSON.stringify({ error: "Table name not configured" }) };
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ error: "Table name not configured" }),
+    };
   }
 
   const command = new ScanCommand({ TableName: tableName });
@@ -30,24 +65,33 @@ async function handleBlogList() {
 async function handleBlogGet(id: string) {
   const tableName = process.env.BLOG_POSTS_TABLE;
   const bucketName = process.env.BLOG_STORAGE_BUCKET;
-  
+
   if (!tableName || !bucketName) {
-    return { statusCode: 500, body: JSON.stringify({ error: "Configuration missing" }) };
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ error: "Configuration missing" }),
+    };
   }
 
   const command = new GetCommand({ TableName: tableName, Key: { id } });
   const result = await docClient.send(command);
-  
+
   if (!result.Item) {
-    return { statusCode: 404, body: JSON.stringify({ error: "Blog not found" }) };
+    return {
+      statusCode: 404,
+      body: JSON.stringify({ error: "Blog not found" }),
+    };
   }
 
   // Get content from S3
   if (result.Item.s3Key) {
     try {
-      const s3Command = new GetObjectCommand({ Bucket: bucketName, Key: result.Item.s3Key });
+      const s3Command = new GetObjectCommand({
+        Bucket: bucketName,
+        Key: result.Item.s3Key,
+      });
       const s3Result = await s3Client.send(s3Command);
-      result.Item.content = await s3Result.Body?.transformToString() || "";
+      result.Item.content = (await s3Result.Body?.transformToString()) || "";
     } catch (s3Error) {
       result.Item.content = "";
     }
@@ -59,15 +103,35 @@ async function handleBlogGet(id: string) {
 async function handleBlogCreate(body: any) {
   const tableName = process.env.BLOG_POSTS_TABLE;
   const bucketName = process.env.BLOG_STORAGE_BUCKET;
-  
+
   if (!tableName || !bucketName) {
-    return { statusCode: 500, body: JSON.stringify({ error: "Configuration missing" }) };
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ error: "Configuration missing" }),
+    };
   }
 
-  const { title, subtitle, author, date, category, excerpt, image, featured, pinned, tags, publish, seo, content } = body;
+  const {
+    title,
+    subtitle,
+    author,
+    date,
+    category,
+    excerpt,
+    image,
+    featured,
+    pinned,
+    tags,
+    publish,
+    seo,
+    content,
+  } = body;
 
   if (!title || !author || !category || !excerpt || !content) {
-    return { statusCode: 400, body: JSON.stringify({ error: "Missing required fields" }) };
+    return {
+      statusCode: 400,
+      body: JSON.stringify({ error: "Missing required fields" }),
+    };
   }
 
   const blogId = uuidv4();
@@ -75,12 +139,14 @@ async function handleBlogCreate(body: any) {
   const now = new Date().toISOString();
 
   // Save to S3
-  await s3Client.send(new PutObjectCommand({
-    Bucket: bucketName,
-    Key: s3Key,
-    Body: content,
-    ContentType: "text/markdown",
-  }));
+  await s3Client.send(
+    new PutObjectCommand({
+      Bucket: bucketName,
+      Key: s3Key,
+      Body: content,
+      ContentType: "text/markdown",
+    })
+  );
 
   // Save to DynamoDB
   const blogItem = {
@@ -102,7 +168,9 @@ async function handleBlogCreate(body: any) {
     updatedAt: now,
   };
 
-  await docClient.send(new PutCommand({ TableName: tableName, Item: blogItem }));
+  await docClient.send(
+    new PutCommand({ TableName: tableName, Item: blogItem })
+  );
 
   return { statusCode: 201, body: JSON.stringify(blogItem) };
 }
@@ -110,28 +178,36 @@ async function handleBlogCreate(body: any) {
 async function handleBlogUpdate(id: string, body: any) {
   const tableName = process.env.BLOG_POSTS_TABLE;
   const bucketName = process.env.BLOG_STORAGE_BUCKET;
-  
+
   if (!tableName || !bucketName) {
-    return { statusCode: 500, body: JSON.stringify({ error: "Configuration missing" }) };
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ error: "Configuration missing" }),
+    };
   }
 
   // Get existing
   const getCommand = new GetCommand({ TableName: tableName, Key: { id } });
   const existing = await docClient.send(getCommand);
-  
+
   if (!existing.Item) {
-    return { statusCode: 404, body: JSON.stringify({ error: "Blog not found" }) };
+    return {
+      statusCode: 404,
+      body: JSON.stringify({ error: "Blog not found" }),
+    };
   }
 
   // Update S3 if content provided
   const s3Key = existing.Item.s3Key || `blogs/${id}.mdx`;
   if (body.content !== undefined) {
-    await s3Client.send(new PutObjectCommand({
-      Bucket: bucketName,
-      Key: s3Key,
-      Body: body.content,
-      ContentType: "text/markdown",
-    }));
+    await s3Client.send(
+      new PutObjectCommand({
+        Bucket: bucketName,
+        Key: s3Key,
+        Body: body.content,
+        ContentType: "text/markdown",
+      })
+    );
   }
 
   // Update DynamoDB
@@ -153,7 +229,9 @@ async function handleBlogUpdate(id: string, body: any) {
     updatedAt: new Date().toISOString(),
   };
 
-  await docClient.send(new PutCommand({ TableName: tableName, Item: updatedItem }));
+  await docClient.send(
+    new PutCommand({ TableName: tableName, Item: updatedItem })
+  );
 
   return { statusCode: 200, body: JSON.stringify(updatedItem) };
 }
@@ -161,69 +239,104 @@ async function handleBlogUpdate(id: string, body: any) {
 async function handleBlogDelete(id: string) {
   const tableName = process.env.BLOG_POSTS_TABLE;
   const bucketName = process.env.BLOG_STORAGE_BUCKET;
-  
+
   if (!tableName || !bucketName) {
-    return { statusCode: 500, body: JSON.stringify({ error: "Configuration missing" }) };
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ error: "Configuration missing" }),
+    };
   }
 
   // Get to find S3 key
   const getCommand = new GetCommand({ TableName: tableName, Key: { id } });
   const existing = await docClient.send(getCommand);
-  
+
   if (!existing.Item) {
-    return { statusCode: 404, body: JSON.stringify({ error: "Blog not found" }) };
+    return {
+      statusCode: 404,
+      body: JSON.stringify({ error: "Blog not found" }),
+    };
   }
 
   // Delete from S3
   if (existing.Item.s3Key) {
     try {
-      await s3Client.send(new DeleteObjectCommand({ Bucket: bucketName, Key: existing.Item.s3Key }));
+      await s3Client.send(
+        new DeleteObjectCommand({
+          Bucket: bucketName,
+          Key: existing.Item.s3Key,
+        })
+      );
     } catch (s3Error) {
       // Continue even if S3 delete fails
     }
   }
 
   // Delete from DynamoDB
-  await docClient.send(new DeleteCommand({ TableName: tableName, Key: { id } }));
+  await docClient.send(
+    new DeleteCommand({ TableName: tableName, Key: { id } })
+  );
 
-  return { statusCode: 200, body: JSON.stringify({ message: "Blog deleted successfully" }) };
+  return {
+    statusCode: 200,
+    body: JSON.stringify({ message: "Blog deleted successfully" }),
+  };
 }
 
 // Media handlers
 async function handleMediaList() {
   const tableName = process.env.MEDIA_ASSETS_TABLE;
   if (!tableName) {
-    return { statusCode: 500, body: JSON.stringify({ error: "Table name not configured" }) };
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ error: "Table name not configured" }),
+    };
   }
 
   const command = new ScanCommand({ TableName: tableName });
   const result = await docClient.send(command);
-  return { statusCode: 200, body: JSON.stringify({ media: result.Items || [] }) };
+  return {
+    statusCode: 200,
+    body: JSON.stringify({ media: result.Items || [] }),
+  };
 }
 
 async function handleMediaUpload(body: any) {
   const tableName = process.env.MEDIA_ASSETS_TABLE;
   const bucketName = process.env.MEDIA_STORAGE_BUCKET;
-  
+
   if (!tableName || !bucketName) {
-    return { statusCode: 500, body: JSON.stringify({ error: "Configuration missing" }) };
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ error: "Configuration missing" }),
+    };
   }
 
   const { filename, type, size } = body;
   if (!filename || !type) {
-    return { statusCode: 400, body: JSON.stringify({ error: "Filename and type are required" }) };
+    return {
+      statusCode: 400,
+      body: JSON.stringify({ error: "Filename and type are required" }),
+    };
   }
 
   const mediaId = uuidv4();
   const fileExtension = filename.split(".").pop() || "";
   const s3Key = `media/${type}/${mediaId}-${filename}`;
-  const contentType = type === "image" 
-    ? `image/${fileExtension === "jpg" ? "jpeg" : fileExtension}`
-    : `video/${fileExtension}`;
+  const contentType =
+    type === "image"
+      ? `image/${fileExtension === "jpg" ? "jpeg" : fileExtension}`
+      : `video/${fileExtension}`;
 
   // Generate presigned URL
-  const putCommand = new PutObjectCommand({ Bucket: bucketName, Key: s3Key, ContentType: contentType });
-  const uploadUrl = await getSignedUrl(s3Client, putCommand, { expiresIn: 3600 });
+  const putCommand = new PutObjectCommand({
+    Bucket: bucketName,
+    Key: s3Key,
+    ContentType: contentType,
+  });
+  const uploadUrl = await getSignedUrl(s3Client, putCommand, {
+    expiresIn: 3600,
+  });
 
   const region = process.env.AWS_REGION || "ap-southeast-2";
   const publicUrl = `https://${bucketName}.s3.${region}.amazonaws.com/${s3Key}`;
@@ -239,64 +352,100 @@ async function handleMediaUpload(body: any) {
     uploadedAt: new Date().toISOString(),
   };
 
-  await docClient.send(new PutCommand({ TableName: tableName, Item: mediaItem }));
+  await docClient.send(
+    new PutCommand({ TableName: tableName, Item: mediaItem })
+  );
 
-  return { statusCode: 200, body: JSON.stringify({ uploadUrl, media: mediaItem }) };
+  return {
+    statusCode: 200,
+    body: JSON.stringify({ uploadUrl, media: mediaItem }),
+  };
 }
 
 async function handleMediaDelete(id: string) {
   const tableName = process.env.MEDIA_ASSETS_TABLE;
   const bucketName = process.env.MEDIA_STORAGE_BUCKET;
-  
+
   if (!tableName || !bucketName) {
-    return { statusCode: 500, body: JSON.stringify({ error: "Configuration missing" }) };
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ error: "Configuration missing" }),
+    };
   }
 
   // Get to find S3 key
   const getCommand = new GetCommand({ TableName: tableName, Key: { id } });
   const existing = await docClient.send(getCommand);
-  
+
   if (!existing.Item) {
-    return { statusCode: 404, body: JSON.stringify({ error: "Media not found" }) };
+    return {
+      statusCode: 404,
+      body: JSON.stringify({ error: "Media not found" }),
+    };
   }
 
   // Delete from S3
   if (existing.Item.s3Key) {
     try {
-      await s3Client.send(new DeleteObjectCommand({ Bucket: bucketName, Key: existing.Item.s3Key }));
+      await s3Client.send(
+        new DeleteObjectCommand({
+          Bucket: bucketName,
+          Key: existing.Item.s3Key,
+        })
+      );
     } catch (s3Error) {
       // Continue even if S3 delete fails
     }
   }
 
   // Delete from DynamoDB
-  await docClient.send(new DeleteCommand({ TableName: tableName, Key: { id } }));
+  await docClient.send(
+    new DeleteCommand({ TableName: tableName, Key: { id } })
+  );
 
-  return { statusCode: 200, body: JSON.stringify({ message: "Media deleted successfully" }) };
+  return {
+    statusCode: 200,
+    body: JSON.stringify({ message: "Media deleted successfully" }),
+  };
 }
 
-// Helper function to verify Cognito access token
-async function verifyCognitoToken(accessToken: string): Promise<{ email: string; sub: string } | null> {
+// Helper function to verify Cognito access token using JWT verification
+// This is faster and more efficient than GetUserCommand (no API call needed)
+async function verifyCognitoToken(
+  accessToken: string
+): Promise<{ email: string; sub: string } | null> {
   try {
-    const command = new GetUserCommand({ AccessToken: accessToken });
-    const response = await cognitoClient.send(command);
+    const verifier = getJwtVerifier();
     
-    if (response.Username) {
-      // Extract email from attributes
-      const emailAttr = response.UserAttributes?.find(attr => attr.Name === "email");
-      const email = emailAttr?.Value || response.Username;
-      return { email, sub: response.Username };
+    // Verify token locally (checks signature, expiration, issuer, audience)
+    const payload = await verifier.verify(accessToken);
+
+    // Extract user information from JWT payload
+    const email = (payload.email as string) || (payload.username as string) || "";
+    const sub = payload.sub as string;
+
+    if (!sub) {
+      return null;
     }
-    return null;
-  } catch (error) {
-    console.error("Token verification error:", error);
+
+    return { email, sub };
+  } catch (error: any) {
+    // Handle specific error types
+    if (error.name === "TokenExpiredError") {
+      console.error("Token verification error: Token has expired");
+    } else if (error.name === "TokenInvalidError") {
+      console.error("Token verification error: Token is invalid");
+    } else {
+      console.error("Token verification error:", error.message || error);
+    }
     return null;
   }
 }
 
 // Helper function to extract token from Authorization header
 function extractToken(event: any): string | null {
-  const authHeader = event.headers?.authorization || event.headers?.Authorization;
+  const authHeader =
+    event.headers?.authorization || event.headers?.Authorization;
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
     return null;
   }
@@ -310,30 +459,27 @@ async function handleAuthLogin(body: any) {
   // But we keep it for backward compatibility or can remove it
   return {
     statusCode: 200,
-    body: JSON.stringify({ message: "Use Cognito authentication directly from client" }),
+    body: JSON.stringify({
+      message: "Use Cognito authentication directly from client",
+    }),
   };
 }
 
 // Main handler
 export async function handler(event: any) {
-  const method = event.requestContext?.http?.method || event.httpMethod || "GET";
-  const rawPath = event.requestContext?.http?.path || event.rawPath || event.path || "/";
-  const body = event.body ? (typeof event.body === "string" ? JSON.parse(event.body) : event.body) : {};
+  const method =
+    event.requestContext?.http?.method || event.httpMethod || "GET";
+  const rawPath =
+    event.requestContext?.http?.path || event.rawPath || event.path || "/";
+  const body = event.body
+    ? typeof event.body === "string"
+      ? JSON.parse(event.body)
+      : event.body
+    : {};
 
-  // CORS is handled at the Lambda Function URL level
-  // Only set Content-Type header here
-  const responseHeaders: Record<string, string> = {
-    "Content-Type": "application/json",
-  };
-
-  // Handle OPTIONS - Function URL will handle CORS
-  if (method === "OPTIONS") {
-    return { 
-      statusCode: 200, 
-      headers: responseHeaders, 
-      body: "" 
-    };
-  }
+  // CORS is handled automatically by Lambda Function URL (configured in sst.config.ts)
+  // Do not add CORS headers manually as it causes duplicate headers
+  // OPTIONS preflight requests are also handled automatically by Function URL
 
   try {
     // Check authentication for protected routes (all routes except login)
@@ -342,7 +488,9 @@ export async function handler(event: any) {
       if (!token) {
         return {
           statusCode: 401,
-          headers: responseHeaders,
+          headers: {
+            "Content-Type": "application/json",
+          },
           body: JSON.stringify({ error: "Unauthorized: No token provided" }),
         };
       }
@@ -351,7 +499,9 @@ export async function handler(event: any) {
       if (!user) {
         return {
           statusCode: 401,
-          headers: responseHeaders,
+          headers: {
+            "Content-Type": "application/json",
+          },
           body: JSON.stringify({ error: "Unauthorized: Invalid token" }),
         };
       }
@@ -363,7 +513,8 @@ export async function handler(event: any) {
     // Path format: /api/admin/blogs/{id} or /api/admin/media/{id}
     const pathParts = rawPath.split("/").filter(Boolean);
     const id = pathParts[pathParts.length - 1];
-    const isIdRoute = id && id !== "blogs" && id !== "media" && id !== "admin" && id !== "api";
+    const isIdRoute =
+      id && id !== "blogs" && id !== "media" && id !== "admin" && id !== "api";
 
     // Route based on path
     if (rawPath.startsWith("/api/admin/auth/login") && method === "POST") {
@@ -380,7 +531,10 @@ export async function handler(event: any) {
       } else if (method === "DELETE" && isIdRoute) {
         result = await handleBlogDelete(id);
       } else {
-        result = { statusCode: 405, body: JSON.stringify({ error: "Method not allowed" }) };
+        result = {
+          statusCode: 405,
+          body: JSON.stringify({ error: "Method not allowed" }),
+        };
       }
     } else if (rawPath.startsWith("/api/admin/media")) {
       if (method === "GET") {
@@ -390,24 +544,33 @@ export async function handler(event: any) {
       } else if (method === "DELETE" && isIdRoute) {
         result = await handleMediaDelete(id);
       } else {
-        result = { statusCode: 405, body: JSON.stringify({ error: "Method not allowed" }) };
+        result = {
+          statusCode: 405,
+          body: JSON.stringify({ error: "Method not allowed" }),
+        };
       }
     } else {
-      result = { statusCode: 404, body: JSON.stringify({ error: "Not found" }) };
+      result = {
+        statusCode: 404,
+        body: JSON.stringify({ error: "Not found" }),
+      };
     }
 
     return {
       statusCode: result.statusCode,
-      headers: responseHeaders,
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: result.body,
     };
   } catch (error: any) {
     console.error("Error in API handler:", error);
     return {
       statusCode: 500,
-      headers: responseHeaders,
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify({ error: error.message || "Internal server error" }),
     };
   }
 }
-

@@ -112,9 +112,9 @@ export function EighteenVows() {
                 whileHover={{ scale: 1.1, rotate: 5 }}
                 transition={{ type: "spring", stiffness: 300 }}
               >
-                <span className="flex items-center justify-center w-10 h-10 rounded-full border-2 border-accent-gold text-accent-gold font-serif text-xl leading-none bg-accent-gold/10">
+                <div className="flex items-center justify-center w-10 h-10 rounded-full border-2 border-accent-gold text-accent-gold font-serif text-xl bg-accent-gold/10">
                   {index + 1}
-                </span>
+                </div>
               </motion.div>
               <p className="text-lg text-stone-300 leading-relaxed pt-1 flex-1">
                 {vow}
