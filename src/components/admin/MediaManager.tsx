@@ -2,7 +2,13 @@ import { useState, useEffect, useRef } from "react";
 import type { MediaAsset } from "../../lib/admin-api";
 import { mediaApi } from "../../lib/admin-api";
 import { Button } from "../ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "../ui/card";
 import { Upload, Copy, Trash2, Image as ImageIcon, Video } from "lucide-react";
 import { Badge } from "../ui/badge";
 import { ScrollArea } from "../ui/scroll-area";
@@ -11,6 +17,7 @@ export function MediaManager() {
   const [media, setMedia] = useState<MediaAsset[]>([]);
   const [loading, setLoading] = useState(true);
   const [uploading, setUploading] = useState(false);
+  const [isDragging, setIsDragging] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -34,6 +41,28 @@ export function MediaManager() {
   const handleFileSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (!files || files.length === 0) return;
+
+    // Validate file sizes (max 1MB)
+    const MAX_FILE_SIZE = 1024 * 1024; // 1MB in bytes
+    const oversizedFiles: string[] = [];
+
+    for (const file of Array.from(files)) {
+      if (file.size > MAX_FILE_SIZE) {
+        oversizedFiles.push(file.name);
+      }
+    }
+
+    if (oversizedFiles.length > 0) {
+      alert(
+        `The following files exceed the 1MB size limit:\n${oversizedFiles.join(
+          "\n"
+        )}\n\nPlease select smaller files.`
+      );
+      if (fileInputRef.current) {
+        fileInputRef.current.value = "";
+      }
+      return;
+    }
 
     setUploading(true);
     try {
@@ -89,14 +118,41 @@ export function MediaManager() {
   const handleDragOver = (e: React.DragEvent) => {
     e.preventDefault();
     e.stopPropagation();
+    setIsDragging(true);
+  };
+
+  const handleDragLeave = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(false);
   };
 
   const handleDrop = async (e: React.DragEvent) => {
     e.preventDefault();
     e.stopPropagation();
+    setIsDragging(false);
 
     const files = e.dataTransfer.files;
     if (files.length === 0) return;
+
+    // Validate file sizes (max 1MB)
+    const MAX_FILE_SIZE = 1024 * 1024; // 1MB in bytes
+    const oversizedFiles: string[] = [];
+
+    for (const file of Array.from(files)) {
+      if (file.size > MAX_FILE_SIZE) {
+        oversizedFiles.push(file.name);
+      }
+    }
+
+    if (oversizedFiles.length > 0) {
+      alert(
+        `The following files exceed the 1MB size limit:\n${oversizedFiles.join(
+          "\n"
+        )}\n\nPlease select smaller files.`
+      );
+      return;
+    }
 
     setUploading(true);
     try {
@@ -163,10 +219,28 @@ export function MediaManager() {
       {/* Media Grid */}
       <ScrollArea className="flex-1">
         <div
-          className="p-6"
+          className={`p-6 relative transition-all ${
+            isDragging
+              ? "bg-accent-gold/10 border-2 border-dashed border-accent-gold rounded-lg"
+              : ""
+          }`}
           onDragOver={handleDragOver}
+          onDragLeave={handleDragLeave}
           onDrop={handleDrop}
         >
+          {isDragging && (
+            <div className="absolute inset-0 flex items-center justify-center z-10 bg-background/80 backdrop-blur-sm rounded-lg">
+              <div className="text-center space-y-2">
+                <Upload className="mx-auto size-12 text-accent-gold" />
+                <p className="text-lg font-semibold">
+                  Drop files here to upload
+                </p>
+                <p className="text-sm text-muted-foreground">
+                  Maximum file size: 1MB
+                </p>
+              </div>
+            </div>
+          )}
           {loading ? (
             <div className="flex items-center justify-center h-full min-h-[400px]">
               <div className="text-muted-foreground">Loading media...</div>
@@ -179,9 +253,15 @@ export function MediaManager() {
                     <ImageIcon className="size-6 text-muted-foreground" />
                   </div>
                   <div>
-                    <h3 className="text-lg font-semibold mb-2">No media files</h3>
+                    <h3 className="text-lg font-semibold mb-2">
+                      No media files
+                    </h3>
                     <p className="text-sm text-muted-foreground mb-4">
-                      Drag and drop files here or click Upload Media to get started
+                      Drag and drop files here or click Upload Media to get
+                      started
+                    </p>
+                    <p className="text-xs text-muted-foreground mb-4">
+                      Maximum file size: 1MB per file
                     </p>
                     <Button onClick={() => fileInputRef.current?.click()}>
                       <Upload className="mr-2 size-4" />
@@ -192,71 +272,81 @@ export function MediaManager() {
               </CardContent>
             </Card>
           ) : (
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-              {media.map((item) => (
-                <Card key={item.id} className="overflow-hidden hover:shadow-md transition-shadow">
-                  <div className="relative aspect-video bg-muted">
-                    {item.type === "image" ? (
-                      <img
-                        src={item.url}
-                        alt={item.filename}
-                        className="w-full h-full object-cover"
-                      />
-                    ) : (
-                      <div className="w-full h-full flex items-center justify-center">
-                        <Video className="size-12 text-muted-foreground" />
-                      </div>
-                    )}
-                    <Badge
-                      variant="secondary"
-                      className="absolute top-2 right-2"
-                    >
+            <>
+              <div className="mb-4 text-center">
+                <p className="text-sm text-muted-foreground">
+                  Drag and drop files here to upload • Maximum file size: 1MB
+                  per file
+                </p>
+              </div>
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+                {media.map((item) => (
+                  <Card
+                    key={item.id}
+                    className="overflow-hidden hover:shadow-md transition-shadow"
+                  >
+                    <div className="relative aspect-video bg-muted">
                       {item.type === "image" ? (
-                        <ImageIcon className="size-3 mr-1" />
+                        <img
+                          src={item.url}
+                          alt={item.filename}
+                          className="w-full h-full object-cover"
+                        />
                       ) : (
-                        <Video className="size-3 mr-1" />
+                        <div className="w-full h-full flex items-center justify-center">
+                          <Video className="size-12 text-muted-foreground" />
+                        </div>
                       )}
-                      {item.type}
-                    </Badge>
-                  </div>
-                  <CardHeader className="p-3">
-                    <CardTitle className="text-sm font-medium truncate">
-                      {item.filename}
-                    </CardTitle>
-                    <CardDescription className="text-xs">
-                      {formatFileSize(item.size)}
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent className="p-3 pt-0">
-                    <div className="flex gap-2">
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        className="flex-1"
-                        onClick={() => {
-                          navigator.clipboard.writeText(item.url);
-                          // You could add a toast notification here
-                        }}
+                      <Badge
+                        variant="secondary"
+                        className="absolute top-2 right-2"
                       >
-                        <Copy className="mr-1 size-3" />
-                        Copy URL
-                      </Button>
-                      <Button
-                        variant="destructive"
-                        size="sm"
-                        onClick={() => handleDelete(item.id)}
-                      >
-                        <Trash2 className="size-3" />
-                      </Button>
+                        {item.type === "image" ? (
+                          <ImageIcon className="size-3 mr-1" />
+                        ) : (
+                          <Video className="size-3 mr-1" />
+                        )}
+                        {item.type}
+                      </Badge>
                     </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
+                    <CardHeader className="p-3">
+                      <CardTitle className="text-sm font-medium truncate">
+                        {item.filename}
+                      </CardTitle>
+                      <CardDescription className="text-xs">
+                        {formatFileSize(item.size)}
+                      </CardDescription>
+                    </CardHeader>
+                    <CardContent className="p-3 pt-0">
+                      <div className="flex gap-2">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          className="flex-1"
+                          onClick={() => {
+                            navigator.clipboard.writeText(item.url);
+                            // You could add a toast notification here
+                          }}
+                        >
+                          <Copy className="mr-1 size-3" />
+                          Copy URL
+                        </Button>
+                        <Button
+                          variant="destructive"
+                          size="sm"
+                          onClick={() => handleDelete(item.id)}
+                        >
+                          <Trash2 className="size-3" />
+                        </Button>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            </>
           )}
         </div>
       </ScrollArea>
     </div>
   );
 }
-

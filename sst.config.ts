@@ -116,6 +116,13 @@ export default $config({
 
     // Create Astro with API URL and Cognito config as environment variables
     const astro = new sst.aws.Astro("GCDR", {
+      path: "",
+      dev: {
+        command: "pnpm run dev",
+        autostart: true,
+        url: "http://localhost:4321",
+      },
+      buildCommand: "pnpm run build",
       environment: {
         PUBLIC_API_BASE_URL: apiFn.url,
         PUBLIC_COGNITO_USER_POOL_ID: userPool.id,

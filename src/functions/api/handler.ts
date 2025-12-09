@@ -419,6 +419,17 @@ async function handleMediaUpload(body: any) {
     };
   }
 
+  // Validate file size (max 1MB)
+  const MAX_FILE_SIZE = 1024 * 1024; // 1MB in bytes
+  if (size && size > MAX_FILE_SIZE) {
+    return {
+      statusCode: 400,
+      body: JSON.stringify({ 
+        error: `File size exceeds the maximum limit of 1MB. File size: ${(size / (1024 * 1024)).toFixed(2)}MB` 
+      }),
+    };
+  }
+
   const mediaId = uuidv4();
   const fileExtension = filename.split(".").pop() || "";
   const s3Key = `media/${type}/${mediaId}-${filename}`;

@@ -83,9 +83,9 @@ export function BlogList({ blogs, onEdit, onDelete }: Props) {
                 </TableCell>
                 <TableCell>
                   {blog.publish ? (
-                    <Badge variant="default">Published</Badge>
+                    <Badge className="bg-green-100 text-green-700 border-green-200">Published</Badge>
                   ) : (
-                    <Badge variant="outline">Draft</Badge>
+                    <Badge className="bg-amber-100 text-amber-700 border-amber-200">Draft</Badge>
                   )}
                 </TableCell>
                 <TableCell className="text-right">

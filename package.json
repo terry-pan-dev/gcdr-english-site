@@ -83,7 +83,8 @@
         "vite": "6.3.5"
     },
     "scripts": {
-        "dev": "astro dev",
+        "dev": "sst dev",
+        "dev:local": "astro dev",
         "build": "astro build",
         "deploy": "sst deploy --stage $ENV",
         "deploy:prod": "sst deploy --stage production"
