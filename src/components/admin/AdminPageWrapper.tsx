@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { authApi } from "../../lib/admin-api";
-import { ensureAmplifyConfigured } from "../../lib/amplify-config";
+import { ensureAmplifyConfigured, configureAmplifyAsync } from "../../lib/amplify-config";
 
 /**
  * Client-side wrapper for admin pages that ensures CSS is loaded and authentication is verified
@@ -23,13 +23,17 @@ export function AdminPageWrapper({ children }: { children: React.ReactNode }) {
         // Small delay to ensure Amplify storage is ready after page load
         await new Promise((resolve) => setTimeout(resolve, 100));
 
-        // Ensure Amplify is configured
-        const configured = ensureAmplifyConfigured();
+        // Ensure Amplify is configured - try sync first, then async if needed
+        let configured = ensureAmplifyConfigured();
         if (!configured) {
-          console.error("AdminPageWrapper: Amplify configuration failed");
-          // Don't redirect - server middleware handles protection
-          // Just show error state
-          setIsAuthenticated(false);
+          console.log("AdminPageWrapper: Sync config failed, trying async...");
+          configured = await configureAmplifyAsync();
+        }
+        
+        if (!configured) {
+          console.warn("AdminPageWrapper: Amplify configuration failed, but trusting server middleware");
+          // Server middleware already validated - trust it
+          setIsAuthenticated(true);
           setIsChecking(false);
           return;
         }
@@ -42,18 +46,15 @@ export function AdminPageWrapper({ children }: { children: React.ReactNode }) {
           user ? `success (${user.email})` : "no user"
         );
 
-        if (!user) {
-          console.log(
-            "AdminPageWrapper: Client-side auth check failed - server middleware should handle redirect"
-          );
-          // Don't redirect here - server middleware will handle it on next request
-          // Just mark as not authenticated and let server handle it
-          setIsAuthenticated(false);
-          setIsChecking(false);
-          return;
+        // If user found, great. If not, still trust server middleware.
+        // Server middleware already validated the cookie, so user IS authenticated.
+        if (user) {
+          console.log("AdminPageWrapper: Client-side auth check successful");
+        } else {
+          console.warn("AdminPageWrapper: Client-side check failed, but server middleware validated - trusting server");
         }
 
-        console.log("AdminPageWrapper: Authentication successful");
+        // Always set authenticated to true if we got here (server let the page load)
         setIsAuthenticated(true);
         setIsChecking(false);
       } catch (error: any) {

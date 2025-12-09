@@ -2,7 +2,10 @@ import { useState, useEffect } from "react";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { authApi, getAuthToken } from "../../lib/admin-api";
-import { ensureAmplifyConfigured } from "../../lib/amplify-config";
+import {
+  ensureAmplifyConfigured,
+  configureAmplifyAsync,
+} from "../../lib/amplify-config";
 
 export function LoginForm() {
   const [email, setEmail] = useState("");
@@ -15,6 +18,25 @@ export function LoginForm() {
     // Check authentication only once on mount
     const checkAuth = async () => {
       try {
+        // Check for loop detection - if we just redirected here, don't redirect again
+        const lastRedirectTime = sessionStorage.getItem(
+          "__last_redirect_time__"
+        );
+        const now = Date.now();
+        if (lastRedirectTime) {
+          const timeSinceRedirect = now - parseInt(lastRedirectTime, 10);
+          // If redirected within last 2 seconds, we might be in a loop
+          if (timeSinceRedirect < 2000) {
+            console.warn(
+              "LoginForm: Potential redirect loop detected, showing login form"
+            );
+            sessionStorage.setItem("__auth_loop_detected__", "true");
+            sessionStorage.removeItem("__last_redirect_time__");
+            setCheckingAuth(false);
+            return;
+          }
+        }
+
         // Debug: Log window globals
         console.log("LoginForm: Window globals available:", {
           userPoolId: !!(window as any).__COGNITO_USER_POOL_ID__,
@@ -23,8 +45,13 @@ export function LoginForm() {
           region: !!(window as any).__AWS_REGION__,
         });
 
-        // Ensure Amplify is configured
-        const configured = ensureAmplifyConfigured();
+        // Ensure Amplify is configured - try sync first, then async if needed
+        let configured = ensureAmplifyConfigured();
+        if (!configured) {
+          console.log("LoginForm: Sync config failed, trying async...");
+          configured = await configureAmplifyAsync();
+        }
+
         if (!configured) {
           console.error("LoginForm: Amplify configuration failed");
           setCheckingAuth(false);
@@ -42,8 +69,14 @@ export function LoginForm() {
         const user = await authApi.getCurrentUser();
         if (user) {
           // User is authenticated - redirect to dashboard or originally requested page
+          // Clear any loop detection flags first
+          sessionStorage.removeItem("__auth_loop_detected__");
           const redirectTo =
             (window as any).__REDIRECT_TO__ || "/admin/dashboard";
+          console.log(
+            "LoginForm: User authenticated, redirecting to:",
+            redirectTo
+          );
           window.location.href = redirectTo;
         } else {
           // User not authenticated - allow login
@@ -65,8 +98,15 @@ export function LoginForm() {
     setLoading(true);
 
     try {
-      // Ensure Amplify is configured before login
-      const configured = ensureAmplifyConfigured();
+      // Ensure Amplify is configured before login - try sync first, then async if needed
+      let configured = ensureAmplifyConfigured();
+      if (!configured) {
+        console.log(
+          "LoginForm: Sync config failed during login, trying async..."
+        );
+        configured = await configureAmplifyAsync();
+      }
+
       if (!configured) {
         setError(
           "Authentication system not configured. Please refresh the page."
@@ -81,8 +121,12 @@ export function LoginForm() {
       } else {
         console.log("LoginForm: Login successful, verifying session...");
 
-        // Wait a moment for Amplify to fully store the session
-        await new Promise((resolve) => setTimeout(resolve, 500));
+        // Clear any loop detection flags on successful login
+        sessionStorage.removeItem("__auth_loop_detected__");
+
+        // Wait longer for Amplify to fully store the session and for cookie to be set
+        // Increased delay to ensure everything is ready before redirect
+        await new Promise((resolve) => setTimeout(resolve, 1000));
 
         // Verify the session is established before redirecting
         const user = await authApi.getCurrentUser();
@@ -94,9 +138,28 @@ export function LoginForm() {
           const token = await getAuthToken();
           if (!token) {
             console.warn("LoginForm: Could not get auth token for cookie");
+            // Still proceed - Amplify might have it stored even if we can't get it here
           } else {
             console.log("LoginForm: Auth cookie set successfully");
           }
+
+          // Wait a bit more to ensure cookie is persisted
+          await new Promise((resolve) => setTimeout(resolve, 300));
+
+          // Check for loop before redirecting
+          const loopDetected = sessionStorage.getItem("__auth_loop_detected__");
+          if (loopDetected === "true") {
+            console.error("LoginForm: Loop detected, aborting redirect");
+            setError("Authentication loop detected. Please refresh the page.");
+            sessionStorage.removeItem("__auth_loop_detected__");
+            return;
+          }
+
+          // Record redirect time for loop detection
+          sessionStorage.setItem(
+            "__last_redirect_time__",
+            Date.now().toString()
+          );
 
           console.log("LoginForm: Redirecting to dashboard...");
           const redirectTo =

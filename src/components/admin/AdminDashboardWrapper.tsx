@@ -1,12 +1,19 @@
 import { useEffect, useState } from "react";
 import { authApi } from "../../lib/admin-api";
-import { ensureAmplifyConfigured } from "../../lib/amplify-config";
+import {
+  ensureAmplifyConfigured,
+  configureAmplifyAsync,
+} from "../../lib/amplify-config";
 import { DashboardLayout } from "./DashboardLayout";
 
 /**
  * Combined wrapper for admin dashboard that handles authentication and renders the dashboard.
  * This component solves the hydration issue where passing children with client:only="react"
  * causes the children to not be properly hydrated as interactive React components.
+ *
+ * IMPORTANT: This component trusts server-side middleware as the authoritative auth check.
+ * If the page loaded without a server redirect, the user IS authenticated. Client-side
+ * checks are for UX enhancement only, not security.
  */
 export function AdminDashboardWrapper() {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
@@ -17,19 +24,42 @@ export function AdminDashboardWrapper() {
       try {
         console.log("AdminDashboardWrapper: Starting authentication check...");
 
-        // Small delay to ensure Amplify storage is ready after page load
-        await new Promise((resolve) => setTimeout(resolve, 100));
-
-        // Ensure Amplify is configured
-        const configured = ensureAmplifyConfigured();
-        if (!configured) {
-          console.error("AdminDashboardWrapper: Amplify configuration failed");
-          setIsAuthenticated(false);
+        // Check for loop detection flag
+        const loopDetected = sessionStorage.getItem("__auth_loop_detected__");
+        if (loopDetected === "true") {
+          console.warn(
+            "AdminDashboardWrapper: Auth loop detected, trusting server auth"
+          );
+          // Clear the flag and trust server middleware
+          sessionStorage.removeItem("__auth_loop_detected__");
+          setIsAuthenticated(true);
           setIsChecking(false);
           return;
         }
 
-        // Try to get the current user
+        // Small delay to ensure Amplify storage is ready after page load
+        await new Promise((resolve) => setTimeout(resolve, 100));
+
+        // Ensure Amplify is configured - try sync first, then async if needed
+        let configured = ensureAmplifyConfigured();
+        if (!configured) {
+          console.log(
+            "AdminDashboardWrapper: Sync config failed, trying async..."
+          );
+          configured = await configureAmplifyAsync();
+        }
+
+        if (!configured) {
+          console.warn(
+            "AdminDashboardWrapper: Amplify configuration failed, but trusting server middleware"
+          );
+          // Server middleware already validated - trust it
+          setIsAuthenticated(true);
+          setIsChecking(false);
+          return;
+        }
+
+        // Try to get the current user (non-blocking check)
         console.log("AdminDashboardWrapper: Getting current user...");
         const user = await authApi.getCurrentUser();
         console.log(
@@ -37,26 +67,50 @@ export function AdminDashboardWrapper() {
           user ? `success (${user.email})` : "no user"
         );
 
-        if (!user) {
+        // If user found, great. If not, still trust server middleware.
+        // Server middleware already validated the cookie, so user IS authenticated.
+        if (user) {
           console.log(
-            "AdminDashboardWrapper: No user found - redirecting to login"
+            "AdminDashboardWrapper: Client-side auth check successful"
           );
-          window.location.href = "/admin/login";
-          return;
+        } else {
+          console.warn(
+            "AdminDashboardWrapper: Client-side check failed, but server middleware validated - trusting server"
+          );
         }
 
-        console.log("AdminDashboardWrapper: Authentication successful");
+        // Always set authenticated to true if we got here (server let the page load)
         setIsAuthenticated(true);
         setIsChecking(false);
       } catch (error: any) {
-        console.error("AdminDashboardWrapper: Authentication check error:", error);
-        setIsAuthenticated(false);
+        console.error(
+          "AdminDashboardWrapper: Authentication check error:",
+          error
+        );
+        // Even on error, trust server middleware - if page loaded, user is authenticated
+        console.warn(
+          "AdminDashboardWrapper: Error in client check, but trusting server middleware"
+        );
+        setIsAuthenticated(true);
         setIsChecking(false);
       }
     };
 
+    // Set a maximum timeout - if Amplify is slow, show dashboard anyway
+    const timeoutId = setTimeout(() => {
+      if (isChecking) {
+        console.warn(
+          "AdminDashboardWrapper: Auth check timeout - trusting server middleware"
+        );
+        setIsAuthenticated(true);
+        setIsChecking(false);
+      }
+    }, 3000); // 3 second max wait
+
     checkAuth();
-  }, []);
+
+    return () => clearTimeout(timeoutId);
+  }, [isChecking]);
 
   // Show loading state while checking authentication
   if (isChecking) {
@@ -67,18 +121,7 @@ export function AdminDashboardWrapper() {
     );
   }
 
-  // If not authenticated, show redirecting message
-  if (!isAuthenticated) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-background">
-        <div className="text-muted-foreground">
-          Authentication required. Redirecting to login...
-        </div>
-      </div>
-    );
-  }
-
-  // Render the dashboard directly - this ensures proper React hydration
+  // Always render dashboard if we got here - server middleware already validated
+  // The client check is just for UX, not security
   return <DashboardLayout />;
 }
-

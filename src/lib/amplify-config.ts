@@ -5,6 +5,7 @@ import { Amplify } from "aws-amplify";
 
 // Cache for Amplify configuration
 let amplifyConfigured = false;
+let configRetryPromise: Promise<boolean> | null = null;
 
 // Load Cognito configuration from environment or window globals
 const loadCognitoConfig = (): {
@@ -55,7 +56,34 @@ const loadCognitoConfig = (): {
 };
 
 /**
- * Configures AWS Amplify with Cognito UserPool and IdentityPool
+ * Waits for window globals to be available (with retry)
+ * Useful when Astro pages haven't injected globals yet
+ */
+const waitForWindowGlobals = async (maxRetries = 5, delayMs = 200): Promise<boolean> => {
+  if (typeof window === "undefined") {
+    return false;
+  }
+
+  for (let i = 0; i < maxRetries; i++) {
+    const win = window as any;
+    const hasUserPoolId = !!win.__COGNITO_USER_POOL_ID__;
+    const hasClientId = !!win.__COGNITO_USER_POOL_CLIENT_ID__;
+
+    if (hasUserPoolId && hasClientId) {
+      console.log(`Amplify config: Window globals available after ${i + 1} attempt(s)`);
+      return true;
+    }
+
+    if (i < maxRetries - 1) {
+      await new Promise((resolve) => setTimeout(resolve, delayMs));
+    }
+  }
+
+  return false;
+};
+
+/**
+ * Configures AWS Amplify with Cognito UserPool and IdentityPool (synchronous)
  * This should be called before using any Amplify Auth methods
  * Safe to call multiple times (will only configure once)
  */
@@ -69,7 +97,7 @@ export const configureAmplify = (): boolean => {
 
     if (!config) {
       console.warn(
-        "Amplify config not available yet - window globals may not be set"
+        "Amplify config not available - window globals may not be set or env vars missing"
       );
       return false;
     }
@@ -118,13 +146,72 @@ export const configureAmplify = (): boolean => {
 };
 
 /**
- * Ensures Amplify is configured before use
+ * Configures AWS Amplify asynchronously with retry logic
+ * Waits for window globals to be available if needed
+ * Use this when you know window globals might not be ready yet
+ */
+export const configureAmplifyAsync = async (): Promise<boolean> => {
+  if (amplifyConfigured) {
+    return true;
+  }
+
+  // If there's already a retry in progress, wait for it
+  if (configRetryPromise) {
+    return configRetryPromise;
+  }
+
+  // Start new async configuration
+  configRetryPromise = (async () => {
+    try {
+      let config = loadCognitoConfig();
+
+      // If config not available and we're in browser, try waiting for window globals
+      if (!config && typeof window !== "undefined") {
+        console.log("Amplify config: Waiting for window globals...");
+        const globalsAvailable = await waitForWindowGlobals();
+        if (globalsAvailable) {
+          // Retry loading config after globals are available
+          config = loadCognitoConfig();
+        }
+      }
+
+      if (!config) {
+        console.warn(
+          "Amplify config not available after retry - window globals may not be set or env vars missing"
+        );
+        configRetryPromise = null;
+        return false;
+      }
+
+      // Use synchronous configure now that we have config
+      const result = configureAmplify();
+      configRetryPromise = null;
+      return result;
+    } catch (error: any) {
+      console.error("Failed to configure Amplify (async):", error.message || error);
+      configRetryPromise = null;
+      return false;
+    }
+  })();
+
+  return configRetryPromise;
+};
+
+/**
+ * Ensures Amplify is configured before use (synchronous)
  * Call this before any Amplify Auth operations
  * Returns true if configured, false otherwise
+ * 
+ * If config is not immediately available, this returns false.
+ * Components should handle this by:
+ * 1. Waiting a bit and calling again, OR
+ * 2. Using configureAmplifyAsync() for async retry logic
  */
 export const ensureAmplifyConfigured = (): boolean => {
-  if (!amplifyConfigured) {
-    return configureAmplify();
+  if (amplifyConfigured) {
+    return true;
   }
-  return true;
+
+  // Try synchronous configuration
+  return configureAmplify();
 };
