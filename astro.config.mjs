@@ -9,6 +9,7 @@ import { fileURLToPath } from "url";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 export default defineConfig({
+  site: "https://gcdr.org.au",
   output: "static",
   adapter: aws(),
   build: {
@@ -22,6 +23,11 @@ export default defineConfig({
     mdx(),
   ],
   vite: {
+    // Remove console.log and debugger statements in production builds only
+    esbuild: {
+      drop:
+        process.env.NODE_ENV === "production" ? ["console", "debugger"] : [],
+    },
     resolve: {
       alias: {
         "@": path.resolve(__dirname, "./src"),
