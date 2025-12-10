@@ -9,6 +9,7 @@ import {
   fetchUserAttributes,
 } from "aws-amplify/auth";
 import { ensureAmplifyConfigured } from "./amplify-config";
+import { shouldShowDebugLogs } from "./env";
 
 // Cache for API base URL
 let apiBaseUrlCache: string | null = null;
@@ -86,6 +87,9 @@ const getApiUrl = async (endpoint: string): Promise<string> => {
 /**
  * Gets the access token from Amplify session
  * Also sets a cookie for server-side middleware to read
+ *
+ * Security: Cookie uses SameSite=Strict, Secure flag (HTTPS only), and 1-hour expiration
+ * Note: HttpOnly cannot be set via JavaScript - consider server-side token handling for production
  */
 export const getAuthToken = async (): Promise<string | null> => {
   if (typeof window === "undefined") return null;
@@ -97,11 +101,16 @@ export const getAuthToken = async (): Promise<string | null> => {
     if (session.tokens?.accessToken) {
       const token = session.tokens.accessToken.toString();
 
-      // Also set cookie for server-side middleware to read
-      // Set cookie with 7 days expiration (same as typical Cognito token lifetime)
+      // Set secure cookie for server-side middleware to read
+      // Cognito access tokens expire in 1 hour by default, so match that
       const expires = new Date();
-      expires.setTime(expires.getTime() + 7 * 24 * 60 * 60 * 1000); // 7 days
-      document.cookie = `cognito_access_token=${token}; expires=${expires.toUTCString()}; path=/; SameSite=Lax`;
+      expires.setTime(expires.getTime() + 60 * 60 * 1000); // 1 hour (matches Cognito access token expiration)
+
+      const isSecure = window.location.protocol === "https:";
+      const secureFlag = isSecure ? "; Secure" : "";
+      // Use SameSite=Strict for admin routes to prevent CSRF
+      // Path restricted to /admin to limit cookie scope
+      document.cookie = `cognito_access_token=${token}; expires=${expires.toUTCString()}; path=/admin; SameSite=Strict${secureFlag}`;
 
       return token;
     }
@@ -115,12 +124,14 @@ export const getAuthToken = async (): Promise<string | null> => {
 
 /**
  * Removes auth tokens (called on logout)
+ * Must match the same path and security attributes used when setting the cookie
  */
 const removeAuthToken = (): void => {
   if (typeof window === "undefined") return;
-  // Remove cookie
-  document.cookie =
-    "cognito_access_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+  const isSecure = window.location.protocol === "https:";
+  const secureFlag = isSecure ? "; Secure" : "";
+  // Remove cookie with matching attributes (path, SameSite, Secure)
+  document.cookie = `cognito_access_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/admin; SameSite=Strict${secureFlag}`;
 };
 
 /**
@@ -153,17 +164,17 @@ const apiRequest = async <T>(
 
     // Check if URL is empty
     if (!url) {
-      console.error(`API URL not configured for endpoint: ${endpoint}`);
-      console.error("Tried to load from:", {
-        window: typeof window !== "undefined" && (window as any).__API_URLS__,
-        env: import.meta.env.PUBLIC_API_AUTH_LOGIN,
-      });
+      if (shouldShowDebugLogs()) {
+        console.error(`API URL not configured for endpoint: ${endpoint}`);
+      }
       return {
         error: `API URL not configured for ${endpoint}. Please check your deployment and ensure Lambda function URLs are available.`,
       };
     }
 
-    console.log(`Making API request to: ${url}`);
+    if (shouldShowDebugLogs()) {
+      console.log(`Making API request to: ${url}`);
+    }
 
     // Ensure we have a valid token before making the request
     // Amplify automatically handles token refresh
@@ -187,12 +198,14 @@ const apiRequest = async <T>(
     // Check if response is JSON
     const contentType = response.headers.get("content-type");
     if (!contentType || !contentType.includes("application/json")) {
-      const text = await response.text();
-      console.error("Non-JSON response received. URL:", url);
-      console.error("Response preview:", text.substring(0, 200));
-      console.error(
-        "This usually means the API URL is pointing to the wrong endpoint (e.g., Astro page instead of Lambda function)"
-      );
+      if (shouldShowDebugLogs()) {
+        const text = await response.text();
+        console.error("Non-JSON response received. URL:", url);
+        console.error("Response preview:", text.substring(0, 200));
+        console.error(
+          "This usually means the API URL is pointing to the wrong endpoint (e.g., Astro page instead of Lambda function)"
+        );
+      }
       return {
         error: `Server returned HTML instead of JSON (${response.status}). The API URL may be incorrect. Check browser console for details.`,
       };
@@ -303,10 +316,12 @@ export const authApi = {
     try {
       ensureAmplifyConfigured();
 
-      // Sign out from Amplify (clears session and tokens)
-      await signOut();
+      // Global sign out - revokes tokens on ALL devices and invalidates refresh tokens
+      // This ensures that if a token was compromised, it becomes invalid everywhere
+      await signOut({ global: true });
     } catch (error) {
       console.error("Logout error:", error);
+      // Even if global signOut fails, still try local cleanup
     } finally {
       // Always clear local tokens/cookies
       removeAuthToken();
@@ -325,14 +340,15 @@ export const authApi = {
 
   getCurrentUser: async (): Promise<{ email: string } | null> => {
     try {
-      console.log("getCurrentUser: Starting...");
       ensureAmplifyConfigured();
 
       // Get current user from Amplify
       const user = await getCurrentUser();
 
       if (!user) {
-        console.log("getCurrentUser: No user found");
+        if (shouldShowDebugLogs()) {
+          console.log("getCurrentUser: No user found");
+        }
         return null;
       }
 
@@ -340,16 +356,18 @@ export const authApi = {
       const attributes = await fetchUserAttributes();
       const email = attributes.email || user.username || "";
 
-      console.log("getCurrentUser: Success, email:", email || "not found");
-
       if (!email) {
-        console.error("getCurrentUser: No email found in user");
+        if (shouldShowDebugLogs()) {
+          console.error("getCurrentUser: No email found in user");
+        }
         return null;
       }
 
       return { email };
     } catch (error: any) {
-      console.error("getCurrentUser: Exception:", error?.message || error);
+      if (shouldShowDebugLogs()) {
+        console.error("getCurrentUser: Exception:", error?.message || error);
+      }
       return null;
     }
   },

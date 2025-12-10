@@ -2,6 +2,9 @@
 // Initializes Amplify with Cognito UserPool and IdentityPool configuration
 
 import { Amplify } from "aws-amplify";
+import { cognitoUserPoolsTokenProvider } from "aws-amplify/auth/cognito";
+import { sessionStorage } from "aws-amplify/utils";
+import { shouldShowDebugLogs } from "./env";
 
 // Cache for Amplify configuration
 let amplifyConfigured = false;
@@ -48,10 +51,12 @@ const loadCognitoConfig = (): {
   }
 
   // Return null if required config not available yet
-  console.warn("Cognito config not available:", {
-    userPoolId: !!userPoolId,
-    clientId: !!clientId,
-  });
+  if (shouldShowDebugLogs()) {
+    console.warn("Cognito config not available:", {
+      userPoolId: !!userPoolId,
+      clientId: !!clientId,
+    });
+  }
   return null;
 };
 
@@ -59,7 +64,10 @@ const loadCognitoConfig = (): {
  * Waits for window globals to be available (with retry)
  * Useful when Astro pages haven't injected globals yet
  */
-const waitForWindowGlobals = async (maxRetries = 5, delayMs = 200): Promise<boolean> => {
+const waitForWindowGlobals = async (
+  maxRetries = 5,
+  delayMs = 200
+): Promise<boolean> => {
   if (typeof window === "undefined") {
     return false;
   }
@@ -70,7 +78,11 @@ const waitForWindowGlobals = async (maxRetries = 5, delayMs = 200): Promise<bool
     const hasClientId = !!win.__COGNITO_USER_POOL_CLIENT_ID__;
 
     if (hasUserPoolId && hasClientId) {
-      console.log(`Amplify config: Window globals available after ${i + 1} attempt(s)`);
+      if (shouldShowDebugLogs()) {
+        console.log(
+          `Amplify config: Window globals available after ${i + 1} attempt(s)`
+        );
+      }
       return true;
     }
 
@@ -102,12 +114,14 @@ export const configureAmplify = (): boolean => {
       return false;
     }
 
-    console.log("Configuring Amplify with:", {
-      userPoolId: config.userPoolId,
-      clientId: config.clientId ? "***" : "missing",
-      identityPoolId: config.identityPoolId || "(not set)",
-      region: config.region,
-    });
+    if (shouldShowDebugLogs()) {
+      console.log("Configuring Amplify with:", {
+        userPoolId: config.userPoolId,
+        clientId: config.clientId ? "***" : "missing",
+        identityPoolId: config.identityPoolId || "(not set)",
+        region: config.region,
+      });
+    }
 
     // Use legacy configuration format (more reliable with Amplify v6)
     // This format uses snake_case keys that Amplify recognizes
@@ -123,21 +137,32 @@ export const configureAmplify = (): boolean => {
       amplifyConfig.aws_cognito_identity_pool_id = config.identityPoolId;
     }
 
-    console.log(
-      "Calling Amplify.configure with:",
-      JSON.stringify(amplifyConfig, null, 2)
-    );
+    if (shouldShowDebugLogs()) {
+      console.log(
+        "Calling Amplify.configure with:",
+        JSON.stringify(amplifyConfig, null, 2)
+      );
+    }
     Amplify.configure(amplifyConfig);
 
-    // Verify configuration was applied
-    const currentConfig = Amplify.getConfig();
-    console.log(
-      "Amplify getConfig result:",
-      JSON.stringify(currentConfig, null, 2)
-    );
+    // Security: Use sessionStorage instead of localStorage for tokens
+    // Tokens are cleared when browser tab/window closes, reducing risk of token theft
+    // This is especially important for admin panels
+    cognitoUserPoolsTokenProvider.setKeyValueStorage(sessionStorage);
+
+    // Verify configuration was applied (only when debug logs enabled)
+    if (shouldShowDebugLogs()) {
+      const currentConfig = Amplify.getConfig();
+      console.log(
+        "Amplify getConfig result:",
+        JSON.stringify(currentConfig, null, 2)
+      );
+    }
 
     amplifyConfigured = true;
-    console.log("Amplify configured successfully");
+    if (shouldShowDebugLogs()) {
+      console.log("Amplify configured successfully");
+    }
     return true;
   } catch (error: any) {
     console.error("Failed to configure Amplify:", error.message || error);
@@ -167,7 +192,9 @@ export const configureAmplifyAsync = async (): Promise<boolean> => {
 
       // If config not available and we're in browser, try waiting for window globals
       if (!config && typeof window !== "undefined") {
-        console.log("Amplify config: Waiting for window globals...");
+        if (shouldShowDebugLogs()) {
+          console.log("Amplify config: Waiting for window globals...");
+        }
         const globalsAvailable = await waitForWindowGlobals();
         if (globalsAvailable) {
           // Retry loading config after globals are available
@@ -188,7 +215,10 @@ export const configureAmplifyAsync = async (): Promise<boolean> => {
       configRetryPromise = null;
       return result;
     } catch (error: any) {
-      console.error("Failed to configure Amplify (async):", error.message || error);
+      console.error(
+        "Failed to configure Amplify (async):",
+        error.message || error
+      );
       configRetryPromise = null;
       return false;
     }
@@ -201,7 +231,7 @@ export const configureAmplifyAsync = async (): Promise<boolean> => {
  * Ensures Amplify is configured before use (synchronous)
  * Call this before any Amplify Auth operations
  * Returns true if configured, false otherwise
- * 
+ *
  * If config is not immediately available, this returns false.
  * Components should handle this by:
  * 1. Waiting a bit and calling again, OR

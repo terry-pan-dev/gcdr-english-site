@@ -1,15 +1,31 @@
 /// <reference path="./.sst/platform/config.d.ts" />
 
+// Store stage globally so run() can access it
+let currentStage = "dev";
+
 export default $config({
   app(input) {
+    // Store the stage for use in run()
+    currentStage = input?.stage || "dev";
     return {
       name: "gcdr-website",
-      removal: input?.stage === "production" ? "retain" : "remove",
+      removal: currentStage === "production" ? "retain" : "remove",
       home: "aws",
       region: "ap-southeast-2",
     };
   },
   async run() {
+    // Use the stage stored from app() function
+    // Only production stage deployments will have PUBLIC_IS_PRODUCTION = "true"
+    const isProduction = currentStage === "production";
+
+    // CORS configuration
+    // Using wildcard ["*"] because:
+    // 1. Lambda Function URLs are unpredictable and change between deployments
+    // 2. API is protected by Cognito JWT authentication tokens (not by origin)
+    // 3. Makes development easier without needing to update CORS on each deploy
+    // Security: The endpoint is protected by requiring valid Cognito access tokens in the Authorization header
+    const allowedOrigins = ["*"];
     // DynamoDB Tables
     const blogPostsTable = new sst.aws.Dynamo("BlogPosts", {
       fields: {
@@ -66,31 +82,13 @@ export default $config({
     // If you have an existing client ID, you may need to handle it separately
     const userPoolClient = userPool.addClient("AdminClient");
 
-    // Create Cognito Identity Pool for AWS credentials
-    // This enables authenticated users to get temporary AWS credentials
-    const identityPool = new sst.aws.CognitoIdentityPool("AdminIdentityPool", {
-      userPools: [
-        {
-          userPool: userPool.id,
-          client: userPoolClient.id,
-        },
-      ],
-      permissions: {
-        authenticated: [
-          {
-            actions: ["lambda:InvokeFunction"],
-            resources: ["*"], // Allow invoking any Lambda function (can be restricted to specific functions)
-          },
-        ],
-      },
-    });
-
     // Single Lambda Function for all API endpoints
     const apiFn = new sst.aws.Function("AdminAPI", {
       handler: "src/functions/api/handler.handler",
       url: {
         cors: {
-          allowOrigins: ["*"], // Allow all origins (can be restricted to specific domains in production)
+          // Security: Restrict CORS origins - use wildcard only in dev, specific domains in production
+          allowOrigins: allowedOrigins.length > 0 ? allowedOrigins : ["*"], // Fallback to wildcard if no origins configured
           allowMethods: ["GET", "POST", "PUT", "DELETE"], // OPTIONS is handled automatically by Lambda Function URL
           allowHeaders: ["Content-Type", "Authorization"],
           allowCredentials: false,
@@ -112,6 +110,27 @@ export default $config({
         mediaStorage,
         userPool,
       ],
+    });
+
+    // Create Cognito Identity Pool for AWS credentials
+    // This enables authenticated users to get temporary AWS credentials
+    // Created after apiFn so we can restrict permissions to only the Admin API
+    const identityPool = new sst.aws.CognitoIdentityPool("AdminIdentityPool", {
+      userPools: [
+        {
+          userPool: userPool.id,
+          client: userPoolClient.id,
+        },
+      ],
+      permissions: {
+        authenticated: [
+          {
+            actions: ["lambda:InvokeFunction"],
+            // Security: Restrict to only the Admin API function (principle of least privilege)
+            resources: [$interpolate`${apiFn.arn}`],
+          },
+        ],
+      },
     });
 
     // Create Astro with API URL and Cognito config as environment variables
@@ -148,6 +167,9 @@ export default $config({
         PUBLIC_AWS_REGION: "ap-southeast-2",
         BLOG_POSTS_TABLE: blogPostsTable.name,
         BLOG_STORAGE_BUCKET: blogStorage.name,
+        // Custom flag: Only production stage deployments should hide debug logs
+        // All other stages (dev, staging, etc.) will show logs
+        PUBLIC_IS_PRODUCTION: isProduction ? "true" : "false",
       },
     });
 

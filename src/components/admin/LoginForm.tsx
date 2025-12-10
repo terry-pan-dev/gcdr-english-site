@@ -6,6 +6,7 @@ import {
   ensureAmplifyConfigured,
   configureAmplifyAsync,
 } from "../../lib/amplify-config";
+import { shouldShowDebugLogs } from "../../lib/env";
 
 export function LoginForm() {
   const [email, setEmail] = useState("");
@@ -37,25 +38,21 @@ export function LoginForm() {
           }
         }
 
-        // Debug: Log window globals
-        console.log("LoginForm: Window globals available:", {
-          userPoolId: !!(window as any).__COGNITO_USER_POOL_ID__,
-          clientId: !!(window as any).__COGNITO_USER_POOL_CLIENT_ID__,
-          identityPoolId: !!(window as any).__COGNITO_IDENTITY_POOL_ID__,
-          region: !!(window as any).__AWS_REGION__,
-        });
-
         // Ensure Amplify is configured - try sync first, then async if needed
         let configured = ensureAmplifyConfigured();
         if (!configured) {
-          console.log("LoginForm: Sync config failed, trying async...");
+          if (shouldShowDebugLogs()) {
+            console.log("LoginForm: Sync config failed, trying async...");
+          }
           configured = await configureAmplifyAsync();
-        }
 
-        if (!configured) {
-          console.error("LoginForm: Amplify configuration failed");
-          setCheckingAuth(false);
-          return;
+          if (!configured) {
+            if (shouldShowDebugLogs()) {
+              console.error("LoginForm: Amplify configuration failed");
+            }
+            setCheckingAuth(false);
+            return;
+          }
         }
 
         // Check if user is authenticated
@@ -73,10 +70,12 @@ export function LoginForm() {
           sessionStorage.removeItem("__auth_loop_detected__");
           const redirectTo =
             (window as any).__REDIRECT_TO__ || "/admin/dashboard";
-          console.log(
-            "LoginForm: User authenticated, redirecting to:",
-            redirectTo
-          );
+          if (shouldShowDebugLogs()) {
+            console.log(
+              "LoginForm: User authenticated, redirecting to:",
+              redirectTo
+            );
+          }
           window.location.href = redirectTo;
         } else {
           // User not authenticated - allow login
@@ -131,16 +130,12 @@ export function LoginForm() {
         // Verify the session is established before redirecting
         const user = await authApi.getCurrentUser();
         if (user) {
-          console.log("LoginForm: Session verified, setting auth cookie...");
-
           // Explicitly set the authentication cookie before redirecting
           // This ensures server-side middleware can read it
           const token = await getAuthToken();
-          if (!token) {
+          if (!token && shouldShowDebugLogs()) {
             console.warn("LoginForm: Could not get auth token for cookie");
             // Still proceed - Amplify might have it stored even if we can't get it here
-          } else {
-            console.log("LoginForm: Auth cookie set successfully");
           }
 
           // Wait a bit more to ensure cookie is persisted
@@ -149,7 +144,9 @@ export function LoginForm() {
           // Check for loop before redirecting
           const loopDetected = sessionStorage.getItem("__auth_loop_detected__");
           if (loopDetected === "true") {
-            console.error("LoginForm: Loop detected, aborting redirect");
+            if (shouldShowDebugLogs()) {
+              console.error("LoginForm: Loop detected, aborting redirect");
+            }
             setError("Authentication loop detected. Please refresh the page.");
             sessionStorage.removeItem("__auth_loop_detected__");
             return;
@@ -161,14 +158,15 @@ export function LoginForm() {
             Date.now().toString()
           );
 
-          console.log("LoginForm: Redirecting to dashboard...");
           const redirectTo =
             (window as any).__REDIRECT_TO__ || "/admin/dashboard";
           window.location.href = redirectTo;
         } else {
-          console.error(
-            "LoginForm: Login succeeded but session not established"
-          );
+          if (shouldShowDebugLogs()) {
+            console.error(
+              "LoginForm: Login succeeded but session not established"
+            );
+          }
           setError(
             "Login succeeded but session not established. Please try again."
           );

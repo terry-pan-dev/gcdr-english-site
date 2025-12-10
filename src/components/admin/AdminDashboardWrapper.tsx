@@ -5,6 +5,7 @@ import {
   configureAmplifyAsync,
 } from "../../lib/amplify-config";
 import { DashboardLayout } from "./DashboardLayout";
+import { shouldShowDebugLogs } from "../../lib/env";
 
 /**
  * Combined wrapper for admin dashboard that handles authentication and renders the dashboard.
@@ -22,14 +23,14 @@ export function AdminDashboardWrapper() {
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        console.log("AdminDashboardWrapper: Starting authentication check...");
-
         // Check for loop detection flag
         const loopDetected = sessionStorage.getItem("__auth_loop_detected__");
         if (loopDetected === "true") {
-          console.warn(
-            "AdminDashboardWrapper: Auth loop detected, trusting server auth"
-          );
+          if (shouldShowDebugLogs()) {
+            console.warn(
+              "AdminDashboardWrapper: Auth loop detected, trusting server auth"
+            );
+          }
           // Clear the flag and trust server middleware
           sessionStorage.removeItem("__auth_loop_detected__");
           setIsAuthenticated(true);
@@ -43,16 +44,20 @@ export function AdminDashboardWrapper() {
         // Ensure Amplify is configured - try sync first, then async if needed
         let configured = ensureAmplifyConfigured();
         if (!configured) {
-          console.log(
-            "AdminDashboardWrapper: Sync config failed, trying async..."
-          );
+          if (shouldShowDebugLogs()) {
+            console.log(
+              "AdminDashboardWrapper: Sync config failed, trying async..."
+            );
+          }
           configured = await configureAmplifyAsync();
         }
 
         if (!configured) {
-          console.warn(
-            "AdminDashboardWrapper: Amplify configuration failed, but trusting server middleware"
-          );
+          if (shouldShowDebugLogs()) {
+            console.warn(
+              "AdminDashboardWrapper: Amplify configuration failed, but trusting server middleware"
+            );
+          }
           // Server middleware already validated - trust it
           setIsAuthenticated(true);
           setIsChecking(false);
@@ -60,37 +65,19 @@ export function AdminDashboardWrapper() {
         }
 
         // Try to get the current user (non-blocking check)
-        console.log("AdminDashboardWrapper: Getting current user...");
         const user = await authApi.getCurrentUser();
-        console.log(
-          "AdminDashboardWrapper: getCurrentUser result:",
-          user ? `success (${user.email})` : "no user"
-        );
-
-        // If user found, great. If not, still trust server middleware.
-        // Server middleware already validated the cookie, so user IS authenticated.
-        if (user) {
-          console.log(
-            "AdminDashboardWrapper: Client-side auth check successful"
-          );
-        } else {
-          console.warn(
-            "AdminDashboardWrapper: Client-side check failed, but server middleware validated - trusting server"
-          );
-        }
 
         // Always set authenticated to true if we got here (server let the page load)
         setIsAuthenticated(true);
         setIsChecking(false);
       } catch (error: any) {
-        console.error(
-          "AdminDashboardWrapper: Authentication check error:",
-          error
-        );
+        if (shouldShowDebugLogs()) {
+          console.error(
+            "AdminDashboardWrapper: Authentication check error:",
+            error
+          );
+        }
         // Even on error, trust server middleware - if page loaded, user is authenticated
-        console.warn(
-          "AdminDashboardWrapper: Error in client check, but trusting server middleware"
-        );
         setIsAuthenticated(true);
         setIsChecking(false);
       }
@@ -99,9 +86,11 @@ export function AdminDashboardWrapper() {
     // Set a maximum timeout - if Amplify is slow, show dashboard anyway
     const timeoutId = setTimeout(() => {
       if (isChecking) {
-        console.warn(
-          "AdminDashboardWrapper: Auth check timeout - trusting server middleware"
-        );
+        if (shouldShowDebugLogs()) {
+          console.warn(
+            "AdminDashboardWrapper: Auth check timeout - trusting server middleware"
+          );
+        }
         setIsAuthenticated(true);
         setIsChecking(false);
       }
