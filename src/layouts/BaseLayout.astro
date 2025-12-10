@@ -1,35 +1,65 @@
 ---
-import '../styles/globals.css';
-import { Navigation } from '../components/Navigation';
-import { Footer } from '../components/Footer';
-import { getGoogleFontsUrl } from '../config/fonts';
+import "../styles/globals.css";
+import { Navigation } from "../components/Navigation";
+import { Footer } from "../components/Footer";
+import { getGoogleFontsUrl } from "../config/fonts";
 
 interface Props {
   title?: string;
-  theme?: 'light' | 'dark';
+  description?: string;
+  image?: string;
+  theme?: "light" | "dark";
 }
 
-const { title = 'Gold Coast Dharma Realm', theme = 'light' } = Astro.props;
-const bgClass = theme === 'dark' ? 'min-h-screen bg-dark-bg' : 'min-h-screen bg-stone-50';
+const {
+  title = "Gold Coast Dharma Realm",
+  description = "Gold Coast Dharma Realm (GCDR) is the Australian branch of the Dharma Realm Buddhist Association founded by Venerable Master Hsuan Hua, located on the Gold Coast, Queensland, Australia.",
+  image = "/assets/hero-bg.png",
+  theme = "light",
+} = Astro.props;
+
+const bgClass =
+  theme === "dark" ? "min-h-screen bg-dark-bg" : "min-h-screen bg-stone-50";
 const googleFontsUrl = getGoogleFontsUrl();
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const socialImageURL = new URL(image, Astro.site);
 ---
 
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalURL} />
+
+    <!-- Sitemap -->
+    <link rel="sitemap" href="/sitemap-index.xml" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={socialImageURL} />
+    <meta property="og:site_name" content="Gold Coast Dharma Realm" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content={canonicalURL} />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={socialImageURL} />
+
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href={googleFontsUrl}
-      rel="stylesheet"
-    />
+    <link href={googleFontsUrl} rel="stylesheet" />
   </head>
   <body>
     <div class={bgClass} style="overflow: visible;">
-      <Navigation client:load />
+      <Navigation client:idle />
       <slot />
       <Footer />
     </div>

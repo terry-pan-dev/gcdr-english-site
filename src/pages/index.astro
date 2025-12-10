@@ -1,16 +1,27 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
-import { Hero } from '../components/Hero';
-import { About } from '../components/About';
-import { Teachings } from '../components/Teachings';
-import { Posters } from '../components/Posters';
-import { Visit } from '../components/Visit';
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { Hero } from "../components/Hero";
+import { About } from "../components/About";
+import { Teachings } from "../components/Teachings";
+import { Posters } from "../components/Posters";
+import { Visit } from "../components/Visit";
 ---
 
-<BaseLayout title="Gold Coast Dharma Realm" theme="light">
+<BaseLayout
+  title="Gold Coast Dharma Realm"
+  description="Gold Coast Dharma Realm (GCDR) is the Australian branch of the Dharma Realm Buddhist Association founded by Venerable Master Hsuan Hua. Visit us for Buddhist teachings, meditation, and spiritual practice."
+  theme="light"
+>
   <Hero />
   <About />
   <Teachings />
-  <Posters client:only="react" />
-  <Visit client:load />
+  <Posters client:only="react">
+    <div
+      slot="fallback"
+      class="min-h-[400px] flex items-center justify-center bg-stone-100"
+    >
+      <p class="text-stone-500">Loading events...</p>
+    </div>
+  </Posters>
+  <Visit client:idle />
 </BaseLayout>

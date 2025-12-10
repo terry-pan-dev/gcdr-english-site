@@ -2,6 +2,7 @@ import { defineConfig } from "astro/config";
 import react from "@astrojs/react";
 import tailwind from "@astrojs/tailwind";
 import mdx from "@astrojs/mdx";
+import sitemap from "@astrojs/sitemap";
 import aws from "astro-sst";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -21,6 +22,10 @@ export default defineConfig({
       applyBaseStyles: false,
     }),
     mdx(),
+    sitemap({
+      // Exclude admin pages from sitemap
+      filter: (page) => !page.includes("/admin"),
+    }),
   ],
   vite: {
     // Remove console.log and debugger statements in production builds only

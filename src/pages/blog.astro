@@ -18,6 +18,13 @@ const secondaryFont = getSecondaryFontFamily();
 
 // Get API base URL from environment
 const apiBaseUrl = import.meta.env.PUBLIC_API_BASE_URL || "";
+
+// SEO
+const title = "Dharma Insights - Gold Coast Dharma Realm";
+const description =
+  "Reflections on Buddhist practice, teachings, and the path to awakening from Gold Coast Dharma Realm.";
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const socialImageURL = new URL("/assets/hero-bg.png", Astro.site);
 ---
 
 <!doctype html>
@@ -25,22 +32,42 @@ const apiBaseUrl = import.meta.env.PUBLIC_API_BASE_URL || "";
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Dharma Insights - Gold Coast Dharma Realm</title>
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalURL} />
+
+    <!-- Sitemap -->
+    <link rel="sitemap" href="/sitemap-index.xml" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={socialImageURL} />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={socialImageURL} />
+
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href={googleFontsUrl} rel="stylesheet" />
   </head>
   <body>
-    <div class="min-h-screen" style="background-color: #EBE9CF;">
-      <Navigation client:load />
+    <div class="min-h-screen bg-dark-text">
+      <Navigation client:idle />
 
       <!-- Hero Section -->
-      <div class="relative pt-32 pb-16" style="background-color: #1c1917;">
+      <div class="relative pt-32 pb-16 bg-dark-bg">
         <!-- Dot Pattern Background -->
         <div class="absolute inset-0 opacity-10">
           <div
             class="absolute inset-0"
-            style="background-image: radial-gradient(circle, #c9a050 1px, transparent 1px); background-size: 50px 50px;"
+            style="background-image: radial-gradient(circle, var(--accent-gold) 1px, transparent 1px); background-size: 50px 50px;"
           >
           </div>
         </div>
@@ -50,10 +77,9 @@ const apiBaseUrl = import.meta.env.PUBLIC_API_BASE_URL || "";
         >
           <!-- Decorative Divider -->
           <div class="inline-flex items-center justify-center mb-6">
-            <div class="h-px w-16" style="background-color: #c9a050;"></div>
+            <div class="h-px w-16 bg-accent-gold"></div>
             <div
-              class="mx-4 w-16 h-16 rounded-full flex items-center justify-center"
-              style="background-color: #c9a050;"
+              class="mx-4 w-16 h-16 rounded-full flex items-center justify-center bg-accent-gold"
             >
               <svg
                 class="w-8 h-8 text-white"
@@ -69,18 +95,18 @@ const apiBaseUrl = import.meta.env.PUBLIC_API_BASE_URL || "";
                 ></path>
               </svg>
             </div>
-            <div class="h-px w-16" style="background-color: #c9a050;"></div>
+            <div class="h-px w-16 bg-accent-gold"></div>
           </div>
 
           <h1
-            class="text-5xl md:text-6xl mb-6 font-serif"
-            style={`color: #EBE9CF; font-family: ${secondaryFont};`}
+            class="text-5xl md:text-6xl mb-6 font-serif text-dark-text"
+            style={`font-family: ${secondaryFont};`}
           >
             Dharma Insights
           </h1>
           <p
-            class="text-xl max-w-3xl mx-auto"
-            style={`color: #EBE9CF; opacity: 0.8; font-family: ${primaryFont};`}
+            class="text-xl max-w-3xl mx-auto text-dark-text/80"
+            style={`font-family: ${primaryFont};`}
           >
             Reflections on practice, teachings, and the path to awakening
           </p>
@@ -90,7 +116,7 @@ const apiBaseUrl = import.meta.env.PUBLIC_API_BASE_URL || "";
       <!-- Main Content -->
       <div class="pt-8 pb-8 sm:pb-12">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <BlogList apiBaseUrl={apiBaseUrl} client:load />
+          <BlogList apiBaseUrl={apiBaseUrl} client:idle />
         </div>
       </div>
 

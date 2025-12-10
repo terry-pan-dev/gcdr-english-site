@@ -1,8 +1,19 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
-import { AboutPage } from '../components/AboutPage';
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { AboutPage } from "../components/AboutPage";
 ---
 
-<BaseLayout title="About - GCDR" theme="dark">
-  <AboutPage client:only="react" />
+<BaseLayout
+  title="About - Gold Coast Dharma Realm"
+  description="Learn about Gold Coast Dharma Realm (GCDR), the Australian branch of the Dharma Realm Buddhist Association founded by Venerable Master Hsuan Hua."
+  theme="dark"
+>
+  <AboutPage client:only="react">
+    <div
+      slot="fallback"
+      class="min-h-screen flex items-center justify-center bg-dark-bg"
+    >
+      <p class="text-dark-text">Loading...</p>
+    </div>
+  </AboutPage>
 </BaseLayout>
