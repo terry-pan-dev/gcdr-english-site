@@ -21,7 +21,38 @@ export function AdminDashboardWrapper() {
   const [isChecking, setIsChecking] = useState(true);
 
   useEffect(() => {
+    // #region agent log
+    fetch("http://127.0.0.1:7242/ingest/aeca9443-8952-4b89-b876-38015799b0cb", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        location: "AdminDashboardWrapper.tsx:23",
+        message: "useEffect triggered",
+        data: { isChecking, isAuthenticated },
+        timestamp: Date.now(),
+        sessionId: "debug-session",
+        hypothesisId: "A",
+      }),
+    }).catch(() => {});
+    // #endregion
     const checkAuth = async () => {
+      // #region agent log
+      fetch(
+        "http://127.0.0.1:7242/ingest/aeca9443-8952-4b89-b876-38015799b0cb",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            location: "AdminDashboardWrapper.tsx:27",
+            message: "checkAuth started",
+            data: { isChecking },
+            timestamp: Date.now(),
+            sessionId: "debug-session",
+            hypothesisId: "A",
+          }),
+        }
+      ).catch(() => {});
+      // #endregion
       try {
         // Check for loop detection flag
         const loopDetected = sessionStorage.getItem("__auth_loop_detected__");
@@ -43,6 +74,28 @@ export function AdminDashboardWrapper() {
 
         // Ensure Amplify is configured - try sync first, then async if needed
         let configured = ensureAmplifyConfigured();
+        // #region agent log
+        fetch(
+          "http://127.0.0.1:7242/ingest/aeca9443-8952-4b89-b876-38015799b0cb",
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              location: "AdminDashboardWrapper.tsx:50",
+              message: "ensureAmplifyConfigured result",
+              data: {
+                configured,
+                hasWindowGlobals:
+                  typeof window !== "undefined" &&
+                  !!(window as any).__COGNITO_USER_POOL_ID__,
+              },
+              timestamp: Date.now(),
+              sessionId: "debug-session",
+              hypothesisId: "C",
+            }),
+          }
+        ).catch(() => {});
+        // #endregion
         if (!configured) {
           if (shouldShowDebugLogs()) {
             console.log(
@@ -65,7 +118,41 @@ export function AdminDashboardWrapper() {
         }
 
         // Try to get the current user (non-blocking check)
+        // #region agent log
+        fetch(
+          "http://127.0.0.1:7242/ingest/aeca9443-8952-4b89-b876-38015799b0cb",
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              location: "AdminDashboardWrapper.tsx:67",
+              message: "calling getCurrentUser",
+              data: {},
+              timestamp: Date.now(),
+              sessionId: "debug-session",
+              hypothesisId: "D",
+            }),
+          }
+        ).catch(() => {});
+        // #endregion
         const user = await authApi.getCurrentUser();
+        // #region agent log
+        fetch(
+          "http://127.0.0.1:7242/ingest/aeca9443-8952-4b89-b876-38015799b0cb",
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              location: "AdminDashboardWrapper.tsx:71",
+              message: "getCurrentUser returned",
+              data: { hasUser: !!user },
+              timestamp: Date.now(),
+              sessionId: "debug-session",
+              hypothesisId: "D",
+            }),
+          }
+        ).catch(() => {});
+        // #endregion
 
         // Always set authenticated to true if we got here (server let the page load)
         setIsAuthenticated(true);
@@ -99,7 +186,7 @@ export function AdminDashboardWrapper() {
     checkAuth();
 
     return () => clearTimeout(timeoutId);
-  }, [isChecking]);
+  }, []); // Fixed: Removed isChecking from dependencies to prevent infinite loop
 
   // Show loading state while checking authentication
   if (isChecking) {

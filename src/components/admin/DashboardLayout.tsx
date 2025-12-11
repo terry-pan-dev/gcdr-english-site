@@ -21,6 +21,7 @@ import { Button } from "../ui/button";
 import { FileText, Image, LogOut, Plus } from "lucide-react";
 import { Separator } from "../ui/separator";
 import { cn } from "../ui/utils";
+import { Toaster } from "../ui/sonner";
 
 type View = "blogs" | "editor" | "media";
 type EditorMode = "new" | "edit";
@@ -263,12 +264,14 @@ export function DashboardLayout() {
               blogId={selectedBlogId}
               onBack={handleBackToList}
               onSave={loadBlogs}
+              blogs={blogs}
             />
           )}
 
           {currentView === "media" && <MediaManager />}
         </SidebarInset>
       </div>
+      <Toaster position="top-right" />
     </SidebarProvider>
   );
 }

@@ -10,13 +10,40 @@ import {
   TableRow,
 } from "../ui/table";
 import { Badge } from "../ui/badge";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../ui/card";
-import { Edit, Trash2 } from "lucide-react";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "../ui/card";
+import { Edit, Trash2, FileText } from "lucide-react";
 
 interface Props {
   blogs: BlogPost[];
   onEdit: (id: string) => void;
   onDelete: () => void;
+}
+
+function getPublishStatus(blog: BlogPost): {
+  status: "published" | "planned" | "draft";
+  label: string;
+} {
+  if (!blog.publish) {
+    return { status: "draft", label: "Draft" };
+  }
+
+  const publishDate = new Date(blog.date);
+  const today = new Date();
+  // Reset time to compare dates only
+  today.setHours(0, 0, 0, 0);
+  publishDate.setHours(0, 0, 0, 0);
+
+  if (publishDate > today) {
+    return { status: "planned", label: "Planned" };
+  }
+
+  return { status: "published", label: "Published" };
 }
 
 export function BlogList({ blogs, onEdit, onDelete }: Props) {
@@ -40,9 +67,14 @@ export function BlogList({ blogs, onEdit, onDelete }: Props) {
 
   if (blogs.length === 0) {
     return (
-      <Card>
-        <CardContent className="flex flex-col items-center justify-center py-12">
-          <p className="text-muted-foreground text-center">No blog posts found. Create your first post!</p>
+      <Card className="border-2 border-dashed border-slate-200">
+        <CardContent className="flex flex-col items-center justify-center py-16">
+          <FileText className="size-12 text-muted-foreground mb-4 opacity-50" />
+          <h3 className="text-lg font-semibold mb-2">No blog posts yet</h3>
+          <p className="text-muted-foreground text-center max-w-md">
+            Get started by creating your first blog post. Click the "New Blog
+            Post" button above to begin.
+          </p>
         </CardContent>
       </Card>
     );
@@ -63,8 +95,13 @@ export function BlogList({ blogs, onEdit, onDelete }: Props) {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {blogs.map((blog) => (
-              <TableRow key={blog.id}>
+            {blogs.map((blog, index) => (
+              <TableRow
+                key={blog.id}
+                className={`hover:bg-blue-50/30 transition-colors cursor-pointer ${
+                  index % 2 === 0 ? "bg-white" : "bg-slate-50/50"
+                }`}
+              >
                 <TableCell className="font-medium">{blog.title}</TableCell>
                 <TableCell>
                   <div className="max-w-md">
@@ -82,11 +119,28 @@ export function BlogList({ blogs, onEdit, onDelete }: Props) {
                   })}
                 </TableCell>
                 <TableCell>
-                  {blog.publish ? (
-                    <Badge className="bg-green-100 text-green-700 border-green-200">Published</Badge>
-                  ) : (
-                    <Badge className="bg-amber-100 text-amber-700 border-amber-200">Draft</Badge>
-                  )}
+                  {(() => {
+                    const { status, label } = getPublishStatus(blog);
+                    if (status === "published") {
+                      return (
+                        <Badge className="bg-green-100 text-green-700 border-green-200">
+                          {label}
+                        </Badge>
+                      );
+                    } else if (status === "planned") {
+                      return (
+                        <Badge className="bg-blue-100 text-blue-700 border-blue-200">
+                          {label}
+                        </Badge>
+                      );
+                    } else {
+                      return (
+                        <Badge className="bg-amber-100 text-amber-700 border-amber-200">
+                          {label}
+                        </Badge>
+                      );
+                    }
+                  })()}
                 </TableCell>
                 <TableCell className="text-right">
                   <div className="flex justify-end gap-2">
@@ -116,4 +170,3 @@ export function BlogList({ blogs, onEdit, onDelete }: Props) {
     </div>
   );
 }
-

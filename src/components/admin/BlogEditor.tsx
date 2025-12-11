@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import type React from "react";
 import { useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Link from "@tiptap/extension-link";
@@ -36,15 +37,24 @@ import {
 import { Separator } from "../ui/separator";
 import { Quote } from "./extensions/Quote";
 import { Callout, type CalloutType } from "./extensions/Callout";
+import { toast } from "sonner";
+import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 
 interface Props {
   mode: "new" | "edit";
   blogId: string | null;
   onBack: () => void;
   onSave: () => void;
+  blogs?: BlogPost[];
 }
 
-export function BlogEditor({ mode, blogId, onBack, onSave }: Props) {
+export function BlogEditor({
+  mode,
+  blogId,
+  onBack,
+  onSave,
+  blogs = [],
+}: Props) {
   const [metadata, setMetadata] = useState<Partial<BlogPost>>({
     title: "",
     subtitle: "",
@@ -86,7 +96,8 @@ export function BlogEditor({ mode, blogId, onBack, onSave }: Props) {
     },
     editorProps: {
       attributes: {
-        class: "prose prose-sm dark:prose-invert max-w-none focus:outline-none min-h-[500px] p-6",
+        class:
+          "prose prose-sm dark:prose-invert max-w-none focus:outline-none min-h-[500px] p-6",
       },
     },
   });
@@ -117,8 +128,16 @@ export function BlogEditor({ mode, blogId, onBack, onSave }: Props) {
   };
 
   const handleSave = async () => {
-    if (!metadata.title || !metadata.author || !metadata.category || !metadata.excerpt) {
-      alert("Please fill in all required fields (title, author, category, excerpt)");
+    if (
+      !metadata.title ||
+      !metadata.author ||
+      !metadata.category ||
+      !metadata.excerpt
+    ) {
+      toast.error("Validation Error", {
+        description:
+          "Please fill in all required fields (title, author, category, excerpt)",
+      });
       return;
     }
 
@@ -130,10 +149,15 @@ export function BlogEditor({ mode, blogId, onBack, onSave }: Props) {
           content,
         } as any);
         if (result.error) {
-          alert(result.error);
+          toast.error("Failed to Save", {
+            description: result.error,
+          });
         } else {
+          toast.success("Blog Post Created", {
+            description: `"${metadata.title}" has been successfully created.`,
+          });
           onSave();
-          onBack();
+          setTimeout(() => onBack(), 500);
         }
       } else if (blogId) {
         const result = await blogApi.update(blogId, {
@@ -141,15 +165,22 @@ export function BlogEditor({ mode, blogId, onBack, onSave }: Props) {
           content,
         } as any);
         if (result.error) {
-          alert(result.error);
+          toast.error("Failed to Update", {
+            description: result.error,
+          });
         } else {
+          toast.success("Blog Post Updated", {
+            description: `"${metadata.title}" has been successfully updated.`,
+          });
           onSave();
-          onBack();
+          setTimeout(() => onBack(), 500);
         }
       }
     } catch (error) {
       console.error("Error saving blog:", error);
-      alert("Failed to save blog post");
+      toast.error("Failed to Save", {
+        description: "An unexpected error occurred. Please try again.",
+      });
     } finally {
       setSaving(false);
     }
@@ -198,123 +229,337 @@ export function BlogEditor({ mode, blogId, onBack, onSave }: Props) {
       </div>
 
       {/* Editor with Resizable Panels */}
-      <div className="flex-1 overflow-hidden">
-        <ResizablePanelGroup direction="horizontal" className="h-full">
+      <div className="flex-1 overflow-hidden flex">
+        <ResizablePanelGroup direction="horizontal" className="h-full flex-1">
           {/* Editor Panel */}
           <ResizablePanel defaultSize={40} minSize={30}>
             <Card className="h-full flex flex-col rounded-none border-0 border-r">
               <CardHeader className="border-b pb-2">
-                <div className="flex items-center gap-2 flex-wrap">
+                <div className="flex items-center gap-1 flex-wrap">
                   {editor && (
                     <>
-                      <Button
-                        variant={editor.isActive("bold") ? "default" : "ghost"}
-                        size="sm"
-                        onClick={() => editor.chain().focus().toggleBold().run()}
-                      >
-                        <Bold className="size-4" />
-                      </Button>
-                      <Button
-                        variant={editor.isActive("italic") ? "default" : "ghost"}
-                        size="sm"
-                        onClick={() => editor.chain().focus().toggleItalic().run()}
-                      >
-                        <Italic className="size-4" />
-                      </Button>
+                      {/* Text Formatting Group */}
+                      <div className="flex items-center gap-1 rounded-md border border-transparent p-1 hover:border-slate-200 transition-colors">
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <Button
+                              variant={
+                                editor.isActive("bold") ? "default" : "ghost"
+                              }
+                              size="sm"
+                              onClick={() =>
+                                editor.chain().focus().toggleBold().run()
+                              }
+                            >
+                              <Bold className="size-4" />
+                            </Button>
+                          </TooltipTrigger>
+                          <TooltipContent>
+                            <div className="text-xs">
+                              Bold{" "}
+                              <span className="text-muted-foreground">
+                                (Ctrl+B)
+                              </span>
+                            </div>
+                          </TooltipContent>
+                        </Tooltip>
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <Button
+                              variant={
+                                editor.isActive("italic") ? "default" : "ghost"
+                              }
+                              size="sm"
+                              onClick={() =>
+                                editor.chain().focus().toggleItalic().run()
+                              }
+                            >
+                              <Italic className="size-4" />
+                            </Button>
+                          </TooltipTrigger>
+                          <TooltipContent>
+                            <div className="text-xs">
+                              Italic{" "}
+                              <span className="text-muted-foreground">
+                                (Ctrl+I)
+                              </span>
+                            </div>
+                          </TooltipContent>
+                        </Tooltip>
+                      </div>
+                      {/* Headings Group */}
+                      <div className="flex items-center gap-1 rounded-md border border-transparent p-1 hover:border-slate-200 transition-colors">
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <Button
+                              variant={
+                                editor.isActive("heading", { level: 1 })
+                                  ? "default"
+                                  : "ghost"
+                              }
+                              size="sm"
+                              onClick={() =>
+                                editor
+                                  .chain()
+                                  .focus()
+                                  .toggleHeading({ level: 1 })
+                                  .run()
+                              }
+                            >
+                              <Heading1 className="size-4" />
+                            </Button>
+                          </TooltipTrigger>
+                          <TooltipContent>
+                            <div className="text-xs">Heading 1</div>
+                          </TooltipContent>
+                        </Tooltip>
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <Button
+                              variant={
+                                editor.isActive("heading", { level: 2 })
+                                  ? "default"
+                                  : "ghost"
+                              }
+                              size="sm"
+                              onClick={() =>
+                                editor
+                                  .chain()
+                                  .focus()
+                                  .toggleHeading({ level: 2 })
+                                  .run()
+                              }
+                            >
+                              <Heading2 className="size-4" />
+                            </Button>
+                          </TooltipTrigger>
+                          <TooltipContent>
+                            <div className="text-xs">Heading 2</div>
+                          </TooltipContent>
+                        </Tooltip>
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <Button
+                              variant={
+                                editor.isActive("heading", { level: 3 })
+                                  ? "default"
+                                  : "ghost"
+                              }
+                              size="sm"
+                              onClick={() =>
+                                editor
+                                  .chain()
+                                  .focus()
+                                  .toggleHeading({ level: 3 })
+                                  .run()
+                              }
+                            >
+                              <Heading3 className="size-4" />
+                            </Button>
+                          </TooltipTrigger>
+                          <TooltipContent>
+                            <div className="text-xs">Heading 3</div>
+                          </TooltipContent>
+                        </Tooltip>
+                      </div>
+                      {/* Lists & Quotes Group */}
+                      <div className="flex items-center gap-1 rounded-md border border-transparent p-1 hover:border-slate-200 transition-colors">
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <Button
+                              variant={
+                                editor.isActive("bulletList")
+                                  ? "default"
+                                  : "ghost"
+                              }
+                              size="sm"
+                              onClick={() =>
+                                editor.chain().focus().toggleBulletList().run()
+                              }
+                            >
+                              <List className="size-4" />
+                            </Button>
+                          </TooltipTrigger>
+                          <TooltipContent>
+                            <div className="text-xs">Bullet List</div>
+                          </TooltipContent>
+                        </Tooltip>
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <Button
+                              variant={
+                                editor.isActive("orderedList")
+                                  ? "default"
+                                  : "ghost"
+                              }
+                              size="sm"
+                              onClick={() =>
+                                editor.chain().focus().toggleOrderedList().run()
+                              }
+                            >
+                              <ListOrdered className="size-4" />
+                            </Button>
+                          </TooltipTrigger>
+                          <TooltipContent>
+                            <div className="text-xs">Numbered List</div>
+                          </TooltipContent>
+                        </Tooltip>
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <Button
+                              variant={
+                                editor.isActive("blockquote")
+                                  ? "default"
+                                  : "ghost"
+                              }
+                              size="sm"
+                              onClick={() =>
+                                editor.chain().focus().toggleBlockquote().run()
+                              }
+                            >
+                              <QuoteIcon className="size-4" />
+                            </Button>
+                          </TooltipTrigger>
+                          <TooltipContent>
+                            <div className="text-xs">Blockquote</div>
+                          </TooltipContent>
+                        </Tooltip>
+                      </div>
+                      {/* Special Components Group */}
+                      <div className="flex items-center gap-1 rounded-md border border-transparent p-1 hover:border-slate-200 transition-colors">
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <Button
+                              variant={
+                                editor.isActive("quote") ? "default" : "ghost"
+                              }
+                              size="sm"
+                              onClick={() => {
+                                const author = window.prompt(
+                                  "Author name (optional):"
+                                );
+                                editor
+                                  .chain()
+                                  .focus()
+                                  .toggleQuote({ author: author || undefined })
+                                  .run();
+                              }}
+                            >
+                              <QuoteIcon className="size-4" />
+                              <span className="ml-1 text-xs">Q</span>
+                            </Button>
+                          </TooltipTrigger>
+                          <TooltipContent>
+                            <div className="text-xs">
+                              Insert Quote Component
+                            </div>
+                          </TooltipContent>
+                        </Tooltip>
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <Button
+                              variant={
+                                editor.isActive("callout", { type: "insight" })
+                                  ? "default"
+                                  : "ghost"
+                              }
+                              size="sm"
+                              onClick={() => {
+                                editor
+                                  .chain()
+                                  .focus()
+                                  .toggleCallout({ type: "insight" })
+                                  .run();
+                              }}
+                            >
+                              <Lightbulb className="size-4" />
+                            </Button>
+                          </TooltipTrigger>
+                          <TooltipContent>
+                            <div className="text-xs">
+                              Insert Insight Callout
+                            </div>
+                          </TooltipContent>
+                        </Tooltip>
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <Button
+                              variant={
+                                editor.isActive("callout", { type: "warning" })
+                                  ? "default"
+                                  : "ghost"
+                              }
+                              size="sm"
+                              onClick={() => {
+                                editor
+                                  .chain()
+                                  .focus()
+                                  .toggleCallout({ type: "warning" })
+                                  .run();
+                              }}
+                            >
+                              <AlertTriangle className="size-4" />
+                            </Button>
+                          </TooltipTrigger>
+                          <TooltipContent>
+                            <div className="text-xs">
+                              Insert Warning Callout
+                            </div>
+                          </TooltipContent>
+                        </Tooltip>
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <Button
+                              variant={
+                                editor.isActive("callout", { type: "tip" })
+                                  ? "default"
+                                  : "ghost"
+                              }
+                              size="sm"
+                              onClick={() => {
+                                editor
+                                  .chain()
+                                  .focus()
+                                  .toggleCallout({ type: "tip" })
+                                  .run();
+                              }}
+                            >
+                              <MessageSquare className="size-4" />
+                            </Button>
+                          </TooltipTrigger>
+                          <TooltipContent>
+                            <div className="text-xs">Insert Tip Callout</div>
+                          </TooltipContent>
+                        </Tooltip>
+                      </div>
                       <Separator orientation="vertical" className="h-6" />
-                      <Button
-                        variant={editor.isActive("heading", { level: 1 }) ? "default" : "ghost"}
-                        size="sm"
-                        onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
-                      >
-                        <Heading1 className="size-4" />
-                      </Button>
-                      <Button
-                        variant={editor.isActive("heading", { level: 2 }) ? "default" : "ghost"}
-                        size="sm"
-                        onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
-                      >
-                        <Heading2 className="size-4" />
-                      </Button>
-                      <Button
-                        variant={editor.isActive("heading", { level: 3 }) ? "default" : "ghost"}
-                        size="sm"
-                        onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}
-                      >
-                        <Heading3 className="size-4" />
-                      </Button>
-                      <Separator orientation="vertical" className="h-6" />
-                      <Button
-                        variant={editor.isActive("bulletList") ? "default" : "ghost"}
-                        size="sm"
-                        onClick={() => editor.chain().focus().toggleBulletList().run()}
-                      >
-                        <List className="size-4" />
-                      </Button>
-                      <Button
-                        variant={editor.isActive("orderedList") ? "default" : "ghost"}
-                        size="sm"
-                        onClick={() => editor.chain().focus().toggleOrderedList().run()}
-                      >
-                        <ListOrdered className="size-4" />
-                      </Button>
-                      <Button
-                        variant={editor.isActive("blockquote") ? "default" : "ghost"}
-                        size="sm"
-                        onClick={() => editor.chain().focus().toggleBlockquote().run()}
-                      >
-                        <QuoteIcon className="size-4" />
-                      </Button>
-                      <Separator orientation="vertical" className="h-6" />
-                      <Button
-                        variant={editor.isActive("quote") ? "default" : "ghost"}
-                        size="sm"
-                        onClick={() => {
-                          const author = window.prompt("Author name (optional):");
-                          editor.chain().focus().toggleQuote({ author: author || undefined }).run();
-                        }}
-                        title="Insert Quote Component"
-                      >
-                        <QuoteIcon className="size-4" />
-                        <span className="ml-1 text-xs">Q</span>
-                      </Button>
-                      <Button
-                        variant={editor.isActive("callout", { type: "insight" }) ? "default" : "ghost"}
-                        size="sm"
-                        onClick={() => {
-                          editor.chain().focus().toggleCallout({ type: "insight" }).run();
-                        }}
-                        title="Insert Insight Callout"
-                      >
-                        <Lightbulb className="size-4" />
-                      </Button>
-                      <Button
-                        variant={editor.isActive("callout", { type: "warning" }) ? "default" : "ghost"}
-                        size="sm"
-                        onClick={() => {
-                          editor.chain().focus().toggleCallout({ type: "warning" }).run();
-                        }}
-                        title="Insert Warning Callout"
-                      >
-                        <AlertTriangle className="size-4" />
-                      </Button>
-                      <Button
-                        variant={editor.isActive("callout", { type: "tip" }) ? "default" : "ghost"}
-                        size="sm"
-                        onClick={() => {
-                          editor.chain().focus().toggleCallout({ type: "tip" }).run();
-                        }}
-                        title="Insert Tip Callout"
-                      >
-                        <MessageSquare className="size-4" />
-                      </Button>
-                      <Separator orientation="vertical" className="h-6" />
-                      <Button variant="ghost" size="sm" onClick={addLink}>
-                        <LinkIcon className="size-4" />
-                      </Button>
-                      <Button variant="ghost" size="sm" onClick={addImage}>
-                        <ImageIcon className="size-4" />
-                      </Button>
+                      {/* Media Group */}
+                      <div className="flex items-center gap-1 rounded-md border border-transparent p-1 hover:border-slate-200 transition-colors">
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <Button variant="ghost" size="sm" onClick={addLink}>
+                              <LinkIcon className="size-4" />
+                            </Button>
+                          </TooltipTrigger>
+                          <TooltipContent>
+                            <div className="text-xs">Insert Link</div>
+                          </TooltipContent>
+                        </Tooltip>
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={addImage}
+                            >
+                              <ImageIcon className="size-4" />
+                            </Button>
+                          </TooltipTrigger>
+                          <TooltipContent>
+                            <div className="text-xs">Insert Image</div>
+                          </TooltipContent>
+                        </Tooltip>
+                      </div>
                     </>
                   )}
                 </div>
@@ -344,23 +589,29 @@ export function BlogEditor({ mode, blogId, onBack, onSave }: Props) {
               </CardContent>
             </Card>
           </ResizablePanel>
-
-          <ResizableHandle withHandle />
-
-          {/* Metadata Panel */}
-          <ResizablePanel defaultSize={25} minSize={20}>
-            <Card className="h-full flex flex-col rounded-none border-0">
-              <CardHeader className="border-b">
-                <CardTitle className="text-base">Metadata</CardTitle>
-              </CardHeader>
-              <CardContent className="flex-1 overflow-hidden p-0">
-                <ScrollArea className="h-full">
-                  <MetadataPanel metadata={metadata} onChange={setMetadata} />
-                </ScrollArea>
-              </CardContent>
-            </Card>
-          </ResizablePanel>
         </ResizablePanelGroup>
+
+        {/* Metadata Panel - Fixed width, no resize handle */}
+        <div className="w-72 flex-shrink-0 border-l bg-background">
+          <Card className="h-full flex flex-col rounded-none border-0">
+            <CardHeader className="border-b">
+              <CardTitle className="text-base">Metadata</CardTitle>
+            </CardHeader>
+            <CardContent className="flex-1 overflow-hidden p-0">
+              <ScrollArea className="h-full">
+                <MetadataPanel
+                  metadata={metadata}
+                  onChange={setMetadata}
+                  existingCategories={Array.from(
+                    new Set(
+                      blogs.map((b) => b.category).filter(Boolean) as string[]
+                    )
+                  )}
+                />
+              </ScrollArea>
+            </CardContent>
+          </Card>
+        </div>
       </div>
     </div>
   );
