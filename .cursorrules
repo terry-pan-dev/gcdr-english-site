@@ -29,10 +29,8 @@ pnpm run deploy:prod
 
 **Allowed Commands:**
 ```bash
-# ✅ Development deployment only (with user approval)
-pnpm sst deploy
+# ✅ Development deployment - ALWAYS use this command
 pnpm run deploy
-sst deploy
 
 # ✅ Development server
 pnpm run dev
@@ -40,10 +38,10 @@ pnpm run sst:dev
 ```
 
 **Rules:**
-1. **NEVER** run deployment commands without explicit user approval
-2. **NEVER** deploy to production stage under any circumstances
-3. **ALWAYS** cancel and warn the user if they request production deployment
-4. **ONLY** suggest deployment commands - let the user run them manually
+1. **ALWAYS** use `pnpm run deploy` for deployment (not `pnpm sst deploy` or `sst deploy`)
+2. **NEVER** run deployment commands without explicit user approval
+3. **NEVER** deploy to production stage under any circumstances
+4. **ALWAYS** cancel and warn the user if they request production deployment
 5. If deployment is needed, inform the user what command to run and why
 
 **This is a live production website serving a Buddhist temple community. Production deployments must be done manually by authorized personnel only.**
@@ -312,22 +310,17 @@ const tableName = Resource.BlogPosts.name;
 # Install dependencies
 pnpm install
 
-# Development server (Astro)
-pnpm run dev              # Runs on http://localhost:4321
-
-# Development with SST (connects to AWS)
-pnpm run sst:dev          # Runs `sst dev astro dev`
-
 # Build
 pnpm run build            # Output: dist/
 
-# Deploy
-pnpm run deploy           # Deploy to default stage
-pnpm run sst:deploy:prod  # Deploy to production stage
+# Deploy (ALWAYS use this command)
+pnpm run deploy           # Deploy to development stage
 
 # Configure CORS (after deployment)
 pnpm run configure-cors
 ```
+
+**Important:** Always use `pnpm run deploy` for deployment. Never use `sst deploy` or `pnpm sst deploy` directly. And never run local development like `npx sst dev`
 
 ---
 
@@ -434,8 +427,9 @@ pnpm run configure-cors
 
 ### Deploying Changes
 1. Run `pnpm run build` to test build
-2. Run `pnpm run sst:deploy:prod` for production
+2. Run `pnpm run deploy` for development deployment
 3. Configure CORS if API endpoints changed: `pnpm run configure-cors`
+4. **Note:** Production deployment (`pnpm run sst:deploy:prod`) must be done manually by authorized personnel only
 
 ---
 

@@ -7,6 +7,7 @@ import { Info } from "lucide-react";
 import type { BlogPost } from "../../lib/admin-api";
 import { CategoryCombobox } from "./CategoryCombobox";
 import { TagsMultiSelect } from "./TagsMultiSelect";
+import { ImageSelector } from "./ImageSelector";
 
 interface Props {
   metadata: Partial<BlogPost>;
@@ -52,9 +53,9 @@ const fieldInfoMap: Record<string, FieldInfo> = {
     whereShown: "Blog listing page preview, SEO description",
     affectsPublish: true,
   },
-  image: {
+  "blog-header-image": {
     important: false,
-    whereShown: "Blog post header, blog listing thumbnail",
+    whereShown: "Blog detail header background, blog card thumbnail",
     affectsPublish: false,
   },
   tags: {
@@ -261,15 +262,19 @@ export function MetadataPanel({
       {/* Content Settings Section */}
       <div className="border-t pt-4 space-y-4">
         <div className="space-y-2">
-          <FieldLabel htmlFor="image" fieldKey="image">
-            Image URL
+          <FieldLabel htmlFor="image" fieldKey="blog-header-image">
+            Blog Header Image
           </FieldLabel>
           <Input
             id="image"
             value={metadata.image || ""}
             onChange={(e) => updateField("image", e.target.value)}
-            placeholder="/assets/image.jpg"
+            placeholder="Select or enter image URL"
             className="border-2 border-slate-300 bg-white shadow-sm hover:border-slate-400 hover:bg-slate-50 focus-visible:border-primary focus-visible:ring-2 focus-visible:ring-primary/20 focus-visible:shadow-md transition-all"
+          />
+          <ImageSelector
+            value={metadata.image || ""}
+            onChange={(url) => updateField("image", url)}
           />
         </div>
 
