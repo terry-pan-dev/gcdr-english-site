@@ -607,6 +607,9 @@ export function BlogEditor({
                       blogs.map((b) => b.category).filter(Boolean) as string[]
                     )
                   )}
+                  existingTags={Array.from(
+                    new Set(blogs.flatMap((b) => b.tags || []).filter(Boolean))
+                  )}
                 />
               </ScrollArea>
             </CardContent>

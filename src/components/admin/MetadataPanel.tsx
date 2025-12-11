@@ -5,11 +5,14 @@ import { Switch } from "../ui/switch";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 import { Info } from "lucide-react";
 import type { BlogPost } from "../../lib/admin-api";
+import { CategoryCombobox } from "./CategoryCombobox";
+import { TagsMultiSelect } from "./TagsMultiSelect";
 
 interface Props {
   metadata: Partial<BlogPost>;
   onChange: (metadata: Partial<BlogPost>) => void;
   existingCategories?: string[];
+  existingTags?: string[];
 }
 
 interface FieldInfo {
@@ -149,6 +152,7 @@ export function MetadataPanel({
   metadata,
   onChange,
   existingCategories = [],
+  existingTags = [],
 }: Props) {
   const updateField = (field: string, value: any) => {
     onChange({
@@ -165,14 +169,6 @@ export function MetadataPanel({
         [field]: value,
       },
     });
-  };
-
-  const updateTags = (tagsString: string) => {
-    const tags = tagsString
-      .split(",")
-      .map((t) => t.trim())
-      .filter(Boolean);
-    updateField("tags", tags);
   };
 
   return (
@@ -239,19 +235,12 @@ export function MetadataPanel({
           <FieldLabel htmlFor="category" fieldKey="category">
             Category *
           </FieldLabel>
-          <Input
-            id="category"
-            list="category-suggestions"
+          <CategoryCombobox
             value={metadata.category || ""}
-            onChange={(e) => updateField("category", e.target.value)}
-            placeholder="Select or type a category"
-            className="border-2 border-slate-300 bg-white shadow-sm hover:border-slate-400 hover:bg-slate-50 focus-visible:border-primary focus-visible:ring-2 focus-visible:ring-primary/20 focus-visible:shadow-md transition-all"
+            onChange={(value) => updateField("category", value)}
+            categories={existingCategories}
+            placeholder="Select or create a category"
           />
-          <datalist id="category-suggestions">
-            {existingCategories.map((category) => (
-              <option key={category} value={category} />
-            ))}
-          </datalist>
         </div>
 
         <div className="space-y-2">
@@ -286,14 +275,13 @@ export function MetadataPanel({
 
         <div className="space-y-2">
           <FieldLabel htmlFor="tags" fieldKey="tags">
-            Tags (comma-separated)
+            Tags
           </FieldLabel>
-          <Input
-            id="tags"
-            value={metadata.tags?.join(", ") || ""}
-            onChange={(e) => updateTags(e.target.value)}
-            placeholder="tag1, tag2, tag3"
-            className="border-2 border-slate-300 bg-white shadow-sm hover:border-slate-400 hover:bg-slate-50 focus-visible:border-primary focus-visible:ring-2 focus-visible:ring-primary/20 focus-visible:shadow-md transition-all"
+          <TagsMultiSelect
+            value={metadata.tags || []}
+            onChange={(tags) => updateField("tags", tags)}
+            existingTags={existingTags}
+            placeholder="Add tags..."
           />
         </div>
       </div>
