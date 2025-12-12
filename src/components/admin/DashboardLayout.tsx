@@ -96,7 +96,7 @@ export function DashboardLayout() {
   if (loading && currentView === "blogs") {
     return (
       <SidebarProvider>
-        <div className="min-h-screen flex w-full">
+        <div className="h-screen flex w-full overflow-hidden">
           <Sidebar>
             <SidebarHeader className="border-b h-16 flex items-center justify-center">
               <div className="flex items-center gap-2 px-4">
@@ -165,7 +165,7 @@ export function DashboardLayout() {
 
   return (
     <SidebarProvider>
-      <div className="min-h-screen flex w-full">
+      <div className="h-screen flex w-full overflow-hidden">
         <Sidebar>
           <SidebarHeader className="border-b h-16 flex items-center justify-center">
             <div className="flex items-center gap-2 px-4">
@@ -236,7 +236,7 @@ export function DashboardLayout() {
             </SidebarMenu>
           </SidebarFooter>
         </Sidebar>
-        <SidebarInset className="flex flex-col">
+        <SidebarInset className="flex flex-col h-full overflow-hidden">
           {currentView === "blogs" && (
             <>
               <div className="border-b bg-background h-16">

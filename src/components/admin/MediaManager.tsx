@@ -206,6 +206,7 @@ export function MediaManager() {
               id="media-upload"
             />
             <Button
+              type="button"
               onClick={() => fileInputRef.current?.click()}
               disabled={uploading}
             >
@@ -263,7 +264,7 @@ export function MediaManager() {
                     <p className="text-xs text-muted-foreground mb-4">
                       Maximum file size: 1MB per file
                     </p>
-                    <Button onClick={() => fileInputRef.current?.click()}>
+                    <Button type="button" onClick={() => fileInputRef.current?.click()}>
                       <Upload className="mr-2 size-4" />
                       Upload Media
                     </Button>

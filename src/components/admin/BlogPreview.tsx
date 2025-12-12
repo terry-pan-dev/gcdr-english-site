@@ -20,6 +20,21 @@ export function BlogPreview({ content, frontmatter }: Props) {
     style.id = "blog-preview-styles";
     style.textContent = `
       /* Custom prose styles for blog preview */
+      .blog-preview-content h1 {
+        color: #1c1917;
+        margin-top: 2.5rem;
+        margin-bottom: 1.25rem;
+        font-size: 2.25rem;
+        font-weight: 600;
+        line-height: 1.3;
+        border-bottom: 3px solid #c9a050;
+        padding-bottom: 0.75rem;
+      }
+
+      .blog-preview-content h1:first-child {
+        margin-top: 0;
+      }
+
       .blog-preview-content h2 {
         color: #1c1917;
         margin-top: 2.5rem;
@@ -58,17 +73,33 @@ export function BlogPreview({ content, frontmatter }: Props) {
         font-weight: 600;
       }
 
-      .blog-preview-content ul,
+      .blog-preview-content ul {
+        margin-top: 1rem;
+        margin-bottom: 1.5rem;
+        padding-left: 1.5rem;
+        list-style-type: disc;
+      }
+
       .blog-preview-content ol {
         margin-top: 1rem;
         margin-bottom: 1.5rem;
         padding-left: 1.5rem;
+        list-style-type: decimal;
+      }
+
+      .blog-preview-content ul ul {
+        list-style-type: circle;
+      }
+
+      .blog-preview-content ul ul ul {
+        list-style-type: square;
       }
 
       .blog-preview-content li {
         color: #44403c;
         margin-bottom: 0.5rem;
         line-height: 1.7;
+        display: list-item;
       }
 
       .blog-preview-content a {

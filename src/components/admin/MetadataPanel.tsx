@@ -452,20 +452,13 @@ export function MetadataPanel({
 
         <div className="space-y-2">
           <FieldLabel htmlFor="seo-keywords" fieldKey="seo-keywords">
-            SEO Keywords (comma-separated)
+            SEO Keywords
           </FieldLabel>
-          <Input
-            id="seo-keywords"
-            value={metadata.seo?.keywords?.join(", ") || ""}
-            onChange={(e) => {
-              const keywords = e.target.value
-                .split(",")
-                .map((k) => k.trim())
-                .filter(Boolean);
-              updateSeoField("keywords", keywords);
-            }}
-            placeholder="keyword1, keyword2"
-            className="border-2 border-slate-300 bg-white shadow-sm hover:border-slate-400 hover:bg-slate-50 focus-visible:border-primary focus-visible:ring-2 focus-visible:ring-primary/20 focus-visible:shadow-md transition-all"
+          <TagsMultiSelect
+            value={metadata.seo?.keywords || []}
+            onChange={(keywords) => updateSeoField("keywords", keywords)}
+            existingTags={[]}
+            placeholder="Add keywords..."
           />
         </div>
       </div>

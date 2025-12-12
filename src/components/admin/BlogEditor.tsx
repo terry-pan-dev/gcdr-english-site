@@ -1,12 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import type React from "react";
-import { useEditor } from "@tiptap/react";
-import StarterKit from "@tiptap/starter-kit";
-import Link from "@tiptap/extension-link";
-import Image from "@tiptap/extension-image";
-import { EditorContent } from "@tiptap/react";
+import { marked } from "marked";
 import { MetadataPanel } from "./MetadataPanel";
 import { BlogPreview } from "./BlogPreview";
+import { MarkdownEditor } from "./MarkdownEditor";
 import { Button } from "../ui/button";
 import type { BlogPost } from "../../lib/admin-api";
 import { blogApi } from "../../lib/admin-api";
@@ -17,28 +14,8 @@ import {
 } from "../ui/resizable";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { ScrollArea } from "../ui/scroll-area";
-import {
-  Bold,
-  Italic,
-  Heading1,
-  Heading2,
-  Heading3,
-  List,
-  ListOrdered,
-  Quote as QuoteIcon,
-  Image as ImageIcon,
-  Link as LinkIcon,
-  ArrowLeft,
-  Save,
-  Lightbulb,
-  AlertTriangle,
-  MessageSquare,
-} from "lucide-react";
-import { Separator } from "../ui/separator";
-import { Quote } from "./extensions/Quote";
-import { Callout, type CalloutType } from "./extensions/Callout";
+import { ArrowLeft, Save } from "lucide-react";
 import { toast } from "sonner";
-import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 
 interface Props {
   mode: "new" | "edit";
@@ -69,38 +46,30 @@ export function BlogEditor({
     publish: false,
     seo: {},
   });
-  const [content, setContent] = useState("");
+  const [markdownContent, setMarkdownContent] = useState("");
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
 
-  const editor = useEditor({
-    extensions: [
-      StarterKit,
-      Link.configure({
-        openOnClick: false,
-        HTMLAttributes: {
-          class: "text-primary underline",
-        },
-      }),
-      Image.configure({
-        HTMLAttributes: {
-          class: "max-w-full rounded-lg",
-        },
-      }),
-      Quote,
-      Callout,
-    ],
-    content: "",
-    onUpdate: ({ editor }) => {
-      setContent(editor.getHTML());
-    },
-    editorProps: {
-      attributes: {
-        class:
-          "prose prose-sm dark:prose-invert max-w-none focus:outline-none min-h-[500px] p-6",
-      },
-    },
-  });
+  // Configure marked for GFM features
+  useEffect(() => {
+    marked.setOptions({
+      gfm: true, // GitHub Flavored Markdown
+      breaks: false, // Don't convert line breaks to <br>
+      headerIds: true, // Add id attributes to headers
+      mangle: false, // Don't mangle email addresses
+    });
+  }, []);
+
+  // Convert markdown to HTML for preview
+  const htmlContent = useMemo(() => {
+    if (!markdownContent) return "";
+    try {
+      return marked.parse(markdownContent) as string;
+    } catch (error) {
+      console.error("Error parsing markdown:", error);
+      return markdownContent;
+    }
+  }, [markdownContent]);
 
   useEffect(() => {
     if (mode === "edit" && blogId) {
@@ -115,10 +84,8 @@ export function BlogEditor({
       const result = await blogApi.get(blogId);
       if (result.data) {
         setMetadata(result.data);
-        setContent(result.data.content || "");
-        if (editor) {
-          editor.commands.setContent(result.data.content || "");
-        }
+        // Assume content is stored as markdown (or HTML that we'll treat as markdown)
+        setMarkdownContent(result.data.content || "");
       }
     } catch (error) {
       console.error("Error loading blog:", error);
@@ -146,7 +113,7 @@ export function BlogEditor({
       if (mode === "new") {
         const result = await blogApi.create({
           ...metadata,
-          content,
+          content: markdownContent,
         } as any);
         if (result.error) {
           toast.error("Failed to Save", {
@@ -162,7 +129,7 @@ export function BlogEditor({
       } else if (blogId) {
         const result = await blogApi.update(blogId, {
           ...metadata,
-          content,
+          content: markdownContent,
         } as any);
         if (result.error) {
           toast.error("Failed to Update", {
@@ -186,19 +153,6 @@ export function BlogEditor({
     }
   };
 
-  const addImage = () => {
-    const url = window.prompt("Enter image URL:");
-    if (url) {
-      editor?.chain().focus().setImage({ src: url }).run();
-    }
-  };
-
-  const addLink = () => {
-    const url = window.prompt("Enter URL:");
-    if (url) {
-      editor?.chain().focus().setLink({ href: url }).run();
-    }
-  };
 
   if (loading) {
     return (
@@ -233,343 +187,12 @@ export function BlogEditor({
         <ResizablePanelGroup direction="horizontal" className="h-full flex-1">
           {/* Editor Panel */}
           <ResizablePanel defaultSize={40} minSize={30}>
-            <Card className="h-full flex flex-col rounded-none border-0 border-r">
-              <CardHeader className="border-b pb-2">
-                <div className="flex items-center gap-1 flex-wrap">
-                  {editor && (
-                    <>
-                      {/* Text Formatting Group */}
-                      <div className="flex items-center gap-1 rounded-md border border-transparent p-1 hover:border-slate-200 transition-colors">
-                        <Tooltip>
-                          <TooltipTrigger asChild>
-                            <Button
-                              variant={
-                                editor.isActive("bold") ? "default" : "ghost"
-                              }
-                              size="sm"
-                              onClick={() =>
-                                editor.chain().focus().toggleBold().run()
-                              }
-                            >
-                              <Bold className="size-4" />
-                            </Button>
-                          </TooltipTrigger>
-                          <TooltipContent>
-                            <div className="text-xs">
-                              Bold{" "}
-                              <span className="text-muted-foreground">
-                                (Ctrl+B)
-                              </span>
-                            </div>
-                          </TooltipContent>
-                        </Tooltip>
-                        <Tooltip>
-                          <TooltipTrigger asChild>
-                            <Button
-                              variant={
-                                editor.isActive("italic") ? "default" : "ghost"
-                              }
-                              size="sm"
-                              onClick={() =>
-                                editor.chain().focus().toggleItalic().run()
-                              }
-                            >
-                              <Italic className="size-4" />
-                            </Button>
-                          </TooltipTrigger>
-                          <TooltipContent>
-                            <div className="text-xs">
-                              Italic{" "}
-                              <span className="text-muted-foreground">
-                                (Ctrl+I)
-                              </span>
-                            </div>
-                          </TooltipContent>
-                        </Tooltip>
-                      </div>
-                      {/* Headings Group */}
-                      <div className="flex items-center gap-1 rounded-md border border-transparent p-1 hover:border-slate-200 transition-colors">
-                        <Tooltip>
-                          <TooltipTrigger asChild>
-                            <Button
-                              variant={
-                                editor.isActive("heading", { level: 1 })
-                                  ? "default"
-                                  : "ghost"
-                              }
-                              size="sm"
-                              onClick={() =>
-                                editor
-                                  .chain()
-                                  .focus()
-                                  .toggleHeading({ level: 1 })
-                                  .run()
-                              }
-                            >
-                              <Heading1 className="size-4" />
-                            </Button>
-                          </TooltipTrigger>
-                          <TooltipContent>
-                            <div className="text-xs">Heading 1</div>
-                          </TooltipContent>
-                        </Tooltip>
-                        <Tooltip>
-                          <TooltipTrigger asChild>
-                            <Button
-                              variant={
-                                editor.isActive("heading", { level: 2 })
-                                  ? "default"
-                                  : "ghost"
-                              }
-                              size="sm"
-                              onClick={() =>
-                                editor
-                                  .chain()
-                                  .focus()
-                                  .toggleHeading({ level: 2 })
-                                  .run()
-                              }
-                            >
-                              <Heading2 className="size-4" />
-                            </Button>
-                          </TooltipTrigger>
-                          <TooltipContent>
-                            <div className="text-xs">Heading 2</div>
-                          </TooltipContent>
-                        </Tooltip>
-                        <Tooltip>
-                          <TooltipTrigger asChild>
-                            <Button
-                              variant={
-                                editor.isActive("heading", { level: 3 })
-                                  ? "default"
-                                  : "ghost"
-                              }
-                              size="sm"
-                              onClick={() =>
-                                editor
-                                  .chain()
-                                  .focus()
-                                  .toggleHeading({ level: 3 })
-                                  .run()
-                              }
-                            >
-                              <Heading3 className="size-4" />
-                            </Button>
-                          </TooltipTrigger>
-                          <TooltipContent>
-                            <div className="text-xs">Heading 3</div>
-                          </TooltipContent>
-                        </Tooltip>
-                      </div>
-                      {/* Lists & Quotes Group */}
-                      <div className="flex items-center gap-1 rounded-md border border-transparent p-1 hover:border-slate-200 transition-colors">
-                        <Tooltip>
-                          <TooltipTrigger asChild>
-                            <Button
-                              variant={
-                                editor.isActive("bulletList")
-                                  ? "default"
-                                  : "ghost"
-                              }
-                              size="sm"
-                              onClick={() =>
-                                editor.chain().focus().toggleBulletList().run()
-                              }
-                            >
-                              <List className="size-4" />
-                            </Button>
-                          </TooltipTrigger>
-                          <TooltipContent>
-                            <div className="text-xs">Bullet List</div>
-                          </TooltipContent>
-                        </Tooltip>
-                        <Tooltip>
-                          <TooltipTrigger asChild>
-                            <Button
-                              variant={
-                                editor.isActive("orderedList")
-                                  ? "default"
-                                  : "ghost"
-                              }
-                              size="sm"
-                              onClick={() =>
-                                editor.chain().focus().toggleOrderedList().run()
-                              }
-                            >
-                              <ListOrdered className="size-4" />
-                            </Button>
-                          </TooltipTrigger>
-                          <TooltipContent>
-                            <div className="text-xs">Numbered List</div>
-                          </TooltipContent>
-                        </Tooltip>
-                        <Tooltip>
-                          <TooltipTrigger asChild>
-                            <Button
-                              variant={
-                                editor.isActive("blockquote")
-                                  ? "default"
-                                  : "ghost"
-                              }
-                              size="sm"
-                              onClick={() =>
-                                editor.chain().focus().toggleBlockquote().run()
-                              }
-                            >
-                              <QuoteIcon className="size-4" />
-                            </Button>
-                          </TooltipTrigger>
-                          <TooltipContent>
-                            <div className="text-xs">Blockquote</div>
-                          </TooltipContent>
-                        </Tooltip>
-                      </div>
-                      {/* Special Components Group */}
-                      <div className="flex items-center gap-1 rounded-md border border-transparent p-1 hover:border-slate-200 transition-colors">
-                        <Tooltip>
-                          <TooltipTrigger asChild>
-                            <Button
-                              variant={
-                                editor.isActive("quote") ? "default" : "ghost"
-                              }
-                              size="sm"
-                              onClick={() => {
-                                const author = window.prompt(
-                                  "Author name (optional):"
-                                );
-                                editor
-                                  .chain()
-                                  .focus()
-                                  .toggleQuote({ author: author || undefined })
-                                  .run();
-                              }}
-                            >
-                              <QuoteIcon className="size-4" />
-                              <span className="ml-1 text-xs">Q</span>
-                            </Button>
-                          </TooltipTrigger>
-                          <TooltipContent>
-                            <div className="text-xs">
-                              Insert Quote Component
-                            </div>
-                          </TooltipContent>
-                        </Tooltip>
-                        <Tooltip>
-                          <TooltipTrigger asChild>
-                            <Button
-                              variant={
-                                editor.isActive("callout", { type: "insight" })
-                                  ? "default"
-                                  : "ghost"
-                              }
-                              size="sm"
-                              onClick={() => {
-                                editor
-                                  .chain()
-                                  .focus()
-                                  .toggleCallout({ type: "insight" })
-                                  .run();
-                              }}
-                            >
-                              <Lightbulb className="size-4" />
-                            </Button>
-                          </TooltipTrigger>
-                          <TooltipContent>
-                            <div className="text-xs">
-                              Insert Insight Callout
-                            </div>
-                          </TooltipContent>
-                        </Tooltip>
-                        <Tooltip>
-                          <TooltipTrigger asChild>
-                            <Button
-                              variant={
-                                editor.isActive("callout", { type: "warning" })
-                                  ? "default"
-                                  : "ghost"
-                              }
-                              size="sm"
-                              onClick={() => {
-                                editor
-                                  .chain()
-                                  .focus()
-                                  .toggleCallout({ type: "warning" })
-                                  .run();
-                              }}
-                            >
-                              <AlertTriangle className="size-4" />
-                            </Button>
-                          </TooltipTrigger>
-                          <TooltipContent>
-                            <div className="text-xs">
-                              Insert Warning Callout
-                            </div>
-                          </TooltipContent>
-                        </Tooltip>
-                        <Tooltip>
-                          <TooltipTrigger asChild>
-                            <Button
-                              variant={
-                                editor.isActive("callout", { type: "tip" })
-                                  ? "default"
-                                  : "ghost"
-                              }
-                              size="sm"
-                              onClick={() => {
-                                editor
-                                  .chain()
-                                  .focus()
-                                  .toggleCallout({ type: "tip" })
-                                  .run();
-                              }}
-                            >
-                              <MessageSquare className="size-4" />
-                            </Button>
-                          </TooltipTrigger>
-                          <TooltipContent>
-                            <div className="text-xs">Insert Tip Callout</div>
-                          </TooltipContent>
-                        </Tooltip>
-                      </div>
-                      <Separator orientation="vertical" className="h-6" />
-                      {/* Media Group */}
-                      <div className="flex items-center gap-1 rounded-md border border-transparent p-1 hover:border-slate-200 transition-colors">
-                        <Tooltip>
-                          <TooltipTrigger asChild>
-                            <Button variant="ghost" size="sm" onClick={addLink}>
-                              <LinkIcon className="size-4" />
-                            </Button>
-                          </TooltipTrigger>
-                          <TooltipContent>
-                            <div className="text-xs">Insert Link</div>
-                          </TooltipContent>
-                        </Tooltip>
-                        <Tooltip>
-                          <TooltipTrigger asChild>
-                            <Button
-                              variant="ghost"
-                              size="sm"
-                              onClick={addImage}
-                            >
-                              <ImageIcon className="size-4" />
-                            </Button>
-                          </TooltipTrigger>
-                          <TooltipContent>
-                            <div className="text-xs">Insert Image</div>
-                          </TooltipContent>
-                        </Tooltip>
-                      </div>
-                    </>
-                  )}
-                </div>
-              </CardHeader>
-              <CardContent className="flex-1 overflow-hidden p-0">
-                <ScrollArea className="h-full">
-                  <div className="p-6">
-                    {editor && <EditorContent editor={editor} />}
-                  </div>
-                </ScrollArea>
+            <Card className="h-full flex flex-col rounded-none border-0 border-r overflow-hidden">
+              <CardContent className="flex-1 min-h-0 p-0">
+                <MarkdownEditor
+                  content={markdownContent}
+                  onChange={setMarkdownContent}
+                />
               </CardContent>
             </Card>
           </ResizablePanel>
@@ -578,13 +201,13 @@ export function BlogEditor({
 
           {/* Preview Panel */}
           <ResizablePanel defaultSize={35} minSize={25}>
-            <Card className="h-full flex flex-col rounded-none border-0 border-r">
-              <CardHeader className="border-b">
+            <Card className="h-full flex flex-col rounded-none border-0 border-r overflow-hidden">
+              <CardHeader className="border-b flex-shrink-0">
                 <CardTitle className="text-base">Live Preview</CardTitle>
               </CardHeader>
-              <CardContent className="flex-1 overflow-hidden p-0">
-                <ScrollArea className="h-full">
-                  <BlogPreview content={content} frontmatter={metadata} />
+              <CardContent className="flex-1 min-h-0 p-0">
+                <ScrollArea className="h-full w-full">
+                  <BlogPreview content={htmlContent} frontmatter={metadata} />
                 </ScrollArea>
               </CardContent>
             </Card>
@@ -592,13 +215,13 @@ export function BlogEditor({
         </ResizablePanelGroup>
 
         {/* Metadata Panel - Fixed width, no resize handle */}
-        <div className="w-72 flex-shrink-0 border-l bg-background">
+        <div className="w-72 flex-shrink-0 border-l bg-background overflow-hidden">
           <Card className="h-full flex flex-col rounded-none border-0">
-            <CardHeader className="border-b">
+            <CardHeader className="border-b flex-shrink-0">
               <CardTitle className="text-base">Metadata</CardTitle>
             </CardHeader>
-            <CardContent className="flex-1 overflow-hidden p-0">
-              <ScrollArea className="h-full">
+            <CardContent className="flex-1 min-h-0 p-0">
+              <ScrollArea className="h-full w-full">
                 <MetadataPanel
                   metadata={metadata}
                   onChange={setMetadata}
