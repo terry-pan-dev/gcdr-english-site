@@ -72,44 +72,12 @@ const waitForWindowGlobals = async (
     return false;
   }
 
-  // #region agent log
-  fetch("http://127.0.0.1:7242/ingest/aeca9443-8952-4b89-b876-38015799b0cb", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      location: "amplify-config.ts:67",
-      message: "waitForWindowGlobals started",
-      data: { maxRetries, delayMs },
-      timestamp: Date.now(),
-      sessionId: "debug-session",
-      hypothesisId: "C,E",
-    }),
-  }).catch(() => {});
-  // #endregion
-
   for (let i = 0; i < maxRetries; i++) {
     const win = window as any;
     const hasUserPoolId = !!win.__COGNITO_USER_POOL_ID__;
     const hasClientId = !!win.__COGNITO_USER_POOL_CLIENT_ID__;
 
     if (hasUserPoolId && hasClientId) {
-      // #region agent log
-      fetch(
-        "http://127.0.0.1:7242/ingest/aeca9443-8952-4b89-b876-38015799b0cb",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            location: "amplify-config.ts:78",
-            message: "waitForWindowGlobals found globals",
-            data: { attempt: i + 1 },
-            timestamp: Date.now(),
-            sessionId: "debug-session",
-            hypothesisId: "C",
-          }),
-        }
-      ).catch(() => {});
-      // #endregion
       if (shouldShowDebugLogs()) {
         console.log(
           `Amplify config: Window globals available after ${i + 1} attempt(s)`
@@ -122,21 +90,6 @@ const waitForWindowGlobals = async (
       await new Promise((resolve) => setTimeout(resolve, delayMs));
     }
   }
-
-  // #region agent log
-  fetch("http://127.0.0.1:7242/ingest/aeca9443-8952-4b89-b876-38015799b0cb", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      location: "amplify-config.ts:93",
-      message: "waitForWindowGlobals exhausted retries",
-      data: { maxRetries },
-      timestamp: Date.now(),
-      sessionId: "debug-session",
-      hypothesisId: "C",
-    }),
-  }).catch(() => {});
-  // #endregion
 
   return false;
 };

@@ -1,4 +1,6 @@
-import { useEffect } from "react";
+// Styles are now shared via src/styles/blog-content.css
+// This ensures consistency between admin preview and blog detail page
+import "../../styles/blog-content.css";
 
 interface Props {
   content: string;
@@ -14,199 +16,10 @@ export function BlogPreview({ content, frontmatter }: Props) {
       })
     : "";
 
-  useEffect(() => {
-    // Apply the custom blog styles when component mounts
-    const style = document.createElement("style");
-    style.id = "blog-preview-styles";
-    style.textContent = `
-      /* Custom prose styles for blog preview */
-      .blog-preview-content h1 {
-        color: #1c1917;
-        margin-top: 2.5rem;
-        margin-bottom: 1.25rem;
-        font-size: 2.25rem;
-        font-weight: 600;
-        line-height: 1.3;
-        border-bottom: 3px solid #c9a050;
-        padding-bottom: 0.75rem;
-      }
-
-      .blog-preview-content h1:first-child {
-        margin-top: 0;
-      }
-
-      .blog-preview-content h2 {
-        color: #1c1917;
-        margin-top: 2.5rem;
-        margin-bottom: 1rem;
-        font-size: 1.75rem;
-        font-weight: 500;
-        border-bottom: 2px solid #c9a050;
-        padding-bottom: 0.5rem;
-      }
-
-      .blog-preview-content h3 {
-        color: #1c1917;
-        margin-top: 2rem;
-        margin-bottom: 0.75rem;
-        font-size: 1.5rem;
-        font-weight: 500;
-      }
-
-      .blog-preview-content p {
-        color: #44403c;
-        line-height: 1.8;
-        margin-top: 1.25rem;
-        margin-bottom: 1.25rem;
-      }
-
-      .blog-preview-content p:first-child {
-        margin-top: 0;
-      }
-
-      .blog-preview-content p:last-child {
-        margin-bottom: 0;
-      }
-
-      .blog-preview-content strong {
-        color: #1c1917;
-        font-weight: 600;
-      }
-
-      .blog-preview-content ul {
-        margin-top: 1rem;
-        margin-bottom: 1.5rem;
-        padding-left: 1.5rem;
-        list-style-type: disc;
-      }
-
-      .blog-preview-content ol {
-        margin-top: 1rem;
-        margin-bottom: 1.5rem;
-        padding-left: 1.5rem;
-        list-style-type: decimal;
-      }
-
-      .blog-preview-content ul ul {
-        list-style-type: circle;
-      }
-
-      .blog-preview-content ul ul ul {
-        list-style-type: square;
-      }
-
-      .blog-preview-content li {
-        color: #44403c;
-        margin-bottom: 0.5rem;
-        line-height: 1.7;
-        display: list-item;
-      }
-
-      .blog-preview-content a {
-        color: #c9a050;
-        text-decoration: underline;
-        text-underline-offset: 2px;
-      }
-
-      .blog-preview-content a:hover {
-        color: #b8944a;
-      }
-
-      .blog-preview-content table {
-        width: 100%;
-        margin: 1.5rem 0;
-        border-collapse: collapse;
-      }
-
-      .blog-preview-content th,
-      .blog-preview-content td {
-        padding: 0.75rem 1rem;
-        text-align: left;
-        border-bottom: 1px solid #d6d3d1;
-      }
-
-      .blog-preview-content th {
-        background-color: rgba(201, 160, 80, 0.1);
-        font-weight: 600;
-        color: #1c1917;
-      }
-
-      .blog-preview-content img {
-        border-radius: 0.5rem;
-        overflow: hidden;
-        max-width: 100%;
-      }
-
-      .blog-preview-content blockquote {
-        border-left: 4px solid #c9a050;
-        padding-left: 1.5rem;
-        margin: 1.5rem 0;
-        font-style: italic;
-        color: #57534e;
-      }
-
-      /* Custom Quote Component */
-      .blog-preview-content div[data-component="quote"] {
-        margin-top: 2rem;
-        margin-bottom: 2rem;
-        padding: 1rem 1.5rem;
-        border-left: 4px solid #c9a050;
-        background-color: rgba(201, 160, 80, 0.04);
-        border-radius: 0.5rem;
-        font-style: normal;
-      }
-
-      .blog-preview-content div[data-component="quote"] p {
-        font-size: 1.25rem;
-        line-height: 1.625;
-        font-style: italic;
-        color: #1c1917;
-        margin: 0;
-      }
-
-      .blog-preview-content div[data-component="quote"] cite {
-        display: block;
-        margin-top: 1rem;
-        font-size: 0.875rem;
-        font-style: normal;
-        font-weight: 500;
-        color: #c9a050;
-      }
-
-      /* Custom Callout Component */
-      .blog-preview-content div[data-component="callout"] {
-        margin-top: 1.5rem;
-        margin-bottom: 1.5rem;
-        padding: 0.75rem 1rem;
-        border-left: 4px solid #c9a050;
-        background-color: rgba(201, 160, 80, 0.1);
-        border-radius: 0.5rem;
-      }
-
-      .blog-preview-content div[data-component="callout"] p {
-        margin: 0;
-        line-height: 1.625;
-      }
-    `;
-    
-    // Only add if not already added
-    if (!document.getElementById("blog-preview-styles")) {
-      document.head.appendChild(style);
-    }
-
-    return () => {
-      // Cleanup on unmount
-      const existingStyle = document.getElementById("blog-preview-styles");
-      if (existingStyle) {
-        existingStyle.remove();
-      }
-    };
-  }, []);
-
   return (
-    <div className="blog-preview-wrapper" style={{ backgroundColor: "#EBE9CF" }}>
+    <div className="blog-preview-wrapper bg-dark-text">
       {/* Hero Section */}
-      <div className="relative pb-12" style={{ backgroundColor: "#1c1917" }}>
+      <div className="relative pb-12 bg-dark-bg">
         {/* Background Image with Overlay or Decorative Pattern */}
         <div className="absolute inset-0">
           {frontmatter.image ? (
@@ -237,10 +50,9 @@ export function BlogPreview({ content, frontmatter }: Props) {
               {/* Dharma wheel decoration */}
               <div className="absolute inset-0 flex items-center justify-center overflow-hidden">
                 <svg
-                  className="w-64 h-64 opacity-5"
+                  className="w-64 h-64 opacity-5 text-accent-gold"
                   viewBox="0 0 100 100"
                   fill="none"
-                  style={{ color: "#c9a050" }}
                 >
                   <circle
                     cx="50"
@@ -314,10 +126,7 @@ export function BlogPreview({ content, frontmatter }: Props) {
           {/* Category Badge */}
           {frontmatter.category && (
             <div className="mb-3">
-              <span
-                className="inline-block px-3 py-1 text-xs uppercase tracking-wider rounded"
-                style={{ backgroundColor: "#c9a050", color: "#1c1917" }}
-              >
+              <span className="inline-block px-3 py-1 text-xs uppercase tracking-wider rounded bg-accent-gold text-dark-bg">
                 {frontmatter.category}
               </span>
             </div>
@@ -326,21 +135,15 @@ export function BlogPreview({ content, frontmatter }: Props) {
           {/* Title */}
           {frontmatter.title && (
             <h1
-              className="text-3xl md:text-4xl mb-4 leading-tight font-serif"
-              style={{
-                color: "#EBE9CF",
-                fontFamily: "'Noto Serif', serif",
-              }}
+              className="text-3xl md:text-4xl mb-4 leading-tight font-serif text-dark-text"
+              style={{ fontFamily: "'Noto Serif', serif" }}
             >
               {frontmatter.title}
             </h1>
           )}
 
           {/* Meta */}
-          <div
-            className="flex items-center gap-3 text-sm"
-            style={{ color: "rgba(235, 233, 207, 0.7)" }}
-          >
+          <div className="flex items-center gap-3 text-sm text-dark-text/70">
             {formattedDate && <span>{formattedDate}</span>}
             {formattedDate && frontmatter.author && <span>&bull;</span>}
             {frontmatter.author && <span>{frontmatter.author}</span>}
@@ -352,20 +155,14 @@ export function BlogPreview({ content, frontmatter }: Props) {
       <article className="py-8">
         <div className="px-6">
           <div
-            className="blog-preview-content prose prose-lg prose-stone max-w-none"
+            className="blog-content prose prose-lg prose-stone max-w-none"
             style={{ fontFamily: "'Inter', sans-serif" }}
             dangerouslySetInnerHTML={{ __html: content }}
           />
 
           {/* Back to Blog Link */}
-          <div
-            className="mt-8 pt-8 border-t"
-            style={{ borderColor: "#c9a050" }}
-          >
-            <div
-              className="inline-flex items-center gap-2"
-              style={{ color: "#c9a050" }}
-            >
+          <div className="mt-8 pt-8 border-t border-accent-gold">
+            <div className="inline-flex items-center gap-2 text-accent-gold">
               <span>&larr;</span>
               Back to Dharma Insights
             </div>

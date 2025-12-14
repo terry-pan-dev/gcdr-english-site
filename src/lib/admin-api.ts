@@ -329,119 +329,23 @@ export const authApi = {
   },
 
   isAuthenticated: async (): Promise<boolean> => {
-    // #region agent log
-    fetch("http://127.0.0.1:7242/ingest/aeca9443-8952-4b89-b876-38015799b0cb", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        location: "admin-api.ts:331",
-        message: "isAuthenticated called",
-        data: {},
-        timestamp: Date.now(),
-        sessionId: "debug-session",
-        hypothesisId: "D",
-      }),
-    }).catch(() => {});
-    // #endregion
     try {
       ensureAmplifyConfigured();
       await getCurrentUser();
-      // #region agent log
-      fetch(
-        "http://127.0.0.1:7242/ingest/aeca9443-8952-4b89-b876-38015799b0cb",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            location: "admin-api.ts:337",
-            message: "isAuthenticated returning true",
-            data: {},
-            timestamp: Date.now(),
-            sessionId: "debug-session",
-            hypothesisId: "D",
-          }),
-        }
-      ).catch(() => {});
-      // #endregion
       return true;
     } catch (error) {
-      // #region agent log
-      fetch(
-        "http://127.0.0.1:7242/ingest/aeca9443-8952-4b89-b876-38015799b0cb",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            location: "admin-api.ts:342",
-            message: "isAuthenticated caught error",
-            data: { error: String(error) },
-            timestamp: Date.now(),
-            sessionId: "debug-session",
-            hypothesisId: "D,B",
-          }),
-        }
-      ).catch(() => {});
-      // #endregion
       return false;
     }
   },
 
   getCurrentUser: async (): Promise<{ email: string } | null> => {
-    // #region agent log
-    fetch("http://127.0.0.1:7242/ingest/aeca9443-8952-4b89-b876-38015799b0cb", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        location: "admin-api.ts:349",
-        message: "getCurrentUser called",
-        data: {},
-        timestamp: Date.now(),
-        sessionId: "debug-session",
-        hypothesisId: "D",
-      }),
-    }).catch(() => {});
-    // #endregion
     try {
       ensureAmplifyConfigured();
 
       // Get current user from Amplify
-      // #region agent log
-      fetch(
-        "http://127.0.0.1:7242/ingest/aeca9443-8952-4b89-b876-38015799b0cb",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            location: "admin-api.ts:356",
-            message: "calling Amplify getCurrentUser",
-            data: {},
-            timestamp: Date.now(),
-            sessionId: "debug-session",
-            hypothesisId: "D,B",
-          }),
-        }
-      ).catch(() => {});
-      // #endregion
       const user = await getCurrentUser();
 
       if (!user) {
-        // #region agent log
-        fetch(
-          "http://127.0.0.1:7242/ingest/aeca9443-8952-4b89-b876-38015799b0cb",
-          {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              location: "admin-api.ts:420",
-              message: "getCurrentUser: no user found",
-              data: {},
-              timestamp: Date.now(),
-              sessionId: "debug-session",
-              hypothesisId: "D",
-            }),
-          }
-        ).catch(() => {});
-        // #endregion
         if (shouldShowDebugLogs()) {
           console.log("getCurrentUser: No user found");
         }
@@ -459,43 +363,8 @@ export const authApi = {
         return null;
       }
 
-      // #region agent log
-      fetch(
-        "http://127.0.0.1:7242/ingest/aeca9443-8952-4b89-b876-38015799b0cb",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            location: "admin-api.ts:455",
-            message: "getCurrentUser: success",
-            data: { email },
-            timestamp: Date.now(),
-            sessionId: "debug-session",
-            hypothesisId: "D",
-          }),
-        }
-      ).catch(() => {});
-      // #endregion
-
       return { email };
     } catch (error: any) {
-      // #region agent log
-      fetch(
-        "http://127.0.0.1:7242/ingest/aeca9443-8952-4b89-b876-38015799b0cb",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            location: "admin-api.ts:375",
-            message: "getCurrentUser caught exception",
-            data: { error: error?.message || String(error) },
-            timestamp: Date.now(),
-            sessionId: "debug-session",
-            hypothesisId: "D,B",
-          }),
-        }
-      ).catch(() => {});
-      // #endregion
       if (shouldShowDebugLogs()) {
         console.error("getCurrentUser: Exception:", error?.message || error);
       }

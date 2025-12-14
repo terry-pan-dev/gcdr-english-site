@@ -1,5 +1,6 @@
 ---
 import '../styles/globals.css';
+import '../styles/blog-content.css';
 import { Navigation } from '../components/Navigation';
 import { Footer } from '../components/Footer';
 import { getGoogleFontsUrl, getPrimaryFontFamily, getSecondaryFontFamily } from '../config/fonts';
@@ -152,7 +153,7 @@ const socialImageURL = post.data.image ? new URL(post.data.image, Astro.site) : 
       <article class="py-8">
         <div class="max-w-3xl lg:max-w-5xl xl:max-w-6xl 2xl:max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div
-            class="prose prose-lg prose-stone max-w-none"
+            class="blog-content prose prose-lg prose-stone max-w-none"
             style={`font-family: ${primaryFont};`}
           >
             <slot />
@@ -176,90 +177,4 @@ const socialImageURL = post.data.image ? new URL(post.data.image, Astro.site) : 
   </body>
 </html>
 
-<style is:global>
-  /* Custom prose styles for blog content - using CSS variables for theme consistency */
-  .prose h2 {
-    color: var(--dark-bg);
-    margin-top: 2.5rem;
-    margin-bottom: 1rem;
-    font-size: 1.75rem;
-    font-weight: 500;
-    border-bottom: 2px solid var(--accent-gold);
-    padding-bottom: 0.5rem;
-  }
-
-  .prose h3 {
-    color: var(--dark-bg);
-    margin-top: 2rem;
-    margin-bottom: 0.75rem;
-    font-size: 1.5rem;
-    font-weight: 500;
-  }
-
-  .prose p {
-    color: #44403c;
-    line-height: 1.8;
-    margin-top: 1.25rem;
-    margin-bottom: 1.25rem;
-  }
-
-  .prose p:first-child {
-    margin-top: 0;
-  }
-
-  .prose p:last-child {
-    margin-bottom: 0;
-  }
-
-  .prose strong {
-    color: var(--dark-bg);
-    font-weight: 600;
-  }
-
-  .prose ul,
-  .prose ol {
-    margin-top: 1rem;
-    margin-bottom: 1.5rem;
-    padding-left: 1.5rem;
-  }
-
-  .prose li {
-    color: #44403c;
-    margin-bottom: 0.5rem;
-    line-height: 1.7;
-  }
-
-  .prose a {
-    color: var(--accent-gold);
-    text-decoration: underline;
-    text-underline-offset: 2px;
-  }
-
-  .prose a:hover {
-    opacity: 0.8;
-  }
-
-  .prose table {
-    width: 100%;
-    margin: 1.5rem 0;
-    border-collapse: collapse;
-  }
-
-  .prose th,
-  .prose td {
-    padding: 0.75rem 1rem;
-    text-align: left;
-    border-bottom: 1px solid #d6d3d1;
-  }
-
-  .prose th {
-    background-color: rgba(201, 160, 80, 0.1);
-    font-weight: 600;
-    color: var(--dark-bg);
-  }
-
-  .prose img {
-    border-radius: 0.5rem;
-    overflow: hidden;
-  }
-</style>
+<!-- Blog content styles are now in src/styles/blog-content.css for consistency with admin preview -->

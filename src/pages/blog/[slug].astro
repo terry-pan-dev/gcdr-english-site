@@ -3,6 +3,13 @@ export const prerender = false;
 
 import BlogLayout from "../../layouts/BlogLayout.astro";
 import { BlogNavigation } from "../../components/BlogNavigation";
+import { marked } from "marked";
+
+// Configure marked for GFM features (same as admin preview)
+marked.setOptions({
+  gfm: true,
+  breaks: false,
+});
 
 const { slug } = Astro.params;
 
@@ -39,7 +46,9 @@ if (apiBaseUrl) {
         today.setHours(0, 0, 0, 0);
         
         if (postDate <= today) {
-          blogContent = blogData.content || "";
+          // Convert markdown to HTML (same as admin preview uses marked)
+          const rawContent = blogData.content || "";
+          blogContent = marked.parse(rawContent) as string;
           
           // Convert to post format compatible with BlogLayout
           post = {
@@ -151,6 +160,6 @@ const nextPost =
 ---
 
 <BlogLayout post={post}>
-  <div class="prose prose-lg prose-stone max-w-none" set:html={blogContent} />
+  <Fragment set:html={blogContent} />
   <BlogNavigation previousPost={previousPost} nextPost={nextPost} client:load />
 </BlogLayout>

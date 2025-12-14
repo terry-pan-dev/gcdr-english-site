@@ -16,41 +16,10 @@ export function AdminPageWrapper({ children }: { children: React.ReactNode }) {
   const [isChecking, setIsChecking] = useState(true);
 
   useEffect(() => {
-    // #region agent log
-    fetch("http://127.0.0.1:7242/ingest/aeca9443-8952-4b89-b876-38015799b0cb", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        location: "AdminPageWrapper.tsx:15",
-        message: "useEffect triggered",
-        data: { isChecking, isAuthenticated },
-        timestamp: Date.now(),
-        sessionId: "debug-session",
-        hypothesisId: "A",
-      }),
-    }).catch(() => {});
-    // #endregion
     // Check authentication for client-side verification
     // Note: Server-side middleware already protects this route, so if the page loaded,
     // the cookie exists and auth was verified. This check is mainly for UX.
     const checkAuth = async () => {
-      // #region agent log
-      fetch(
-        "http://127.0.0.1:7242/ingest/aeca9443-8952-4b89-b876-38015799b0cb",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            location: "AdminPageWrapper.tsx:21",
-            message: "checkAuth started",
-            data: {},
-            timestamp: Date.now(),
-            sessionId: "debug-session",
-            hypothesisId: "A",
-          }),
-        }
-      ).catch(() => {});
-      // #endregion
       try {
         console.log("AdminPageWrapper: Starting authentication check...");
 
@@ -96,23 +65,6 @@ export function AdminPageWrapper({ children }: { children: React.ReactNode }) {
         setIsAuthenticated(true);
         setIsChecking(false);
       } catch (error: any) {
-        // #region agent log
-        fetch(
-          "http://127.0.0.1:7242/ingest/aeca9443-8952-4b89-b876-38015799b0cb",
-          {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              location: "AdminPageWrapper.tsx:60",
-              message: "checkAuth caught error",
-              data: { error: String(error) },
-              timestamp: Date.now(),
-              sessionId: "debug-session",
-              hypothesisId: "D,E",
-            }),
-          }
-        ).catch(() => {});
-        // #endregion
         console.error("AdminPageWrapper: Authentication check error:", error);
         // Don't redirect on error - server middleware handles protection
         // Just mark as not authenticated

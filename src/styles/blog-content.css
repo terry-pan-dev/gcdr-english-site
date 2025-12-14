@@ -1,0 +1,269 @@
+/* 
+ * Shared blog content styles
+ * Used by both BlogLayout.astro (detail page) and BlogPreview.tsx (admin preview)
+ * 
+ * IMPORTANT: Keep these styles in sync! Any changes should apply to both contexts.
+ */
+
+/* Base content styles for blog posts */
+.blog-content h1 {
+  color: var(--dark-bg);
+  margin-top: 2.5rem;
+  margin-bottom: 1.25rem;
+  font-size: 2.25rem;
+  font-weight: 600;
+  line-height: 1.3;
+  border-bottom: 3px solid var(--accent-gold);
+  padding-bottom: 0.75rem;
+}
+
+.blog-content h1:first-child {
+  margin-top: 0;
+}
+
+.blog-content h2 {
+  color: var(--dark-bg);
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+  font-size: 1.75rem;
+  font-weight: 500;
+  border-bottom: 2px solid var(--accent-gold);
+  padding-bottom: 0.5rem;
+}
+
+.blog-content h3 {
+  color: var(--dark-bg);
+  margin-top: 2rem;
+  margin-bottom: 0.75rem;
+  font-size: 1.5rem;
+  font-weight: 500;
+}
+
+.blog-content h4 {
+  color: var(--dark-bg);
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+  font-size: 1.25rem;
+  font-weight: 500;
+}
+
+.blog-content p {
+  color: #44403c;
+  line-height: 1.8;
+  margin-top: 1.25rem;
+  margin-bottom: 1.25rem;
+}
+
+.blog-content p:first-child {
+  margin-top: 0;
+}
+
+.blog-content p:last-child {
+  margin-bottom: 0;
+}
+
+.blog-content strong {
+  color: var(--dark-bg);
+  font-weight: 600;
+}
+
+.blog-content em {
+  font-style: italic;
+}
+
+/* List styles */
+.blog-content ul {
+  margin-top: 1rem;
+  margin-bottom: 1.5rem;
+  padding-left: 1.5rem;
+  list-style-type: disc;
+}
+
+.blog-content ol {
+  margin-top: 1rem;
+  margin-bottom: 1.5rem;
+  padding-left: 1.5rem;
+  list-style-type: decimal;
+}
+
+.blog-content ul ul {
+  list-style-type: circle;
+}
+
+.blog-content ul ul ul {
+  list-style-type: square;
+}
+
+.blog-content li {
+  color: #44403c;
+  margin-bottom: 0.5rem;
+  line-height: 1.7;
+  display: list-item;
+}
+
+/* Link styles */
+.blog-content a {
+  color: var(--accent-gold);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  transition: opacity 0.2s;
+}
+
+.blog-content a:hover {
+  opacity: 0.8;
+}
+
+/* Table styles */
+.blog-content table {
+  width: 100%;
+  margin: 1.5rem 0;
+  border-collapse: collapse;
+}
+
+.blog-content th,
+.blog-content td {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid #d6d3d1;
+}
+
+.blog-content th {
+  background-color: rgba(201, 160, 80, 0.1);
+  font-weight: 600;
+  color: var(--dark-bg);
+}
+
+/* Image styles */
+.blog-content img {
+  border-radius: 0.5rem;
+  overflow: hidden;
+  max-width: 100%;
+  height: auto;
+}
+
+/* Blockquote styles */
+.blog-content blockquote {
+  border-left: 4px solid var(--accent-gold);
+  padding-left: 1.5rem;
+  margin: 1.5rem 0;
+  font-style: italic;
+  color: #57534e;
+}
+
+/* Code styles */
+.blog-content code {
+  background-color: rgba(201, 160, 80, 0.1);
+  padding: 0.125rem 0.25rem;
+  border-radius: 0.25rem;
+  font-size: 0.875em;
+  font-family: ui-monospace, monospace;
+}
+
+.blog-content pre {
+  background-color: var(--dark-bg);
+  color: var(--dark-text);
+  padding: 1rem;
+  border-radius: 0.5rem;
+  overflow-x: auto;
+  margin: 1.5rem 0;
+}
+
+.blog-content pre code {
+  background-color: transparent;
+  padding: 0;
+  border-radius: 0;
+  color: inherit;
+}
+
+/* Horizontal rule */
+.blog-content hr {
+  border: none;
+  border-top: 2px solid var(--accent-gold);
+  margin: 2rem 0;
+  opacity: 0.3;
+}
+
+/* Custom Quote Component */
+.blog-content div[data-component="quote"] {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  padding: 1rem 1.5rem;
+  border-left: 4px solid var(--accent-gold);
+  background-color: rgba(201, 160, 80, 0.04);
+  border-radius: 0.5rem;
+  font-style: normal;
+}
+
+.blog-content div[data-component="quote"] p {
+  font-size: 1.25rem;
+  line-height: 1.625;
+  font-style: italic;
+  color: var(--dark-bg);
+  margin: 0;
+}
+
+.blog-content div[data-component="quote"] cite {
+  display: block;
+  margin-top: 1rem;
+  font-size: 0.875rem;
+  font-style: normal;
+  font-weight: 500;
+  color: var(--accent-gold);
+}
+
+/* Custom Callout Component */
+.blog-content div[data-component="callout"] {
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+  padding: 0.75rem 1rem;
+  border-left: 4px solid var(--accent-gold);
+  background-color: rgba(201, 160, 80, 0.1);
+  border-radius: 0.5rem;
+}
+
+.blog-content div[data-component="callout"] p {
+  margin: 0;
+  line-height: 1.625;
+}
+
+/* Video responsive wrapper */
+.blog-content .video-wrapper {
+  position: relative;
+  padding-bottom: 56.25%; /* 16:9 aspect ratio */
+  height: 0;
+  overflow: hidden;
+  margin: 1.5rem 0;
+  border-radius: 0.5rem;
+}
+
+.blog-content .video-wrapper iframe,
+.blog-content .video-wrapper video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 0.5rem;
+}
+
+/* Direct video elements */
+.blog-content video {
+  max-width: 100%;
+  height: auto;
+  border-radius: 0.5rem;
+  margin: 1.5rem 0;
+}
+
+/* Figure and figcaption */
+.blog-content figure {
+  margin: 1.5rem 0;
+}
+
+.blog-content figcaption {
+  text-align: center;
+  color: #57534e;
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
+  font-style: italic;
+}
+

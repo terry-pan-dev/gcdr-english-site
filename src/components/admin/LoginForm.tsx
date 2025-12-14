@@ -19,28 +19,6 @@ export function LoginForm() {
   useEffect(() => {
     // Check authentication only once on mount
     const checkAuth = async () => {
-      // #region agent log
-      fetch(
-        "http://127.0.0.1:7242/ingest/aeca9443-8952-4b89-b876-38015799b0cb",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            location: "LoginForm.tsx:21",
-            message: "checkAuth started",
-            data: {
-              checkingAuth,
-              hasWindowGlobals:
-                typeof window !== "undefined" &&
-                !!(window as any).__COGNITO_USER_POOL_ID__,
-            },
-            timestamp: Date.now(),
-            sessionId: "debug-session",
-            hypothesisId: "C,D",
-          }),
-        }
-      ).catch(() => {});
-      // #endregion
       try {
         // Check for loop detection - if we just redirected here, don't redirect again
         const lastRedirectTime = sessionStorage.getItem(
@@ -63,23 +41,6 @@ export function LoginForm() {
 
         // Ensure Amplify is configured - try sync first, then async if needed
         let configured = ensureAmplifyConfigured();
-        // #region agent log
-        fetch(
-          "http://127.0.0.1:7242/ingest/aeca9443-8952-4b89-b876-38015799b0cb",
-          {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              location: "LoginForm.tsx:43",
-              message: "ensureAmplifyConfigured result",
-              data: { configured },
-              timestamp: Date.now(),
-              sessionId: "debug-session",
-              hypothesisId: "C",
-            }),
-          }
-        ).catch(() => {});
-        // #endregion
         if (!configured) {
           if (shouldShowDebugLogs()) {
             console.log("LoginForm: Sync config failed, trying async...");
@@ -96,41 +57,7 @@ export function LoginForm() {
         }
 
         // Check if user is authenticated
-        // #region agent log
-        fetch(
-          "http://127.0.0.1:7242/ingest/aeca9443-8952-4b89-b876-38015799b0cb",
-          {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              location: "LoginForm.tsx:59",
-              message: "calling isAuthenticated",
-              data: {},
-              timestamp: Date.now(),
-              sessionId: "debug-session",
-              hypothesisId: "D",
-            }),
-          }
-        ).catch(() => {});
-        // #endregion
         const isAuth = await authApi.isAuthenticated();
-        // #region agent log
-        fetch(
-          "http://127.0.0.1:7242/ingest/aeca9443-8952-4b89-b876-38015799b0cb",
-          {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              location: "LoginForm.tsx:63",
-              message: "isAuthenticated returned",
-              data: { isAuth },
-              timestamp: Date.now(),
-              sessionId: "debug-session",
-              hypothesisId: "D",
-            }),
-          }
-        ).catch(() => {});
-        // #endregion
         if (!isAuth) {
           setCheckingAuth(false);
           return;
@@ -157,23 +84,6 @@ export function LoginForm() {
         }
       } catch (err) {
         // Error checking auth - allow login form to be shown
-        // #region agent log
-        fetch(
-          "http://127.0.0.1:7242/ingest/aeca9443-8952-4b89-b876-38015799b0cb",
-          {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              location: "LoginForm.tsx:85",
-              message: "checkAuth caught error",
-              data: { error: String(err) },
-              timestamp: Date.now(),
-              sessionId: "debug-session",
-              hypothesisId: "D,E",
-            }),
-          }
-        ).catch(() => {});
-        // #endregion
         console.error("Auth check error:", err);
         setCheckingAuth(false);
       }
