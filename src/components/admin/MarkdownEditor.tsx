@@ -201,17 +201,20 @@ export function MarkdownEditor({ content, onChange }: Props) {
       newCursorStart = lineStart + prefix.length;
       newCursorEnd = lineStart + prefix.length + currentLine.trimStart().length;
     } else {
-      // No selection - insert with placeholder
+      // No selection - insert with two example items
       const indent = currentLine.match(/^(\s*)/)?.[1] || "";
-      const prefix = isOrdered ? `${indent}1. ` : `${indent}- `;
-      const placeholder = "item";
+      const prefix1 = isOrdered ? `${indent}1. ` : `${indent}- `;
+      const prefix2 = isOrdered ? `${indent}2. ` : `${indent}- `;
+      const item1 = "item1";
+      const item2 = "item2";
+      const listContent = `${prefix1}${item1}\n${prefix2}${item2}`;
       newContent =
         content.substring(0, start) +
-        prefix +
-        placeholder +
+        listContent +
         content.substring(start);
-      newCursorStart = start + prefix.length;
-      newCursorEnd = start + prefix.length + placeholder.length;
+      // Select "item1" for easy editing
+      newCursorStart = start + prefix1.length;
+      newCursorEnd = start + prefix1.length + item1.length;
     }
 
     onChange(newContent);
