@@ -16,6 +16,8 @@ import {
   Strikethrough,
   Info,
   X,
+  Youtube,
+  AudioLines,
 } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 import { Separator } from "../ui/separator";
@@ -538,6 +540,85 @@ export function MarkdownEditor({ content, onChange }: Props) {
     }, 0);
   };
 
+  // Insert YouTube video embed
+  const insertYouTube = () => {
+    const textarea = textareaRef.current;
+    if (!textarea) return;
+
+    const start = textarea.selectionStart;
+    const beforeText = content.substring(0, start);
+    const afterText = content.substring(start);
+
+    // Check if we need newlines
+    const needsNewlineBefore = !beforeText.endsWith("\n\n") && beforeText !== "";
+    const needsNewlineAfter = !afterText.startsWith("\n\n") && afterText !== "";
+
+    const before = needsNewlineBefore ? "\n\n" : "";
+    const after = needsNewlineAfter ? "\n\n" : "";
+
+    // YouTube embed iframe template
+    const videoUrl = "https://www.youtube.com/embed/_5i0PuBUdbI?si=gsMTGG2QhuJvgx2x";
+    const iframe = `<iframe width="560" height="315" src="${videoUrl}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>`;
+
+    const newContent = beforeText + before + iframe + after + afterText;
+    onChange(newContent);
+
+    // Select the video URL inside src for easy replacement
+    const srcStart = iframe.indexOf('src="') + 5;
+    const srcEnd = srcStart + videoUrl.length;
+
+    setTimeout(() => {
+      if (textareaRef.current) {
+        textareaRef.current.focus();
+        textareaRef.current.setSelectionRange(
+          start + before.length + srcStart,
+          start + before.length + srcEnd
+        );
+      }
+    }, 0);
+  };
+
+  // Insert audio player
+  const insertAudio = () => {
+    const textarea = textareaRef.current;
+    if (!textarea) return;
+
+    const start = textarea.selectionStart;
+    const beforeText = content.substring(0, start);
+    const afterText = content.substring(start);
+
+    // Check if we need newlines
+    const needsNewlineBefore = !beforeText.endsWith("\n\n") && beforeText !== "";
+    const needsNewlineAfter = !afterText.startsWith("\n\n") && afterText !== "";
+
+    const before = needsNewlineBefore ? "\n\n" : "";
+    const after = needsNewlineAfter ? "\n\n" : "";
+
+    // Audio element template
+    const audioUrl = "https://commondatastorage.googleapis.com/codeskulptor-assets/Epoq-Lepidoptera.ogg";
+    const audioHtml = `<audio controls>
+  <source src="${audioUrl}" type="audio/mpeg">
+  Your browser does not support the audio element.
+</audio>`;
+
+    const newContent = beforeText + before + audioHtml + after + afterText;
+    onChange(newContent);
+
+    // Select the audio URL inside src for easy replacement
+    const srcStart = audioHtml.indexOf('src="') + 5;
+    const srcEnd = srcStart + audioUrl.length;
+
+    setTimeout(() => {
+      if (textareaRef.current) {
+        textareaRef.current.focus();
+        textareaRef.current.setSelectionRange(
+          start + before.length + srcStart,
+          start + before.length + srcEnd
+        );
+      }
+    }, 0);
+  };
+
   // Keyboard shortcuts
   useEffect(() => {
     const textarea = textareaRef.current;
@@ -723,6 +804,28 @@ export function MarkdownEditor({ content, onChange }: Props) {
               <TooltipContent>
                 <p className="text-xs font-medium">Insert Image</p>
                 <p className="text-xs text-muted-foreground">Choose an image to insert</p>
+              </TooltipContent>
+            </Tooltip>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button variant="ghost" size="sm" onClick={insertYouTube}>
+                  <Youtube className="size-4" />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p className="text-xs font-medium">Insert YouTube Video</p>
+                <p className="text-xs text-muted-foreground">Embed a YouTube video</p>
+              </TooltipContent>
+            </Tooltip>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button variant="ghost" size="sm" onClick={insertAudio}>
+                  <AudioLines className="size-4" />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p className="text-xs font-medium">Insert Audio</p>
+                <p className="text-xs text-muted-foreground">Embed an audio player</p>
               </TooltipContent>
             </Tooltip>
           </div>
