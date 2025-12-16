@@ -79,9 +79,6 @@ export const StickyScroll = ({
     // Pin the image container using GSAP ScrollTrigger (more reliable than CSS sticky)
     const imageContainer = scrollRevealRef.current.querySelector(".image-container") as HTMLElement;
     if (imageContainer) {
-      const sections = textSectionsRef.current.querySelectorAll(".text-section");
-      const _lastSection = sections[sections.length - 1] as HTMLElement;
-
       // On mobile, account for navigation bar height (80px = h-20)
       const navBarHeight = isMobile() ? 80 : 0;
       const startPosition = navBarHeight > 0 ? `top ${navBarHeight}px` : "top top";

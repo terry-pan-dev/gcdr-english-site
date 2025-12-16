@@ -1,4 +1,3 @@
-import React from "react";
 import { StickyScroll } from "./ui/sticky-scroll-reveal";
 import type { StickyScrollContent } from "./ui/sticky-scroll-reveal";
 import Prism from "./ui/Prism";

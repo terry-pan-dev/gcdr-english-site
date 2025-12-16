@@ -6,7 +6,8 @@ export const prerender = false; // Explicitly disable prerendering
 export const GET: APIRoute = async () => {
   try {
     // Get API base URL from SST resource
-    const baseUrl = (Resource.AdminAPI as any)?.url || import.meta.env.PUBLIC_API_BASE_URL || "";
+    const adminApi = Resource["AdminAPI"] as { url?: string } | undefined;
+    const baseUrl = adminApi?.url || import.meta.env.PUBLIC_API_BASE_URL || "";
 
     return new Response(JSON.stringify({ baseUrl }), {
       status: 200,

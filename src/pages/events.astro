@@ -1,8 +1,8 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import { Events } from "../components/Events";
+import { Events as EventsComponent } from "../components/Events";
 ---
 
 <BaseLayout title="Events - GCDR" theme="light">
-  <Events client:load />
+  <EventsComponent client:load />
 </BaseLayout>

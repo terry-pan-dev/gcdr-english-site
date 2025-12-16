@@ -464,5 +464,4 @@ export const mediaApi = {
   },
 };
 
-// Explicit type exports for Vite compatibility
-export type { BlogPost, MediaAsset };
+// Types are already exported as interfaces above

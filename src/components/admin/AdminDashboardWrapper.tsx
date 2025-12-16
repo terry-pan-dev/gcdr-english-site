@@ -58,7 +58,7 @@ export function AdminDashboardWrapper() {
         }
 
         // Try to get the current user (non-blocking check)
-        const _user = await authApi.getCurrentUser();
+        await authApi.getCurrentUser();
 
         // Always set authenticated to true if we got here (server let the page load)
         setIsAuthenticated(true);

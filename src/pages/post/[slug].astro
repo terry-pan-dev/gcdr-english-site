@@ -23,7 +23,7 @@ console.log("Slug:", slug);
 // Fetch blog post from public API (which has S3 access)
 let post: any = null;
 let blogContent = "";
-let fetchError = "";
+let fetchError: string = ""; // Used in error page template below
 
 // Only fetch if we have a valid API URL
 if (apiBaseUrl) {
@@ -84,6 +84,10 @@ if (apiBaseUrl) {
 
 if (!post) {
   // Instead of redirecting, show an error page so we can debug
+  // Ensure fetchError is recognized as used by TypeScript
+  const errorMessage = fetchError || "Post not found or not published";
+  // Use errorMessage to avoid TypeScript warning
+  void errorMessage;
   return new Response(
     `<!DOCTYPE html>
 <html>
@@ -92,7 +96,7 @@ if (!post) {
 <h1>Blog Post Not Found</h1>
 <p>Slug: ${slug}</p>
 <p>API URL: ${apiBaseUrl || "(not set)"}</p>
-<p>Error: ${fetchError || "Post not found or not published"}</p>
+<p>Error: ${errorMessage}</p>
 <p><a href="/blog">Back to Blog</a></p>
 </body>
 </html>`,

@@ -5,47 +5,47 @@
 
 declare module "sst" {
   export interface Resource {
-    AdminAPI: {
-      name: string;
-      type: "sst.aws.Function";
-      url: string;
-    };
-    AdminClient: {
-      id: string;
-      secret: string;
-      type: "sst.aws.CognitoUserPoolClient";
-    };
-    AdminIdentityPool: {
-      id: string;
-      type: "sst.aws.CognitoIdentityPool";
-    };
-    AdminUserPool: {
-      id: string;
-      type: "sst.aws.CognitoUserPool";
-    };
-    BlogPosts: {
-      name: string;
-      type: "sst.aws.Dynamo";
-    };
-    BlogStorage: {
-      name: string;
-      type: "sst.aws.Bucket";
-    };
-    GCDR: {
-      type: "sst.aws.Astro";
-      url: string;
-    };
-    MediaAssets: {
-      name: string;
-      type: "sst.aws.Dynamo";
-    };
-    MediaStorage: {
-      name: string;
-      type: "sst.aws.Bucket";
-    };
+    "AdminAPI": {
+      "name": string
+      "type": "sst.aws.Function"
+      "url": string
+    }
+    "AdminClient": {
+      "id": string
+      "secret": string
+      "type": "sst.aws.CognitoUserPoolClient"
+    }
+    "AdminIdentityPool": {
+      "id": string
+      "type": "sst.aws.CognitoIdentityPool"
+    }
+    "AdminUserPool": {
+      "id": string
+      "type": "sst.aws.CognitoUserPool"
+    }
+    "BlogPosts": {
+      "name": string
+      "type": "sst.aws.Dynamo"
+    }
+    "BlogStorage": {
+      "name": string
+      "type": "sst.aws.Bucket"
+    }
+    "GCDR": {
+      "type": "sst.aws.Astro"
+      "url": string
+    }
+    "MediaAssets": {
+      "name": string
+      "type": "sst.aws.Dynamo"
+    }
+    "MediaStorage": {
+      "name": string
+      "type": "sst.aws.Bucket"
+    }
   }
 }
 /// <reference path="sst-env.d.ts" />
 
-import "sst";
-export {};
+import "sst"
+export {}

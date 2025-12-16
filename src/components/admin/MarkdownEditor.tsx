@@ -16,7 +16,7 @@ import {
   Strikethrough,
   Info,
   X,
-  Youtube,
+  Video,
   AudioLines,
 } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
@@ -216,7 +216,8 @@ export function MarkdownEditor({ content, onChange }: Props) {
     }, 0);
   };
 
-  // Insert blockquote
+  // Insert blockquote (unused - kept for future use)
+  /*
   const _insertBlockquote = () => {
     const textarea = textareaRef.current;
     if (!textarea) return;
@@ -287,6 +288,7 @@ export function MarkdownEditor({ content, onChange }: Props) {
       }
     }, 0);
   };
+  */
 
   // Insert link
   const insertLink = () => {
@@ -773,7 +775,7 @@ export function MarkdownEditor({ content, onChange }: Props) {
             <Tooltip>
               <TooltipTrigger asChild>
                 <Button variant="ghost" size="sm" onClick={insertYouTube}>
-                  <Youtube className="size-4" />
+                  <Video className="size-4" />
                 </Button>
               </TooltipTrigger>
               <TooltipContent>

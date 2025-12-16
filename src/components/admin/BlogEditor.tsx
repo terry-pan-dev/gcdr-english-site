@@ -1,5 +1,4 @@
 import { useState, useEffect, useMemo } from "react";
-import type React from "react";
 import { marked } from "marked";
 import { MetadataPanel } from "./MetadataPanel";
 import { BlogPreview } from "./BlogPreview";
@@ -45,8 +44,6 @@ export function BlogEditor({ mode, blogId, onBack, onSave, blogs = [] }: Props) 
     marked.setOptions({
       gfm: true, // GitHub Flavored Markdown
       breaks: false, // Don't convert line breaks to <br>
-      headerIds: true, // Add id attributes to headers
-      mangle: false, // Don't mangle email addresses
     });
   }, []);
 

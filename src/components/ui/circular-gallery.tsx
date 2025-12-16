@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef, useState, useCallback } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import { cn } from "./utils";
 
 interface CircularGalleryItem {
@@ -45,7 +45,7 @@ export function CircularGallery({
   const isDownRef = useRef(false);
   const startRef = useRef(0);
   const positionRef = useRef(0);
-  const animationFrameRef = useRef<number>();
+  const animationFrameRef = useRef<number | undefined>(undefined);
   const itemRefs = useRef<(HTMLDivElement | null)[]>([]);
   const extraRef = useRef<number[]>([]); // Track extra offset for each item for wrapping
   const [itemWidth, setItemWidth] = useState(0);
@@ -171,7 +171,7 @@ export function CircularGallery({
   const handleWheel = useCallback(
     (e: WheelEvent) => {
       e.preventDefault();
-      const delta = e.deltaY || e.wheelDelta || e.detail;
+      const delta = e.deltaY || (e as any).wheelDelta || e.detail;
       scrollRef.current.target += (delta > 0 ? scrollSpeed : -scrollSpeed) * 0.2;
 
       // Snap to items

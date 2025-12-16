@@ -79,7 +79,8 @@ export function AdminPageWrapper({ children }: { children: React.ReactNode }) {
       let basePath = window.location.origin;
       const scripts = Array.from(document.querySelectorAll('script[src*="_astro"]'));
       if (scripts.length > 0) {
-        basePath = scripts[0].src.split("/_astro/")[0];
+        const script = scripts[0] as HTMLScriptElement;
+        basePath = script.src.split("/_astro/")[0];
       }
 
       // Get all existing CSS links to avoid duplicates

@@ -607,7 +607,7 @@ export async function handler(event: any) {
       }
     }
 
-    let result;
+    let result: { statusCode: number; body: string } | undefined;
 
     // Parse path to extract IDs
     // Path format: /api/admin/blogs/{id} or /api/admin/media/{id}
