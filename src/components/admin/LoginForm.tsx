@@ -2,10 +2,7 @@ import { useState, useEffect } from "react";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { authApi, getAuthToken } from "../../lib/admin-api";
-import {
-  ensureAmplifyConfigured,
-  configureAmplifyAsync,
-} from "../../lib/amplify-config";
+import { ensureAmplifyConfigured, configureAmplifyAsync } from "../../lib/amplify-config";
 import { shouldShowDebugLogs } from "../../lib/env";
 
 export function LoginForm() {
@@ -20,17 +17,13 @@ export function LoginForm() {
     const checkAuth = async () => {
       try {
         // Check for loop detection - if we just redirected here, don't redirect again
-        const lastRedirectTime = sessionStorage.getItem(
-          "__last_redirect_time__"
-        );
+        const lastRedirectTime = sessionStorage.getItem("__last_redirect_time__");
         const now = Date.now();
         if (lastRedirectTime) {
           const timeSinceRedirect = now - parseInt(lastRedirectTime, 10);
           // If redirected within last 2 seconds, we might be in a loop
           if (timeSinceRedirect < 2000) {
-            console.warn(
-              "LoginForm: Potential redirect loop detected, showing login form"
-            );
+            console.warn("LoginForm: Potential redirect loop detected, showing login form");
             sessionStorage.setItem("__auth_loop_detected__", "true");
             sessionStorage.removeItem("__last_redirect_time__");
             setCheckingAuth(false);
@@ -68,13 +61,9 @@ export function LoginForm() {
           // User is authenticated - redirect to dashboard or originally requested page
           // Clear any loop detection flags first
           sessionStorage.removeItem("__auth_loop_detected__");
-          const redirectTo =
-            (window as any).__REDIRECT_TO__ || "/admin/dashboard";
+          const redirectTo = (window as any).__REDIRECT_TO__ || "/admin/dashboard";
           if (shouldShowDebugLogs()) {
-            console.log(
-              "LoginForm: User authenticated, redirecting to:",
-              redirectTo
-            );
+            console.log("LoginForm: User authenticated, redirecting to:", redirectTo);
           }
           window.location.href = redirectTo;
         } else {
@@ -100,16 +89,12 @@ export function LoginForm() {
       // Ensure Amplify is configured before login - try sync first, then async if needed
       let configured = ensureAmplifyConfigured();
       if (!configured) {
-        console.log(
-          "LoginForm: Sync config failed during login, trying async..."
-        );
+        console.log("LoginForm: Sync config failed during login, trying async...");
         configured = await configureAmplifyAsync();
       }
 
       if (!configured) {
-        setError(
-          "Authentication system not configured. Please refresh the page."
-        );
+        setError("Authentication system not configured. Please refresh the page.");
         setLoading(false);
         return;
       }
@@ -153,23 +138,15 @@ export function LoginForm() {
           }
 
           // Record redirect time for loop detection
-          sessionStorage.setItem(
-            "__last_redirect_time__",
-            Date.now().toString()
-          );
+          sessionStorage.setItem("__last_redirect_time__", Date.now().toString());
 
-          const redirectTo =
-            (window as any).__REDIRECT_TO__ || "/admin/dashboard";
+          const redirectTo = (window as any).__REDIRECT_TO__ || "/admin/dashboard";
           window.location.href = redirectTo;
         } else {
           if (shouldShowDebugLogs()) {
-            console.error(
-              "LoginForm: Login succeeded but session not established"
-            );
+            console.error("LoginForm: Login succeeded but session not established");
           }
-          setError(
-            "Login succeeded but session not established. Please try again."
-          );
+          setError("Login succeeded but session not established. Please try again.");
         }
       }
     } catch (err: any) {
@@ -200,10 +177,7 @@ export function LoginForm() {
         className="w-full max-w-md p-8 bg-white rounded-lg shadow-lg"
         style={{ borderColor: "#c9a050", borderWidth: "2px" }}
       >
-        <h1
-          className="text-3xl font-bold mb-6 text-center"
-          style={{ color: "#1c1917" }}
-        >
+        <h1 className="text-3xl font-bold mb-6 text-center" style={{ color: "#1c1917" }}>
           Admin Login
         </h1>
         <form onSubmit={handleSubmit} className="space-y-4">

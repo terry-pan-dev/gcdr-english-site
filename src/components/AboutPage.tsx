@@ -86,27 +86,22 @@ export function AboutPage() {
           >
             <div className="space-y-6 text-justify">
               <p>
-                Welcome to a Buddhist monastery. You have entered an
-                extraordinary place that is devoted to spiritual practice and
-                personal transformation. It is a place where you can let go of
-                worldly concerns and focus on some of the deeper questions in
-                life: "Who am I? Where am I going? And, how can I selflessly
-                benefit others?"
+                Welcome to a Buddhist monastery. You have entered an extraordinary place that is
+                devoted to spiritual practice and personal transformation. It is a place where you
+                can let go of worldly concerns and focus on some of the deeper questions in life:
+                "Who am I? Where am I going? And, how can I selflessly benefit others?"
               </p>
               <p>
-                The monastery is also the home of monks and nuns who have
-                dedicated their lives to following the Buddhist path to
-                awakening. Their lives are simple, allowing them to focus on the
-                study and practice of Buddhism. There are many lay people and
-                visitors that frequent the monastery as well. Some are regular
-                supporters of the monastery, while others are simply curious
-                about the lifestyle here.
+                The monastery is also the home of monks and nuns who have dedicated their lives to
+                following the Buddhist path to awakening. Their lives are simple, allowing them to
+                focus on the study and practice of Buddhism. There are many lay people and visitors
+                that frequent the monastery as well. Some are regular supporters of the monastery,
+                while others are simply curious about the lifestyle here.
               </p>
               <p>
-                We welcome you and hope your visit is meaningful and worthwhile.
-                Here are some background and basic information for you as new
-                visitors and to give you a glimpse of what life is like in the
-                monastery.
+                We welcome you and hope your visit is meaningful and worthwhile. Here are some
+                background and basic information for you as new visitors and to give you a glimpse
+                of what life is like in the monastery.
               </p>
             </div>
           </motion.div>
@@ -128,42 +123,34 @@ export function AboutPage() {
             </h2>
             <div className="space-y-6 text-lg font-light leading-relaxed text-stone-300">
               <p>
-                Several thousand years ago, Siddhartha Gautama was born as a
-                prince in a small kingdom. Upon his birth, a seer foretold
-                that he would either become a spiritual guide or a great
-                ruler. His father wanted his son to be the next ruler to carry
-                on his family line, so he attempted to shield his son from all
-                the unpleasantness of life.
+                Several thousand years ago, Siddhartha Gautama was born as a prince in a small
+                kingdom. Upon his birth, a seer foretold that he would either become a spiritual
+                guide or a great ruler. His father wanted his son to be the next ruler to carry on
+                his family line, so he attempted to shield his son from all the unpleasantness of
+                life.
               </p>
               <p>
-                However, when Prince Siddhartha turned twenty-nine, he
-                witnessed sickness, old age, and death, and resolved to find
-                an answer to these universal sufferings. He left the palace
-                and studied under meditation masters of his time, but after
-                mastering their techniques, he found that he had not answered
-                his fundamental questions.
+                However, when Prince Siddhartha turned twenty-nine, he witnessed sickness, old age,
+                and death, and resolved to find an answer to these universal sufferings. He left the
+                palace and studied under meditation masters of his time, but after mastering their
+                techniques, he found that he had not answered his fundamental questions.
               </p>
               <p>
-                He then undertook strict ascetic practices, to a point where
-                he was near death, but found himself still no closer to
-                liberation. Reflecting on his previous experiences, he
-                realized that the path consisted of the Middle Way, which
-                avoided the extremes of self-indulgence and
-                self-mortification.
+                He then undertook strict ascetic practices, to a point where he was near death, but
+                found himself still no closer to liberation. Reflecting on his previous experiences,
+                he realized that the path consisted of the Middle Way, which avoided the extremes of
+                self-indulgence and self-mortification.
               </p>
               <p>
-                He then made a vow that he would sit under the Bodhi tree
-                until he attained complete liberation. During the very first
-                night, Prince Siddhartha awoke to the Dharma, the way things
-                truly are, and became known as the Buddha, "The Awakened One."
+                He then made a vow that he would sit under the Bodhi tree until he attained complete
+                liberation. During the very first night, Prince Siddhartha awoke to the Dharma, the
+                way things truly are, and became known as the Buddha, "The Awakened One."
               </p>
               <p>
-                Upon his awakening, Prince Siddhartha realized that all beings
-                have the capacity to be fully awake, but their inherent
-                potential is covered by deluded thinking and worldly
-                attachments. Hence, his teachings over the next forty-nine
-                years aimed at helping people return to their original
-                enlightened nature.
+                Upon his awakening, Prince Siddhartha realized that all beings have the capacity to
+                be fully awake, but their inherent potential is covered by deluded thinking and
+                worldly attachments. Hence, his teachings over the next forty-nine years aimed at
+                helping people return to their original enlightened nature.
               </p>
             </div>
           </motion.div>
@@ -186,19 +173,16 @@ export function AboutPage() {
             className="max-w-4xl mx-auto space-y-6 text-lg font-light leading-relaxed text-stone-300"
           >
             <p>
-              Over the millennia, the teachings of the Buddha have spread across
-              many parts of Asia. In Sri Lanka, Burma, Cambodia, Lao and
-              Thailand, a form of Buddhism is practiced known as the Theravada
-              tradition, or "The Teaching of the Elders". In China, Japan,
-              Vietnam, Korea, and Tibet, the Buddha's teachings are widely
-              practiced in a tradition known as the Mahayana, "The Great
-              Vehicle."
+              Over the millennia, the teachings of the Buddha have spread across many parts of Asia.
+              In Sri Lanka, Burma, Cambodia, Lao and Thailand, a form of Buddhism is practiced known
+              as the Theravada tradition, or "The Teaching of the Elders". In China, Japan, Vietnam,
+              Korea, and Tibet, the Buddha's teachings are widely practiced in a tradition known as
+              the Mahayana, "The Great Vehicle."
             </p>
             <p>
-              In the last one hundred years, all of these different cultural
-              expressions and Buddhist traditions have come to America. Since
-              Buddhism has always adapted itself to the cultures of the
-              countries in which it was taught, how Buddhism will develop in
+              In the last one hundred years, all of these different cultural expressions and
+              Buddhist traditions have come to America. Since Buddhism has always adapted itself to
+              the cultures of the countries in which it was taught, how Buddhism will develop in
               America still remains to be seen.
             </p>
           </motion.div>
@@ -236,31 +220,28 @@ export function AboutPage() {
               </h2>
               <div className="space-y-6 text-lg font-light leading-relaxed text-stone-300">
                 <p>
-                  The Venerable Master Hsuan Hua (1918-1995), founder of CTTB,
-                  was born into a poor family in a small village in Manchuria.
-                  He attended school for only two years before he had to return
-                  home to take care of his ailing mother. At home, he opened a
-                  free school for both children and adults who had even fewer
-                  opportunities than he did.
+                  The Venerable Master Hsuan Hua (1918-1995), founder of CTTB, was born into a poor
+                  family in a small village in Manchuria. He attended school for only two years
+                  before he had to return home to take care of his ailing mother. At home, he opened
+                  a free school for both children and adults who had even fewer opportunities than
+                  he did.
                 </p>
                 <p>
-                  Also as a young boy, he had his first encounter with death and
-                  became aware of the impermanence of life. Upon learning that
-                  Buddhism had a method for ending the cycle of death and
-                  rebirth, he resolved to become a monk.
+                  Also as a young boy, he had his first encounter with death and became aware of the
+                  impermanence of life. Upon learning that Buddhism had a method for ending the
+                  cycle of death and rebirth, he resolved to become a monk.
                 </p>
                 <p>
-                  His mother died when he was nineteen, and he then spent three
-                  years in solitary meditation beside his mother's grave. He
-                  then entered the monastic life at Three Conditions Monastery
-                  in Harbin. Seeing firsthand the hungry and impoverished, he
-                  began to practice giving, often going without food himself in
-                  order to feed others.
+                  His mother died when he was nineteen, and he then spent three years in solitary
+                  meditation beside his mother's grave. He then entered the monastic life at Three
+                  Conditions Monastery in Harbin. Seeing firsthand the hungry and impoverished, he
+                  began to practice giving, often going without food himself in order to feed
+                  others.
                 </p>
                 <p>
-                  Master Hua's life was one of complete dedication to the
-                  Buddhist path, teaching, and helping all beings. His teachings
-                  continue to inspire and guide practitioners around the world.
+                  Master Hua's life was one of complete dedication to the Buddhist path, teaching,
+                  and helping all beings. His teachings continue to inspire and guide practitioners
+                  around the world.
                 </p>
               </div>
             </motion.div>
@@ -294,14 +275,11 @@ export function AboutPage() {
               transition={{ duration: 0.6 }}
               className="space-y-4"
             >
-              <h3 className="text-2xl font-light mb-4 text-[#c9a050]">
-                Morning Ceremony
-              </h3>
+              <h3 className="text-2xl font-light mb-4 text-[#c9a050]">Morning Ceremony</h3>
               <p className="text-lg font-light leading-relaxed text-stone-300">
-                The day begins at 4 AM with the morning ceremony. This ceremony
-                includes chanting, bowing, and meditation. The morning ceremony
-                sets the tone for the day, reminding everyone of the purpose of
-                their practice and the importance of being mindful and
+                The day begins at 4 AM with the morning ceremony. This ceremony includes chanting,
+                bowing, and meditation. The morning ceremony sets the tone for the day, reminding
+                everyone of the purpose of their practice and the importance of being mindful and
                 compassionate.
               </p>
             </motion.div>
@@ -313,17 +291,13 @@ export function AboutPage() {
               transition={{ duration: 0.6, delay: 0.1 }}
               className="space-y-4"
             >
-              <h3 className="text-2xl font-light mb-4 text-[#c9a050]">
-                Noon Meal
-              </h3>
+              <h3 className="text-2xl font-light mb-4 text-[#c9a050]">Noon Meal</h3>
               <p className="text-lg font-light leading-relaxed text-stone-300">
-                The noon meal is the main meal of the day and is taken in
-                silence. The meal is vegetarian, as Buddhists practice
-                non-harming and compassion toward all living beings. Eating in
-                silence helps us have clearer minds and more compassionate
-                hearts. There is a mutual relationship between laity and
-                monastics, where the laity provides sustenance and material
-                support, and the monastics give teachings to the laity.
+                The noon meal is the main meal of the day and is taken in silence. The meal is
+                vegetarian, as Buddhists practice non-harming and compassion toward all living
+                beings. Eating in silence helps us have clearer minds and more compassionate hearts.
+                There is a mutual relationship between laity and monastics, where the laity provides
+                sustenance and material support, and the monastics give teachings to the laity.
               </p>
             </motion.div>
 
@@ -338,13 +312,12 @@ export function AboutPage() {
                 Great Compassion Repentance
               </h3>
               <p className="text-lg font-light leading-relaxed text-stone-300">
-                After the noon meal, there is the Great Compassion Repentance,
-                which is a ceremony focusing on Avalokiteshvara (Chinese: Guan
-                Shi Yin), the Bodhisattva of Great Compassion. Repentance is a
-                central practice in Buddhism because it allows us to turn a new
-                leaf—to recognize what we have done wrong, to repent of our
-                mistakes, and to reform ourselves for the better. The ceremony
-                gives a form to the very personal act of repentance.
+                After the noon meal, there is the Great Compassion Repentance, which is a ceremony
+                focusing on Avalokiteshvara (Chinese: Guan Shi Yin), the Bodhisattva of Great
+                Compassion. Repentance is a central practice in Buddhism because it allows us to
+                turn a new leaf—to recognize what we have done wrong, to repent of our mistakes, and
+                to reform ourselves for the better. The ceremony gives a form to the very personal
+                act of repentance.
               </p>
             </motion.div>
 
@@ -355,17 +328,14 @@ export function AboutPage() {
               transition={{ duration: 0.6, delay: 0.3 }}
               className="space-y-4"
             >
-              <h3 className="text-2xl font-light mb-4 text-[#c9a050]">
-                Evening Ceremony
-              </h3>
+              <h3 className="text-2xl font-light mb-4 text-[#c9a050]">Evening Ceremony</h3>
               <p className="text-lg font-light leading-relaxed text-stone-300">
-                The evening ceremony begins with the Incense Praise and is
-                followed by either the Amitabha Sutra or the Eighty-eight
-                Buddhas Repentance. The Amitabha Sutra teaches about Amitabha
-                Buddha and his Pure Land, the Land of Ultimate Bliss. In the
-                middle of the ceremony, the entire congregation recites the Four
-                Great Vows of the Bodhisattva, followed by a Sutra lecture where
-                the words of the Buddha are explained in a traditional setting.
+                The evening ceremony begins with the Incense Praise and is followed by either the
+                Amitabha Sutra or the Eighty-eight Buddhas Repentance. The Amitabha Sutra teaches
+                about Amitabha Buddha and his Pure Land, the Land of Ultimate Bliss. In the middle
+                of the ceremony, the entire congregation recites the Four Great Vows of the
+                Bodhisattva, followed by a Sutra lecture where the words of the Buddha are explained
+                in a traditional setting.
               </p>
             </motion.div>
           </div>

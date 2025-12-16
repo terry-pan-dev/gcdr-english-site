@@ -34,11 +34,7 @@ export function MarkdownEditor({ content, onChange }: Props) {
   const [selectedImage, setSelectedImage] = useState("");
 
   // Insert markdown syntax at cursor position
-  const insertMarkdown = (
-    before: string,
-    after: string = "",
-    placeholder: string = ""
-  ) => {
+  const insertMarkdown = (before: string, after: string = "", placeholder: string = "") => {
     const textarea = textareaRef.current;
     if (!textarea) return;
 
@@ -169,9 +165,7 @@ export function MarkdownEditor({ content, onChange }: Props) {
       const indent = listMatch[1];
       const withoutMarker = currentLine.replace(/^(\s*)([-*+]|\d+\.)\s+/, indent);
       newContent =
-        content.substring(0, lineStart) +
-        withoutMarker +
-        content.substring(actualLineEnd);
+        content.substring(0, lineStart) + withoutMarker + content.substring(actualLineEnd);
       newCursorStart = start - (listMatch[0].length - indent.length);
       newCursorEnd = end - (listMatch[0].length - indent.length);
     } else if (selectedText && selectedText.includes("\n")) {
@@ -184,10 +178,7 @@ export function MarkdownEditor({ content, onChange }: Props) {
           ? `${indent}${index + 1}. ${line.trimStart()}`
           : `${indent}- ${line.trimStart()}`;
       });
-      newContent =
-        content.substring(0, lineStart) +
-        prefixedLines.join("\n") +
-        afterText;
+      newContent = content.substring(0, lineStart) + prefixedLines.join("\n") + afterText;
       newCursorStart = lineStart;
       newCursorEnd = lineStart + prefixedLines.join("\n").length;
     } else if (selectedText) {
@@ -209,10 +200,7 @@ export function MarkdownEditor({ content, onChange }: Props) {
       const item1 = "item1";
       const item2 = "item2";
       const listContent = `${prefix1}${item1}\n${prefix2}${item2}`;
-      newContent =
-        content.substring(0, start) +
-        listContent +
-        content.substring(start);
+      newContent = content.substring(0, start) + listContent + content.substring(start);
       // Select "item1" for easy editing
       newCursorStart = start + prefix1.length;
       newCursorEnd = start + prefix1.length + item1.length;
@@ -255,9 +243,7 @@ export function MarkdownEditor({ content, onChange }: Props) {
       const indent = currentLine.match(/^(\s*)/)?.[1] || "";
       const withoutMarker = currentLine.replace(/^(\s*)>\s+/, indent);
       newContent =
-        content.substring(0, lineStart) +
-        withoutMarker +
-        content.substring(actualLineEnd);
+        content.substring(0, lineStart) + withoutMarker + content.substring(actualLineEnd);
       newCursorStart = start - 2;
       newCursorEnd = end - 2;
     } else if (selectedText && selectedText.includes("\n")) {
@@ -268,10 +254,7 @@ export function MarkdownEditor({ content, onChange }: Props) {
         const indent = line.match(/^(\s*)/)?.[1] || "";
         return `${indent}> ${line.trimStart()}`;
       });
-      newContent =
-        content.substring(0, lineStart) +
-        prefixedLines.join("\n") +
-        afterText;
+      newContent = content.substring(0, lineStart) + prefixedLines.join("\n") + afterText;
       newCursorStart = lineStart;
       newCursorEnd = lineStart + prefixedLines.join("\n").length;
     } else if (selectedText) {
@@ -290,11 +273,7 @@ export function MarkdownEditor({ content, onChange }: Props) {
       const indent = currentLine.match(/^(\s*)/)?.[1] || "";
       const placeholder = "quote";
       newContent =
-        content.substring(0, start) +
-        indent +
-        "> " +
-        placeholder +
-        content.substring(start);
+        content.substring(0, start) + indent + "> " + placeholder + content.substring(start);
       newCursorStart = start + indent.length + 2;
       newCursorEnd = start + indent.length + 2 + placeholder.length;
     }
@@ -361,7 +340,11 @@ export function MarkdownEditor({ content, onChange }: Props) {
     const afterText = content.substring(start);
 
     // Get filename for alt text
-    const filename = selectedImage.split("/").pop()?.replace(/\.[^/.]+$/, "") || "image";
+    const filename =
+      selectedImage
+        .split("/")
+        .pop()
+        ?.replace(/\.[^/.]+$/, "") || "image";
     const imageMarkdown = `![${filename}](${selectedImage})`;
 
     const newContent = beforeText + imageMarkdown + afterText;
@@ -594,7 +577,8 @@ export function MarkdownEditor({ content, onChange }: Props) {
     const after = needsNewlineAfter ? "\n\n" : "";
 
     // Audio element template
-    const audioUrl = "https://commondatastorage.googleapis.com/codeskulptor-assets/Epoq-Lepidoptera.ogg";
+    const audioUrl =
+      "https://commondatastorage.googleapis.com/codeskulptor-assets/Epoq-Lepidoptera.ogg";
     const audioHtml = `<audio controls>
   <source src="${audioUrl}" type="audio/mpeg">
   Your browser does not support the audio element.
@@ -701,11 +685,7 @@ export function MarkdownEditor({ content, onChange }: Props) {
           <div className="flex items-center gap-1 rounded-md border border-transparent p-1 hover:border-slate-200 transition-colors">
             <Tooltip>
               <TooltipTrigger asChild>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => insertHeading(1)}
-                >
+                <Button variant="ghost" size="sm" onClick={() => insertHeading(1)}>
                   <Heading1 className="size-4" />
                 </Button>
               </TooltipTrigger>
@@ -716,11 +696,7 @@ export function MarkdownEditor({ content, onChange }: Props) {
             </Tooltip>
             <Tooltip>
               <TooltipTrigger asChild>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => insertHeading(2)}
-                >
+                <Button variant="ghost" size="sm" onClick={() => insertHeading(2)}>
                   <Heading2 className="size-4" />
                 </Button>
               </TooltipTrigger>
@@ -731,11 +707,7 @@ export function MarkdownEditor({ content, onChange }: Props) {
             </Tooltip>
             <Tooltip>
               <TooltipTrigger asChild>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => insertHeading(3)}
-                >
+                <Button variant="ghost" size="sm" onClick={() => insertHeading(3)}>
                   <Heading3 className="size-4" />
                 </Button>
               </TooltipTrigger>
@@ -750,11 +722,7 @@ export function MarkdownEditor({ content, onChange }: Props) {
           <div className="flex items-center gap-1 rounded-md border border-transparent p-1 hover:border-slate-200 transition-colors">
             <Tooltip>
               <TooltipTrigger asChild>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => insertListItem(false)}
-                >
+                <Button variant="ghost" size="sm" onClick={() => insertListItem(false)}>
                   <List className="size-4" />
                 </Button>
               </TooltipTrigger>
@@ -765,11 +733,7 @@ export function MarkdownEditor({ content, onChange }: Props) {
             </Tooltip>
             <Tooltip>
               <TooltipTrigger asChild>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => insertListItem(true)}
-                >
+                <Button variant="ghost" size="sm" onClick={() => insertListItem(true)}>
                   <ListOrdered className="size-4" />
                 </Button>
               </TooltipTrigger>
@@ -870,7 +834,9 @@ export function MarkdownEditor({ content, onChange }: Props) {
               </TooltipTrigger>
               <TooltipContent>
                 <p className="text-xs font-medium">Quote</p>
-                <p className="text-xs text-muted-foreground">Insert a styled quote with attribution</p>
+                <p className="text-xs text-muted-foreground">
+                  Insert a styled quote with attribution
+                </p>
               </TooltipContent>
             </Tooltip>
             <Tooltip>
@@ -881,7 +847,9 @@ export function MarkdownEditor({ content, onChange }: Props) {
               </TooltipTrigger>
               <TooltipContent>
                 <p className="text-xs font-medium">Callout</p>
-                <p className="text-xs text-muted-foreground">Insert an info box for important notes</p>
+                <p className="text-xs text-muted-foreground">
+                  Insert an info box for important notes
+                </p>
               </TooltipContent>
             </Tooltip>
           </div>
@@ -897,8 +865,7 @@ export function MarkdownEditor({ content, onChange }: Props) {
           className="w-full h-full p-6 font-mono text-sm resize-none focus:outline-none bg-background text-foreground overflow-auto"
           placeholder="Start writing your blog post in Markdown..."
           style={{
-            fontFamily:
-              "'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace",
+            fontFamily: "'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace",
           }}
         />
       </div>
@@ -912,12 +879,9 @@ export function MarkdownEditor({ content, onChange }: Props) {
               Select an Image
             </DialogTitle>
           </DialogHeader>
-          
+
           <div className="flex-1 overflow-hidden">
-            <ImageSelectorGrid 
-              value={selectedImage} 
-              onChange={setSelectedImage} 
-            />
+            <ImageSelectorGrid value={selectedImage} onChange={setSelectedImage} />
           </div>
 
           <DialogFooter className="flex items-center justify-between border-t pt-4 mt-4">
@@ -931,10 +895,7 @@ export function MarkdownEditor({ content, onChange }: Props) {
               <X className="size-4 mr-2" />
               Cancel
             </Button>
-            <Button
-              onClick={handleImageSelect}
-              disabled={!selectedImage}
-            >
+            <Button onClick={handleImageSelect} disabled={!selectedImage}>
               <ImageIcon className="size-4 mr-2" />
               Select Image
             </Button>
@@ -946,7 +907,13 @@ export function MarkdownEditor({ content, onChange }: Props) {
 }
 
 // Image selector with 3-column grid layout
-function ImageSelectorGrid({ value, onChange }: { value: string; onChange: (url: string) => void }) {
+function ImageSelectorGrid({
+  value,
+  onChange,
+}: {
+  value: string;
+  onChange: (url: string) => void;
+}) {
   const [loadErrors, setLoadErrors] = useState<Set<string>>(new Set());
   const [s3Images, setS3Images] = useState<{ id: string; url: string; filename: string }[]>([]);
   const [loadingS3, setLoadingS3] = useState(true);
@@ -1040,9 +1007,10 @@ function ImageSelectorGrid({ value, onChange }: { value: string; onChange: (url:
                 className={`
                   relative aspect-video rounded-lg overflow-hidden border-2 transition-all
                   focus:outline-none focus:ring-2 focus:ring-primary/50
-                  ${value === img.url 
-                    ? "border-primary ring-2 ring-primary/30 scale-[0.98]" 
-                    : "border-transparent hover:border-slate-300"
+                  ${
+                    value === img.url
+                      ? "border-primary ring-2 ring-primary/30 scale-[0.98]"
+                      : "border-transparent hover:border-slate-300"
                   }
                 `}
               >
@@ -1056,8 +1024,18 @@ function ImageSelectorGrid({ value, onChange }: { value: string; onChange: (url:
                 {value === img.url && (
                   <div className="absolute inset-0 bg-primary/20 flex items-center justify-center">
                     <div className="size-8 rounded-full bg-primary flex items-center justify-center">
-                      <svg className="size-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      <svg
+                        className="size-5 text-white"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M5 13l4 4L19 7"
+                        />
                       </svg>
                     </div>
                   </div>
@@ -1075,7 +1053,7 @@ function ImageSelectorGrid({ value, onChange }: { value: string; onChange: (url:
       <div>
         <h4 className="text-sm font-medium text-muted-foreground mb-3 flex items-center gap-2">
           <span className="inline-block size-2 rounded-full bg-green-500" />
-          Static Assets ({STATIC_IMAGES.filter(src => !loadErrors.has(src)).length})
+          Static Assets ({STATIC_IMAGES.filter((src) => !loadErrors.has(src)).length})
         </h4>
         <div className="grid grid-cols-3 gap-3">
           {STATIC_IMAGES.filter((src) => !loadErrors.has(src)).map((src) => (
@@ -1086,9 +1064,10 @@ function ImageSelectorGrid({ value, onChange }: { value: string; onChange: (url:
               className={`
                 relative aspect-video rounded-lg overflow-hidden border-2 transition-all
                 focus:outline-none focus:ring-2 focus:ring-primary/50
-                ${value === src 
-                  ? "border-primary ring-2 ring-primary/30 scale-[0.98]" 
-                  : "border-transparent hover:border-slate-300"
+                ${
+                  value === src
+                    ? "border-primary ring-2 ring-primary/30 scale-[0.98]"
+                    : "border-transparent hover:border-slate-300"
                 }
               `}
             >
@@ -1102,8 +1081,18 @@ function ImageSelectorGrid({ value, onChange }: { value: string; onChange: (url:
               {value === src && (
                 <div className="absolute inset-0 bg-primary/20 flex items-center justify-center">
                   <div className="size-8 rounded-full bg-primary flex items-center justify-center">
-                    <svg className="size-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    <svg
+                      className="size-5 text-white"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M5 13l4 4L19 7"
+                      />
                     </svg>
                   </div>
                 </div>

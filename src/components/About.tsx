@@ -6,20 +6,17 @@ export function About() {
     {
       icon: Flame,
       title: "Mindfulness",
-      description:
-        "Cultivating present-moment awareness through meditation and contemplation",
+      description: "Cultivating present-moment awareness through meditation and contemplation",
     },
     {
       icon: Heart,
       title: "Compassion",
-      description:
-        "Extending loving-kindness to all beings without discrimination",
+      description: "Extending loving-kindness to all beings without discrimination",
     },
     {
       icon: Users,
       title: "Community",
-      description:
-        "Supporting each other on the path to enlightenment and inner peace",
+      description: "Supporting each other on the path to enlightenment and inner peace",
     },
   ];
 
@@ -43,16 +40,14 @@ export function About() {
               A Place of Serenity and Enlightenment
             </h2>
             <p className="text-stone-600 mb-6 text-lg leading-relaxed">
-              For over three decades, Gold Coast Dharma Realm has stood as a
-              beacon of Buddhist wisdom and spiritual practice. Our monastery
-              offers a sanctuary where seekers from all walks of life can find
-              peace, guidance, and a deeper connection to the dharma.
+              For over three decades, Gold Coast Dharma Realm has stood as a beacon of Buddhist
+              wisdom and spiritual practice. Our monastery offers a sanctuary where seekers from all
+              walks of life can find peace, guidance, and a deeper connection to the dharma.
             </p>
             <p className="text-stone-600 text-lg leading-relaxed">
-              We are dedicated to preserving ancient Buddhist traditions while
-              making these timeless teachings accessible to the modern world.
-              Through meditation, study, and service, we cultivate wisdom and
-              compassion in daily life.
+              We are dedicated to preserving ancient Buddhist traditions while making these timeless
+              teachings accessible to the modern world. Through meditation, study, and service, we
+              cultivate wisdom and compassion in daily life.
             </p>
           </div>
           <div className="relative h-96 rounded-lg overflow-hidden shadow-2xl">
@@ -77,9 +72,7 @@ export function About() {
               >
                 <value.icon size={32} />
               </div>
-              <h3 className="text-xl text-stone-900 mb-3 font-serif">
-                {value.title}
-              </h3>
+              <h3 className="text-xl text-stone-900 mb-3 font-serif">{value.title}</h3>
               <p className="text-stone-600">{value.description}</p>
             </div>
           ))}

@@ -15,8 +15,7 @@ export function WarningCentury() {
         "Why are people oblivious and confused? It's because they do not know where they came from and where they will go. The image you see every day in the mirror is not the real you! If you want to know your original self, you must turn the light within to reflect and seek within yourself. People have become obsessed with the five desires; they are stifled by the shackles of wealth, sex, fame, food, and sleep, yet still, they are willing to be enslaved by the five desires. (translated by James Lan.)",
     },
     {
-      chinese:
-        "我們人的貪心，比天還高、比地還厚、比海也更深，無底的洞，什麼時候也填不滿。",
+      chinese: "我們人的貪心，比天還高、比地還厚、比海也更深，無底的洞，什麼時候也填不滿。",
       english:
         "Our greed is higher than the sky, thicker than the earth's crust, and deeper than the sea. It's a bottomless pit that no matter how long we try, can never be filled.",
     },
@@ -38,8 +37,7 @@ export function WarningCentury() {
     },
     {
       chinese: "人不成佛，就是因為儘在口頭禪上用功夫。",
-      english:
-        "We are yet to realize Buddhahood because we only engage in lip service.",
+      english: "We are yet to realize Buddhahood because we only engage in lip service.",
     },
     {
       chinese:
@@ -71,14 +69,12 @@ export function WarningCentury() {
         "Afflictions are just Bodhi means that when you have afflictions, if you are able to recognize and transcend them, then that is Bodhi. It is not putting aside afflictions and searching for Bodhi elsewhere.",
     },
     {
-      chinese:
-        "愛死病，是亡國滅種的一種病，我希望我們中國不要亡國，不要跟西方學這一類的行為。",
+      chinese: "愛死病，是亡國滅種的一種病，我希望我們中國不要亡國，不要跟西方學這一類的行為。",
       english:
         "AIDS is an illness that decimates nations and brings humans to extinction. I hope that the Chinese do not learn from the behavior of the West so that China will not be destroyed.",
     },
     {
-      chinese:
-        "學佛的人，要節欲、要清心寡欲，不要重欲，這是要緊的，這是健康根本的問題。",
+      chinese: "學佛的人，要節欲、要清心寡欲，不要重欲，這是要緊的，這是健康根本的問題。",
       english:
         "People who practice Buddhism should curb their desires. They should purify their minds and limit their desires. This is crucial, and it concerns the fundamental problem of health.",
     },
@@ -95,8 +91,7 @@ export function WarningCentury() {
         'The wars in the world arise from small conflicts within our minds. As a Chinese saying goes, "Each and everyone is responsible for the rise and fall of nations." We shouldn\'t say, "That\'s their problem, not mine." If nobody has [internal] conflicts, then all the wars in the world will subside.',
     },
     {
-      chinese:
-        "不要把光向外照，要時時刻刻迴光返照，照照自己是個畜生？是個鬼？是個什麼？",
+      chinese: "不要把光向外照，要時時刻刻迴光返照，照照自己是個畜生？是個鬼？是個什麼？",
       english:
         "Don't shine the light outwards; instead, constantly turn the light inwards, illuminating ourselves to see if we are animals, ghosts, or something else.",
     },
@@ -123,12 +118,10 @@ export function WarningCentury() {
     },
     {
       chinese: "修佛法，即是諸惡莫作，眾善奉行。",
-      english:
-        "To practice the Buddhadharma is to refrain from all evil and do all good.",
+      english: "To practice the Buddhadharma is to refrain from all evil and do all good.",
     },
     {
-      chinese:
-        "看破是明白，放下是解脫，解脫是自在。自不在，都是被賊侵犯，被境界轉。",
+      chinese: "看破是明白，放下是解脫，解脫是自在。自不在，都是被賊侵犯，被境界轉。",
       english:
         "To see through is to understand clearly, to let go is to be liberated, and to be liberated is to be at ease. We are not at ease because we are being seized by thieves and turned by states. (translated by James Lan.)",
     },
@@ -179,8 +172,7 @@ export function WarningCentury() {
         "When the Master comes to CTTB, you attend his Sutra lectures; normally you don't regularly participate in morning and evening recitations, or rejoice in listening to the Sutra lectures. This is being selfish– only taking without giving back — and goes against the fundamental spirit of the City of Ten Thousand Buddhas. We are all one, so we cannot act independently and neglect the entire community.",
     },
     {
-      chinese:
-        "修道的敵人是誰？非魔王，而是自私心。若用自私心，萬事無成。就算有成，也屬虛妄。",
+      chinese: "修道的敵人是誰？非魔王，而是自私心。若用自私心，萬事無成。就算有成，也屬虛妄。",
       english:
         "Who is the enemy of cultivators? It is not the demon king, but selfishness. If you act out of selfishness, you will not succeed at anything. Even if you do succeed, it will be fake. (translated by Bo Han Zhu and Marvin Wang.)",
     },
@@ -315,8 +307,7 @@ export function WarningCentury() {
         "We humans always neglect the root (fundamentals) while concentrating on the branches (details), place cultivation second while placing making money first, and forget the fundamental principles while spending our efforts on the trivial. Making money can only sustain your physical life while studying Buddhadharma can nourish the wisdom life of your Dharma body and increase your wisdom. You should select a Sutra that resonates with you and study it every day, instead of only focusing on making money.",
     },
     {
-      chinese:
-        "學咒要先正心誠意；若心不正，學什麼咒都是邪的。心正了，學咒才有感應。",
+      chinese: "學咒要先正心誠意；若心不正，學什麼咒都是邪的。心正了，學咒才有感應。",
       english:
         "To learn mantras, you must first be sincere and righteous; if you are not righteous, any mantras you learn will be deviant. Only with righteousness, can you have responses from learning mantras. (translated by Bo Han Zhu and Marvin Wang.)",
     },
@@ -349,14 +340,12 @@ export function WarningCentury() {
         "Once you really no longer tell lies, heaven and earth will heed you should you call upon them.",
     },
     {
-      chinese:
-        "不爭、不貪、不求、不自私、不自利、不打妄語，這是最有效的修行方法。",
+      chinese: "不爭、不貪、不求、不自私、不自利、不打妄語，這是最有效的修行方法。",
       english:
         "Not fighting, not being greedy, not seeking, not being selfish, not pursuing personal advantage, and not telling lies — these are the most effective methods of cultivation. (translated by Derrick Gan.)",
     },
     {
-      chinese:
-        "若犯婬戒，就容易犯殺戒，也容易犯偷戒、妄語戒。因此，犯婬戒，是殺盜妄都包括了。",
+      chinese: "若犯婬戒，就容易犯殺戒，也容易犯偷戒、妄語戒。因此，犯婬戒，是殺盜妄都包括了。",
       english:
         "If you break the precept against sexual misconduct, then it is easy for you to break the precepts against killing, stealing, and lying. Therefore, breaking the precept against sexual misconduct includes breaking the precepts against killing, stealing, and lying. (translated by Katherine Wang.)",
     },
@@ -388,8 +377,7 @@ export function WarningCentury() {
         "To study Buddhism is to learn to be compassionate, virtuous, and forgiving, to avoid confrontation with others, and to refrain from contention and fighting. (translated by Qin Rui Y., Qin Zheng K. & Qin Xiang K.)",
     },
     {
-      chinese:
-        "恭敬心把剛強的性情改變為和藹的性情；拜佛是拜自性佛，將來成佛也是成自性佛。",
+      chinese: "恭敬心把剛強的性情改變為和藹的性情；拜佛是拜自性佛，將來成佛也是成自性佛。",
       english:
         "Respect can transform stubbornness into gentleness. Bowing to the Buddha is bowing to the Buddha of our self-nature. When we become Buddhas in the future, it is also the Buddha of our own self-nature that we become.",
     },
@@ -406,8 +394,7 @@ export function WarningCentury() {
         "Why do we experience demonic karma? It is because we failed to heed the teachings of good teachers and accept their admonishments in our past lives. Instead, we engaged in false thinking and created bad karma. Thus, we are surrounded and afflicted by demonic karma this life, and things do not go our way.",
     },
     {
-      chinese:
-        "我向你們化大緣，就是化你們所有人的脾氣，所有人的無明、煩惱、瞋癡。",
+      chinese: "我向你們化大緣，就是化你們所有人的脾氣，所有人的無明、煩惱、瞋癡。",
       english:
         "I'm requesting a big donation from you all– please donate to me all of your temper, your ignorance, your afflictions, your hatred, and your delusion. (translated by Derrick Gan.)",
     },
@@ -429,8 +416,7 @@ export function WarningCentury() {
         "Cultivators should not waste the donations they receive from their donors. They should try their best to be frugal. Those who waste material goods and engage in self-indulgence will never accomplish anything in their cultivation as they do not cultivate blessings and wisdom. (translated by Yifan Chan.)",
     },
     {
-      chinese:
-        "什麼是智？就是不自私。什麼是妄想？就是自私。自私一起，妄想便來。",
+      chinese: "什麼是智？就是不自私。什麼是妄想？就是自私。自私一起，妄想便來。",
       english:
         "What is wisdom? It is being unselfish. What is false thinking? It is being selfish. Once thoughts of selfishness arise, false thoughts will follow. (translated by James Lan.)",
     },
@@ -441,14 +427,12 @@ export function WarningCentury() {
         "The self reaches the end of empty space and pervades the Dharma Realm, so how can it be something? There is no past or present, no above or below, no others or self, no living beings or life span. People are transformed out of the great treasury of radiance.",
     },
     {
-      chinese:
-        "我們人的貪心，比天還高、比地還厚、比海也更深，無底的洞，什麼時候也填不滿！",
+      chinese: "我們人的貪心，比天還高、比地還厚、比海也更深，無底的洞，什麼時候也填不滿！",
       english:
         "Our greed stacks higher than the sky, piles thicker than the earth, and pools deeper than the ocean; like a bottomless pit, our greed can never be satiated. (translated by Sophia and Rui Liu.)",
     },
     {
-      chinese:
-        "修行修什麼？修行就是把我們的妄想修沒有了，慾念修沒有了，這就是有功夫了。",
+      chinese: "修行修什麼？修行就是把我們的妄想修沒有了，慾念修沒有了，這就是有功夫了。",
       english:
         "What is it that we're cultivating? We're cultivating to eradicate our false thoughts and desires; to be able to eradicate them is to have skill in cultivation.",
     },
@@ -505,8 +489,7 @@ export function WarningCentury() {
         "Those who are uncompassionate and unreasonable towards you are your good teachers. Only when you're able to accept adversity with ease and be unmoved, can your patience be revealed. Do not allow a stray comment from others to move you. You need to cultivate to the state of being unmovable and be able to endure the unendurable, only then will you have true skills. Otherwise, you'll have to start over again. (translated by Derrick Gan.)",
     },
     {
-      chinese:
-        "修道的人，要好像水一樣，有謙卑心，不爭功、不貪德；好的給人家，壞的自己留著。",
+      chinese: "修道的人，要好像水一樣，有謙卑心，不爭功、不貪德；好的給人家，壞的自己留著。",
       english:
         "Cultivators of the Way should be like water– stay humble, never fight for merit, and never be greedy for virtue; give good things to others and leave bad things for oneself.",
     },

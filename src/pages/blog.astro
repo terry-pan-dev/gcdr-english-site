@@ -6,11 +6,7 @@ import "../styles/globals.css";
 import { Navigation } from "../components/Navigation";
 import { Footer } from "../components/Footer";
 import { BlogList } from "../components/BlogList";
-import {
-  getGoogleFontsUrl,
-  getPrimaryFontFamily,
-  getSecondaryFontFamily,
-} from "../config/fonts";
+import { getGoogleFontsUrl, getPrimaryFontFamily, getSecondaryFontFamily } from "../config/fonts";
 
 const googleFontsUrl = getGoogleFontsUrl();
 const primaryFont = getPrimaryFontFamily();
@@ -72,21 +68,14 @@ const socialImageURL = new URL("/assets/hero-bg.png", Astro.site);
           </div>
         </div>
 
-        <div
-          class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative text-center"
-        >
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative text-center">
           <!-- Decorative Divider -->
           <div class="inline-flex items-center justify-center mb-6">
             <div class="h-px w-16 bg-accent-gold"></div>
             <div
               class="mx-4 w-16 h-16 rounded-full flex items-center justify-center bg-accent-gold"
             >
-              <svg
-                class="w-8 h-8 text-white"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
+              <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path
                   stroke-linecap="round"
                   stroke-linejoin="round"

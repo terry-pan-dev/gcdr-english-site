@@ -23,13 +23,7 @@ import { Badge } from "../ui/badge";
 import { ScrollArea } from "../ui/scroll-area";
 import { Input } from "../ui/input";
 import { Skeleton } from "../ui/skeleton";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "../ui/select";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -45,12 +39,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "../ui/dialog";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "../ui/tooltip";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../ui/tooltip";
 import { ToggleGroup, ToggleGroupItem } from "../ui/toggle-group";
 import { toast } from "sonner";
 import { Toaster } from "../ui/sonner";
@@ -100,9 +89,7 @@ export function MediaManager() {
     // Apply search filter
     if (searchQuery.trim()) {
       const query = searchQuery.toLowerCase();
-      result = result.filter((item) =>
-        item.filename.toLowerCase().includes(query)
-      );
+      result = result.filter((item) => item.filename.toLowerCase().includes(query));
     }
 
     // Apply type filter
@@ -114,13 +101,9 @@ export function MediaManager() {
     result.sort((a, b) => {
       switch (sortOption) {
         case "newest":
-          return (
-            new Date(b.uploadedAt).getTime() - new Date(a.uploadedAt).getTime()
-          );
+          return new Date(b.uploadedAt).getTime() - new Date(a.uploadedAt).getTime();
         case "oldest":
-          return (
-            new Date(a.uploadedAt).getTime() - new Date(b.uploadedAt).getTime()
-          );
+          return new Date(a.uploadedAt).getTime() - new Date(b.uploadedAt).getTime();
         case "name":
           return a.filename.localeCompare(b.filename);
         case "size":
@@ -201,12 +184,9 @@ export function MediaManager() {
       }
 
       if (successCount > 0) {
-        toast.success(
-          `${successCount} file${successCount > 1 ? "s" : ""} uploaded`,
-          {
-            icon: <Check className="size-4 text-green-500" />,
-          }
-        );
+        toast.success(`${successCount} file${successCount > 1 ? "s" : ""} uploaded`, {
+          icon: <Check className="size-4 text-green-500" />,
+        });
         loadMedia();
       }
       if (failCount > 0) {
@@ -371,19 +351,12 @@ export function MediaManager() {
 
       <CardHeader className="p-3 space-y-1">
         <div className="flex items-start justify-between gap-2">
-          <CardTitle
-            className="text-sm font-medium truncate flex-1"
-            title={item.filename}
-          >
+          <CardTitle className="text-sm font-medium truncate flex-1" title={item.filename}>
             {item.filename}
           </CardTitle>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button
-                variant="ghost"
-                size="icon"
-                className="size-6 shrink-0 -mr-1"
-              >
+              <Button variant="ghost" size="icon" className="size-6 shrink-0 -mr-1">
                 <MoreVertical className="size-4" />
               </Button>
             </DropdownMenuTrigger>
@@ -392,9 +365,7 @@ export function MediaManager() {
                 <Eye className="size-4 mr-2" />
                 Preview
               </DropdownMenuItem>
-              <DropdownMenuItem
-                onClick={() => handleCopyUrl(item.url, item.filename)}
-              >
+              <DropdownMenuItem onClick={() => handleCopyUrl(item.url, item.filename)}>
                 <Copy className="size-4 mr-2" />
                 Copy URL
               </DropdownMenuItem>
@@ -410,20 +381,13 @@ export function MediaManager() {
                 </a>
               </DropdownMenuItem>
               <DropdownMenuItem asChild>
-                <a
-                  href={item.url}
-                  download={item.filename}
-                  className="flex items-center"
-                >
+                <a href={item.url} download={item.filename} className="flex items-center">
                   <Download className="size-4 mr-2" />
                   Download
                 </a>
               </DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem
-                variant="destructive"
-                onClick={() => setDeleteConfirm(item)}
-              >
+              <DropdownMenuItem variant="destructive" onClick={() => setDeleteConfirm(item)}>
                 <Trash2 className="size-4 mr-2" />
                 Delete
               </DropdownMenuItem>
@@ -536,20 +500,13 @@ export function MediaManager() {
               </a>
             </DropdownMenuItem>
             <DropdownMenuItem asChild>
-              <a
-                href={item.url}
-                download={item.filename}
-                className="flex items-center"
-              >
+              <a href={item.url} download={item.filename} className="flex items-center">
                 <Download className="size-4 mr-2" />
                 Download
               </a>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem
-              variant="destructive"
-              onClick={() => setDeleteConfirm(item)}
-            >
+            <DropdownMenuItem variant="destructive" onClick={() => setDeleteConfirm(item)}>
               <Trash2 className="size-4 mr-2" />
               Delete
             </DropdownMenuItem>
@@ -570,8 +527,7 @@ export function MediaManager() {
           <div>
             <h1 className="text-2xl font-semibold">Media Library</h1>
             <p className="text-sm text-muted-foreground">
-              {media.length} file{media.length !== 1 ? "s" : ""} •{" "}
-              {filteredMedia.length} shown
+              {media.length} file{media.length !== 1 ? "s" : ""} • {filteredMedia.length} shown
             </p>
           </div>
           <div className="flex gap-2">
@@ -612,10 +568,7 @@ export function MediaManager() {
 
           {/* Filters & Sort */}
           <div className="flex flex-wrap items-center gap-2">
-            <Select
-              value={typeFilter}
-              onValueChange={(v) => setTypeFilter(v as TypeFilter)}
-            >
+            <Select value={typeFilter} onValueChange={(v) => setTypeFilter(v as TypeFilter)}>
               <SelectTrigger className="w-[120px]">
                 <SelectValue placeholder="Type" />
               </SelectTrigger>
@@ -626,10 +579,7 @@ export function MediaManager() {
               </SelectContent>
             </Select>
 
-            <Select
-              value={sortOption}
-              onValueChange={(v) => setSortOption(v as SortOption)}
-            >
+            <Select value={sortOption} onValueChange={(v) => setSortOption(v as SortOption)}>
               <SelectTrigger className="w-[140px]">
                 <SelectValue placeholder="Sort by" />
               </SelectTrigger>
@@ -676,9 +626,7 @@ export function MediaManager() {
               <div className="text-center space-y-2">
                 <Upload className="mx-auto size-12 text-accent-gold" />
                 <p className="text-lg font-semibold">Drop files here to upload</p>
-                <p className="text-sm text-muted-foreground">
-                  PNG, JPG, GIF, WebP up to 1MB
-                </p>
+                <p className="text-sm text-muted-foreground">PNG, JPG, GIF, WebP up to 1MB</p>
               </div>
             </div>
           )}
@@ -692,10 +640,7 @@ export function MediaManager() {
               </p>
               <div className="space-y-1">
                 {uploadProgress.map((name) => (
-                  <div
-                    key={name}
-                    className="flex items-center gap-2 text-sm text-muted-foreground"
-                  >
+                  <div key={name} className="flex items-center gap-2 text-sm text-muted-foreground">
                     <div className="size-3 rounded-full border-2 border-accent-gold border-t-transparent animate-spin" />
                     <span className="truncate">{name}</span>
                   </div>
@@ -734,18 +679,11 @@ export function MediaManager() {
                     <ImageIcon className="size-8 text-stone-400" />
                   </div>
                   <div>
-                    <h3 className="text-xl font-semibold mb-2">
-                      No media files yet
-                    </h3>
+                    <h3 className="text-xl font-semibold mb-2">No media files yet</h3>
                     <p className="text-muted-foreground mb-6 max-w-sm">
-                      Drag and drop files here, or click the button below to
-                      upload your first media
+                      Drag and drop files here, or click the button below to upload your first media
                     </p>
-                    <Button
-                      type="button"
-                      onClick={() => fileInputRef.current?.click()}
-                      size="lg"
-                    >
+                    <Button type="button" onClick={() => fileInputRef.current?.click()} size="lg">
                       <Upload className="mr-2 size-4" />
                       Upload Media
                     </Button>
@@ -763,9 +701,7 @@ export function MediaManager() {
                 <div className="text-center space-y-4">
                   <Search className="mx-auto size-12 text-muted-foreground" />
                   <div>
-                    <h3 className="text-lg font-semibold mb-2">
-                      No matching media
-                    </h3>
+                    <h3 className="text-lg font-semibold mb-2">No matching media</h3>
                     <p className="text-sm text-muted-foreground mb-4">
                       Try adjusting your search or filter criteria
                     </p>
@@ -791,12 +727,8 @@ export function MediaManager() {
                 onClick={() => fileInputRef.current?.click()}
               >
                 <Upload className="mx-auto size-8 text-stone-400 mb-2" />
-                <p className="font-medium text-sm">
-                  Drop files here or click to upload
-                </p>
-                <p className="text-xs text-muted-foreground mt-1">
-                  PNG, JPG, GIF, WebP up to 1MB
-                </p>
+                <p className="font-medium text-sm">Drop files here or click to upload</p>
+                <p className="text-xs text-muted-foreground mt-1">PNG, JPG, GIF, WebP up to 1MB</p>
               </div>
 
               {/* Grid/List view */}
@@ -832,11 +764,7 @@ export function MediaManager() {
                     className="max-w-full max-h-[70vh] object-contain"
                   />
                 ) : (
-                  <video
-                    src={previewMedia.url}
-                    controls
-                    className="max-w-full max-h-[70vh]"
-                  />
+                  <video src={previewMedia.url} controls className="max-w-full max-h-[70vh]" />
                 )}
               </div>
 
@@ -844,9 +772,7 @@ export function MediaManager() {
               <div className="p-4 border-t">
                 <div className="flex items-center justify-between gap-4">
                   <div className="min-w-0">
-                    <p className="font-semibold truncate">
-                      {previewMedia.filename}
-                    </p>
+                    <p className="font-semibold truncate">{previewMedia.filename}</p>
                     <p className="text-sm text-muted-foreground">
                       {formatFileSize(previewMedia.size)} •{" "}
                       {formatRelativeDate(previewMedia.uploadedAt)}
@@ -856,18 +782,13 @@ export function MediaManager() {
                     <Button
                       variant="outline"
                       size="sm"
-                      onClick={() =>
-                        handleCopyUrl(previewMedia.url, previewMedia.filename)
-                      }
+                      onClick={() => handleCopyUrl(previewMedia.url, previewMedia.filename)}
                     >
                       <Copy className="size-4 mr-2" />
                       Copy URL
                     </Button>
                     <Button variant="outline" size="sm" asChild>
-                      <a
-                        href={previewMedia.url}
-                        download={previewMedia.filename}
-                      >
+                      <a href={previewMedia.url} download={previewMedia.filename}>
                         <Download className="size-4 mr-2" />
                         Download
                       </a>
@@ -900,8 +821,7 @@ export function MediaManager() {
               Delete Media
             </DialogTitle>
             <DialogDescription>
-              Are you sure you want to delete this file? This action cannot be
-              undone.
+              Are you sure you want to delete this file? This action cannot be undone.
             </DialogDescription>
           </DialogHeader>
 
@@ -931,18 +851,10 @@ export function MediaManager() {
           )}
 
           <DialogFooter>
-            <Button
-              variant="outline"
-              onClick={() => setDeleteConfirm(null)}
-              disabled={deleting}
-            >
+            <Button variant="outline" onClick={() => setDeleteConfirm(null)} disabled={deleting}>
               Cancel
             </Button>
-            <Button
-              variant="destructive"
-              onClick={handleDelete}
-              disabled={deleting}
-            >
+            <Button variant="destructive" onClick={handleDelete} disabled={deleting}>
               {deleting ? "Deleting..." : "Delete"}
             </Button>
           </DialogFooter>

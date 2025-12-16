@@ -9,10 +9,7 @@ import { AboutPage } from "../components/AboutPage";
   theme="dark"
 >
   <AboutPage client:only="react">
-    <div
-      slot="fallback"
-      class="min-h-screen flex items-center justify-center bg-dark-bg"
-    >
+    <div slot="fallback" class="min-h-screen flex items-center justify-center bg-dark-bg">
       <p class="text-dark-text">Loading...</p>
     </div>
   </AboutPage>

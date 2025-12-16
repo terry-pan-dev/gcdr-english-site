@@ -19,44 +19,32 @@ export function Footer() {
               </a>
             </div>
             <p style={{ color: "#EBE9CF", opacity: 0.7 }}>
-              A sanctuary of peace, wisdom, and spiritual awakening for all who
-              seek the path to enlightenment.
+              A sanctuary of peace, wisdom, and spiritual awakening for all who seek the path to
+              enlightenment.
             </p>
           </div>
 
           {/* Quick Links */}
           <div>
             <h3 className="mb-4">Quick Links</h3>
-            <ul
-              className="space-y-2"
-              style={{ color: "#EBE9CF", opacity: 0.7 }}
-            >
+            <ul className="space-y-2" style={{ color: "#EBE9CF", opacity: 0.7 }}>
               <li>
                 <a href="/" className="hover:text-amber-400 transition-colors">
                   Home
                 </a>
               </li>
               <li>
-                <a
-                  href="/about"
-                  className="hover:text-amber-400 transition-colors"
-                >
+                <a href="/about" className="hover:text-amber-400 transition-colors">
                   About
                 </a>
               </li>
               <li>
-                <a
-                  href="/teachings"
-                  className="hover:text-amber-400 transition-colors"
-                >
+                <a href="/teachings" className="hover:text-amber-400 transition-colors">
                   Chan Meditation
                 </a>
               </li>
               <li>
-                <a
-                  href="/visit"
-                  className="hover:text-amber-400 transition-colors"
-                >
+                <a href="/visit" className="hover:text-amber-400 transition-colors">
                   Visit
                 </a>
               </li>

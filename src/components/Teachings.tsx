@@ -7,15 +7,13 @@ export function Teachings() {
       icon: Sun,
       title: "Morning Meditation",
       time: "Daily 6:00 AM - 7:30 AM",
-      description:
-        "Begin your day with guided meditation and chanting in our main hall",
+      description: "Begin your day with guided meditation and chanting in our main hall",
     },
     {
       icon: BookOpen,
       title: "Dharma Study",
       time: "Sunday 1:30 PM - 3:00 PM",
-      description:
-        "Explore Buddhist scriptures and philosophy with our resident monks",
+      description: "Explore Buddhist scriptures and philosophy with our resident monks",
       zoomLink: "https://drba-org.zoom.us/j/84914586289",
     },
     {
@@ -29,10 +27,7 @@ export function Teachings() {
   ];
 
   return (
-    <section
-      id="teachings"
-      className="py-20 bg-stone-900 text-white relative overflow-hidden"
-    >
+    <section id="teachings" className="py-20 bg-stone-900 text-white relative overflow-hidden">
       {/* Decorative Background */}
       <div className="absolute inset-0 opacity-10">
         <ImageWithFallback
@@ -50,18 +45,11 @@ export function Teachings() {
           >
             Teachings & Programs
           </div>
-          <h2
-            className="text-4xl md:text-5xl mb-6"
-            style={{ color: "#EBE9CF" }}
-          >
+          <h2 className="text-4xl md:text-5xl mb-6" style={{ color: "#EBE9CF" }}>
             The Path to Enlightenment
           </h2>
-          <p
-            className="max-w-2xl mx-auto text-lg"
-            style={{ color: "#EBE9CF", opacity: 0.8 }}
-          >
-            Join us in exploring the Buddha's teachings through meditation,
-            study, and practice
+          <p className="max-w-2xl mx-auto text-lg" style={{ color: "#EBE9CF", opacity: 0.8 }}>
+            Join us in exploring the Buddha's teachings through meditation, study, and practice
           </p>
         </div>
 
@@ -85,10 +73,7 @@ export function Teachings() {
                 {program.description}
               </p>
               {program.note && (
-                <p
-                  className="text-xs italic mb-4"
-                  style={{ color: "#EBE9CF", opacity: 0.6 }}
-                >
+                <p className="text-xs italic mb-4" style={{ color: "#EBE9CF", opacity: 0.6 }}>
                   {program.note}
                 </p>
               )}

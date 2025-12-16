@@ -64,10 +64,7 @@ const loadCognitoConfig = (): {
  * Waits for window globals to be available (with retry)
  * Useful when Astro pages haven't injected globals yet
  */
-const waitForWindowGlobals = async (
-  maxRetries = 5,
-  delayMs = 200
-): Promise<boolean> => {
+const waitForWindowGlobals = async (maxRetries = 5, delayMs = 200): Promise<boolean> => {
   if (typeof window === "undefined") {
     return false;
   }
@@ -79,9 +76,7 @@ const waitForWindowGlobals = async (
 
     if (hasUserPoolId && hasClientId) {
       if (shouldShowDebugLogs()) {
-        console.log(
-          `Amplify config: Window globals available after ${i + 1} attempt(s)`
-        );
+        console.log(`Amplify config: Window globals available after ${i + 1} attempt(s)`);
       }
       return true;
     }
@@ -138,10 +133,7 @@ export const configureAmplify = (): boolean => {
     }
 
     if (shouldShowDebugLogs()) {
-      console.log(
-        "Calling Amplify.configure with:",
-        JSON.stringify(amplifyConfig, null, 2)
-      );
+      console.log("Calling Amplify.configure with:", JSON.stringify(amplifyConfig, null, 2));
     }
     Amplify.configure(amplifyConfig);
 
@@ -153,10 +145,7 @@ export const configureAmplify = (): boolean => {
     // Verify configuration was applied (only when debug logs enabled)
     if (shouldShowDebugLogs()) {
       const currentConfig = Amplify.getConfig();
-      console.log(
-        "Amplify getConfig result:",
-        JSON.stringify(currentConfig, null, 2)
-      );
+      console.log("Amplify getConfig result:", JSON.stringify(currentConfig, null, 2));
     }
 
     amplifyConfigured = true;
@@ -215,10 +204,7 @@ export const configureAmplifyAsync = async (): Promise<boolean> => {
       configRetryPromise = null;
       return result;
     } catch (error: any) {
-      console.error(
-        "Failed to configure Amplify (async):",
-        error.message || error
-      );
+      console.error("Failed to configure Amplify (async):", error.message || error);
       configRetryPromise = null;
       return false;
     }

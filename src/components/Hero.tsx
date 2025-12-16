@@ -51,12 +51,8 @@ export function Hero() {
               href="#visit"
               className="px-8 py-3 rounded transition-colors"
               style={{ backgroundColor: "#c9a050", color: "#1c1917" }}
-              onMouseEnter={(e) =>
-                (e.currentTarget.style.backgroundColor = "#b8944a")
-              }
-              onMouseLeave={(e) =>
-                (e.currentTarget.style.backgroundColor = "#c9a050")
-              }
+              onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#b8944a")}
+              onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "#c9a050")}
             >
               Plan Your Visit
             </a>

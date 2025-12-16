@@ -10,7 +10,7 @@ export async function handler(event: any) {
   try {
     const tableName = process.env.MEDIA_ASSETS_TABLE;
     const bucketName = process.env.MEDIA_STORAGE_BUCKET;
-    
+
     if (!tableName || !bucketName) {
       return {
         statusCode: 500,
@@ -105,4 +105,3 @@ export async function handler(event: any) {
     };
   }
 }
-

@@ -18,8 +18,7 @@ const {
   theme = "light",
 } = Astro.props;
 
-const bgClass =
-  theme === "dark" ? "min-h-screen bg-dark-bg" : "min-h-screen bg-stone-50";
+const bgClass = theme === "dark" ? "min-h-screen bg-dark-bg" : "min-h-screen bg-stone-50";
 const googleFontsUrl = getGoogleFontsUrl();
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const socialImageURL = new URL(image, Astro.site);

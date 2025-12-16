@@ -119,9 +119,7 @@ export function BlogCard({ post, index }: Props) {
 
         <p
           className={`text-stone-600 mb-3 sm:mb-4 text-sm sm:text-base ${
-            hasImage
-              ? "line-clamp-2 sm:line-clamp-3"
-              : "line-clamp-2 sm:line-clamp-4"
+            hasImage ? "line-clamp-2 sm:line-clamp-3" : "line-clamp-2 sm:line-clamp-4"
           }`}
         >
           {post.data.excerpt}
@@ -144,9 +142,7 @@ export function BlogCard({ post, index }: Props) {
           style={{ color: "#c9a050" }}
         >
           Read More
-          <span className="transition-transform group-hover:translate-x-1">
-            &rarr;
-          </span>
+          <span className="transition-transform group-hover:translate-x-1">&rarr;</span>
         </div>
       </div>
     </motion.a>

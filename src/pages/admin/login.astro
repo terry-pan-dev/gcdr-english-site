@@ -19,7 +19,17 @@ const redirectTo = Astro.url.searchParams.get("redirect") || "/admin/dashboard";
 ---
 
 <AdminLayout title="Admin Login - GCDR">
-  <script is:inline define:vars={{ apiBaseUrl, cognitoUserPoolId, cognitoClientId, cognitoIdentityPoolId, awsRegion, redirectTo }}>
+  <script
+    is:inline
+    define:vars={{
+      apiBaseUrl,
+      cognitoUserPoolId,
+      cognitoClientId,
+      cognitoIdentityPoolId,
+      awsRegion,
+      redirectTo,
+    }}
+  >
     // Inject API base URL and Cognito config into global scope for client-side use
     window.__API_BASE_URL__ = apiBaseUrl;
     window.__COGNITO_USER_POOL_ID__ = cognitoUserPoolId;
@@ -30,5 +40,3 @@ const redirectTo = Astro.url.searchParams.get("redirect") || "/admin/dashboard";
   </script>
   <LoginForm client:load />
 </AdminLayout>
-
-

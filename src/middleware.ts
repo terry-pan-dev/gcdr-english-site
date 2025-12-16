@@ -44,4 +44,3 @@ export const onRequest = defineMiddleware(async (context, next) => {
   // Continue with the request
   return next();
 });
-

@@ -1,62 +1,64 @@
-import type { Config } from 'tailwindcss'
-import { getPrimaryFontFamily, getSecondaryFontFamily } from './src/config/fonts'
+import type { Config } from "tailwindcss";
+import { getPrimaryFontFamily, getSecondaryFontFamily } from "./src/config/fonts";
 
 export default {
-  content: [
-    './src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}',
-  ],
+  content: ["./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}"],
   theme: {
     extend: {
       fontFamily: {
-        sans: getPrimaryFontFamily().split(',').map(f => f.trim().replace(/'/g, '')),
-        serif: getSecondaryFontFamily().split(',').map(f => f.trim().replace(/'/g, '')),
+        sans: getPrimaryFontFamily()
+          .split(",")
+          .map((f) => f.trim().replace(/'/g, "")),
+        serif: getSecondaryFontFamily()
+          .split(",")
+          .map((f) => f.trim().replace(/'/g, "")),
       },
       colors: {
-        border: 'var(--color-border)',
-        input: 'var(--color-input)',
-        ring: 'var(--color-ring)',
-        background: 'var(--color-background)',
-        foreground: 'var(--color-foreground)',
+        border: "var(--color-border)",
+        input: "var(--color-input)",
+        ring: "var(--color-ring)",
+        background: "var(--color-background)",
+        foreground: "var(--color-foreground)",
         primary: {
-          DEFAULT: 'var(--color-primary)',
-          foreground: 'var(--color-primary-foreground)',
+          DEFAULT: "var(--color-primary)",
+          foreground: "var(--color-primary-foreground)",
         },
         secondary: {
-          DEFAULT: 'var(--color-secondary)',
-          foreground: 'var(--color-secondary-foreground)',
+          DEFAULT: "var(--color-secondary)",
+          foreground: "var(--color-secondary-foreground)",
         },
         destructive: {
-          DEFAULT: 'var(--color-destructive)',
-          foreground: 'var(--color-destructive-foreground)',
+          DEFAULT: "var(--color-destructive)",
+          foreground: "var(--color-destructive-foreground)",
         },
         muted: {
-          DEFAULT: 'var(--color-muted)',
-          foreground: 'var(--color-muted-foreground)',
+          DEFAULT: "var(--color-muted)",
+          foreground: "var(--color-muted-foreground)",
         },
         accent: {
-          DEFAULT: 'var(--color-accent)',
-          foreground: 'var(--color-accent-foreground)',
+          DEFAULT: "var(--color-accent)",
+          foreground: "var(--color-accent-foreground)",
         },
         popover: {
-          DEFAULT: 'var(--color-popover)',
-          foreground: 'var(--color-popover-foreground)',
+          DEFAULT: "var(--color-popover)",
+          foreground: "var(--color-popover-foreground)",
         },
         card: {
-          DEFAULT: 'var(--color-card)',
-          foreground: 'var(--color-card-foreground)',
+          DEFAULT: "var(--color-card)",
+          foreground: "var(--color-card-foreground)",
         },
         // GCDR Theme Colors
-        'dark-bg': '#1c1917',
-        'dark-text': '#EBE9CF',
-        'accent-gold': '#c9a050',
-        'dark-card': '#2a2522',
+        "dark-bg": "#1c1917",
+        "dark-text": "#EBE9CF",
+        "accent-gold": "#c9a050",
+        "dark-card": "#2a2522",
       },
       borderRadius: {
-        sm: 'var(--radius-sm)',
-        md: 'var(--radius-md)',
-        lg: 'var(--radius-lg)',
-        xl: 'var(--radius-xl)',
+        sm: "var(--radius-sm)",
+        md: "var(--radius-md)",
+        lg: "var(--radius-lg)",
+        xl: "var(--radius-xl)",
       },
     },
   },
-} satisfies Config
+} satisfies Config;

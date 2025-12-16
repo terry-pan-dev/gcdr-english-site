@@ -12,7 +12,7 @@ export async function handler(event: any) {
   try {
     const tableName = process.env.MEDIA_ASSETS_TABLE;
     const bucketName = process.env.MEDIA_STORAGE_BUCKET;
-    
+
     if (!tableName || !bucketName) {
       return {
         statusCode: 500,
@@ -45,9 +45,10 @@ export async function handler(event: any) {
     const mediaId = uuidv4();
     const fileExtension = filename.split(".").pop() || "";
     const s3Key = `media/${type}/${mediaId}-${filename}`;
-    const contentType = type === "image" 
-      ? `image/${fileExtension === "jpg" ? "jpeg" : fileExtension}`
-      : `video/${fileExtension}`;
+    const contentType =
+      type === "image"
+        ? `image/${fileExtension === "jpg" ? "jpeg" : fileExtension}`
+        : `video/${fileExtension}`;
 
     // Generate presigned URL for upload
     const putCommand = new PutObjectCommand({
@@ -108,4 +109,3 @@ export async function handler(event: any) {
     };
   }
 }
-

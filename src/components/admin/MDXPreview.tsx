@@ -23,9 +23,7 @@ export function MDXPreview({ content, frontmatter }: Props) {
           )}
           <div className="flex items-center gap-4 mt-4 text-sm text-muted-foreground">
             {frontmatter.author && <span>By {frontmatter.author}</span>}
-            {frontmatter.date && (
-              <span>{new Date(frontmatter.date).toLocaleDateString()}</span>
-            )}
+            {frontmatter.date && <span>{new Date(frontmatter.date).toLocaleDateString()}</span>}
           </div>
         </div>
       )}
@@ -33,4 +31,3 @@ export function MDXPreview({ content, frontmatter }: Props) {
     </div>
   );
 }
-

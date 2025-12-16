@@ -28,10 +28,7 @@ interface Props {
 
 export function BlogNavigation({ previousPost, nextPost }: Props) {
   return (
-    <div
-      className="mt-12 sm:mt-16 pt-6 sm:pt-8 border-t"
-      style={{ borderColor: "#c9a050" }}
-    >
+    <div className="mt-12 sm:mt-16 pt-6 sm:pt-8 border-t" style={{ borderColor: "#c9a050" }}>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-2 sm:gap-4">
         {/* Previous Post */}
         {previousPost ? (
@@ -131,12 +128,7 @@ export function BlogNavigation({ previousPost, nextPost }: Props) {
               viewBox="0 0 24 24"
               style={{ color: "#c9a050" }}
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M9 5l7 7-7 7"
-              />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
             </svg>
           </motion.a>
         ) : (

@@ -7,11 +7,7 @@ import { MarkdownEditor } from "./MarkdownEditor";
 import { Button } from "../ui/button";
 import type { BlogPost } from "../../lib/admin-api";
 import { blogApi } from "../../lib/admin-api";
-import {
-  ResizablePanelGroup,
-  ResizablePanel,
-  ResizableHandle,
-} from "../ui/resizable";
+import { ResizablePanelGroup, ResizablePanel, ResizableHandle } from "../ui/resizable";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { ScrollArea } from "../ui/scroll-area";
 import { ArrowLeft, Save } from "lucide-react";
@@ -25,13 +21,7 @@ interface Props {
   blogs?: BlogPost[];
 }
 
-export function BlogEditor({
-  mode,
-  blogId,
-  onBack,
-  onSave,
-  blogs = [],
-}: Props) {
+export function BlogEditor({ mode, blogId, onBack, onSave, blogs = [] }: Props) {
   const [metadata, setMetadata] = useState<Partial<BlogPost>>({
     title: "",
     subtitle: "",
@@ -96,15 +86,9 @@ export function BlogEditor({
   };
 
   const handleSave = async () => {
-    if (
-      !metadata.title ||
-      !metadata.author ||
-      !metadata.category ||
-      !metadata.excerpt
-    ) {
+    if (!metadata.title || !metadata.author || !metadata.category || !metadata.excerpt) {
       toast.error("Validation Error", {
-        description:
-          "Please fill in all required fields (title, author, category, excerpt)",
+        description: "Please fill in all required fields (title, author, category, excerpt)",
       });
       return;
     }
@@ -154,7 +138,6 @@ export function BlogEditor({
     }
   };
 
-
   if (loading) {
     return (
       <div className="flex items-center justify-center h-full">
@@ -190,10 +173,7 @@ export function BlogEditor({
           <ResizablePanel defaultSize={40} minSize={30}>
             <Card className="h-full flex flex-col rounded-none border-0 border-r overflow-hidden">
               <CardContent className="flex-1 min-h-0 p-0">
-                <MarkdownEditor
-                  content={markdownContent}
-                  onChange={setMarkdownContent}
-                />
+                <MarkdownEditor content={markdownContent} onChange={setMarkdownContent} />
               </CardContent>
             </Card>
           </ResizablePanel>
@@ -227,9 +207,7 @@ export function BlogEditor({
                   metadata={metadata}
                   onChange={setMetadata}
                   existingCategories={Array.from(
-                    new Set(
-                      blogs.map((b) => b.category).filter(Boolean) as string[]
-                    )
+                    new Set(blogs.map((b) => b.category).filter(Boolean) as string[])
                   )}
                   existingTags={Array.from(
                     new Set(blogs.flatMap((b) => b.tags || []).filter(Boolean))

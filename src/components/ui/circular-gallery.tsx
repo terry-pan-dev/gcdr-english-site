@@ -82,8 +82,7 @@ export function CircularGallery({
 
   // Update item positions
   const updateItems = useCallback(() => {
-    if (!wrapperRef.current || itemRefs.current.length === 0 || itemWidth === 0)
-      return;
+    if (!wrapperRef.current || itemRefs.current.length === 0 || itemWidth === 0) return;
 
     const scroll = scrollRef.current;
     const direction = scroll.current > scroll.last ? "right" : "left";
@@ -173,16 +172,13 @@ export function CircularGallery({
     (e: WheelEvent) => {
       e.preventDefault();
       const delta = e.deltaY || e.wheelDelta || e.detail;
-      scrollRef.current.target +=
-        (delta > 0 ? scrollSpeed : -scrollSpeed) * 0.2;
+      scrollRef.current.target += (delta > 0 ? scrollSpeed : -scrollSpeed) * 0.2;
 
       // Snap to items
       const onCheck = debounce(() => {
         if (itemWidth === 0) return;
         const width = itemWidth;
-        const itemIndex = Math.round(
-          Math.abs(scrollRef.current.target) / width
-        );
+        const itemIndex = Math.round(Math.abs(scrollRef.current.target) / width);
         const item = width * itemIndex;
         scrollRef.current.target = scrollRef.current.target < 0 ? -item : item;
       }, 200);
@@ -262,10 +258,7 @@ export function CircularGallery({
   return (
     <div
       ref={containerRef}
-      className={cn(
-        "relative w-full h-[600px] overflow-hidden cursor-grab",
-        className
-      )}
+      className={cn("relative w-full h-[600px] overflow-hidden cursor-grab", className)}
       style={{
         cursor: isGrabbing ? "grabbing" : "grab",
       }}
@@ -286,12 +279,9 @@ export function CircularGallery({
 
           const baseX = itemWidth * index;
           const extra = extraRef.current[index] || 0;
-          const x =
-            itemWidth > 0 ? baseX - scrollRef.current.current + extra : 0;
+          const x = itemWidth > 0 ? baseX - scrollRef.current.current + extra : 0;
           const { y, rotation } =
-            viewportWidth > 0
-              ? calculatePosition(x, bend)
-              : { y: 0, rotation: 0 };
+            viewportWidth > 0 ? calculatePosition(x, bend) : { y: 0, rotation: 0 };
 
           return (
             <div
@@ -302,9 +292,7 @@ export function CircularGallery({
               className="absolute"
               style={{
                 width: `${Math.min(viewportWidth * 0.7 || 700, 700)}px`,
-                height: `${
-                  (Math.min(viewportWidth * 0.7 || 700, 700) * 900) / 700
-                }px`,
+                height: `${(Math.min(viewportWidth * 0.7 || 700, 700) * 900) / 700}px`,
                 transform: `translate3d(${x}px, ${y}px, 0) rotateZ(${rotation}rad)`,
                 transformOrigin: "center center",
                 willChange: "transform",
@@ -328,10 +316,7 @@ export function CircularGallery({
                     borderBottomRightRadius: `${borderRadius * 100}px`,
                   }}
                 >
-                  <p
-                    className="text-sm font-medium text-center"
-                    style={{ color: textColor }}
-                  >
+                  <p className="text-sm font-medium text-center" style={{ color: textColor }}>
                     {item.text}
                   </p>
                 </div>

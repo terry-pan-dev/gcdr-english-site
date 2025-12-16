@@ -1,5 +1,5 @@
 ---
-import { getPrimaryFontFamily } from '../../config/fonts';
+import { getPrimaryFontFamily } from "../../config/fonts";
 
 interface Props {
   author?: string;
@@ -20,10 +20,7 @@ const primaryFont = getPrimaryFontFamily();
   </p>
   {
     author && (
-      <cite
-        class="block mt-4 text-sm not-italic font-medium"
-        style="color: #c9a050;"
-      >
+      <cite class="block mt-4 text-sm not-italic font-medium" style="color: #c9a050;">
         &mdash; {author}
       </cite>
     )

@@ -10,4 +10,3 @@ declare namespace App {
     authenticated?: boolean;
   }
 }
-

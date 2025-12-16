@@ -48,10 +48,7 @@ export function CategoryCombobox({
   // Handle clicking outside to close dropdown
   React.useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (
-        containerRef.current &&
-        !containerRef.current.contains(event.target as Node)
-      ) {
+      if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
         setIsOpen(false);
         // If input is empty or matches nothing, revert to current value
         if (!inputValue.trim()) {
@@ -136,12 +133,7 @@ export function CategoryCombobox({
           className="absolute right-0 top-0 h-full px-2 flex items-center justify-center text-slate-400 hover:text-slate-600 transition-colors"
           tabIndex={-1}
         >
-          <ChevronDown
-            className={cn(
-              "h-4 w-4 transition-transform",
-              isOpen && "rotate-180"
-            )}
-          />
+          <ChevronDown className={cn("h-4 w-4 transition-transform", isOpen && "rotate-180")} />
         </button>
       </div>
 
@@ -152,9 +144,7 @@ export function CategoryCombobox({
             {/* Create new option */}
             {showCreateOption && (
               <>
-                <li className="px-2 py-1.5 text-xs font-medium text-slate-500">
-                  Create new
-                </li>
+                <li className="px-2 py-1.5 text-xs font-medium text-slate-500">Create new</li>
                 <li>
                   <button
                     type="button"
@@ -163,8 +153,7 @@ export function CategoryCombobox({
                   >
                     <Plus className="h-4 w-4 text-slate-500" />
                     <span>
-                      Create "
-                      <span className="font-medium">{inputValue.trim()}</span>"
+                      Create "<span className="font-medium">{inputValue.trim()}</span>"
                     </span>
                   </button>
                 </li>
@@ -178,9 +167,7 @@ export function CategoryCombobox({
 
             {/* Categories list header (only if not showing create option) */}
             {!showCreateOption && filteredCategories.length > 0 && (
-              <li className="px-2 py-1.5 text-xs font-medium text-slate-500">
-                Categories
-              </li>
+              <li className="px-2 py-1.5 text-xs font-medium text-slate-500">Categories</li>
             )}
 
             {/* Category options */}
@@ -197,9 +184,7 @@ export function CategoryCombobox({
                   <Check
                     className={cn(
                       "h-4 w-4",
-                      value === category
-                        ? "text-primary opacity-100"
-                        : "opacity-0"
+                      value === category ? "text-primary opacity-100" : "opacity-0"
                     )}
                   />
                   <span>{category}</span>
@@ -209,9 +194,7 @@ export function CategoryCombobox({
 
             {/* Empty state */}
             {filteredCategories.length === 0 && !showCreateOption && (
-              <li className="px-3 py-2 text-sm text-slate-500 text-center">
-                No categories found
-              </li>
+              <li className="px-3 py-2 text-sm text-slate-500 text-center">No categories found</li>
             )}
           </ul>
         </div>

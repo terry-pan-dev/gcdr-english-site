@@ -63,4 +63,3 @@ export async function getS3Blogs(): Promise<ServerBlogPost[]> {
     return [];
   }
 }
-

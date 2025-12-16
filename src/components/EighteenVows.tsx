@@ -63,28 +63,23 @@ export function EighteenVows() {
           className="text-center mb-20 space-y-8 text-stone-300 font-light leading-relaxed text-lg"
         >
           <p>
-            When the Ven. Master Hua was cultivating the practice of filial
-            mourning beside his mother's grave, he made the following vows
-            before the Buddhas on the 19th day of the sixth lunar month of the
-            year of Zhitong
+            When the Ven. Master Hua was cultivating the practice of filial mourning beside his
+            mother's grave, he made the following vows before the Buddhas on the 19th day of the
+            sixth lunar month of the year of Zhitong
           </p>
           <div className="p-8 border border-accent-gold/30 rounded-lg bg-dark-card/50 italic relative">
-            <span className="absolute top-4 left-4 text-4xl text-accent-gold/20">
-              "
-            </span>
+            <span className="absolute top-4 left-4 text-4xl text-accent-gold/20">"</span>
             <p className="mb-4">
-              Ven. Master Hua: I bow before the Buddhas of the ten directions,
-              the Dharma of the Tripitaka, and the Holy Sangha of the past and
-              present, praying that they will hear and bear witness.
+              Ven. Master Hua: I bow before the Buddhas of the ten directions, the Dharma of the
+              Tripitaka, and the Holy Sangha of the past and present, praying that they will hear
+              and bear witness.
             </p>
             <p>
-              I, disciple To Lun, Shi An Tse, resolve never to seek for myself
-              the blessings of gods or humans, or the attainments of Shravakas,
-              Pratyekabuddhas, or high Bodhisattvas. Instead, I rely on the
-              Supreme Vehicle, the One Buddha Vehicle, and bring forth the
-              Resolve for Bodhi, vowing that all living beings of the Dharma
-              Realm will attain Utmost, Right, and Equal, Proper Enlightenment
-              at the same time as I.
+              I, disciple To Lun, Shi An Tse, resolve never to seek for myself the blessings of gods
+              or humans, or the attainments of Shravakas, Pratyekabuddhas, or high Bodhisattvas.
+              Instead, I rely on the Supreme Vehicle, the One Buddha Vehicle, and bring forth the
+              Resolve for Bodhi, vowing that all living beings of the Dharma Realm will attain
+              Utmost, Right, and Equal, Proper Enlightenment at the same time as I.
             </p>
             <span className="absolute bottom-4 right-4 text-4xl text-accent-gold/20 rotate-180">
               "
@@ -116,9 +111,7 @@ export function EighteenVows() {
                   {index + 1}
                 </div>
               </motion.div>
-              <p className="text-lg text-stone-300 leading-relaxed pt-1 flex-1">
-                {vow}
-              </p>
+              <p className="text-lg text-stone-300 leading-relaxed pt-1 flex-1">{vow}</p>
             </motion.div>
           ))}
         </div>
@@ -132,14 +125,11 @@ export function EighteenVows() {
           className="mt-24 pt-12 border-t border-stone-800"
         >
           <div className="p-8 border border-accent-gold/30 rounded-lg bg-dark-card/50 italic relative">
-            <span className="absolute top-4 left-4 text-4xl text-accent-gold/20">
-              "
-            </span>
+            <span className="absolute top-4 left-4 text-4xl text-accent-gold/20">"</span>
             <p className="text-lg md:text-xl text-stone-300 leading-relaxed mb-4">
-              Also: I vow to save the innumerable living beings. I vow to
-              eradicate the inexhaustible afflictions. I vow to study the
-              illimitable Dharma-doors. I vow to accomplish the unsurpassed
-              Buddha Way.
+              Also: I vow to save the innumerable living beings. I vow to eradicate the
+              inexhaustible afflictions. I vow to study the illimitable Dharma-doors. I vow to
+              accomplish the unsurpassed Buddha Way.
             </p>
             <p className="text-accent-gold text-base md:text-lg font-serif not-italic">
               <strong>Venerable Master Hsuan Hua</strong>

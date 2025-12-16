@@ -30,26 +30,26 @@ if (apiBaseUrl) {
   try {
     const fetchUrl = `${apiBaseUrl}/api/public/blogs/${slug}`;
     console.log("Fetching from:", fetchUrl);
-    
+
     // Fetch single blog with content from public API
     const response = await fetch(fetchUrl);
     console.log("Response status:", response.status);
-    
+
     if (response.ok) {
       const blogData = await response.json();
-      
+
       if (blogData && blogData.publish) {
         // Check if blog date is in the past
         const postDate = new Date(blogData.date);
         postDate.setHours(0, 0, 0, 0);
         const today = new Date();
         today.setHours(0, 0, 0, 0);
-        
+
         if (postDate <= today) {
           // Convert markdown to HTML (same as admin preview uses marked)
           const rawContent = blogData.content || "";
           blogContent = marked.parse(rawContent) as string;
-          
+
           // Convert to post format compatible with BlogLayout
           post = {
             id: blogData.id,
@@ -98,7 +98,7 @@ if (!post) {
 </html>`,
     {
       status: 404,
-      headers: { "Content-Type": "text/html" }
+      headers: { "Content-Type": "text/html" },
     }
   );
 }
@@ -110,10 +110,10 @@ try {
   if (listResponse.ok) {
     const listData = await listResponse.json();
     const blogs = listData.blogs || [];
-    
+
     const today = new Date();
     today.setHours(0, 0, 0, 0);
-    
+
     allPublishedPosts = blogs
       .filter((blog: any) => {
         if (!blog.publish) return false;
@@ -155,8 +155,7 @@ const sortedPosts = allPublishedPosts.sort((a, b) => {
 // Find current post index
 const currentIndex = sortedPosts.findIndex((p) => p.id === post.id);
 const previousPost = currentIndex > 0 ? sortedPosts[currentIndex - 1] : null;
-const nextPost =
-  currentIndex < sortedPosts.length - 1 ? sortedPosts[currentIndex + 1] : null;
+const nextPost = currentIndex < sortedPosts.length - 1 ? sortedPosts[currentIndex + 1] : null;
 ---
 
 <BlogLayout post={post}>

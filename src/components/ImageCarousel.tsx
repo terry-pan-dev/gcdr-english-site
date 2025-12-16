@@ -7,10 +7,7 @@ interface ImageCarouselProps {
   autoplaySpeed?: number;
 }
 
-export function ImageCarousel({
-  images,
-  autoplaySpeed = 4000,
-}: ImageCarouselProps) {
+export function ImageCarousel({ images, autoplaySpeed = 4000 }: ImageCarouselProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
@@ -26,9 +23,7 @@ export function ImageCarousel({
   };
 
   const goToPrevious = () => {
-    setCurrentIndex(
-      (prevIndex) => (prevIndex - 1 + images.length) % images.length
-    );
+    setCurrentIndex((prevIndex) => (prevIndex - 1 + images.length) % images.length);
   };
 
   const goToNext = () => {
@@ -84,9 +79,7 @@ export function ImageCarousel({
             key={index}
             onClick={() => goToSlide(index)}
             className={`w-2 h-2 rounded-full transition-all ${
-              index === currentIndex
-                ? "bg-white w-8"
-                : "bg-white/50 hover:bg-white/75"
+              index === currentIndex ? "bg-white w-8" : "bg-white/50 hover:bg-white/75"
             }`}
             aria-label={`Go to slide ${index + 1}`}
           />

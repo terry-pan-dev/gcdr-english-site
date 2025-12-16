@@ -11,7 +11,7 @@ export async function handler(event: any) {
   try {
     const tableName = process.env.BLOG_POSTS_TABLE;
     const bucketName = process.env.BLOG_STORAGE_BUCKET;
-    
+
     if (!tableName || !bucketName) {
       return {
         statusCode: 500,
@@ -120,4 +120,3 @@ export async function handler(event: any) {
     };
   }
 }
-

@@ -1,9 +1,6 @@
 import { useEffect, useState } from "react";
 import { authApi } from "../../lib/admin-api";
-import {
-  ensureAmplifyConfigured,
-  configureAmplifyAsync,
-} from "../../lib/amplify-config";
+import { ensureAmplifyConfigured, configureAmplifyAsync } from "../../lib/amplify-config";
 
 /**
  * Client-side wrapper for admin pages that ensures CSS is loaded and authentication is verified
@@ -80,25 +77,17 @@ export function AdminPageWrapper({ children }: { children: React.ReactNode }) {
     const injectCSS = () => {
       // Find base path from existing script tags or current URL
       let basePath = window.location.origin;
-      const scripts = Array.from(
-        document.querySelectorAll('script[src*="_astro"]')
-      );
+      const scripts = Array.from(document.querySelectorAll('script[src*="_astro"]'));
       if (scripts.length > 0) {
         basePath = scripts[0].src.split("/_astro/")[0];
       }
 
       // Get all existing CSS links to avoid duplicates
-      const existingLinks = Array.from(
-        document.querySelectorAll('link[rel="stylesheet"]')
-      );
-      const loadedHrefs = new Set(
-        existingLinks.map((link) => (link as HTMLLinkElement).href)
-      );
+      const existingLinks = Array.from(document.querySelectorAll('link[rel="stylesheet"]'));
+      const loadedHrefs = new Set(existingLinks.map((link) => (link as HTMLLinkElement).href));
 
       // Find all script tags to extract CSS file patterns
-      const scriptTags = Array.from(
-        document.querySelectorAll('script[src*="_astro"]')
-      );
+      const scriptTags = Array.from(document.querySelectorAll('script[src*="_astro"]'));
       const cssFilesToLoad = new Set<string>();
 
       // Look for dashboard CSS file - it's named "dashboard.{hash}.css"
@@ -164,11 +153,7 @@ export function AdminPageWrapper({ children }: { children: React.ReactNode }) {
       // Check if there's a link to globals or index CSS
       const hasGlobalCSS = Array.from(existingLinks).some((link) => {
         const href = (link as HTMLLinkElement).href;
-        return (
-          href.includes("globals") ||
-          href.includes("index") ||
-          href.includes("_astro")
-        );
+        return href.includes("globals") || href.includes("index") || href.includes("_astro");
       });
 
       if (!hasGlobalCSS) {

@@ -28,9 +28,7 @@ export function TagsMultiSelect({
   const filteredTags = React.useMemo(() => {
     const available = existingTags.filter((tag) => !value.includes(tag));
     if (!inputValue.trim()) return available;
-    return available.filter((tag) =>
-      tag.toLowerCase().includes(inputValue.toLowerCase())
-    );
+    return available.filter((tag) => tag.toLowerCase().includes(inputValue.toLowerCase()));
   }, [existingTags, inputValue, value]);
 
   // Check if input matches any existing tag exactly (case-insensitive)
@@ -49,10 +47,7 @@ export function TagsMultiSelect({
   // Handle clicking outside to close dropdown
   React.useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (
-        containerRef.current &&
-        !containerRef.current.contains(event.target as Node)
-      ) {
+      if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
         setIsOpen(false);
       }
     };
@@ -170,12 +165,7 @@ export function TagsMultiSelect({
           className="flex-shrink-0 p-0.5 text-slate-400 hover:text-slate-600 transition-colors"
           tabIndex={-1}
         >
-          <ChevronDown
-            className={cn(
-              "h-4 w-4 transition-transform",
-              isOpen && "rotate-180"
-            )}
-          />
+          <ChevronDown className={cn("h-4 w-4 transition-transform", isOpen && "rotate-180")} />
         </button>
       </div>
 
@@ -186,9 +176,7 @@ export function TagsMultiSelect({
             {/* Create new option */}
             {showCreateOption && (
               <>
-                <li className="px-2 py-1.5 text-xs font-medium text-slate-500">
-                  Create new
-                </li>
+                <li className="px-2 py-1.5 text-xs font-medium text-slate-500">Create new</li>
                 <li>
                   <button
                     type="button"
@@ -197,8 +185,7 @@ export function TagsMultiSelect({
                   >
                     <Plus className="h-4 w-4 text-slate-500" />
                     <span>
-                      Create "
-                      <span className="font-medium">{inputValue.trim()}</span>"
+                      Create "<span className="font-medium">{inputValue.trim()}</span>"
                     </span>
                   </button>
                 </li>
@@ -212,9 +199,7 @@ export function TagsMultiSelect({
 
             {/* Tags list header (only if not showing create option) */}
             {!showCreateOption && filteredTags.length > 0 && (
-              <li className="px-2 py-1.5 text-xs font-medium text-slate-500">
-                Available tags
-              </li>
+              <li className="px-2 py-1.5 text-xs font-medium text-slate-500">Available tags</li>
             )}
 
             {/* Tag options */}
@@ -234,9 +219,7 @@ export function TagsMultiSelect({
             {/* Empty state when all tags selected */}
             {filteredTags.length === 0 && !showCreateOption && (
               <li className="px-3 py-2 text-sm text-slate-500 text-center">
-                {inputValue
-                  ? "No matching tags"
-                  : "All tags selected or type to create new"}
+                {inputValue ? "No matching tags" : "All tags selected or type to create new"}
               </li>
             )}
           </ul>

@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import { BlogCard } from './BlogCard';
-import { BlogSidebar } from './BlogSidebar';
-import { TimelineConnector } from './TimelineConnector';
+import React, { useEffect, useState } from "react";
+import { BlogCard } from "./BlogCard";
+import { BlogSidebar } from "./BlogSidebar";
+import { TimelineConnector } from "./TimelineConnector";
 
 interface BlogPost {
   id: string;
@@ -40,7 +40,7 @@ export function BlogList({ apiBaseUrl, initialCategory, initialPage = 1 }: BlogL
         setError(null);
 
         const response = await fetch(`${apiBaseUrl}/api/public/blogs`);
-        
+
         if (!response.ok) {
           throw new Error(`Failed to fetch blogs: ${response.status}`);
         }
@@ -48,8 +48,8 @@ export function BlogList({ apiBaseUrl, initialCategory, initialPage = 1 }: BlogL
         const data = await response.json();
         setPosts(data.blogs || []);
       } catch (err: any) {
-        console.error('Error fetching blogs:', err);
-        setError(err.message || 'Failed to load blogs');
+        console.error("Error fetching blogs:", err);
+        setError(err.message || "Failed to load blogs");
       } finally {
         setLoading(false);
       }
@@ -94,11 +94,8 @@ export function BlogList({ apiBaseUrl, initialCategory, initialPage = 1 }: BlogL
   const pageNumbers: Array<{ page: number; isEllipsis: boolean }> = [];
   let lastAdded = 0;
   for (let i = 1; i <= totalPages; i++) {
-    const showPage =
-      i === 1 ||
-      i === totalPages ||
-      (i >= currentPage - 1 && i <= currentPage + 1);
-    
+    const showPage = i === 1 || i === totalPages || (i >= currentPage - 1 && i <= currentPage + 1);
+
     if (showPage) {
       if (i - lastAdded > 1) {
         pageNumbers.push({ page: 0, isEllipsis: true });
@@ -116,7 +113,7 @@ export function BlogList({ apiBaseUrl, initialCategory, initialPage = 1 }: BlogL
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
     // Scroll to top
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   if (loading) {
@@ -168,12 +165,12 @@ export function BlogList({ apiBaseUrl, initialCategory, initialPage = 1 }: BlogL
             <button
               onClick={() => handleCategoryChange(null)}
               className={`px-4 py-2 rounded-full whitespace-nowrap text-sm font-medium transition-all hover:scale-105 active:scale-95 ${
-                !categoryFilter ? 'font-semibold' : ''
+                !categoryFilter ? "font-semibold" : ""
               }`}
               style={
                 !categoryFilter
-                  ? { backgroundColor: '#c9a050', color: '#1c1917' }
-                  : { backgroundColor: 'white', border: '2px solid #c9a050', color: '#1c1917' }
+                  ? { backgroundColor: "#c9a050", color: "#1c1917" }
+                  : { backgroundColor: "white", border: "2px solid #c9a050", color: "#1c1917" }
               }
             >
               All
@@ -183,12 +180,12 @@ export function BlogList({ apiBaseUrl, initialCategory, initialPage = 1 }: BlogL
                 key={category}
                 onClick={() => handleCategoryChange(category)}
                 className={`px-4 py-2 rounded-full whitespace-nowrap text-sm font-medium transition-all hover:scale-105 active:scale-95 ${
-                  categoryFilter === category ? 'font-semibold' : ''
+                  categoryFilter === category ? "font-semibold" : ""
                 }`}
                 style={
                   categoryFilter === category
-                    ? { backgroundColor: '#c9a050', color: '#1c1917' }
-                    : { backgroundColor: 'white', border: '2px solid #c9a050', color: '#1c1917' }
+                    ? { backgroundColor: "#c9a050", color: "#1c1917" }
+                    : { backgroundColor: "white", border: "2px solid #c9a050", color: "#1c1917" }
                 }
               >
                 {category}
@@ -215,104 +212,164 @@ export function BlogList({ apiBaseUrl, initialCategory, initialPage = 1 }: BlogL
           )}
 
           {/* Pagination Controls */}
-        {totalPages > 1 && (
-          <div className="flex flex-col items-center gap-3 mt-20 sm:mt-24 -mb-8 sm:-mb-6">
-            <div className="flex items-center gap-2">
-              {/* Previous Button */}
-              {currentPage > 1 ? (
-                <button
-                  onClick={() => handlePageChange(currentPage - 1)}
-                  className="px-4 py-2 rounded-lg transition-all hover:scale-105 active:scale-95"
-                  style={{ backgroundColor: 'white', border: '2px solid #c9a050', color: '#1c1917' }}
-                >
-                  <span className="flex items-center gap-1">
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7" />
-                    </svg>
-                    Previous
+          {totalPages > 1 && (
+            <div className="flex flex-col items-center gap-3 mt-20 sm:mt-24 -mb-8 sm:-mb-6">
+              <div className="flex items-center gap-2">
+                {/* Previous Button */}
+                {currentPage > 1 ? (
+                  <button
+                    onClick={() => handlePageChange(currentPage - 1)}
+                    className="px-4 py-2 rounded-lg transition-all hover:scale-105 active:scale-95"
+                    style={{
+                      backgroundColor: "white",
+                      border: "2px solid #c9a050",
+                      color: "#1c1917",
+                    }}
+                  >
+                    <span className="flex items-center gap-1">
+                      <svg
+                        className="w-4 h-4"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="M15 19l-7-7 7-7"
+                        />
+                      </svg>
+                      Previous
+                    </span>
+                  </button>
+                ) : (
+                  <span
+                    className="px-4 py-2 rounded-lg opacity-50 cursor-not-allowed"
+                    style={{
+                      backgroundColor: "white",
+                      border: "2px solid #c9a050",
+                      color: "#1c1917",
+                    }}
+                  >
+                    <span className="flex items-center gap-1">
+                      <svg
+                        className="w-4 h-4"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="M15 19l-7-7 7-7"
+                        />
+                      </svg>
+                      Previous
+                    </span>
                   </span>
-                </button>
-              ) : (
-                <span
-                  className="px-4 py-2 rounded-lg opacity-50 cursor-not-allowed"
-                  style={{ backgroundColor: 'white', border: '2px solid #c9a050', color: '#1c1917' }}
-                >
-                  <span className="flex items-center gap-1">
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7" />
-                    </svg>
-                    Previous
-                  </span>
-                </span>
-              )}
+                )}
 
-              {/* Page Numbers */}
-              <div className="flex items-center gap-1">
-                {pageNumbers.map((item, idx) => {
-                  if (item.isEllipsis) {
+                {/* Page Numbers */}
+                <div className="flex items-center gap-1">
+                  {pageNumbers.map((item, idx) => {
+                    if (item.isEllipsis) {
+                      return (
+                        <span key={`ellipsis-${idx}`} className="px-2 text-stone-500">
+                          ...
+                        </span>
+                      );
+                    }
                     return (
-                      <span key={`ellipsis-${idx}`} className="px-2 text-stone-500">
-                        ...
-                      </span>
+                      <button
+                        key={item.page}
+                        onClick={() => handlePageChange(item.page)}
+                        className={`px-3 py-2 rounded-lg transition-all min-w-[2.5rem] text-center ${
+                          item.page === currentPage
+                            ? "font-semibold"
+                            : "hover:scale-105 active:scale-95"
+                        }`}
+                        style={
+                          item.page === currentPage
+                            ? { backgroundColor: "#c9a050", color: "#1c1917" }
+                            : {
+                                backgroundColor: "white",
+                                border: "2px solid #c9a050",
+                                color: "#1c1917",
+                              }
+                        }
+                      >
+                        {item.page}
+                      </button>
                     );
-                  }
-                  return (
-                    <button
-                      key={item.page}
-                      onClick={() => handlePageChange(item.page)}
-                      className={`px-3 py-2 rounded-lg transition-all min-w-[2.5rem] text-center ${
-                        item.page === currentPage
-                          ? 'font-semibold'
-                          : 'hover:scale-105 active:scale-95'
-                      }`}
-                      style={
-                        item.page === currentPage
-                          ? { backgroundColor: '#c9a050', color: '#1c1917' }
-                          : { backgroundColor: 'white', border: '2px solid #c9a050', color: '#1c1917' }
-                      }
-                    >
-                      {item.page}
-                    </button>
-                  );
-                })}
+                  })}
+                </div>
+
+                {/* Next Button */}
+                {currentPage < totalPages ? (
+                  <button
+                    onClick={() => handlePageChange(currentPage + 1)}
+                    className="px-4 py-2 rounded-lg transition-all hover:scale-105 active:scale-95"
+                    style={{
+                      backgroundColor: "white",
+                      border: "2px solid #c9a050",
+                      color: "#1c1917",
+                    }}
+                  >
+                    <span className="flex items-center gap-1">
+                      Next
+                      <svg
+                        className="w-4 h-4"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="M9 5l7 7-7 7"
+                        />
+                      </svg>
+                    </span>
+                  </button>
+                ) : (
+                  <span
+                    className="px-4 py-2 rounded-lg opacity-50 cursor-not-allowed"
+                    style={{
+                      backgroundColor: "white",
+                      border: "2px solid #c9a050",
+                      color: "#1c1917",
+                    }}
+                  >
+                    <span className="flex items-center gap-1">
+                      Next
+                      <svg
+                        className="w-4 h-4"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="M9 5l7 7-7 7"
+                        />
+                      </svg>
+                    </span>
+                  </span>
+                )}
               </div>
 
-              {/* Next Button */}
-              {currentPage < totalPages ? (
-                <button
-                  onClick={() => handlePageChange(currentPage + 1)}
-                  className="px-4 py-2 rounded-lg transition-all hover:scale-105 active:scale-95"
-                  style={{ backgroundColor: 'white', border: '2px solid #c9a050', color: '#1c1917' }}
-                >
-                  <span className="flex items-center gap-1">
-                    Next
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
-                    </svg>
-                  </span>
-                </button>
-              ) : (
-                <span
-                  className="px-4 py-2 rounded-lg opacity-50 cursor-not-allowed"
-                  style={{ backgroundColor: 'white', border: '2px solid #c9a050', color: '#1c1917' }}
-                >
-                  <span className="flex items-center gap-1">
-                    Next
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
-                    </svg>
-                  </span>
-                </span>
-              )}
+              {/* Page Info */}
+              <p className="text-sm text-stone-600">
+                Showing {startIndex + 1}-{Math.min(endIndex, totalPosts)} of {totalPosts} posts
+                {categoryFilter && ` in "${categoryFilter}"`}
+              </p>
             </div>
-            
-            {/* Page Info */}
-            <p className="text-sm text-stone-600">
-              Showing {startIndex + 1}-{Math.min(endIndex, totalPosts)} of {totalPosts} posts
-              {categoryFilter && ` in "${categoryFilter}"`}
-            </p>
-          </div>
-        )}
+          )}
         </div>
       </div>
 
@@ -328,4 +385,3 @@ export function BlogList({ apiBaseUrl, initialCategory, initialPage = 1 }: BlogL
     </div>
   );
 }
-

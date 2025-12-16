@@ -25,22 +25,8 @@ function SmallPlaceholder() {
         fill="none"
         style={{ color: "#c9a050" }}
       >
-        <circle
-          cx="50"
-          cy="50"
-          r="35"
-          stroke="currentColor"
-          strokeWidth="2"
-          fill="none"
-        />
-        <circle
-          cx="50"
-          cy="50"
-          r="8"
-          stroke="currentColor"
-          strokeWidth="2"
-          fill="none"
-        />
+        <circle cx="50" cy="50" r="35" stroke="currentColor" strokeWidth="2" fill="none" />
+        <circle cx="50" cy="50" r="8" stroke="currentColor" strokeWidth="2" fill="none" />
         {[0, 45, 90, 135, 180, 225, 270, 315].map((angle) => (
           <line
             key={angle}
@@ -57,12 +43,7 @@ function SmallPlaceholder() {
   );
 }
 
-export function BlogSidebar({
-  categories,
-  recentPosts,
-  currentCategory,
-  onCategoryChange,
-}: Props) {
+export function BlogSidebar({ categories, recentPosts, currentCategory, onCategoryChange }: Props) {
   const handleCategoryClick = (category: string | null, e: React.MouseEvent) => {
     if (onCategoryChange) {
       e.preventDefault();
@@ -103,9 +84,7 @@ export function BlogSidebar({
                 href={`/blog?category=${encodeURIComponent(category)}`}
                 onClick={(e) => handleCategoryClick(category, e)}
                 className={`block px-3 py-2 rounded transition-colors cursor-pointer ${
-                  currentCategory === category
-                    ? "font-semibold"
-                    : "hover:bg-stone-100"
+                  currentCategory === category ? "font-semibold" : "hover:bg-stone-100"
                 }`}
                 style={
                   currentCategory === category

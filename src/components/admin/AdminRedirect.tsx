@@ -15,4 +15,3 @@ export function AdminRedirect() {
 
   return <div>Redirecting...</div>;
 }
-

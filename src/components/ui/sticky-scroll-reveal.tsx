@@ -28,17 +28,13 @@ export const StickyScroll = ({
   const textSectionsRef = useRef<HTMLDivElement>(null);
   const triggersRef = useRef<ScrollTrigger[]>([]);
   const currentImageIndexRef = useRef<number>(0);
-  const imageSlideRefs = useRef<(HTMLDivElement | null)[]>(
-    new Array(content.length).fill(null)
-  );
+  const imageSlideRefs = useRef<(HTMLDivElement | null)[]>(new Array(content.length).fill(null));
 
   // Check if desktop layout
-  const isDesktop = () =>
-    typeof window !== "undefined" && window.innerWidth >= 768;
-  
+  const isDesktop = () => typeof window !== "undefined" && window.innerWidth >= 768;
+
   // Check if mobile (not tablet) - typically < 640px for mobile, 640-768px is tablet
-  const isMobile = () =>
-    typeof window !== "undefined" && window.innerWidth < 640;
+  const isMobile = () => typeof window !== "undefined" && window.innerWidth < 640;
 
   // Animate to specific image based on section index
   const animateToImage = useCallback(
@@ -85,11 +81,11 @@ export const StickyScroll = ({
     if (imageContainer) {
       const sections = textSectionsRef.current.querySelectorAll(".text-section");
       const _lastSection = sections[sections.length - 1] as HTMLElement;
-      
+
       // On mobile, account for navigation bar height (80px = h-20)
       const navBarHeight = isMobile() ? 80 : 0;
       const startPosition = navBarHeight > 0 ? `top ${navBarHeight}px` : "top top";
-      
+
       // End pinning when the text sections container's bottom reaches the bottom of the viewport
       // This allows the image to scroll away with the text after all sections have passed
       // Use endTrigger with text sections container for reliable calculation
@@ -166,10 +162,10 @@ export const StickyScroll = ({
     <div
       ref={scrollRevealRef}
       className="scroll-reveal relative flex flex-col lg:flex-row"
-      style={{ 
-        position: 'relative',
-        overflow: 'visible',
-        minHeight: '100vh', // Ensure container has enough height for sticky
+      style={{
+        position: "relative",
+        overflow: "visible",
+        minHeight: "100vh", // Ensure container has enough height for sticky
       }}
     >
       {/* Sticky image container - top on mobile, right side on desktop */}
@@ -180,7 +176,7 @@ export const StickyScroll = ({
         )}
         style={{
           // Remove CSS sticky - using GSAP pin instead
-          alignSelf: 'flex-start', // Important for flex containers
+          alignSelf: "flex-start", // Important for flex containers
         }}
       >
         <div
@@ -213,9 +209,7 @@ export const StickyScroll = ({
             key={`text-${index}`}
             className="text-section min-h-[55vh] lg:min-h-screen py-8 px-6 lg:py-16 lg:px-12 flex flex-col justify-center border-b border-[#222] bg-black"
           >
-            <h2 className="text-2xl lg:text-4xl font-bold text-white mb-6">
-              {item.title}
-            </h2>
+            <h2 className="text-2xl lg:text-4xl font-bold text-white mb-6">{item.title}</h2>
             <p className="text-base lg:text-lg leading-relaxed text-[#aaa] mb-4">
               {item.description}
             </p>

@@ -138,9 +138,7 @@ function FieldLabel({
             </div>
             <div>
               <span className="font-semibold">Affects publish: </span>
-              <span>
-                {info.affectsPublish ? "Yes - required to publish" : "No"}
-              </span>
+              <span>{info.affectsPublish ? "Yes - required to publish" : "No"}</span>
             </div>
           </div>
         </TooltipContent>
@@ -222,11 +220,7 @@ export function MetadataPanel({
           <Input
             id="date"
             type="date"
-            value={
-              metadata.date
-                ? new Date(metadata.date).toISOString().split("T")[0]
-                : ""
-            }
+            value={metadata.date ? new Date(metadata.date).toISOString().split("T")[0] : ""}
             onChange={(e) => updateField("date", e.target.value)}
             className="border-2 border-slate-300 bg-white shadow-sm hover:border-slate-400 hover:bg-slate-50 focus-visible:border-primary focus-visible:ring-2 focus-visible:ring-primary/20 focus-visible:shadow-md transition-all"
           />
@@ -419,9 +413,7 @@ export function MetadataPanel({
 
       {/* SEO Settings Section */}
       <div className="border-t pt-4 space-y-4">
-        <h4 className="font-semibold mb-2 flex items-center gap-2 text-sm">
-          SEO Settings
-        </h4>
+        <h4 className="font-semibold mb-2 flex items-center gap-2 text-sm">SEO Settings</h4>
 
         <div className="space-y-2">
           <FieldLabel htmlFor="seo-title" fieldKey="seo-title">

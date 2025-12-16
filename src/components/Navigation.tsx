@@ -7,9 +7,7 @@ export function Navigation() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
-  const [mobileOpenSubmenu, setMobileOpenSubmenu] = useState<string | null>(
-    null
-  );
+  const [mobileOpenSubmenu, setMobileOpenSubmenu] = useState<string | null>(null);
   const [activeHash, setActiveHash] = useState("");
   const dropdownRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
 
@@ -39,10 +37,7 @@ export function Navigation() {
     const handleClickOutside = (event: MouseEvent) => {
       if (openDropdown) {
         const dropdownElement = dropdownRefs.current[openDropdown];
-        if (
-          dropdownElement &&
-          !dropdownElement.contains(event.target as Node)
-        ) {
+        if (dropdownElement && !dropdownElement.contains(event.target as Node)) {
           setOpenDropdown(null);
         }
       }
@@ -119,10 +114,7 @@ export function Navigation() {
           : "bg-gradient-to-b from-black/50 to-transparent"
       }`}
       style={{
-        backgroundColor:
-          isScrolled || isMobileMenuOpen
-            ? "rgba(28, 25, 23, 0.95)"
-            : "transparent",
+        backgroundColor: isScrolled || isMobileMenuOpen ? "rgba(28, 25, 23, 0.95)" : "transparent",
       }}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -135,9 +127,7 @@ export function Navigation() {
                 alt="Gold Coast Dharma Realm"
                 className="h-12 w-auto object-contain transition-all duration-300"
                 style={{
-                  filter: isScrolled
-                    ? "brightness(1.5)"
-                    : "drop-shadow(0 2px 4px rgba(0,0,0,0.8))",
+                  filter: isScrolled ? "brightness(1.5)" : "drop-shadow(0 2px 4px rgba(0,0,0,0.8))",
                   mixBlendMode: isScrolled ? "normal" : "overlay",
                 }}
               />
@@ -148,11 +138,8 @@ export function Navigation() {
           <div className="hidden md:flex items-center space-x-8">
             {navLinks.map((link) => {
               const isActive =
-                link.href === activeHash ||
-                (link.href === "/" && activeHash === "/");
-              const isSubmenuActive = link.submenu?.some(
-                (sub) => sub.href === activeHash
-              );
+                link.href === activeHash || (link.href === "/" && activeHash === "/");
+              const isSubmenuActive = link.submenu?.some((sub) => sub.href === activeHash);
               const shouldHighlight = isActive || isSubmenuActive;
 
               return (
@@ -166,9 +153,7 @@ export function Navigation() {
                     >
                       <button
                         onClick={() =>
-                          setOpenDropdown(
-                            openDropdown === link.name ? null : link.name
-                          )
+                          setOpenDropdown(openDropdown === link.name ? null : link.name)
                         }
                         className="flex items-center gap-1 transition-colors hover:text-amber-600"
                         style={{
@@ -194,8 +179,7 @@ export function Navigation() {
                                   backgroundColor: isSubActive
                                     ? "rgba(201, 160, 80, 0.1)"
                                     : "transparent",
-                                  borderBottom:
-                                    "1px solid rgba(201, 160, 80, 0.2)",
+                                  borderBottom: "1px solid rgba(201, 160, 80, 0.2)",
                                 }}
                                 onClick={() => setOpenDropdown(null)}
                               >
@@ -244,11 +228,8 @@ export function Navigation() {
           >
             {navLinks.map((link) => {
               const isActive =
-                link.href === activeHash ||
-                (link.href === "/" && activeHash === "/");
-              const isSubmenuActive = link.submenu?.some(
-                (sub) => sub.href === activeHash
-              );
+                link.href === activeHash || (link.href === "/" && activeHash === "/");
+              const isSubmenuActive = link.submenu?.some((sub) => sub.href === activeHash);
               const shouldHighlight = isActive || isSubmenuActive;
 
               return (
@@ -261,9 +242,7 @@ export function Navigation() {
                           color: shouldHighlight ? "#c9a050" : "#EBE9CF",
                         }}
                         onClick={() =>
-                          setMobileOpenSubmenu(
-                            mobileOpenSubmenu === link.name ? null : link.name
-                          )
+                          setMobileOpenSubmenu(mobileOpenSubmenu === link.name ? null : link.name)
                         }
                       >
                         <span>{link.name}</span>

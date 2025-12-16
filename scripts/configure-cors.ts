@@ -63,4 +63,3 @@ async function configureCORS() {
 }
 
 configureCORS();
-

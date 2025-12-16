@@ -17,15 +17,11 @@ export const GET: APIRoute = async () => {
     });
   } catch (error: any) {
     console.error("Error getting API config:", error);
-    return new Response(
-      JSON.stringify({ error: "Failed to get API configuration" }),
-      {
-        status: 500,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
+    return new Response(JSON.stringify({ error: "Failed to get API configuration" }), {
+      status: 500,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
   }
 };
-

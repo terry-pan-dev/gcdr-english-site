@@ -97,17 +97,14 @@ export function MasterBio() {
               </p>
             </div>
             <p className="first-letter:text-5xl first-letter:text-[#c9a050] first-letter:font-serif first-letter:float-left first-letter:mr-3 first-letter:mt-[-10px]">
-              The Venerable Master Hsuan Hua was also known as An Tse and To
-              Lun. The name Hsuan Hua was bestowed upon him after he received
-              the transmission of the Wei Yang Lineage of the Chan School from
-              Venerable Elder Hsu Yun. Venerable Master Hua was born in
-              Manchuria in the beginning of the last century. He left the home
-              life at the age of nineteen. After the death of his mother, he
-              lived in a tiny thatched hut by her graveside for three years, as
-              an act of filial respect. During that time, he practiced
-              meditation and studied the Buddha's teachings. Among his many
-              practices were eating only once a day at midday and never lying
-              down to sleep.
+              The Venerable Master Hsuan Hua was also known as An Tse and To Lun. The name Hsuan Hua
+              was bestowed upon him after he received the transmission of the Wei Yang Lineage of
+              the Chan School from Venerable Elder Hsu Yun. Venerable Master Hua was born in
+              Manchuria in the beginning of the last century. He left the home life at the age of
+              nineteen. After the death of his mother, he lived in a tiny thatched hut by her
+              graveside for three years, as an act of filial respect. During that time, he practiced
+              meditation and studied the Buddha's teachings. Among his many practices were eating
+              only once a day at midday and never lying down to sleep.
             </p>
           </motion.div>
 
@@ -118,21 +115,17 @@ export function MasterBio() {
             transition={{ duration: 0.6 }}
           >
             <p>
-              He cultivated various practices of purity and traveled to study
-              with various eminent and virtuous monks, such as the Venerable
-              Elder Hsu Yun. In 1948 the Master arrived in Hong Kong, where he
-              founded the Buddhist Lecture Hall and other monasteries. In 1962
-              he brought the Proper Dharma to America and the West, where he
-              lectured extensively on the major works of the Mahayana Buddhist
-              canon. Delivering more than ten thousand lectures, he was the
-              first person to establish the Triple Jewel in the United States.
-              Over the years, the Master established the Dharma Realm Buddhist
-              Association (DRBA) and its numerous affiliated monasteries and
-              centers. He taught both Western and Asian disciples to apply the
-              Dharma in daily life. He also taught disciples to translate the
-              canon and set up educational institutions, and he guided the
-              Sangha members in DRBA monasteries to truly practice and uphold
-              the Buddhadharma.
+              He cultivated various practices of purity and traveled to study with various eminent
+              and virtuous monks, such as the Venerable Elder Hsu Yun. In 1948 the Master arrived in
+              Hong Kong, where he founded the Buddhist Lecture Hall and other monasteries. In 1962
+              he brought the Proper Dharma to America and the West, where he lectured extensively on
+              the major works of the Mahayana Buddhist canon. Delivering more than ten thousand
+              lectures, he was the first person to establish the Triple Jewel in the United States.
+              Over the years, the Master established the Dharma Realm Buddhist Association (DRBA)
+              and its numerous affiliated monasteries and centers. He taught both Western and Asian
+              disciples to apply the Dharma in daily life. He also taught disciples to translate the
+              canon and set up educational institutions, and he guided the Sangha members in DRBA
+              monasteries to truly practice and uphold the Buddhadharma.
             </p>
           </motion.div>
 
@@ -143,15 +136,13 @@ export function MasterBio() {
             transition={{ duration: 0.6 }}
           >
             <p>
-              The Master passed into stillness on June 7, 1995, in Los Angeles,
-              U.S.A., causing many people throughout the world to mourn the
-              sudden setting of the sun of wisdom. Although he has passed on,
-              his lofty example will always be remembered. Throughout his life
-              he worked selflessly and vigorously to benefit the people of the
-              world and all living beings. His wisdom and compassion inspired
-              many to correct their faults and lead wholesome lives. Here we
-              include the Verse of the Mendicant of Chang Bai written by the
-              Venerable Master to serve as a model for all of us to emulate.
+              The Master passed into stillness on June 7, 1995, in Los Angeles, U.S.A., causing many
+              people throughout the world to mourn the sudden setting of the sun of wisdom. Although
+              he has passed on, his lofty example will always be remembered. Throughout his life he
+              worked selflessly and vigorously to benefit the people of the world and all living
+              beings. His wisdom and compassion inspired many to correct their faults and lead
+              wholesome lives. Here we include the Verse of the Mendicant of Chang Bai written by
+              the Venerable Master to serve as a model for all of us to emulate.
             </p>
           </motion.div>
 
@@ -165,9 +156,7 @@ export function MasterBio() {
           >
             <blockquote className="text-lg md:text-xl font-serif italic leading-relaxed text-stone-300 space-y-4">
               <p className="text-[#c9a050]">
-                <em>
-                  The Mendicant of Chang Bai was simple and honest in nature.
-                </em>
+                <em>The Mendicant of Chang Bai was simple and honest in nature.</em>
               </p>
               <p>
                 <em>He was always eager to help people and benefit others.</em>
@@ -188,10 +177,7 @@ export function MasterBio() {
                 <em>His vow was to unite as one with millions of beings.</em>
               </p>
               <p>
-                <em>
-                  His practice pervaded space as he gathered in the myriad
-                  potentials,
-                </em>
+                <em>His practice pervaded space as he gathered in the myriad potentials,</em>
               </p>
               <p>
                 <em>Without regard for past, future, or present;</em>

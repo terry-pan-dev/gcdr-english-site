@@ -132,13 +132,7 @@ export function SixPrinciples() {
   );
 }
 
-function PrincipleItem({
-  principle,
-  index,
-}: {
-  principle: Principle;
-  index: number;
-}) {
+function PrincipleItem({ principle, index }: { principle: Principle; index: number }) {
   const [isOpen, setIsOpen] = useState(false);
 
   return (

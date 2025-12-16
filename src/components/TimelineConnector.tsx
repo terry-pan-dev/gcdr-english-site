@@ -27,10 +27,7 @@ export function TimelineConnector({ index: _index }: Props) {
     >
       <div className="flex flex-col items-center">
         <div className="w-px h-6" style={{ backgroundColor: "#c9a050" }} />
-        <div
-          className="w-2 h-2 rounded-full"
-          style={{ backgroundColor: "#c9a050" }}
-        />
+        <div className="w-2 h-2 rounded-full" style={{ backgroundColor: "#c9a050" }} />
         <div className="w-px h-6" style={{ backgroundColor: "#c9a050" }} />
       </div>
     </motion.div>

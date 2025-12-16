@@ -5,12 +5,12 @@ import { CognitoJwtVerifier } from "aws-jwt-verify";
 
 // Get Cognito config from environment (works in both Node.js and Astro contexts)
 const getCognitoConfig = () => {
-  const userPoolId = 
+  const userPoolId =
     (typeof process !== "undefined" && process.env?.PUBLIC_COGNITO_USER_POOL_ID) ||
     (typeof import.meta !== "undefined" && import.meta.env?.PUBLIC_COGNITO_USER_POOL_ID) ||
     "";
-  
-  const clientId = 
+
+  const clientId =
     (typeof process !== "undefined" && process.env?.PUBLIC_COGNITO_USER_POOL_CLIENT_ID) ||
     (typeof import.meta !== "undefined" && import.meta.env?.PUBLIC_COGNITO_USER_POOL_CLIENT_ID) ||
     "";
@@ -27,7 +27,7 @@ const getJwtVerifier = () => {
   }
 
   const { userPoolId, clientId } = getCognitoConfig();
-  
+
   if (!userPoolId) {
     console.error("JWT Verifier: PUBLIC_COGNITO_USER_POOL_ID environment variable is not set");
     throw new Error("PUBLIC_COGNITO_USER_POOL_ID environment variable is not set");
@@ -60,9 +60,7 @@ export interface VerifiedUser {
  * @param accessToken - The Cognito access token (JWT)
  * @returns User information if token is valid, null otherwise
  */
-export async function verifyCognitoToken(
-  accessToken: string
-): Promise<VerifiedUser | null> {
+export async function verifyCognitoToken(accessToken: string): Promise<VerifiedUser | null> {
   try {
     // Validate token format first (basic check)
     if (!accessToken || typeof accessToken !== "string" || accessToken.split(".").length !== 3) {
@@ -71,7 +69,7 @@ export async function verifyCognitoToken(
     }
 
     const verifier = getJwtVerifier();
-    
+
     // Verify token locally (checks signature, expiration, issuer, audience)
     // This is much faster than making an API call to Cognito
     const payload = await verifier.verify(accessToken);
@@ -113,9 +111,7 @@ export function extractTokenFromRequest(request: Request): string | null {
   const authHeader = request.headers.get("authorization");
   if (authHeader) {
     // Support both "Bearer <token>" and just "<token>"
-    const token = authHeader.startsWith("Bearer ")
-      ? authHeader.substring(7)
-      : authHeader;
+    const token = authHeader.startsWith("Bearer ") ? authHeader.substring(7) : authHeader;
     if (token) return token.trim();
   }
 
@@ -123,9 +119,7 @@ export function extractTokenFromRequest(request: Request): string | null {
   const cookieHeader = request.headers.get("cookie");
   if (cookieHeader) {
     const cookies = cookieHeader.split(";").map((c) => c.trim());
-    const tokenCookie = cookies.find((c) =>
-      c.startsWith("cognito_access_token=")
-    );
+    const tokenCookie = cookies.find((c) => c.startsWith("cognito_access_token="));
     if (tokenCookie) {
       // Extract value after "=", handling URL encoding
       const value = tokenCookie.substring("cognito_access_token=".length);
@@ -141,4 +135,3 @@ export function extractTokenFromRequest(request: Request): string | null {
 
   return null;
 }
-

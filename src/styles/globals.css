@@ -43,13 +43,13 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
-  
+
   /* GCDR Theme Colors */
   --dark-bg: #1c1917;
-  --dark-text: #EBE9CF;
+  --dark-text: #ebe9cf;
   --accent-gold: #c9a050;
   --dark-card: #2a2522;
-  
+
   /* Color aliases that Tailwind classes reference - MUST be in :root for browsers to understand */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -89,10 +89,10 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
-  
+
   /* GCDR Theme Colors - with --color- prefix for Tailwind */
   --color-dark-bg: #1c1917;
-  --color-dark-text: #EBE9CF;
+  --color-dark-text: #ebe9cf;
   --color-accent-gold: #c9a050;
   --color-dark-card: #2a2522;
 }
@@ -132,13 +132,13 @@
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(0.269 0 0);
   --sidebar-ring: oklch(0.439 0 0);
-  
+
   /* GCDR Theme Colors (dark mode - same values) */
   --dark-bg: #1c1917;
-  --dark-text: #EBE9CF;
+  --dark-text: #ebe9cf;
   --accent-gold: #c9a050;
   --dark-card: #2a2522;
-  
+
   /* Color aliases for dark mode - these inherit from the base variables above */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -195,7 +195,7 @@
  * Base typography. This is not applied to elements which have an ancestor with a Tailwind text class.
  */
 @layer base {
-  :where(:not(:has([class*=' text-']), :not(:has([class^='text-'])))) {
+  :where(:not(:has([class*=" text-"]), :not(:has([class^="text-"])))) {
     h1 {
       font-size: var(--text-2xl);
       font-weight: var(--font-weight-medium);
@@ -260,13 +260,14 @@ html {
 
 /* Custom bounce animation that preserves horizontal centering */
 @keyframes bounce-centered {
-  0%, 100% {
-    animation-timing-function: cubic-bezier(.8, 0, 1, 1);
+  0%,
+  100% {
+    animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
     transform: translateY(-25%);
   }
 
   50% {
-    animation-timing-function: cubic-bezier(0, 0, .2, 1);
+    animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
     transform: translateY(0);
   }
 }

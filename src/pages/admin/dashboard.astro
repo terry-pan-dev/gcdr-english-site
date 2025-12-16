@@ -17,7 +17,16 @@ const awsRegion = import.meta.env.PUBLIC_AWS_REGION || "ap-southeast-2";
 ---
 
 <AdminLayout title="Admin Dashboard - GCDR">
-  <script is:inline define:vars={{ apiBaseUrl, cognitoUserPoolId, cognitoClientId, cognitoIdentityPoolId, awsRegion }}>
+  <script
+    is:inline
+    define:vars={{
+      apiBaseUrl,
+      cognitoUserPoolId,
+      cognitoClientId,
+      cognitoIdentityPoolId,
+      awsRegion,
+    }}
+  >
     // Inject API base URL and Cognito config into global scope for client-side use
     window.__API_BASE_URL__ = apiBaseUrl;
     window.__COGNITO_USER_POOL_ID__ = cognitoUserPoolId;
@@ -27,5 +36,3 @@ const awsRegion = import.meta.env.PUBLIC_AWS_REGION || "ap-southeast-2";
   </script>
   <AdminDashboardWrapper client:only="react" />
 </AdminLayout>
-
-

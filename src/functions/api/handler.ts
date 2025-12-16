@@ -74,7 +74,7 @@ async function handlePublicBlogList() {
 
   const command = new ScanCommand({ TableName: tableName });
   const result = await docClient.send(command);
-  
+
   // Filter only published blogs with current or past dates
   const now = new Date();
   const publishedBlogs = (result.Items || []).filter((blog: any) => {
@@ -85,7 +85,7 @@ async function handlePublicBlogList() {
     today.setHours(0, 0, 0, 0);
     return postDate <= today;
   });
-  
+
   // Sort by pinned first, then by date (newest first)
   publishedBlogs.sort((a: any, b: any) => {
     const aPinned = a.pinned ?? false;
@@ -267,9 +267,7 @@ async function handleBlogCreate(body: any) {
     updatedAt: now,
   };
 
-  await docClient.send(
-    new PutCommand({ TableName: tableName, Item: blogItem })
-  );
+  await docClient.send(new PutCommand({ TableName: tableName, Item: blogItem }));
 
   return { statusCode: 201, body: JSON.stringify(blogItem) };
 }
@@ -328,9 +326,7 @@ async function handleBlogUpdate(id: string, body: any) {
     updatedAt: new Date().toISOString(),
   };
 
-  await docClient.send(
-    new PutCommand({ TableName: tableName, Item: updatedItem })
-  );
+  await docClient.send(new PutCommand({ TableName: tableName, Item: updatedItem }));
 
   return { statusCode: 200, body: JSON.stringify(updatedItem) };
 }
@@ -372,9 +368,7 @@ async function handleBlogDelete(id: string) {
   }
 
   // Delete from DynamoDB
-  await docClient.send(
-    new DeleteCommand({ TableName: tableName, Key: { id } })
-  );
+  await docClient.send(new DeleteCommand({ TableName: tableName, Key: { id } }));
 
   return {
     statusCode: 200,
@@ -424,8 +418,8 @@ async function handleMediaUpload(body: any) {
   if (size && size > MAX_FILE_SIZE) {
     return {
       statusCode: 400,
-      body: JSON.stringify({ 
-        error: `File size exceeds the maximum limit of 1MB. File size: ${(size / (1024 * 1024)).toFixed(2)}MB` 
+      body: JSON.stringify({
+        error: `File size exceeds the maximum limit of 1MB. File size: ${(size / (1024 * 1024)).toFixed(2)}MB`,
       }),
     };
   }
@@ -462,9 +456,7 @@ async function handleMediaUpload(body: any) {
     uploadedAt: new Date().toISOString(),
   };
 
-  await docClient.send(
-    new PutCommand({ TableName: tableName, Item: mediaItem })
-  );
+  await docClient.send(new PutCommand({ TableName: tableName, Item: mediaItem }));
 
   return {
     statusCode: 200,
@@ -509,9 +501,7 @@ async function handleMediaDelete(id: string) {
   }
 
   // Delete from DynamoDB
-  await docClient.send(
-    new DeleteCommand({ TableName: tableName, Key: { id } })
-  );
+  await docClient.send(new DeleteCommand({ TableName: tableName, Key: { id } }));
 
   return {
     statusCode: 200,
@@ -526,7 +516,7 @@ async function verifyCognitoToken(
 ): Promise<{ email: string; sub: string } | null> {
   try {
     const verifier = getJwtVerifier();
-    
+
     // Verify token locally (checks signature, expiration, issuer, audience)
     const payload = await verifier.verify(accessToken);
 
@@ -554,8 +544,7 @@ async function verifyCognitoToken(
 
 // Helper function to extract token from Authorization header
 function extractToken(event: any): string | null {
-  const authHeader =
-    event.headers?.authorization || event.headers?.Authorization;
+  const authHeader = event.headers?.authorization || event.headers?.Authorization;
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
     return null;
   }
@@ -577,10 +566,8 @@ async function handleAuthLogin(_body: any) {
 
 // Main handler
 export async function handler(event: any) {
-  const method =
-    event.requestContext?.http?.method || event.httpMethod || "GET";
-  const rawPath =
-    event.requestContext?.http?.path || event.rawPath || event.path || "/";
+  const method = event.requestContext?.http?.method || event.httpMethod || "GET";
+  const rawPath = event.requestContext?.http?.path || event.rawPath || event.path || "/";
   const body = event.body
     ? typeof event.body === "string"
       ? JSON.parse(event.body)
@@ -594,7 +581,7 @@ export async function handler(event: any) {
   try {
     // Public routes (no auth required)
     const isPublicRoute = rawPath.startsWith("/api/public/");
-    
+
     // Check authentication for protected routes (all routes except login and public routes)
     if (!rawPath.startsWith("/api/admin/auth/login") && !isPublicRoute) {
       const token = extractToken(event);
@@ -626,8 +613,7 @@ export async function handler(event: any) {
     // Path format: /api/admin/blogs/{id} or /api/admin/media/{id}
     const pathParts = rawPath.split("/").filter(Boolean);
     const id = pathParts[pathParts.length - 1];
-    const isIdRoute =
-      id && id !== "blogs" && id !== "media" && id !== "admin" && id !== "api";
+    const isIdRoute = id && id !== "blogs" && id !== "media" && id !== "admin" && id !== "api";
 
     // Route based on path
     // Public routes (no auth required)

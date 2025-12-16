@@ -56,24 +56,15 @@ export function Posters() {
         <div className="text-center mb-16">
           {/* Top ornament */}
           <div className="flex items-center justify-center mb-6">
-            <div
-              className="w-16 h-1 rounded-full"
-              style={{ backgroundColor: "#c9a050" }}
-            />
+            <div className="w-16 h-1 rounded-full" style={{ backgroundColor: "#c9a050" }} />
             <div className="mx-4 text-4xl">📌</div>
-            <div
-              className="w-16 h-1 rounded-full"
-              style={{ backgroundColor: "#c9a050" }}
-            />
+            <div className="w-16 h-1 rounded-full" style={{ backgroundColor: "#c9a050" }} />
           </div>
 
           <h2 className="text-4xl mb-4" style={{ color: "#EBE9CF" }}>
             Temple Notice Board
           </h2>
-          <p
-            className="max-w-2xl mx-auto"
-            style={{ color: "#EBE9CF", opacity: 0.8 }}
-          >
+          <p className="max-w-2xl mx-auto" style={{ color: "#EBE9CF", opacity: 0.8 }}>
             Discover our upcoming events and special announcements
           </p>
         </div>
@@ -81,10 +72,7 @@ export function Posters() {
         {/* Mobile: Single Column Grid */}
         <div className="md:hidden grid grid-cols-1 gap-8">
           {samplePosters.map((poster) => (
-            <div
-              key={poster.id}
-              className="group cursor-pointer relative mx-auto max-w-sm w-full"
-            >
+            <div key={poster.id} className="group cursor-pointer relative mx-auto max-w-sm w-full">
               {/* Pin at the top */}
               <div
                 className="absolute -top-3 left-1/2 -translate-x-1/2 z-10 w-8 h-8 rounded-full flex items-center justify-center shadow-lg"

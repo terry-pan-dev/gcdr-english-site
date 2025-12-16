@@ -14,11 +14,7 @@ const dharmaMastersContent: StickyScrollContent[] = [
     content: (
       <div className="flex h-full w-full items-center justify-center bg-black">
         <img
-          src={
-            typeof RevHengSureImg === "string"
-              ? RevHengSureImg
-              : RevHengSureImg.src
-          }
+          src={typeof RevHengSureImg === "string" ? RevHengSureImg : RevHengSureImg.src}
           alt="Venerable Heng Sure"
           className="h-full w-full object-contain"
         />
@@ -57,7 +53,7 @@ const dharmaMastersContent: StickyScrollContent[] = [
 
 export function DharmaMasters() {
   return (
-    <div className="min-h-screen bg-[#1c1917] text-[#EBE9CF]" style={{ overflow: 'visible' }}>
+    <div className="min-h-screen bg-[#1c1917] text-[#EBE9CF]" style={{ overflow: "visible" }}>
       {/* Hero Section with Prism Background */}
       <div className="relative h-screen flex items-center justify-center overflow-hidden bg-black">
         {/* Prism Background */}
@@ -84,14 +80,13 @@ export function DharmaMasters() {
             Our Dharma Masters
           </h1>
           <p className="text-xl md:text-2xl font-light text-stone-200 max-w-3xl mx-auto drop-shadow-md">
-            Dedicated spiritual guides carrying forward the wisdom of ancient
-            traditions
+            Dedicated spiritual guides carrying forward the wisdom of ancient traditions
           </p>
         </div>
       </div>
 
       {/* Content Section */}
-      <div className="w-full" style={{ overflow: 'visible' }}>
+      <div className="w-full" style={{ overflow: "visible" }}>
         <StickyScroll content={dharmaMastersContent} />
       </div>
     </div>
