@@ -11,4 +11,3 @@ declare module "react-responsive-masonry" {
   const Masonry: React.FC<MasonryProps>;
   export default Masonry;
 }
-
