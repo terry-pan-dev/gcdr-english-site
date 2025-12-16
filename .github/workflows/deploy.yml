@@ -74,13 +74,13 @@ jobs:
           # Extract URL from SST output - try multiple patterns
           # Pattern 1: Look for "astro: https://..." format
           URL=$(echo "$DEPLOY_OUTPUT" | grep -E "astro:\s*https?://" | sed -E 's/.*astro:\s*(https?:\/\/[^\s]+).*/\1/' | head -1)
-          # Pattern 2: Look for CloudFront URLs
+          # Pattern 2: Look for CloudFront URLs (match distribution ID + .cloudfront.net + optional path)
           if [ -z "$URL" ]; then
-            URL=$(echo "$DEPLOY_OUTPUT" | grep -oE "https?://[a-zA-Z0-9.-]+\.cloudfront\.net[^\s]*" | head -1)
+            URL=$(echo "$DEPLOY_OUTPUT" | grep -oE "https?://[a-z0-9-]+\.cloudfront\.net[^\s]*" | head -1)
           fi
           # Pattern 3: Look for any https:// URL in the output
           if [ -z "$URL" ]; then
-            URL=$(echo "$DEPLOY_OUTPUT" | grep -oE "https?://[a-zA-Z0-9.-]+[^\s]*" | head -1)
+            URL=$(echo "$DEPLOY_OUTPUT" | grep -oE "https?://[^\s]+" | head -1)
           fi
           if [ -z "$URL" ]; then
             echo "Warning: Could not extract deployment URL from output"
@@ -134,13 +134,13 @@ jobs:
           # Extract URL from SST output - try multiple patterns
           # Pattern 1: Look for "astro: https://..." format
           URL=$(echo "$DEPLOY_OUTPUT" | grep -E "astro:\s*https?://" | sed -E 's/.*astro:\s*(https?:\/\/[^\s]+).*/\1/' | head -1)
-          # Pattern 2: Look for CloudFront URLs
+          # Pattern 2: Look for CloudFront URLs (match distribution ID + .cloudfront.net + optional path)
           if [ -z "$URL" ]; then
-            URL=$(echo "$DEPLOY_OUTPUT" | grep -oE "https?://[a-zA-Z0-9.-]+\.cloudfront\.net[^\s]*" | head -1)
+            URL=$(echo "$DEPLOY_OUTPUT" | grep -oE "https?://[a-z0-9-]+\.cloudfront\.net[^\s]*" | head -1)
           fi
           # Pattern 3: Look for any https:// URL in the output
           if [ -z "$URL" ]; then
-            URL=$(echo "$DEPLOY_OUTPUT" | grep -oE "https?://[a-zA-Z0-9.-]+[^\s]*" | head -1)
+            URL=$(echo "$DEPLOY_OUTPUT" | grep -oE "https?://[^\s]+" | head -1)
           fi
           if [ -z "$URL" ]; then
             echo "Warning: Could not extract deployment URL from output"
