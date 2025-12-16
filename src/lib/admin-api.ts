@@ -333,7 +333,7 @@ export const authApi = {
       ensureAmplifyConfigured();
       await getCurrentUser();
       return true;
-    } catch (error) {
+    } catch (_error) {
       return false;
     }
   },

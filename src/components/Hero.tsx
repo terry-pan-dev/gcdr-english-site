@@ -1,4 +1,3 @@
-import { ImageWithFallback } from "./figma/ImageWithFallback";
 import { motion } from "motion/react";
 
 export function Hero() {

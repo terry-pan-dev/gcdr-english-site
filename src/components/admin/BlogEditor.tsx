@@ -75,6 +75,7 @@ export function BlogEditor({
     if (mode === "edit" && blogId) {
       loadBlog();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mode, blogId]);
 
   const loadBlog = async () => {

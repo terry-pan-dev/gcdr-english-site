@@ -50,6 +50,7 @@ export function CircularGallery({
   const extraRef = useRef<number[]>([]); // Track extra offset for each item for wrapping
   const [itemWidth, setItemWidth] = useState(0);
   const [viewportWidth, setViewportWidth] = useState(0);
+  const [isGrabbing, setIsGrabbing] = useState(false);
 
   // Calculate curved position for each item
   const calculatePosition = useCallback(
@@ -193,6 +194,7 @@ export function CircularGallery({
   // Handle drag
   const handleTouchDown = useCallback((e: MouseEvent | TouchEvent) => {
     isDownRef.current = true;
+    setIsGrabbing(true);
     positionRef.current = scrollRef.current.current;
     startRef.current = "touches" in e ? e.touches[0].clientX : e.clientX;
   }, []);
@@ -210,6 +212,7 @@ export function CircularGallery({
   const handleTouchUp = useCallback(() => {
     if (!isDownRef.current) return;
     isDownRef.current = false;
+    setIsGrabbing(false);
 
     // Snap to items
     if (itemWidth === 0) return;
@@ -243,10 +246,6 @@ export function CircularGallery({
     };
   }, [handleWheel, handleTouchDown, handleTouchMove, handleTouchUp]);
 
-  if (items.length === 0) {
-    return null;
-  }
-
   // Duplicate items for infinite scroll
   const duplicatedItems = [...items, ...items];
 
@@ -254,6 +253,11 @@ export function CircularGallery({
   useEffect(() => {
     extraRef.current = new Array(duplicatedItems.length).fill(0);
   }, [duplicatedItems.length]);
+
+  // Early return after all hooks to avoid conditional hook calls
+  if (items.length === 0) {
+    return null;
+  }
 
   return (
     <div
@@ -263,7 +267,7 @@ export function CircularGallery({
         className
       )}
       style={{
-        cursor: isDownRef.current ? "grabbing" : "grab",
+        cursor: isGrabbing ? "grabbing" : "grab",
       }}
     >
       <div
@@ -273,6 +277,7 @@ export function CircularGallery({
           willChange: "transform",
         }}
       >
+        {/* eslint-disable-next-line react-hooks/refs -- Animation pattern: refs provide initial positions, animation loop updates imperatively */}
         {duplicatedItems.map((item, index) => {
           // Initialize extra offset
           if (extraRef.current[index] === undefined) {

@@ -1,5 +1,5 @@
 import { ImageWithFallback } from "./figma/ImageWithFallback";
-import { Calendar, Clock, MapPin, ChevronLeft, ChevronRight, List, CalendarDays } from "lucide-react";
+import { Calendar, Clock, MapPin, ChevronLeft, ChevronRight } from "lucide-react";
 import { useState } from "react";
 
 const sampleEvents = [

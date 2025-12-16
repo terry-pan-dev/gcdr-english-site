@@ -19,7 +19,6 @@ import {
 } from "../ui/sidebar";
 import { Button } from "../ui/button";
 import { FileText, Image, LogOut, Plus } from "lucide-react";
-import { Separator } from "../ui/separator";
 import { cn } from "../ui/utils";
 import { Toaster } from "../ui/sonner";
 

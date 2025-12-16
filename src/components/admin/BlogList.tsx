@@ -10,13 +10,7 @@ import {
   TableRow,
 } from "../ui/table";
 import { Badge } from "../ui/badge";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "../ui/card";
+import { Card, CardContent } from "../ui/card";
 import { Edit, Trash2, FileText } from "lucide-react";
 
 interface Props {

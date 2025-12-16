@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
-import { AlertCircle } from "lucide-react";
 import { authApi, getAuthToken } from "../../lib/admin-api";
 import {
   ensureAmplifyConfigured,

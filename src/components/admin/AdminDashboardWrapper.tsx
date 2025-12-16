@@ -17,7 +17,7 @@ import { shouldShowDebugLogs } from "../../lib/env";
  * checks are for UX enhancement only, not security.
  */
 export function AdminDashboardWrapper() {
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
+  const [_isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
   const [isChecking, setIsChecking] = useState(true);
 
   useEffect(() => {
@@ -65,7 +65,7 @@ export function AdminDashboardWrapper() {
         }
 
         // Try to get the current user (non-blocking check)
-        const user = await authApi.getCurrentUser();
+        const _user = await authApi.getCurrentUser();
 
         // Always set authenticated to true if we got here (server let the page load)
         setIsAuthenticated(true);
@@ -99,6 +99,7 @@ export function AdminDashboardWrapper() {
     checkAuth();
 
     return () => clearTimeout(timeoutId);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []); // Fixed: Removed isChecking from dependencies to prevent infinite loop
 
   // Show loading state while checking authentication

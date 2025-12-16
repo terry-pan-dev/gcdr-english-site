@@ -84,7 +84,6 @@ export function MarkdownEditor({ content, onChange }: Props) {
     const start = textarea.selectionStart;
     const end = textarea.selectionEnd;
     const beforeText = content.substring(0, start);
-    const afterText = content.substring(end);
 
     // Find the start of the current line
     const lineStart = beforeText.lastIndexOf("\n") + 1;
@@ -230,7 +229,7 @@ export function MarkdownEditor({ content, onChange }: Props) {
   };
 
   // Insert blockquote
-  const insertBlockquote = () => {
+  const _insertBlockquote = () => {
     const textarea = textareaRef.current;
     if (!textarea) return;
 
@@ -641,6 +640,7 @@ export function MarkdownEditor({ content, onChange }: Props) {
     return () => {
       textarea.removeEventListener("keydown", handleKeyDown);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [content]);
 
   return (

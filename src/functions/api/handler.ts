@@ -153,7 +153,7 @@ async function handlePublicBlogGet(id: string) {
       });
       const s3Result = await s3Client.send(s3Command);
       result.Item.content = (await s3Result.Body?.transformToString()) || "";
-    } catch (s3Error) {
+    } catch (_s3Error) {
       result.Item.content = "";
     }
   }
@@ -191,7 +191,7 @@ async function handleBlogGet(id: string) {
       });
       const s3Result = await s3Client.send(s3Command);
       result.Item.content = (await s3Result.Body?.transformToString()) || "";
-    } catch (s3Error) {
+    } catch (_s3Error) {
       result.Item.content = "";
     }
   }
@@ -366,7 +366,7 @@ async function handleBlogDelete(id: string) {
           Key: existing.Item.s3Key,
         })
       );
-    } catch (s3Error) {
+    } catch (_s3Error) {
       // Continue even if S3 delete fails
     }
   }
@@ -503,7 +503,7 @@ async function handleMediaDelete(id: string) {
           Key: existing.Item.s3Key,
         })
       );
-    } catch (s3Error) {
+    } catch (_s3Error) {
       // Continue even if S3 delete fails
     }
   }
@@ -563,7 +563,7 @@ function extractToken(event: any): string | null {
 }
 
 // Auth handler - now just returns success, actual auth happens client-side with Cognito
-async function handleAuthLogin(body: any) {
+async function handleAuthLogin(_body: any) {
   // This endpoint is no longer needed for Cognito authentication
   // Authentication happens directly in the browser with Cognito
   // But we keep it for backward compatibility or can remove it

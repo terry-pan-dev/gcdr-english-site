@@ -2,13 +2,7 @@ import { useState, useEffect, useRef, useMemo } from "react";
 import type { MediaAsset } from "../../lib/admin-api";
 import { mediaApi } from "../../lib/admin-api";
 import { Button } from "../ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "../ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import {
   Upload,
   Copy,
@@ -22,7 +16,6 @@ import {
   Download,
   ExternalLink,
   Eye,
-  X,
   AlertTriangle,
   Check,
 } from "lucide-react";

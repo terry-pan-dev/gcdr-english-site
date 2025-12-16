@@ -4,7 +4,7 @@ import { DynamoDBDocumentClient, ScanCommand } from "@aws-sdk/lib-dynamodb";
 const client = new DynamoDBClient({});
 const docClient = DynamoDBDocumentClient.from(client);
 
-export async function handler(event: any) {
+export async function handler(_event: any) {
   try {
     const tableName = process.env.MEDIA_ASSETS_TABLE;
     if (!tableName) {

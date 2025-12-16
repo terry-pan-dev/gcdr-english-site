@@ -3,11 +3,8 @@
 
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 import { DynamoDBDocumentClient, ScanCommand } from "@aws-sdk/lib-dynamodb";
-import { S3Client, GetObjectCommand } from "@aws-sdk/client-s3";
-
 const dynamoClient = new DynamoDBClient({});
 const docClient = DynamoDBDocumentClient.from(dynamoClient);
-const s3Client = new S3Client({});
 
 export interface ServerBlogPost {
   id: string;
@@ -36,7 +33,6 @@ export interface ServerBlogPost {
 export async function getS3Blogs(): Promise<ServerBlogPost[]> {
   try {
     const tableName = process.env.BLOG_POSTS_TABLE;
-    const bucketName = process.env.BLOG_STORAGE_BUCKET;
 
     if (!tableName) {
       console.warn("BLOG_POSTS_TABLE not configured, skipping S3 blogs");

@@ -4,7 +4,7 @@ interface Props {
   index: number;
 }
 
-export function TimelineConnector({ index }: Props) {
+export function TimelineConnector({ index: _index }: Props) {
   return (
     <motion.div
       initial={{ opacity: 0, scale: 0.8 }}
