@@ -59,6 +59,16 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Generate Astro types
+        run: pnpm astro sync
+        env:
+          PUBLIC_API_BASE_URL: "https://placeholder.example.com"
+          PUBLIC_COGNITO_USER_POOL_ID: "placeholder"
+          PUBLIC_COGNITO_USER_POOL_CLIENT_ID: "placeholder"
+          PUBLIC_COGNITO_IDENTITY_POOL_ID: "placeholder"
+          PUBLIC_AWS_REGION: "ap-southeast-2"
+          PUBLIC_IS_PRODUCTION: "false"
+
       - name: Run type check
         run: pnpm run typecheck
 
