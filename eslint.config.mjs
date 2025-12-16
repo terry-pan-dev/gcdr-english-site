@@ -1,0 +1,106 @@
+import eslint from "@eslint/js";
+import tseslint from "typescript-eslint";
+import reactPlugin from "eslint-plugin-react";
+import reactHooksPlugin from "eslint-plugin-react-hooks";
+import astroPlugin from "eslint-plugin-astro";
+import prettierConfig from "eslint-config-prettier";
+import globals from "globals";
+
+export default tseslint.config(
+  // Global ignores
+  {
+    ignores: [
+      "node_modules/**",
+      "dist/**",
+      "build/**",
+      ".astro/**",
+      ".sst/**",
+      "scripts/**",
+      "archive/**",
+      "*.config.js",
+      "*.config.mjs",
+      "*.config.ts",
+    ],
+  },
+
+  // Base ESLint recommended rules
+  eslint.configs.recommended,
+
+  // TypeScript rules
+  ...tseslint.configs.recommended,
+
+  // Browser environment for JSX/TSX files
+  {
+    files: ["**/*.{jsx,tsx}"],
+    languageOptions: {
+      globals: {
+        ...globals.browser,
+      },
+    },
+  },
+
+  // React rules
+  {
+    files: ["**/*.{jsx,tsx}"],
+    plugins: {
+      react: reactPlugin,
+      "react-hooks": reactHooksPlugin,
+    },
+    languageOptions: {
+      parserOptions: {
+        ecmaFeatures: {
+          jsx: true,
+        },
+      },
+    },
+    settings: {
+      react: {
+        version: "detect",
+      },
+    },
+    rules: {
+      ...reactPlugin.configs.recommended.rules,
+      ...reactHooksPlugin.configs.recommended.rules,
+      "react/react-in-jsx-scope": "off", // Not needed with React 17+
+      "react/prop-types": "off", // Using TypeScript for prop validation
+      "react/no-unescaped-entities": "off", // Allow quotes in JSX text
+      // Relax hooks rules for existing code - tighten later
+      "react-hooks/rules-of-hooks": "warn",
+      "react-hooks/exhaustive-deps": "warn",
+      // React compiler rules - disabled for gradual adoption
+      "react-hooks/set-state-in-effect": "off",
+      "react-hooks/purity": "off",
+    },
+  },
+
+  // Astro rules
+  ...astroPlugin.configs.recommended,
+
+  // Custom rules for all source files
+  {
+    files: ["**/*.{js,mjs,cjs,jsx,ts,tsx,astro}"],
+    rules: {
+      // TypeScript - relaxed for gradual adoption
+      "@typescript-eslint/no-unused-vars": [
+        "warn",
+        {
+          argsIgnorePattern: "^_",
+          varsIgnorePattern: "^_",
+        },
+      ],
+      "@typescript-eslint/no-explicit-any": "off", // TODO: Enable as "warn" once codebase is cleaned up
+      "@typescript-eslint/no-empty-object-type": "off",
+      "@typescript-eslint/no-require-imports": "off",
+      "@typescript-eslint/no-unsafe-function-type": "off",
+
+      // General - relaxed for existing code
+      "no-console": "off", // TODO: Enable once codebase is cleaned up
+      "prefer-const": "warn",
+      "prefer-spread": "off",
+      "no-undef": "off", // TypeScript handles this
+    },
+  },
+
+  // Prettier config (disables conflicting rules) - must be last
+  prettierConfig
+);

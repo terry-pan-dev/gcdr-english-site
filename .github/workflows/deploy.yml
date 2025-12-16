@@ -69,7 +69,28 @@ jobs:
       - name: Deploy to Sirius
         id: deploy
         run: |
-          npx sst deploy --stage sirius
+          DEPLOY_OUTPUT=$(pnpm run deploy 2>&1)
+          echo "$DEPLOY_OUTPUT"
+          # Extract URL from SST output - try multiple patterns
+          # Pattern 1: Look for "astro: https://..." format
+          URL=$(echo "$DEPLOY_OUTPUT" | grep -E "astro:\s*https?://" | sed -E 's/.*astro:\s*(https?:\/\/[^\s]+).*/\1/' | head -1)
+          # Pattern 2: Look for CloudFront URLs
+          if [ -z "$URL" ]; then
+            URL=$(echo "$DEPLOY_OUTPUT" | grep -oE "https?://[a-zA-Z0-9.-]+\.cloudfront\.net[^\s]*" | head -1)
+          fi
+          # Pattern 3: Look for any https:// URL in the output
+          if [ -z "$URL" ]; then
+            URL=$(echo "$DEPLOY_OUTPUT" | grep -oE "https?://[a-zA-Z0-9.-]+[^\s]*" | head -1)
+          fi
+          if [ -z "$URL" ]; then
+            echo "Warning: Could not extract deployment URL from output"
+            URL=""
+          else
+            echo "Extracted deployment URL: $URL"
+          fi
+          echo "url=$URL" >> $GITHUB_OUTPUT
+        env:
+          ENV: sirius
 
   deploy-production:
     name: Deploy to Production
@@ -109,4 +130,25 @@ jobs:
       - name: Deploy to production
         id: deploy
         run: |
-          npx sst deploy --stage production
+          DEPLOY_OUTPUT=$(pnpm run deploy 2>&1)
+          echo "$DEPLOY_OUTPUT"
+          # Extract URL from SST output - try multiple patterns
+          # Pattern 1: Look for "astro: https://..." format
+          URL=$(echo "$DEPLOY_OUTPUT" | grep -E "astro:\s*https?://" | sed -E 's/.*astro:\s*(https?:\/\/[^\s]+).*/\1/' | head -1)
+          # Pattern 2: Look for CloudFront URLs
+          if [ -z "$URL" ]; then
+            URL=$(echo "$DEPLOY_OUTPUT" | grep -oE "https?://[a-zA-Z0-9.-]+\.cloudfront\.net[^\s]*" | head -1)
+          fi
+          # Pattern 3: Look for any https:// URL in the output
+          if [ -z "$URL" ]; then
+            URL=$(echo "$DEPLOY_OUTPUT" | grep -oE "https?://[a-zA-Z0-9.-]+[^\s]*" | head -1)
+          fi
+          if [ -z "$URL" ]; then
+            echo "Warning: Could not extract deployment URL from output"
+            URL=""
+          else
+            echo "Extracted deployment URL: $URL"
+          fi
+          echo "url=$URL" >> $GITHUB_OUTPUT
+        env:
+          ENV: production
