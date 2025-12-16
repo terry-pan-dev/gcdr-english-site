@@ -2,13 +2,15 @@ name: CI
 
 on:
   push:
-    branches: [main, develop]
+    branches: [develop]  # Only run directly on develop (deploy.yml handles main)
   pull_request:
     branches: [main, develop]
+  workflow_call:
+    # Allow this workflow to be called by other workflows (e.g., deploy.yml)
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
+  group: ci-${{ github.ref }}  # Use fixed prefix to avoid conflicts with caller workflows
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}  # Only cancel PRs, not deployments
 
 jobs:
   lint:
