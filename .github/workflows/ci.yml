@@ -5,12 +5,10 @@ on:
     branches: [main] # Run on push to main
   pull_request:
     branches: [main] # Run on PRs targeting main
-  workflow_call:
-    # Allow this workflow to be called by other workflows (e.g., deploy.yml)
 
 concurrency:
-  group: ci-${{ github.ref }} # Use fixed prefix to avoid conflicts with caller workflows
-  cancel-in-progress: ${{ github.event_name == 'pull_request' }} # Only cancel PRs, not deployments
+  group: ci-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
   lint:
@@ -18,11 +16,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4 # v4.1.7
+        uses: actions/checkout@v4
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
-        # Version is read from package.json packageManager field
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -44,11 +41,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4 # v4.1.7
+        uses: actions/checkout@v4
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
-        # Version is read from package.json packageManager field
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -77,11 +73,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4 # v4.1.7
+        uses: actions/checkout@v4
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
-        # Version is read from package.json packageManager field
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -101,11 +96,10 @@ jobs:
     needs: [lint, typecheck, test]
     steps:
       - name: Checkout
-        uses: actions/checkout@v4 # v4.1.7
+        uses: actions/checkout@v4
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
-        # Version is read from package.json packageManager field
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -119,7 +113,6 @@ jobs:
       - name: Build
         run: pnpm run build
         env:
-          # Add any required build environment variables here
           PUBLIC_API_BASE_URL: "https://placeholder.example.com"
           PUBLIC_COGNITO_USER_POOL_ID: "placeholder"
           PUBLIC_COGNITO_USER_POOL_CLIENT_ID: "placeholder"

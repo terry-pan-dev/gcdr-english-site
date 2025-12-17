@@ -1,14 +1,12 @@
 name: Deploy
 
 on:
-  # Deploy after CI succeeds (will determine stage based on event type)
+  # Automatically deploy after CI succeeds
   workflow_run:
     workflows: ["CI"]
     types:
       - completed
-  # Deploy production after CI succeeds on push to main
-  push:
-    branches: [main]
+
   # Manual trigger for both stages
   workflow_dispatch:
     inputs:
@@ -21,39 +19,22 @@ on:
           - sirius
           - production
 
-concurrency:
-  group: deploy-${{ github.event.inputs.stage || (github.event_name == 'workflow_run' && github.event.workflow_run.event == 'push' && 'production') || (github.event_name == 'workflow_run' && github.event.workflow_run.event == 'pull_request' && 'sirius') || (github.event_name == 'push' && 'production') || 'sirius' }}
-  cancel-in-progress: false
-
 env:
   AWS_REGION: ap-southeast-2
 
 jobs:
-  # CI check: run CI workflow if not triggered by workflow_run, otherwise just confirm CI passed
-  ci-check:
-    name: CI Check
-    if: github.event_name != 'workflow_run'
-    uses: ./.github/workflows/ci.yml
-    secrets: inherit # Pass secrets to reusable workflow
-
-  # When triggered by workflow_run, CI already passed, so we just confirm it
-  ci-confirmed:
-    name: CI Confirmed
-    runs-on: ubuntu-latest
-    if: github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success'
-    steps:
-      - name: CI already completed successfully
-        run: echo "CI workflow completed successfully, proceeding with deployment"
-
+  # Deploy to Sirius when:
+  # - CI succeeds on a pull_request event
+  # - Manual dispatch with stage=sirius
   deploy-sirius:
     name: Deploy to Sirius
     runs-on: ubuntu-latest
-    needs: [ci-check, ci-confirmed]
     if: |
-      ((needs.ci-check.result == 'success' || needs.ci-check.result == 'skipped') &&
-       (needs.ci-confirmed.result == 'success' || needs.ci-confirmed.result == 'skipped')) &&
-      ((github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.event == 'pull_request') ||
-      (github.event_name == 'workflow_dispatch' && github.event.inputs.stage == 'sirius'))
+      (github.event_name == 'workflow_run' &&
+       github.event.workflow_run.conclusion == 'success' &&
+       github.event.workflow_run.event == 'pull_request') ||
+      (github.event_name == 'workflow_dispatch' &&
+       github.event.inputs.stage == 'sirius')
     environment:
       name: sirius
       url: ${{ steps.deploy.outputs.url }}
@@ -68,7 +49,6 @@ jobs:
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
-        # Version is read from package.json packageManager field
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -92,19 +72,15 @@ jobs:
           DEPLOY_OUTPUT=$(pnpm run deploy 2>&1)
           echo "$DEPLOY_OUTPUT"
           # Extract URL from SST output - try multiple patterns
-          # Pattern 1: Look for "astro: https://..." format
           URL=$(echo "$DEPLOY_OUTPUT" | grep -E "astro:\s*https?://" | sed -E 's/.*astro:\s*(https?:\/\/[^\s]+).*/\1/' | head -1)
-          # Pattern 2: Look for CloudFront URLs (match distribution ID + .cloudfront.net + optional path)
           if [ -z "$URL" ]; then
             URL=$(echo "$DEPLOY_OUTPUT" | grep -oE "https?://[a-z0-9-]+\.cloudfront\.net[^\s]*" | head -1)
           fi
-          # Pattern 3: Look for any https:// URL in the output
           if [ -z "$URL" ]; then
             URL=$(echo "$DEPLOY_OUTPUT" | grep -oE "https?://[^\s]+" | head -1)
           fi
           if [ -z "$URL" ]; then
             echo "Warning: Could not extract deployment URL from output"
-            URL=""
           else
             echo "Extracted deployment URL: $URL"
           fi
@@ -112,16 +88,19 @@ jobs:
         env:
           ENV: sirius
 
+  # Deploy to Production when:
+  # - CI succeeds on a push to main
+  # - Manual dispatch with stage=production
   deploy-production:
     name: Deploy to Production
     runs-on: ubuntu-latest
-    needs: [ci-check, ci-confirmed]
     if: |
-      ((needs.ci-check.result == 'success' || needs.ci-check.result == 'skipped') &&
-       (needs.ci-confirmed.result == 'success' || needs.ci-confirmed.result == 'skipped')) &&
-      ((github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.event == 'push' && github.event.workflow_run.head_branch == 'main') ||
-      (github.event_name == 'push' && github.ref == 'refs/heads/main') ||
-      (github.event_name == 'workflow_dispatch' && github.event.inputs.stage == 'production'))
+      (github.event_name == 'workflow_run' &&
+       github.event.workflow_run.conclusion == 'success' &&
+       github.event.workflow_run.event == 'push' &&
+       github.event.workflow_run.head_branch == 'main') ||
+      (github.event_name == 'workflow_dispatch' &&
+       github.event.inputs.stage == 'production')
     environment:
       name: production
       url: ${{ steps.deploy.outputs.url }}
@@ -134,7 +113,6 @@ jobs:
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
-        # Version is read from package.json packageManager field
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -158,19 +136,15 @@ jobs:
           DEPLOY_OUTPUT=$(pnpm run deploy 2>&1)
           echo "$DEPLOY_OUTPUT"
           # Extract URL from SST output - try multiple patterns
-          # Pattern 1: Look for "astro: https://..." format
           URL=$(echo "$DEPLOY_OUTPUT" | grep -E "astro:\s*https?://" | sed -E 's/.*astro:\s*(https?:\/\/[^\s]+).*/\1/' | head -1)
-          # Pattern 2: Look for CloudFront URLs (match distribution ID + .cloudfront.net + optional path)
           if [ -z "$URL" ]; then
             URL=$(echo "$DEPLOY_OUTPUT" | grep -oE "https?://[a-z0-9-]+\.cloudfront\.net[^\s]*" | head -1)
           fi
-          # Pattern 3: Look for any https:// URL in the output
           if [ -z "$URL" ]; then
             URL=$(echo "$DEPLOY_OUTPUT" | grep -oE "https?://[^\s]+" | head -1)
           fi
           if [ -z "$URL" ]; then
             echo "Warning: Could not extract deployment URL from output"
-            URL=""
           else
             echo "Extracted deployment URL: $URL"
           fi
