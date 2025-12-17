@@ -10,6 +10,8 @@ export function Navigation() {
   const [mobileOpenSubmenu, setMobileOpenSubmenu] = useState<string | null>(null);
   const [activeHash, setActiveHash] = useState("");
   const dropdownRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
+  const mobileMenuRef = useRef<HTMLDivElement | null>(null);
+  const navRef = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -51,6 +53,31 @@ export function Navigation() {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [openDropdown]);
+
+  // Close mobile menu when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent | TouchEvent) => {
+      if (isMobileMenuOpen && navRef.current) {
+        const target = event.target as Node;
+        // Check if click is outside the nav element
+        if (!navRef.current.contains(target)) {
+          setIsMobileMenuOpen(false);
+          setMobileOpenSubmenu(null);
+        }
+      }
+    };
+
+    if (isMobileMenuOpen) {
+      // Use both mousedown and touchstart for better mobile support
+      document.addEventListener("mousedown", handleClickOutside);
+      document.addEventListener("touchstart", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("touchstart", handleClickOutside);
+    };
+  }, [isMobileMenuOpen]);
 
   // Navigation links configuration
   const navLinks = [
@@ -108,6 +135,7 @@ export function Navigation() {
 
   return (
     <nav
+      ref={navRef}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled || isMobileMenuOpen
           ? "shadow-md backdrop-blur-md"
@@ -219,6 +247,7 @@ export function Navigation() {
         {/* Mobile Menu */}
         {isMobileMenuOpen && (
           <div
+            ref={mobileMenuRef}
             className="md:hidden pb-4 -mx-4 px-4 rounded-b-lg"
             style={{
               backdropFilter: "blur(24px)",
