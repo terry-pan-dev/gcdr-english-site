@@ -1,13 +1,11 @@
 name: Deploy
 
 on:
-  # Deploy sirius after CI succeeds on PRs
+  # Deploy after CI succeeds (will determine stage based on event type)
   workflow_run:
     workflows: ["CI"]
     types:
       - completed
-    branches:
-      - main
   # Deploy production after CI succeeds on push to main
   push:
     branches: [main]
@@ -60,10 +58,12 @@ jobs:
       name: sirius
       url: ${{ steps.deploy.outputs.url }}
     steps:
-      - name: Checkout
+      - name: Checkout code
         uses: actions/checkout@v4
         with:
-          ref: ${{ github.event_name == 'workflow_run' && github.event.workflow_run.head_branch || github.ref }}
+          # For workflow_run from PR: use head_sha to checkout the PR branch commit
+          # For workflow_dispatch: use the current ref
+          ref: ${{ github.event_name == 'workflow_run' && github.event.workflow_run.head_sha || github.ref }}
           fetch-depth: 0
 
       - name: Setup pnpm
