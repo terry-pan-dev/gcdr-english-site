@@ -108,11 +108,11 @@ export function DashboardLayout() {
                     <SidebarMenuItem>
                       <SidebarMenuButton
                         onClick={handleNewBlog}
-                        tooltip="Create New Blog Post"
+                        tooltip="New Blog Post"
                         className="hover:bg-slate-100 hover:text-slate-900 transition-colors"
                       >
                         <Plus className="size-4" />
-                        <span>Create New Blog Post</span>
+                        <span>New Blog Post</span>
                       </SidebarMenuButton>
                     </SidebarMenuItem>
                     <SidebarMenuItem>
@@ -186,7 +186,7 @@ export function DashboardLayout() {
                     <SidebarMenuButton
                       onClick={handleNewBlog}
                       isActive={currentView === "editor"}
-                      tooltip="Create New Blog Post"
+                      tooltip="New Blog Post"
                       className={cn(
                         "hover:bg-slate-100 hover:text-slate-900 transition-colors",
                         currentView === "editor" &&
@@ -194,7 +194,7 @@ export function DashboardLayout() {
                       )}
                     >
                       <Plus className="size-4" />
-                      <span>Create New Blog Post</span>
+                      <span>New Blog Post</span>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
                   <SidebarMenuItem>
