@@ -48,6 +48,16 @@ export function Footer() {
                   Visit
                 </a>
               </li>
+              <li>
+                <a
+                  href="https://gcdrchinese.com"
+                  className="hover:text-amber-400 transition-colors"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Chinese Site
+                </a>
+              </li>
             </ul>
           </div>
 

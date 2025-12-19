@@ -1,0 +1,1 @@
+pnpm exec concurrently --kill-others-on-fail --names "lint,typecheck" --prefix-colors "blue,magenta" "pnpm run lint" "pnpm run typecheck"

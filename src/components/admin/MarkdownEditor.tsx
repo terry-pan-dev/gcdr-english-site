@@ -38,6 +38,9 @@ export function MarkdownEditor({ content, onChange }: Props) {
     const textarea = textareaRef.current;
     if (!textarea) return;
 
+    // Save scroll position
+    const scrollTop = textarea.scrollTop;
+
     const start = textarea.selectionStart;
     const end = textarea.selectionEnd;
     const selectedText = content.substring(start, end);
@@ -63,11 +66,12 @@ export function MarkdownEditor({ content, onChange }: Props) {
 
     onChange(newContent);
 
-    // Restore cursor position after state update
+    // Restore cursor position and scroll position after state update
     setTimeout(() => {
       if (textareaRef.current) {
         textareaRef.current.focus();
         textareaRef.current.setSelectionRange(newCursorStart, newCursorEnd);
+        textareaRef.current.scrollTop = scrollTop;
       }
     }, 0);
   };
@@ -76,6 +80,9 @@ export function MarkdownEditor({ content, onChange }: Props) {
   const insertHeading = (level: number) => {
     const textarea = textareaRef.current;
     if (!textarea) return;
+
+    // Save scroll position
+    const scrollTop = textarea.scrollTop;
 
     const start = textarea.selectionStart;
     const end = textarea.selectionEnd;
@@ -133,6 +140,7 @@ export function MarkdownEditor({ content, onChange }: Props) {
       if (textareaRef.current) {
         textareaRef.current.focus();
         textareaRef.current.setSelectionRange(newCursorStart, newCursorEnd);
+        textareaRef.current.scrollTop = scrollTop;
       }
     }, 0);
   };
@@ -141,6 +149,9 @@ export function MarkdownEditor({ content, onChange }: Props) {
   const insertListItem = (isOrdered: boolean) => {
     const textarea = textareaRef.current;
     if (!textarea) return;
+
+    // Save scroll position
+    const scrollTop = textarea.scrollTop;
 
     const start = textarea.selectionStart;
     const end = textarea.selectionEnd;
@@ -212,6 +223,7 @@ export function MarkdownEditor({ content, onChange }: Props) {
       if (textareaRef.current) {
         textareaRef.current.focus();
         textareaRef.current.setSelectionRange(newCursorStart, newCursorEnd);
+        textareaRef.current.scrollTop = scrollTop;
       }
     }, 0);
   };
@@ -337,6 +349,9 @@ export function MarkdownEditor({ content, onChange }: Props) {
     const textarea = textareaRef.current;
     if (!textarea) return;
 
+    // Save scroll position
+    const scrollTop = textarea.scrollTop;
+
     const start = textarea.selectionStart;
     const beforeText = content.substring(0, start);
     const afterText = content.substring(start);
@@ -362,6 +377,7 @@ export function MarkdownEditor({ content, onChange }: Props) {
         const newPos = start + imageMarkdown.length;
         textareaRef.current.focus();
         textareaRef.current.setSelectionRange(newPos, newPos);
+        textareaRef.current.scrollTop = scrollTop;
       }
     }, 0);
   };
@@ -370,6 +386,9 @@ export function MarkdownEditor({ content, onChange }: Props) {
   const insertHorizontalRule = () => {
     const textarea = textareaRef.current;
     if (!textarea) return;
+
+    // Save scroll position
+    const scrollTop = textarea.scrollTop;
 
     const start = textarea.selectionStart;
     const beforeText = content.substring(0, start);
@@ -391,6 +410,7 @@ export function MarkdownEditor({ content, onChange }: Props) {
         const newPos = start + before.length + hr.length + (needsNewlineAfter ? 1 : 0);
         textareaRef.current.focus();
         textareaRef.current.setSelectionRange(newPos, newPos);
+        textareaRef.current.scrollTop = scrollTop;
       }
     }, 0);
   };
@@ -399,6 +419,9 @@ export function MarkdownEditor({ content, onChange }: Props) {
   const insertTable = () => {
     const textarea = textareaRef.current;
     if (!textarea) return;
+
+    // Save scroll position
+    const scrollTop = textarea.scrollTop;
 
     const start = textarea.selectionStart;
     const beforeText = content.substring(0, start);
@@ -424,6 +447,7 @@ export function MarkdownEditor({ content, onChange }: Props) {
         const newPos = start + before.length + 2;
         textareaRef.current.focus();
         textareaRef.current.setSelectionRange(newPos, newPos + 8);
+        textareaRef.current.scrollTop = scrollTop;
       }
     }, 0);
   };
@@ -432,6 +456,9 @@ export function MarkdownEditor({ content, onChange }: Props) {
   const insertQuote = () => {
     const textarea = textareaRef.current;
     if (!textarea) return;
+
+    // Save scroll position
+    const scrollTop = textarea.scrollTop;
 
     const start = textarea.selectionStart;
     const end = textarea.selectionEnd;
@@ -471,6 +498,7 @@ export function MarkdownEditor({ content, onChange }: Props) {
       if (textareaRef.current) {
         textareaRef.current.focus();
         textareaRef.current.setSelectionRange(newCursorStart, newCursorEnd);
+        textareaRef.current.scrollTop = scrollTop;
       }
     }, 0);
   };
@@ -479,6 +507,9 @@ export function MarkdownEditor({ content, onChange }: Props) {
   const insertCallout = () => {
     const textarea = textareaRef.current;
     if (!textarea) return;
+
+    // Save scroll position
+    const scrollTop = textarea.scrollTop;
 
     const start = textarea.selectionStart;
     const end = textarea.selectionEnd;
@@ -520,6 +551,7 @@ export function MarkdownEditor({ content, onChange }: Props) {
       if (textareaRef.current) {
         textareaRef.current.focus();
         textareaRef.current.setSelectionRange(newCursorStart, newCursorEnd);
+        textareaRef.current.scrollTop = scrollTop;
       }
     }, 0);
   };
@@ -528,6 +560,9 @@ export function MarkdownEditor({ content, onChange }: Props) {
   const insertYouTube = () => {
     const textarea = textareaRef.current;
     if (!textarea) return;
+
+    // Save scroll position
+    const scrollTop = textarea.scrollTop;
 
     const start = textarea.selectionStart;
     const beforeText = content.substring(0, start);
@@ -558,6 +593,7 @@ export function MarkdownEditor({ content, onChange }: Props) {
           start + before.length + srcStart,
           start + before.length + srcEnd
         );
+        textareaRef.current.scrollTop = scrollTop;
       }
     }, 0);
   };
@@ -566,6 +602,9 @@ export function MarkdownEditor({ content, onChange }: Props) {
   const insertAudio = () => {
     const textarea = textareaRef.current;
     if (!textarea) return;
+
+    // Save scroll position
+    const scrollTop = textarea.scrollTop;
 
     const start = textarea.selectionStart;
     const beforeText = content.substring(0, start);
@@ -600,6 +639,7 @@ export function MarkdownEditor({ content, onChange }: Props) {
           start + before.length + srcStart,
           start + before.length + srcEnd
         );
+        textareaRef.current.scrollTop = scrollTop;
       }
     }, 0);
   };
