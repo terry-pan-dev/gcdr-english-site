@@ -4,7 +4,7 @@ import { Button } from "../ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../ui/table";
 import { Badge } from "../ui/badge";
 import { Card, CardContent } from "../ui/card";
-import { Edit, Trash2, FileText } from "lucide-react";
+import { Edit, Trash2, FileText, Pin } from "lucide-react";
 
 interface Props {
   blogs: BlogPost[];
@@ -34,6 +34,16 @@ function getPublishStatus(blog: BlogPost): {
 }
 
 export function BlogList({ blogs, onEdit, onDelete }: Props) {
+  // Sort blogs: pinned first, then by date (latest first)
+  const sortedBlogs = [...blogs].sort((a, b) => {
+    // First sort by pinned status (pinned posts first)
+    if (a.pinned !== b.pinned) {
+      return a.pinned ? -1 : 1;
+    }
+    // Then sort by date (latest first)
+    return new Date(b.date).getTime() - new Date(a.date).getTime();
+  });
+
   const handleDelete = async (id: string) => {
     if (!confirm("Are you sure you want to delete this blog post?")) {
       return;
@@ -82,14 +92,21 @@ export function BlogList({ blogs, onEdit, onDelete }: Props) {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {blogs.map((blog, index) => (
+            {sortedBlogs.map((blog, index) => (
               <TableRow
                 key={blog.id}
                 className={`hover:bg-blue-50/30 transition-colors cursor-pointer ${
                   index % 2 === 0 ? "bg-white" : "bg-slate-50/50"
                 }`}
               >
-                <TableCell className="font-medium">{blog.title}</TableCell>
+                <TableCell className="font-medium">
+                  <div className="flex items-center gap-2">
+                    {blog.pinned && (
+                      <Pin className="size-4 text-amber-500 fill-amber-500 shrink-0" />
+                    )}
+                    <span>{blog.title}</span>
+                  </div>
+                </TableCell>
                 <TableCell>
                   <div className="max-w-md">
                     <p className="text-sm text-muted-foreground line-clamp-2">
