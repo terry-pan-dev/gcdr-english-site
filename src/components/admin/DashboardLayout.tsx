@@ -96,7 +96,9 @@ export function DashboardLayout() {
           <Sidebar collapsible="icon">
             <SidebarHeader className="border-b h-16 flex items-center justify-center">
               <div className="flex items-center gap-2 px-4 group-data-[collapsible=icon]:px-0">
-                <h2 className="text-lg font-semibold group-data-[collapsible=icon]:hidden">Admin Dashboard</h2>
+                <h2 className="text-lg font-semibold group-data-[collapsible=icon]:hidden">
+                  Admin Dashboard
+                </h2>
               </div>
             </SidebarHeader>
             <SidebarContent>
@@ -171,7 +173,9 @@ export function DashboardLayout() {
         <Sidebar collapsible="icon">
           <SidebarHeader className="border-b h-16 flex items-center justify-center">
             <div className="flex items-center gap-2 px-4 group-data-[collapsible=icon]:px-0">
-              <h2 className="text-lg font-semibold group-data-[collapsible=icon]:hidden">Admin Dashboard</h2>
+              <h2 className="text-lg font-semibold group-data-[collapsible=icon]:hidden">
+                Admin Dashboard
+              </h2>
             </div>
           </SidebarHeader>
           <SidebarContent>
