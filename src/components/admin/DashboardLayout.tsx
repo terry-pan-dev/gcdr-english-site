@@ -16,6 +16,7 @@ import {
   SidebarMenuItem,
   SidebarProvider,
   SidebarInset,
+  SidebarTrigger,
 } from "../ui/sidebar";
 import { Button } from "../ui/button";
 import { FileText, Image, LogOut, Plus } from "lucide-react";
@@ -92,10 +93,10 @@ export function DashboardLayout() {
     return (
       <SidebarProvider>
         <div className="h-screen flex w-full overflow-hidden">
-          <Sidebar>
+          <Sidebar collapsible="icon">
             <SidebarHeader className="border-b h-16 flex items-center justify-center">
-              <div className="flex items-center gap-2 px-4">
-                <h2 className="text-lg font-semibold">Admin Dashboard</h2>
+              <div className="flex items-center gap-2 px-4 group-data-[collapsible=icon]:px-0">
+                <h2 className="text-lg font-semibold group-data-[collapsible=icon]:hidden">Admin Dashboard</h2>
               </div>
             </SidebarHeader>
             <SidebarContent>
@@ -149,6 +150,12 @@ export function DashboardLayout() {
             </SidebarFooter>
           </Sidebar>
           <SidebarInset className="flex flex-col">
+            <div className="border-b bg-background h-16">
+              <div className="flex h-16 items-center gap-2 px-4">
+                <SidebarTrigger className="-ml-1" />
+                <span className="text-muted-foreground">Loading blogs...</span>
+              </div>
+            </div>
             <div className="flex-1 flex items-center justify-center">
               <div className="text-muted-foreground">Loading blogs...</div>
             </div>
@@ -161,10 +168,10 @@ export function DashboardLayout() {
   return (
     <SidebarProvider>
       <div className="h-screen flex w-full overflow-hidden">
-        <Sidebar>
+        <Sidebar collapsible="icon">
           <SidebarHeader className="border-b h-16 flex items-center justify-center">
-            <div className="flex items-center gap-2 px-4">
-              <h2 className="text-lg font-semibold">Admin Dashboard</h2>
+            <div className="flex items-center gap-2 px-4 group-data-[collapsible=icon]:px-0">
+              <h2 className="text-lg font-semibold group-data-[collapsible=icon]:hidden">Admin Dashboard</h2>
             </div>
           </SidebarHeader>
           <SidebarContent>
@@ -235,8 +242,11 @@ export function DashboardLayout() {
           {currentView === "blogs" && (
             <>
               <div className="border-b bg-background h-16">
-                <div className="flex h-16 items-center justify-between px-6">
-                  <h1 className="text-2xl font-semibold">Blog Posts</h1>
+                <div className="flex h-16 items-center justify-between px-4">
+                  <div className="flex items-center gap-2">
+                    <SidebarTrigger className="-ml-1" />
+                    <h1 className="text-2xl font-semibold">Blog Posts</h1>
+                  </div>
                   <Button onClick={handleNewBlog}>
                     <Plus className="mr-2 size-4" />
                     New Blog Post

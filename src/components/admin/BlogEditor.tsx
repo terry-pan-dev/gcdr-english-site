@@ -10,6 +10,7 @@ import { ResizablePanelGroup, ResizablePanel, ResizableHandle } from "../ui/resi
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { ScrollArea } from "../ui/scroll-area";
 import { ArrowLeft, Save } from "lucide-react";
+import { SidebarTrigger } from "../ui/sidebar";
 import { toast } from "sonner";
 
 interface Props {
@@ -147,8 +148,9 @@ export function BlogEditor({ mode, blogId, onBack, onSave, blogs = [] }: Props) 
     <div className="h-full flex flex-col">
       {/* Header */}
       <div className="border-b bg-background">
-        <div className="flex h-16 items-center justify-between px-6">
-          <div className="flex items-center gap-4">
+        <div className="flex h-16 items-center justify-between px-4">
+          <div className="flex items-center gap-2">
+            <SidebarTrigger className="-ml-1" />
             <Button variant="ghost" size="icon" onClick={onBack}>
               <ArrowLeft className="size-4" />
             </Button>

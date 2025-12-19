@@ -43,6 +43,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../ui/
 import { ToggleGroup, ToggleGroupItem } from "../ui/toggle-group";
 import { toast } from "sonner";
 import { Toaster } from "../ui/sonner";
+import { SidebarTrigger } from "../ui/sidebar";
 
 type ViewMode = "grid" | "list";
 type SortOption = "newest" | "oldest" | "name" | "size";
@@ -523,12 +524,15 @@ export function MediaManager() {
 
       {/* Header */}
       <div className="border-b bg-background">
-        <div className="flex h-16 items-center justify-between px-6">
-          <div>
-            <h1 className="text-2xl font-semibold">Media Library</h1>
-            <p className="text-sm text-muted-foreground">
-              {media.length} file{media.length !== 1 ? "s" : ""} • {filteredMedia.length} shown
-            </p>
+        <div className="flex h-16 items-center justify-between px-4">
+          <div className="flex items-center gap-2">
+            <SidebarTrigger className="-ml-1" />
+            <div>
+              <h1 className="text-2xl font-semibold">Media Library</h1>
+              <p className="text-sm text-muted-foreground">
+                {media.length} file{media.length !== 1 ? "s" : ""} • {filteredMedia.length} shown
+              </p>
+            </div>
           </div>
           <div className="flex gap-2">
             <input
