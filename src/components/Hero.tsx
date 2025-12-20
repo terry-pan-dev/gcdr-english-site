@@ -12,6 +12,7 @@ export function Hero() {
           playsInline
           className="w-full h-full object-cover"
           preload="auto"
+          poster="/assets/hero-video-poster.jpg"
         >
           <source src="https://d247v35vmupqs5.cloudfront.net/hero-video.mp4" type="video/mp4" />
         </video>
