@@ -60,9 +60,11 @@ const socialImageURL = new URL(image, Astro.site);
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-10H01QE668"></script>
     <script is:inline>
       window.dataLayer = window.dataLayer || [];
-      function gtag(...args){dataLayer.push(args);}
-      gtag('js', new Date());
-      gtag('config', 'G-10H01QE668');
+      function gtag(...args) {
+        dataLayer.push(args);
+      }
+      gtag("js", new Date());
+      gtag("config", "G-10H01QE668");
     </script>
   </head>
   <body>
