@@ -3,6 +3,7 @@ import react from "@astrojs/react";
 import tailwind from "@astrojs/tailwind";
 import mdx from "@astrojs/mdx";
 import sitemap from "@astrojs/sitemap";
+import partytown from "@astrojs/partytown";
 import aws from "astro-sst";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -25,6 +26,11 @@ export default defineConfig({
     sitemap({
       // Exclude admin pages from sitemap
       filter: (page) => !page.includes("/admin"),
+    }),
+    partytown({
+      config: {
+        forward: ["dataLayer.push"],
+      },
     }),
   ],
   vite: {
