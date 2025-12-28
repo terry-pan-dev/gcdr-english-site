@@ -58,12 +58,15 @@ const socialImageURL = new URL(image, Astro.site);
     <link href={googleFontsUrl} rel="stylesheet" />
 
     <!-- Google Analytics (via Partytown) -->
-    <script type="text/partytown" src="https://www.googletagmanager.com/gtag/js?id=G-EKSJ63YJ8K"
-    ></script>
-    <script type="text/partytown">
+    <script
+      is:inline
+      type="text/partytown"
+      src="https://www.googletagmanager.com/gtag/js?id=G-EKSJ63YJ8K"></script>
+    <script is:inline type="text/partytown">
       window.dataLayer = window.dataLayer || [];
-      function gtag(...args) {
-        dataLayer.push(args);
+      function gtag() {
+        // eslint-disable-next-line prefer-rest-params -- GA4 requires 'arguments' object, not rest params
+        dataLayer.push(arguments);
       }
       gtag("js", new Date());
       gtag("config", "G-EKSJ63YJ8K");
