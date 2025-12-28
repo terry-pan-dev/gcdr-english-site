@@ -4,7 +4,7 @@ import Masonry from "react-responsive-masonry";
 const samplePosters = [
   {
     id: 1,
-    image: "/assets/SM-2025-1.png",
+    image: "/assets/shirangama.jpg",
     title: "Shurangama Dharma Retreat",
   },
   {
@@ -14,8 +14,8 @@ const samplePosters = [
   },
   {
     id: 3,
-    image: "/assets/Amitabha-Retreat.jpg",
-    title: "Amitabha Recitation Retreat",
+    image: "/assets/yoga.jpg",
+    title: "Yoga & Meditation",
   },
   {
     id: 4,
