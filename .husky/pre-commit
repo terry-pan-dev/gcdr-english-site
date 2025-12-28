@@ -1,1 +1,9 @@
+# Format staged files with prettier and re-stage them
+STAGED_FILES=$(git diff --cached --name-only --diff-filter=ACMR | grep -E '\.(js|jsx|ts|tsx|json|css|md|astro|mjs|cjs)$' || true)
+if [ -n "$STAGED_FILES" ]; then
+  echo "$STAGED_FILES" | xargs pnpm exec prettier --write --ignore-unknown
+  echo "$STAGED_FILES" | xargs git add
+fi
+
+# Run lint and typecheck
 pnpm exec concurrently --kill-others-on-fail --names "lint,typecheck" --prefix-colors "blue,magenta" "pnpm run lint" "pnpm run typecheck"
