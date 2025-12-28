@@ -5,9 +5,10 @@ export function Teachings() {
   const programs = [
     {
       icon: Sun,
-      title: "Morning Meditation",
-      time: "Daily 6:00 AM - 7:30 AM",
-      description: "Begin your day with guided meditation and chanting in our main hall",
+      title: "Yoga & Meditation",
+      time: "Sundays 8:00AM - 10:00AM",
+      location: "Blessing House",
+      description: "Begin your day with yoga and guided meditation in a peaceful setting",
     },
     {
       icon: BookOpen,
@@ -68,7 +69,12 @@ export function Teachings() {
               <h3 className="text-xl mb-2" style={{ color: "#EBE9CF" }}>
                 {program.title}
               </h3>
-              <p className="text-amber-400 mb-3">{program.time}</p>
+              <p className={`text-amber-400 ${program.location ? "mb-1" : "mb-3"}`}>
+                {program.time}
+              </p>
+              {program.location && (
+                <p className="text-amber-400/80 text-sm mb-3">{program.location}</p>
+              )}
               <p style={{ color: "#EBE9CF", opacity: 0.7 }} className="mb-4">
                 {program.description}
               </p>

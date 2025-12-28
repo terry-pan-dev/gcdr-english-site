@@ -106,7 +106,7 @@ export function Navigation() {
         },
       ],
     },
-    { name: "Blog", href: "/blog" },
+    { name: "Content", href: "/blog" },
     {
       name: "Master Hsuan Hua",
       href: "#",
@@ -163,7 +163,7 @@ export function Navigation() {
           </div>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8">
+          <div className="hidden lg:flex items-center space-x-8">
             {navLinks.map((link) => {
               const isActive =
                 link.href === activeHash || (link.href === "/" && activeHash === "/");
@@ -234,7 +234,7 @@ export function Navigation() {
 
           {/* Mobile Menu Button */}
           <button
-            className="md:hidden"
+            className="lg:hidden"
             style={{
               color: "#EBE9CF",
             }}
@@ -248,7 +248,7 @@ export function Navigation() {
         {isMobileMenuOpen && (
           <div
             ref={mobileMenuRef}
-            className="md:hidden pb-4 -mx-4 px-4 rounded-b-lg"
+            className="lg:hidden pb-4 -mx-4 px-4 rounded-b-lg"
             style={{
               backdropFilter: "blur(24px)",
               WebkitBackdropFilter: "blur(24px)",
