@@ -10,6 +10,7 @@ import { EighteenVows } from "./components/EighteenVows";
 import { SixPrinciples } from "./components/SixPrinciples";
 import { WhiteUniverse } from "./components/WhiteUniverse";
 import { DharmaMasters } from "./components/DharmaMasters";
+import { Volunteering } from "./components/Volunteering";
 import { Visit } from "./components/Visit";
 import { Footer } from "./components/Footer";
 import { useState, useEffect } from "react";
@@ -18,30 +19,39 @@ export default function App() {
   const [currentPage, setCurrentPage] = useState("home");
 
   useEffect(() => {
-    const handleHashChange = () => {
+    const handleRouteChange = () => {
       const hash = window.location.hash.slice(1);
-      if (hash === "events") {
+      const pathname = window.location.pathname;
+
+      // Check pathname first, then fall back to hash
+      if (pathname === "/events" || hash === "events") {
         setCurrentPage("events");
-      } else if (hash === "master-about") {
+      } else if (pathname === "/master-about" || hash === "master-about") {
         setCurrentPage("master-about");
-      } else if (hash === "18-vows") {
+      } else if (pathname === "/18-vows" || hash === "18-vows") {
         setCurrentPage("18-vows");
-      } else if (hash === "six-principles") {
+      } else if (pathname === "/six-principles" || hash === "six-principles") {
         setCurrentPage("six-principles");
-      } else if (hash === "white-universe-poem") {
+      } else if (pathname === "/white-universe-poem" || hash === "white-universe-poem") {
         setCurrentPage("white-universe-poem");
-      } else if (hash === "about") {
+      } else if (pathname === "/about" || hash === "about") {
         setCurrentPage("about");
-      } else if (hash === "dharma-masters") {
+      } else if (pathname === "/dharma-masters" || hash === "dharma-masters") {
         setCurrentPage("dharma-masters");
+      } else if (pathname === "/volunteering" || hash === "volunteering") {
+        setCurrentPage("volunteering");
       } else {
         setCurrentPage("home");
       }
     };
 
-    handleHashChange();
-    window.addEventListener("hashchange", handleHashChange);
-    return () => window.removeEventListener("hashchange", handleHashChange);
+    handleRouteChange();
+    window.addEventListener("hashchange", handleRouteChange);
+    window.addEventListener("popstate", handleRouteChange);
+    return () => {
+      window.removeEventListener("hashchange", handleRouteChange);
+      window.removeEventListener("popstate", handleRouteChange);
+    };
   }, []);
 
   if (currentPage === "events") {
@@ -109,6 +119,16 @@ export default function App() {
       <div className="min-h-screen bg-[#1c1917]">
         <Navigation />
         <DharmaMasters />
+        <Footer />
+      </div>
+    );
+  }
+
+  if (currentPage === "volunteering") {
+    return (
+      <div className="min-h-screen bg-[#1c1917]">
+        <Navigation />
+        <Volunteering />
         <Footer />
       </div>
     );

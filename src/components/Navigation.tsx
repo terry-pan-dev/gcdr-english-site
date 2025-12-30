@@ -131,6 +131,7 @@ export function Navigation() {
       ],
     },
     { name: "Visit", href: "/visit" },
+    { name: "Volunteering", href: "/volunteering" },
   ];
 
   return (
