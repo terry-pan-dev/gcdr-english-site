@@ -34,9 +34,13 @@ export function Visit() {
               Visit Us
             </div>
             <h2 className="text-4xl md:text-5xl text-white mb-6">Welcome All Seekers</h2>
-            <p className="text-stone-300 max-w-2xl mx-auto text-lg">
-              Our doors are open to everyone, regardless of background or belief. Come experience
-              the tranquility of our temple.
+            <p className="text-stone-300 max-w-5xl mx-auto text-lg">
+              Gold Coast Dharma Realm welcomes visitors who wish to learn about Buddhism, join
+              ceremonies, or simply experience the peaceful environment of the monastery in Bonogin,
+              Queensland. Before visiting, please check the website for current programs, schedules,
+              and any guidelines for visitors. Modesty in dress and respectful behaviour are
+              encouraged. For group visits or retreats, advance arrangements are recommended to
+              ensure availability and proper accommodation.
             </p>
           </div>
 
@@ -68,76 +72,80 @@ export function Visit() {
           {/* Detailed Visitor Guidelines */}
           <div className="p-8 bg-white rounded-lg shadow-sm border border-stone-200">
             <h3 className="text-2xl text-stone-900 mb-8 font-serif border-b pb-4 border-amber-100">
-              Visitor Guidelines
+              Guidelines for Visitors
             </h3>
             <div className="grid gap-8">
               <div>
                 <h4 className="font-bold text-stone-800 mb-2 text-lg flex items-center gap-2">
                   <span className="w-2 h-2 rounded-full bg-[#c9a050]"></span>
-                  Separation of Men and Women
+                  Preparing for Your Visit
                 </h4>
-                <p className="text-stone-600 leading-relaxed pl-4 border-l-2 border-amber-50 ml-1">
-                  Usually, the first thing people notice when they visit is that men and women are
-                  separated. The reason for this separation is to allow everyone to focus on the
-                  practice with fewer distractions.
+                <p className="text-stone-600 leading-relaxed">
+                  Life in a monastery is quite different from everyday life. To help you feel
+                  comfortable and maintain a peaceful, harmonious environment, please take a moment
+                  to read the guidelines below. They are designed to support both visitors and
+                  practitioners in creating a space conducive to spiritual practice.
                 </p>
               </div>
 
               <div>
                 <h4 className="font-bold text-stone-800 mb-2 text-lg flex items-center gap-2">
                   <span className="w-2 h-2 rounded-full bg-[#c9a050]"></span>
-                  Comfortable and Modest Clothing
+                  Separate Areas for Men and Women
                 </h4>
-                <p className="text-stone-600 leading-relaxed pl-4 border-l-2 border-amber-50 ml-1">
-                  Clothing in the monastery should be comfortable and modest. Comfortable clothing
-                  is ideal for meditation and cultivation because it allows you to bow and sit
-                  cross-legged unimpeded. Modest clothing is important because it causes fewer
-                  distractions for other people. As a visitor, please refrain from wearing clothing
-                  such as mini-skirts, shorts, and sleeveless shirts. (If you already are wearing
-                  them, don't worry about it. We are very happy to have you, but please try to be
-                  more careful next time you visit.)
+                <p className="text-stone-600 leading-relaxed">
+                  Visitors will notice that men and women practise in separate areas. This
+                  arrangement helps everyone focus on their cultivation with fewer distractions.
                 </p>
               </div>
 
               <div>
                 <h4 className="font-bold text-stone-800 mb-2 text-lg flex items-center gap-2">
                   <span className="w-2 h-2 rounded-full bg-[#c9a050]"></span>
-                  Cherishing All Forms of Life
+                  Dress Comfortably and Modestly
                 </h4>
-                <p className="text-stone-600 leading-relaxed pl-4 border-l-2 border-amber-50 ml-1">
-                  Please refrain from killing any living creatures in the monastery, including even
-                  small insects such as spiders, ants, flies, or mosquitoes. Buddhists practice
-                  non-harming in order to cultivate a heart of compassion and empathy for others. In
-                  Buddhism, all life forms are interconnected, and all creatures are considered
-                  "family."
+                <p className="text-stone-600 leading-relaxed">
+                  Choose clothing that is both comfortable and modest. Loose-fitting attire makes it
+                  easier to bow and sit cross-legged during meditation. Please avoid mini-skirts,
+                  shorts, and sleeveless tops. If you happen to arrive wearing these, don't worry –
+                  you're still very welcome. We simply ask that you keep this in mind for future
+                  visits.
                 </p>
               </div>
 
               <div>
                 <h4 className="font-bold text-stone-800 mb-2 text-lg flex items-center gap-2">
                   <span className="w-2 h-2 rounded-full bg-[#c9a050]"></span>
-                  Respecting Buddhist Sutras and Texts
+                  Cherish All Life
                 </h4>
-                <p className="text-stone-600 leading-relaxed pl-4 border-l-2 border-amber-50 ml-1">
-                  Buddhist Sutras and texts are the words of the Buddhist sages that give
-                  instructions on how to become awakened, and for this reason, they are treated with
-                  utmost care and respect. Furthermore, our attitude toward a sacred text affects
-                  our ability to access the teachings contained within it. Hence, people are
-                  encouraged not to put Buddhist books on the ground or bring them into the
-                  bathroom. Other customs in the monastery are keeping Sutras in good condition and
-                  making sure one’s hands are clean before reading them. In general, the intent of
-                  all these customs is the same —to show one’s respect for the text.
+                <p className="text-stone-600 leading-relaxed">
+                  Please do not harm any living beings while on the grounds – even small creatures
+                  such as ants, spiders, or mosquitoes. In Buddhism, all life is interconnected, and
+                  practising non-harming helps us develop compassion and empathy.
                 </p>
               </div>
 
               <div>
                 <h4 className="font-bold text-stone-800 mb-2 text-lg flex items-center gap-2">
                   <span className="w-2 h-2 rounded-full bg-[#c9a050]"></span>
-                  Things Not to Bring into the Monastery
+                  Respect Buddhist Texts
                 </h4>
-                <p className="text-stone-600 leading-relaxed pl-4 border-l-2 border-amber-50 ml-1">
-                  Please do not bring alcohol, meat (including fish & poultry), eggs, illicit drugs,
-                  or cigarettes into the monastery.
+                <p className="text-stone-600 leading-relaxed">
+                  Sutras and other Buddhist texts are treated with care as they contain the
+                  teachings of enlightened sages. Please avoid placing them on the floor or taking
+                  them into bathrooms. Keep them clean and in good condition and wash your hands
+                  before reading. These customs reflect respect for the Dharma.
+                </p>
+              </div>
+
+              <div>
+                <h4 className="font-bold text-stone-800 mb-2 text-lg flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-[#c9a050]"></span>
+                  Items Not Permitted
+                </h4>
+                <p className="text-stone-600 leading-relaxed">
+                  Please do not bring alcohol, meat (including fish and poultry), eggs, illicit
+                  drugs, or cigarettes into the monastery.
                 </p>
               </div>
             </div>
