@@ -45,7 +45,7 @@ export function Hero() {
             className="text-5xl md:text-6xl mb-6 tracking-wide font-serif italic"
             style={{ color: "#EBE9CF" }}
           >
-            A quiet Chan temple nestled in a hushed forest.
+            A Chan monastery in the stillness of the woods
           </motion.h1>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <a
