@@ -345,9 +345,6 @@ export function Volunteering() {
               src="https://docs.google.com/forms/d/e/1FAIpQLSfW3yI4Ozj0LCihE0VBzUHt2q0Mn7q6wcj2LxK4H4ovpeg38A/viewform?embedded=true"
               width="100%"
               height="1543"
-              frameBorder="0"
-              marginHeight={0}
-              marginWidth={0}
               className="bg-white"
             >
               Loading...
