@@ -6,7 +6,7 @@ export function Teachings() {
     {
       icon: Sun,
       title: "Yoga & Meditation",
-      time: "Sundays 8:00AM - 10:00AM",
+      time: "Sunday 8:00AM - 10:00AM",
       location: "Blessing House",
       description: "Begin your day with yoga and guided meditation in a peaceful setting",
     },
