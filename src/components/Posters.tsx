@@ -9,8 +9,8 @@ const samplePosters = [
   },
   {
     id: 2,
-    image: "/assets/GCM.jpg",
-    title: "Great Compassion Mantra Recitation Program",
+    image: "/assets/saturday_events.jpg",
+    title: "Saturday events",
   },
   {
     id: 3,
@@ -31,6 +31,11 @@ const samplePosters = [
     id: 6,
     image: "/assets/GuanYin-Hall-Sponsorship.jpg",
     title: "Sponsorship for GuanYin Hall",
+  },
+  {
+    id: 7,
+    image: "/assets/GCM.jpg",
+    title: "Great Compassion Mantra Recitation Program",
   },
 ];
 

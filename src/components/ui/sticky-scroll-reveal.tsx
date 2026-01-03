@@ -1,14 +1,6 @@
 "use client";
-import React, { useEffect, useRef, useCallback } from "react";
+import React, { useEffect, useRef, useState, useCallback } from "react";
 import { cn } from "./utils";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useGSAP } from "@gsap/react";
-
-// Register GSAP plugins
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger);
-}
 
 export interface StickyScrollContent {
   title: string;
@@ -23,196 +15,260 @@ export const StickyScroll = ({
   content: StickyScrollContent[];
   contentClassName?: string;
 }) => {
-  const scrollRevealRef = useRef<HTMLDivElement>(null);
-  const imageTrackRef = useRef<HTMLDivElement>(null);
-  const textSectionsRef = useRef<HTMLDivElement>(null);
-  const triggersRef = useRef<ScrollTrigger[]>([]);
-  const currentImageIndexRef = useRef<number>(0);
-  const imageSlideRefs = useRef<(HTMLDivElement | null)[]>(new Array(content.length).fill(null));
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
+  const [stickyState, setStickyState] = useState<"before" | "sticky" | "after">("before");
 
-  // Check if desktop layout
-  const isDesktop = () => typeof window !== "undefined" && window.innerWidth >= 768;
+  const sectionRef = useRef<HTMLElement>(null);
+  const imageContainerRef = useRef<HTMLDivElement>(null);
+  const imageWrapperRef = useRef<HTMLDivElement>(null);
+  const textPanelsRef = useRef<(HTMLDivElement | null)[]>([]);
 
-  // Check if mobile (not tablet) - typically < 640px for mobile, 640-768px is tablet
-  const isMobile = () => typeof window !== "undefined" && window.innerWidth < 640;
+  const checkMobile = useCallback(() => {
+    return typeof window !== "undefined" && window.innerWidth <= 768;
+  }, []);
 
-  // Animate to specific image based on section index
-  const animateToImage = useCallback(
-    (index: number) => {
-      if (!imageTrackRef.current) return;
-
-      const track = imageTrackRef.current;
-      const percentPerImage = 100 / content.length;
-
-      // Animate track position (like the reference implementation)
-      if (isDesktop()) {
-        // Desktop: vertical movement (yPercent)
-        gsap.to(track, {
-          yPercent: -percentPerImage * index,
-          xPercent: 0,
-          duration: 0.5,
-          ease: "power2.out",
-        });
-      } else {
-        // Mobile: horizontal movement (xPercent)
-        gsap.to(track, {
-          xPercent: -percentPerImage * index,
-          yPercent: 0,
-          duration: 0.5,
-          ease: "power2.out",
-        });
-      }
-
-      currentImageIndexRef.current = index;
-    },
-    [content.length]
-  );
-
-  // Setup scroll triggers for each section
-  const setupScrollTriggers = useCallback(() => {
-    if (!textSectionsRef.current || !imageTrackRef.current || !scrollRevealRef.current) return;
-
-    // Clear existing triggers
-    triggersRef.current.forEach((trigger) => trigger.kill());
-    triggersRef.current = [];
-
-    // Pin the image container using GSAP ScrollTrigger (more reliable than CSS sticky)
-    const imageContainer = scrollRevealRef.current.querySelector(".image-container") as HTMLElement;
-    if (imageContainer) {
-      // On mobile, account for navigation bar height (80px = h-20)
-      const navBarHeight = isMobile() ? 80 : 0;
-      const startPosition = navBarHeight > 0 ? `top ${navBarHeight}px` : "top top";
-
-      // End pinning when the text sections container's bottom reaches the bottom of the viewport
-      // This allows the image to scroll away with the text after all sections have passed
-      // Use endTrigger with text sections container for reliable calculation
-      const pinTrigger = ScrollTrigger.create({
-        trigger: scrollRevealRef.current,
-        start: startPosition,
-        endTrigger: textSectionsRef.current,
-        end: "bottom bottom",
-        pin: imageContainer,
-        pinSpacing: false, // Don't add spacing since we're handling layout manually
-        markers: false,
-        invalidateOnRefresh: true, // Recalculate on refresh
-      });
-      triggersRef.current.push(pinTrigger);
-    }
-
-    const sections = textSectionsRef.current.querySelectorAll(".text-section");
-
-    sections.forEach((section, index) => {
-      const trigger = ScrollTrigger.create({
-        trigger: section as HTMLElement,
-        start: "top 50%",
-        end: "bottom 50%",
-        onEnter: () => {
-          animateToImage(index);
-        },
-        onEnterBack: () => {
-          animateToImage(index);
-        },
-        markers: false, // Set to true for debugging
-      });
-      triggersRef.current.push(trigger);
-    });
-  }, [animateToImage]);
-
-  useGSAP(
-    () => {
-      setupScrollTriggers();
-      ScrollTrigger.refresh();
-
-      // Cleanup on unmount
-      return () => {
-        triggersRef.current.forEach((trigger) => trigger.kill());
-        triggersRef.current = [];
-      };
-    },
-    { scope: scrollRevealRef, dependencies: [content.length] }
-  );
-
-  // Handle resize
+  // Handle scroll to determine sticky state and active panel
   useEffect(() => {
-    let resizeTimeout: NodeJS.Timeout;
+    const mobile = checkMobile();
+    setIsMobile(mobile);
 
     const handleResize = () => {
-      clearTimeout(resizeTimeout);
-      resizeTimeout = setTimeout(() => {
-        if (imageTrackRef.current) {
-          // Reset position
-          gsap.set(imageTrackRef.current, { xPercent: 0, yPercent: 0 });
-        }
-        setupScrollTriggers();
-        ScrollTrigger.refresh();
-      }, 250);
+      setIsMobile(checkMobile());
     };
 
-    window.addEventListener("resize", handleResize);
-    return () => {
-      window.removeEventListener("resize", handleResize);
-      clearTimeout(resizeTimeout);
+    const handleScroll = () => {
+      if (!sectionRef.current || !imageContainerRef.current) return;
+
+      const section = sectionRef.current;
+      const sectionRect = section.getBoundingClientRect();
+      const navHeight = 80;
+      const viewportHeight = window.innerHeight;
+      const imageHeight = mobile ? viewportHeight * 0.45 : viewportHeight;
+
+      // Calculate sticky state based on section position
+      if (sectionRect.top > navHeight) {
+        // Section hasn't reached top yet
+        setStickyState("before");
+      } else if (sectionRect.bottom < imageHeight + navHeight) {
+        // Section has scrolled past
+        setStickyState("after");
+      } else {
+        // Section is in sticky range
+        setStickyState("sticky");
+      }
+
+      // Calculate active panel based on text panel positions
+      const triggerPoint = mobile ? navHeight + viewportHeight * 0.45 : viewportHeight / 2;
+
+      let newActiveIndex = 0;
+      textPanelsRef.current.forEach((panel, index) => {
+        if (!panel) return;
+        const rect = panel.getBoundingClientRect();
+        if (rect.top <= triggerPoint) {
+          newActiveIndex = index;
+        }
+      });
+
+      if (newActiveIndex !== activeIndex) {
+        setActiveIndex(newActiveIndex);
+      }
     };
-  }, [setupScrollTriggers]);
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    window.addEventListener("resize", handleResize);
+
+    // Initial calculation
+    handleScroll();
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [activeIndex, checkMobile]);
+
+  // Update image wrapper transform when activeIndex changes
+  useEffect(() => {
+    if (!imageWrapperRef.current) return;
+
+    if (isMobile) {
+      const translateX = -activeIndex * (100 / content.length);
+      imageWrapperRef.current.style.transform = `translateX(${translateX}%)`;
+    } else {
+      const translateY = -activeIndex * 100;
+      imageWrapperRef.current.style.transform = `translateY(${translateY}vh)`;
+    }
+  }, [activeIndex, isMobile, content.length]);
+
+  // Calculate image container style based on sticky state
+  const getImageContainerStyle = (): React.CSSProperties => {
+    const baseStyle: React.CSSProperties = {
+      overflow: "hidden",
+      backgroundColor: "#1c1917", // Match navbar background (stone-900)
+      zIndex: 10,
+    };
+
+    if (isMobile) {
+      return {
+        ...baseStyle,
+        position: stickyState === "sticky" ? "fixed" : "absolute",
+        top: stickyState === "sticky" ? "80px" : stickyState === "before" ? "0" : "auto",
+        bottom: stickyState === "after" ? "0" : "auto",
+        left: 0,
+        right: 0,
+        height: "45vh",
+        width: "100%",
+      };
+    } else {
+      return {
+        ...baseStyle,
+        position: stickyState === "sticky" ? "fixed" : "absolute",
+        top: stickyState === "sticky" ? "0" : stickyState === "before" ? "0" : "auto",
+        bottom: stickyState === "after" ? "0" : "auto",
+        right: 0,
+        height: "100vh",
+        width: "50%",
+      };
+    }
+  };
 
   return (
-    <div
-      ref={scrollRevealRef}
-      className="scroll-reveal relative flex flex-col lg:flex-row"
+    <section
+      ref={sectionRef}
+      className="sticky-section relative"
       style={{
-        position: "relative",
-        overflow: "visible",
-        minHeight: "100vh", // Ensure container has enough height for sticky
+        display: "flex",
+        flexDirection: isMobile ? "column" : "row",
       }}
     >
-      {/* Sticky image container - top on mobile, right side on desktop */}
+      {/* Text Panels Container */}
       <div
-        className={cn(
-          "image-container w-full lg:w-1/2 h-[40vh] lg:h-screen overflow-hidden bg-[#111] z-10 order-1 lg:order-2",
-          contentClassName
-        )}
+        className="sticky-section__text-container relative z-[2]"
         style={{
-          // Remove CSS sticky - using GSAP pin instead
-          alignSelf: "flex-start", // Important for flex containers
+          width: isMobile ? "100%" : "50%",
+          order: isMobile ? 2 : 1,
+          paddingTop: isMobile ? "45vh" : 0,
         }}
-      >
-        <div
-          ref={imageTrackRef}
-          className="image-track flex flex-row lg:flex-col w-[300%] lg:w-full h-full lg:h-[300%]"
-        >
-          {content.map((item, index) => (
-            <div
-              key={`image-${index}`}
-              ref={(el) => {
-                imageSlideRefs.current[index] = el;
-              }}
-              className="image-slide w-1/3 lg:w-full h-full lg:h-1/3 flex-shrink-0 flex items-center justify-center"
-            >
-              <div className="h-full w-full flex items-center justify-center bg-black">
-                {item.content ?? null}
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Scrollable text sections - below image on mobile, left side on desktop */}
-      <div
-        ref={textSectionsRef}
-        className="text-sections relative z-[5] w-full lg:w-1/2 order-2 lg:order-1"
       >
         {content.map((item, index) => (
           <div
             key={`text-${index}`}
-            className="text-section min-h-[55vh] lg:min-h-screen py-8 px-6 lg:py-16 lg:px-12 flex flex-col justify-center border-b border-[#222] bg-black"
+            ref={(el) => {
+              textPanelsRef.current[index] = el;
+            }}
+            data-index={index}
+            className={cn(
+              "sticky-section__text-panel relative flex flex-col justify-center",
+              "min-h-[50vh] md:min-h-screen py-10 px-6 md:py-16 md:px-12 lg:px-16 pt-12",
+              index === content.length - 1 && "pb-24 md:pb-16"
+            )}
           >
-            <h2 className="text-2xl lg:text-4xl font-bold text-white mb-6">{item.title}</h2>
-            <p className="text-base lg:text-lg leading-relaxed text-[#aaa] mb-4">
+            {/* Active indicator bar (desktop only) */}
+            <div
+              className={cn(
+                "absolute left-8 top-1/2 -translate-y-1/2 w-[3px] bg-[#e8c547] transition-all duration-500 ease-out",
+                "hidden md:block",
+                activeIndex === index ? "h-20 opacity-100" : "h-0 opacity-0"
+              )}
+            />
+
+            {/* Section number */}
+            <span
+              className={cn(
+                "font-serif text-sm tracking-widest text-[#e8c547] mb-4",
+                "transition-opacity duration-400 ease-out",
+                activeIndex === index ? "opacity-100" : "opacity-60"
+              )}
+            >
+              {String(index + 1).padStart(2, "0")}
+            </span>
+
+            {/* Title */}
+            <h2
+              className={cn(
+                "font-serif text-3xl md:text-4xl lg:text-5xl font-semibold leading-tight tracking-tight text-white mb-6",
+                "transition-all duration-500 ease-out",
+                activeIndex === index ? "opacity-100 translate-x-0" : "opacity-30 -translate-x-5"
+              )}
+            >
+              {item.title}
+            </h2>
+
+            {/* Description */}
+            <p
+              className={cn(
+                "text-base md:text-lg font-light leading-relaxed text-[#888]",
+                "transition-all duration-500 ease-out delay-100",
+                activeIndex === index ? "opacity-100 translate-x-0" : "opacity-30 -translate-x-5"
+              )}
+            >
               {item.description}
             </p>
           </div>
         ))}
       </div>
-    </div>
+
+      {/* Image Container - uses JS-controlled positioning */}
+      <div
+        ref={imageContainerRef}
+        className={cn("sticky-section__image-container", contentClassName)}
+        style={getImageContainerStyle()}
+      >
+        <div
+          ref={imageWrapperRef}
+          className="sticky-section__image-wrapper absolute inset-0 transition-transform duration-700 ease-[cubic-bezier(0.4,0,0.2,1)]"
+          style={{
+            display: "flex",
+            flexDirection: isMobile ? "row" : "column",
+            width: isMobile ? `${100 * content.length}%` : "100%",
+          }}
+        >
+          {content.map((item, index) => (
+            <div
+              key={`image-${index}`}
+              data-index={index}
+              className="sticky-section__image relative overflow-hidden flex-shrink-0"
+              style={{
+                width: isMobile ? `${100 / content.length}%` : "100%",
+                height: isMobile ? "100%" : "100vh",
+              }}
+            >
+              {/* Image content with zoom effect */}
+              <div
+                className={cn(
+                  "w-full h-full transition-transform duration-1000 ease-out",
+                  activeIndex === index ? "scale-100" : "scale-110"
+                )}
+              >
+                {item.content ?? null}
+              </div>
+
+              {/* Gradient overlay */}
+              <div className="absolute inset-0 bg-gradient-to-br from-[rgba(10,10,10,0.3)] via-transparent to-transparent pointer-events-none" />
+
+              {/* Large number overlay */}
+              <span className="absolute bottom-6 right-6 md:bottom-12 md:right-12 font-serif text-6xl md:text-8xl font-bold text-white/[0.08] leading-none pointer-events-none">
+                {String(index + 1).padStart(2, "0")}
+              </span>
+            </div>
+          ))}
+        </div>
+
+        {/* Mobile Progress Dots */}
+        {isMobile && (
+          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-10">
+            {content.map((_, index) => (
+              <div
+                key={`dot-${index}`}
+                className={cn(
+                  "w-2 h-2 rounded-full transition-all duration-300",
+                  activeIndex === index ? "bg-[#e8c547] scale-125" : "bg-white/30"
+                )}
+              />
+            ))}
+          </div>
+        )}
+      </div>
+    </section>
   );
 };
