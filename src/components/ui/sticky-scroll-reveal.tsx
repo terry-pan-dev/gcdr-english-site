@@ -178,15 +178,38 @@ export const StickyScroll = ({
       >
         <div
           ref={imageTrackRef}
-          className="image-track flex flex-row lg:flex-col w-[300%] lg:w-full h-full lg:h-[300%]"
+          className="image-track flex flex-row lg:flex-col h-full lg:h-auto"
+          style={
+            {
+              "--item-count": content.length,
+              "--track-size": `${content.length * 100}%`,
+              "--item-size": `${100 / content.length}%`,
+              width: "var(--track-size)",
+            } as React.CSSProperties
+          }
         >
+          <style>{`
+            @media (min-width: 1024px) {
+              .image-track {
+                width: 100% !important;
+                height: var(--track-size) !important;
+              }
+              .image-slide {
+                width: 100% !important;
+                height: var(--item-size) !important;
+              }
+            }
+          `}</style>
           {content.map((item, index) => (
             <div
               key={`image-${index}`}
               ref={(el) => {
                 imageSlideRefs.current[index] = el;
               }}
-              className="image-slide w-1/3 lg:w-full h-full lg:h-1/3 flex-shrink-0 flex items-center justify-center"
+              className="image-slide h-full flex-shrink-0 flex items-center justify-center"
+              style={{
+                width: `${100 / content.length}%`,
+              }}
             >
               <div className="h-full w-full flex items-center justify-center bg-black">
                 {item.content ?? null}
