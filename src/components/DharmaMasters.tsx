@@ -16,7 +16,7 @@ const dharmaMastersContent: StickyScrollContent[] = [
     description:
       "Rev. Heng Sure was ordained as a Buddhist monk in 1976. For the sake of world peace, he undertook an over six-hundred-mile pilgrimage from South Pasadena to Ukiah, repeatedly taking three steps and one bow to cover the entire journey. In the entire two years taken to make the pilgrimage, he observed a practice of total silence. Rev. Heng Sure has an M.A. in Oriental Languages from UC Berkeley, and a Ph.D. from the Graduate Theological Union in Berkeley. He serves as the Managing Director of the Berkeley Buddhist Monastery and teaches on the staff at the Institute for World Religions. He lectures on the Avatamsaka Sūtra at the Berkeley Monastery every Saturday evening. He is actively involved in interfaith dialogue and in the ongoing conversation between spirituality and technology.",
     content: (
-      <div className="flex h-full w-full items-center justify-center bg-black">
+      <div className="flex h-full w-full items-center justify-center bg-[#1c1917]">
         <picture>
           <source
             media="(max-width: 639px)"
@@ -29,7 +29,7 @@ const dharmaMastersContent: StickyScrollContent[] = [
           <img
             src={typeof RevHengSureImg === "string" ? RevHengSureImg : RevHengSureImg.src}
             alt="Reverend Heng Sure"
-            className="h-full w-full object-contain"
+            className="h-full w-full object-fit"
           />
         </picture>
       </div>
@@ -40,7 +40,7 @@ const dharmaMastersContent: StickyScrollContent[] = [
     description:
       "Dharma Master Heng Chih has been a Buddhist nun in the Mahayana tradition for 46 years. She was among the first Americans ordained under the guidance of the late Venerable Master Hsuan Hua, founder of the City of Ten Thousand Buddhas. Ordained in 1969, she later earned a Ph.D. in Translation and became a founding member of the Buddhist Text Translation Society. Dharma Master Heng Chih served as Assistant Professor of Buddhist Philosophy at Bond University in Australia until her retirement in 2013 and is now Professor Emerita at Dharma Realm Buddhist University. Her lifelong work focuses on teaching, translating Mahayana texts, and promoting authentic practice and monastic training across DRBA monasteries worldwide.",
     content: (
-      <div className="flex h-full w-full items-center justify-center bg-black">
+      <div className="flex h-full w-full items-center justify-center bg-[#1c1917]">
         <picture>
           <source
             media="(max-width: 639px)"
@@ -62,7 +62,7 @@ const dharmaMastersContent: StickyScrollContent[] = [
     description:
       "Dharma Master Heng Lai met Venerable Master Hsuan Hua in 1969 and received full ordination as a Buddhist monk in 1976 at the City of Ten Thousand Buddhas (CTTB). Before ordination, he served in the US Navy on an aircraft carrier and later worked on a research vessel for the oceanography department. A senior disciple of Venerable Master Hsuan Hua, Dharma Master Heng Lai founded Snow Mountain Monastery in Washington State and has dedicated his life to Chan meditation and community practice. He has completed three periods of seven-day fasting during meditation retreats, with the third lasting 36 days. Known for his deep devotion and storytelling, he often shares insights from his cultivation journey and encourages practitioners to uphold precepts and samadhi as the foundation for wisdom.",
     content: (
-      <div className="flex h-full w-full items-center justify-center bg-black">
+      <div className="flex h-full w-full items-center justify-center bg-[#1c1917]">
         <picture>
           <source
             media="(max-width: 639px)"
@@ -84,7 +84,7 @@ const dharmaMastersContent: StickyScrollContent[] = [
     description:
       "Dharma Master Jin Fu serves as the Monastic Director of Gold Coast Dharma Realm (Queensland). Alongside her monastic responsibilities, she currently offers lectures on the lines and phrases of the Shurangama Mantra and the Prologue of the Avatamsaka Sutra at GCDR. An accomplished editor, she has compiled and refined numerous publications for the Buddhist Text Translation Society (BTTS). At present, she is working on a comprehensive chronicle—a year-by-year record of Venerable Master Hsuan Hua's life and teachings.",
     content: (
-      <div className="flex h-full w-full items-center justify-center bg-black">
+      <div className="flex h-full w-full items-center justify-center bg-[#1c1917]">
         <picture>
           <source
             media="(max-width: 639px)"
