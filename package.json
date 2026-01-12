@@ -116,7 +116,6 @@
     "typecheck": "astro check && tsc --noEmit",
     "ci": "pnpm run lint && pnpm run format:check && pnpm run typecheck && pnpm run test && pnpm run build",
     "deploy": "sst deploy --stage $ENV",
-    "deploy:prod": "sst deploy --stage production",
     "prepare": "husky"
   }
 }
