@@ -177,6 +177,7 @@ jobs:
       - name: Deploy to Sirius
         id: deploy
         run: |
+          export PATH="${{ github.workspace }}/node_modules/.bin:$PATH"
           set +e
           DEPLOY_OUTPUT=$(pnpm run deploy 2>&1)
           EXIT_CODE=$?
@@ -194,7 +195,6 @@ jobs:
           echo "url=$URL" >> $GITHUB_OUTPUT
         env:
           ENV: sirius
-          PATH: ${{ github.workspace }}/node_modules/.bin:${{ env.PATH }}
 
   # Deploy to Production: push to main or manual dispatch with production
   deploy-production:
@@ -233,6 +233,7 @@ jobs:
       - name: Deploy to Production
         id: deploy
         run: |
+          export PATH="${{ github.workspace }}/node_modules/.bin:$PATH"
           set +e
           DEPLOY_OUTPUT=$(pnpm run deploy 2>&1)
           EXIT_CODE=$?
@@ -250,4 +251,3 @@ jobs:
           echo "url=$URL" >> $GITHUB_OUTPUT
         env:
           ENV: production
-          PATH: ${{ github.workspace }}/node_modules/.bin:${{ env.PATH }}
