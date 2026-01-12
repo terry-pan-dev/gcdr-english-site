@@ -174,11 +174,6 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.AWS_REGION }}
 
-      - name: Remove system Pulumi (SST uses bundled version)
-        run: |
-          sudo rm -f /usr/local/bin/pulumi*
-          sudo rm -rf /home/runner/.pulumi
-
       - name: Deploy to Sirius
         id: deploy
         run: |
@@ -199,6 +194,7 @@ jobs:
           echo "url=$URL" >> $GITHUB_OUTPUT
         env:
           ENV: sirius
+          PATH: ${{ github.workspace }}/node_modules/.bin:${{ env.PATH }}
 
   # Deploy to Production: push to main or manual dispatch with production
   deploy-production:
@@ -234,11 +230,6 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY_PRODUCTION }}
           aws-region: ${{ env.AWS_REGION }}
 
-      - name: Remove system Pulumi (SST uses bundled version)
-        run: |
-          sudo rm -f /usr/local/bin/pulumi*
-          sudo rm -rf /home/runner/.pulumi
-
       - name: Deploy to Production
         id: deploy
         run: |
@@ -259,3 +250,4 @@ jobs:
           echo "url=$URL" >> $GITHUB_OUTPUT
         env:
           ENV: production
+          PATH: ${{ github.workspace }}/node_modules/.bin:${{ env.PATH }}
