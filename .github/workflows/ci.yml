@@ -177,8 +177,13 @@ jobs:
       - name: Deploy to Sirius
         id: deploy
         run: |
+          set +e
           DEPLOY_OUTPUT=$(pnpm run deploy 2>&1)
+          EXIT_CODE=$?
           echo "$DEPLOY_OUTPUT"
+          if [ $EXIT_CODE -ne 0 ]; then
+            exit $EXIT_CODE
+          fi
           URL=$(echo "$DEPLOY_OUTPUT" | grep -E "astro:\s*https?://" | sed -E 's/.*astro:\s*(https?:\/\/[^\s]+).*/\1/' | head -1)
           if [ -z "$URL" ]; then
             URL=$(echo "$DEPLOY_OUTPUT" | grep -oE "https?://[a-z0-9-]+\.cloudfront\.net[^\s]*" | head -1)
@@ -227,8 +232,13 @@ jobs:
       - name: Deploy to Production
         id: deploy
         run: |
+          set +e
           DEPLOY_OUTPUT=$(pnpm run deploy 2>&1)
+          EXIT_CODE=$?
           echo "$DEPLOY_OUTPUT"
+          if [ $EXIT_CODE -ne 0 ]; then
+            exit $EXIT_CODE
+          fi
           URL=$(echo "$DEPLOY_OUTPUT" | grep -E "astro:\s*https?://" | sed -E 's/.*astro:\s*(https?:\/\/[^\s]+).*/\1/' | head -1)
           if [ -z "$URL" ]; then
             URL=$(echo "$DEPLOY_OUTPUT" | grep -oE "https?://[a-z0-9-]+\.cloudfront\.net[^\s]*" | head -1)
