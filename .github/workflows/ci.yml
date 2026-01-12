@@ -177,11 +177,18 @@ jobs:
       - name: Deploy to Sirius
         id: deploy
         run: |
-          export PATH="${{ github.workspace }}/node_modules/.bin:$PATH"
+          # Hide system Pulumi by renaming it temporarily (SST uses bundled version)
+          if [ -f /usr/local/bin/pulumi-language-nodejs ]; then
+            sudo mv /usr/local/bin/pulumi-language-nodejs /usr/local/bin/pulumi-language-nodejs.bak
+          fi
           set +e
           DEPLOY_OUTPUT=$(pnpm run deploy 2>&1)
           EXIT_CODE=$?
           echo "$DEPLOY_OUTPUT"
+          # Restore system Pulumi
+          if [ -f /usr/local/bin/pulumi-language-nodejs.bak ]; then
+            sudo mv /usr/local/bin/pulumi-language-nodejs.bak /usr/local/bin/pulumi-language-nodejs
+          fi
           if [ $EXIT_CODE -ne 0 ]; then
             exit $EXIT_CODE
           fi
@@ -233,11 +240,18 @@ jobs:
       - name: Deploy to Production
         id: deploy
         run: |
-          export PATH="${{ github.workspace }}/node_modules/.bin:$PATH"
+          # Hide system Pulumi by renaming it temporarily (SST uses bundled version)
+          if [ -f /usr/local/bin/pulumi-language-nodejs ]; then
+            sudo mv /usr/local/bin/pulumi-language-nodejs /usr/local/bin/pulumi-language-nodejs.bak
+          fi
           set +e
           DEPLOY_OUTPUT=$(pnpm run deploy 2>&1)
           EXIT_CODE=$?
           echo "$DEPLOY_OUTPUT"
+          # Restore system Pulumi
+          if [ -f /usr/local/bin/pulumi-language-nodejs.bak ]; then
+            sudo mv /usr/local/bin/pulumi-language-nodejs.bak /usr/local/bin/pulumi-language-nodejs
+          fi
           if [ $EXIT_CODE -ne 0 ]; then
             exit $EXIT_CODE
           fi
