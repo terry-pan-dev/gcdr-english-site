@@ -1,0 +1,17 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { TheMainHallPage } from "../../components/buildings/pages/TheMainHallPage";
+
+const title = "The Main Hall of GCDR - Gold Coast Dharma Realm";
+const description =
+  "The main hall is the heart of the temple, where ceremonies, teachings, and meditation practices take place.";
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  image="/assets/buildings/the-main-hall-of-gcdr/main_hall_1.jpg"
+  theme="light"
+>
+  <TheMainHallPage client:load />
+</BaseLayout>
