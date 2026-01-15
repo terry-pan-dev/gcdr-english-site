@@ -340,6 +340,162 @@ export function GCDRPage() {
           </div>
         </div>
       </section>
+
+      {/* Temple Buildings Section */}
+      <section className="py-24 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-4xl md:text-5xl font-light mb-6 text-[#c9a050] tracking-wide">
+              Architecture of Gold Coast Dharma Realm
+            </h2>
+            <p className="text-xl font-light text-stone-400 max-w-6xl mx-auto  text-left">
+              The land where Gold Coast Dharma Realm is located was once an orchid nursery. Donated
+              to the Dharma Realm Buddhist Association in 1995, it has been developed step by step.
+              The first phase of construction began in 2016, involving the building of the main hall
+              of Lengyan Holy Temple, which was completed the following year. Later, a corridor
+              connecting the old dining hall and the main hall was constructed. The second phase of
+              construction started in 2020, including the building of the front and rear gates, the
+              mountain gate, a new dining hall, a book store, a circular corridor, and the Vajra
+              Relic Pagoda, among other structures, and was completed in 2022. The third phase of
+              construction is now in the planning stage, which includes the Guanyin Hall and other
+              facilities.
+            </p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {[
+              {
+                slug: "the-main-hall-of-gcdr",
+                name: "The Main Hall of GCDR",
+                //nameChinese: "大殿",
+                description:
+                  " The building adopts a steel–timber hybrid structure, with translucent side elevations and a roof clad in Asuka tiles. Enshrined within the hall are three bronze statues of the Avataṃsaka Three Sages: Vairocana Buddha at the center, Mañjuśrī Bodhisattva on the left, and Samantabhadra Bodhisattva on the right. T",
+                image:
+                  "/assets/buildings/the-main-hall-of-gcdr/751-Dharma-Realm-Temple-42-edited.jpg.webp",
+              },
+
+              {
+                slug: "pagoda",
+                name: "Pagoda",
+                //nameChinese: "舍利塔",
+                description:
+                  'The pagoda is a symbol of Buddhism, originating in India. Its Sanskrit name, "Stupa," means a high and prominent place, used for enshrining relics.',
+                image: "/assets/buildings/pagoda/she_li_ta_1.jpg.webp",
+              },
+              {
+                slug: "wisdom-palace",
+                name: "Manjushri Hall",
+                // nameChinese: "文殊殿",
+                description:
+                  "The building housing Manjushri Hall is the oldest structure at Gold Coast Dharma Realm.",
+                image: "/assets/buildings/wisdom-palace/image_4.jpg",
+              },
+              {
+                slug: "dinning-room",
+                name: "The Five Contemplations Hall",
+                //nameChinese: "五观堂",
+                description:
+                  "The Five Contemplations Hall is the place where the monastic community eats in a Buddhist temple.",
+                image: "/assets/buildings/dinning-room/五观堂-2048x1536.jpg.webp",
+              },
+              {
+                slug: "lotus-pool",
+                name: "Lotus Pool",
+                //nameChinese: "莲花池",
+                description:
+                  "The Lotus Pool has been completed, but items such as Buddhist altars and interior furnishings are still needed. ",
+                image: "/assets/buildings/lotus-pool/WeChat-Screenshot_20220601121508.png.webp",
+              },
+              {
+                slug: "main-gate",
+                name: "Main Gate",
+                // nameChinese: "山门",
+                description:
+                  "The inner mountain gate of Gold Coast Dharma Realm has a distinctive design. Its semicircular arch combines elegance and modernity,",
+                image: "/assets/buildings/main-gate/gate_1-scaled.jpg",
+              },
+              {
+                slug: "outergate",
+                name: "Outer Gate",
+                // nameChinese: "外山门",
+                description:
+                  "On the left side of the outer mountain gate is a stone wall carved with the complete text of the Prajñāpāramitā Heart Sūtra, incised and gilded. The calligraphy is free-flowing and graceful, written in the style of Zhao Mengfu of the Yuan dynasty.",
+                image: "/assets/buildings/outergate/rsz_外山门.png.webp",
+              },
+            ].map((building, index) => (
+              <motion.a
+                key={building.slug}
+                href={`/buildings/${building.slug}`}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                className="group flex flex-col gap-4 p-6 shadow-lg hover:shadow-xl border-2 cursor-pointer block rounded-lg bg-[#2a2522]/50 hover:bg-[#2a2522]/70 transition-all"
+                style={{
+                  borderColor: "#c9a050",
+                  textDecoration: "none",
+                }}
+              >
+                {/* Image */}
+                <div
+                  className="relative overflow-hidden rounded-lg"
+                  style={{ border: "2px solid #c9a050" }}
+                >
+                  <img
+                    src={building.image}
+                    alt={building.name}
+                    className="w-full h-48 sm:h-64 object-cover transition-transform duration-300 group-hover:scale-105"
+                  />
+                  {/* Corner Decorations */}
+                  <div
+                    className="absolute top-2 left-2 w-6 h-6 border-t-2 border-l-2"
+                    style={{ borderColor: "#c9a050" }}
+                  />
+                  <div
+                    className="absolute top-2 right-2 w-6 h-6 border-t-2 border-r-2"
+                    style={{ borderColor: "#c9a050" }}
+                  />
+                  <div
+                    className="absolute bottom-2 left-2 w-6 h-6 border-b-2 border-l-2"
+                    style={{ borderColor: "#c9a050" }}
+                  />
+                  <div
+                    className="absolute bottom-2 right-2 w-6 h-6 border-b-2 border-r-2"
+                    style={{ borderColor: "#c9a050" }}
+                  />
+                </div>
+
+                {/* Content */}
+                <div className="flex flex-col justify-start">
+                  <h3 className="font-serif mb-2 text-2xl sm:text-3xl text-[#EBE9CF]">
+                    {building.name}
+                  </h3>
+                  {/* {building.nameChinese && (
+                    <p className="text-stone-400 mb-2 text-lg">{building.nameChinese}</p>
+                  )} */}
+                  <p className="text-stone-300 mb-4 text-sm sm:text-base line-clamp-3">
+                    {building.description}
+                  </p>
+
+                  <div
+                    className="inline-flex items-center gap-2 text-sm sm:text-base transition-all group-hover:gap-3"
+                    style={{ color: "#c9a050" }}
+                  >
+                    Learn More
+                    <span className="transition-transform group-hover:translate-x-1">&rarr;</span>
+                  </div>
+                </div>
+              </motion.a>
+            ))}
+          </div>
+        </div>
+      </section>
     </div>
   );
 }
