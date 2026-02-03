@@ -2,38 +2,69 @@ import { ImageWithFallback } from "./figma/ImageWithFallback";
 import Masonry from "react-responsive-masonry";
 
 const samplePosters = [
+  // {
+  //   id: 1,
+  //   image: "/assets/shirangama.jpg",
+  //   title: "Shurangama Dharma Retreat",
+  // },
+
   {
     id: 1,
-    image: "/assets/shirangama.jpg",
-    title: "Shurangama Dharma Retreat",
+    image: "/assets/3_LunarNewYearBlessingCeremony.jpg",
+    title: "Lunar New Year Blessing Ceremony",
   },
+
   {
     id: 2,
-    image: "/assets/saturday_events.jpg",
-    title: "Saturday events",
+    image: "/assets/2_NewSundayClasses.jpg",
+    title: "Sunday Classes: Calligraphy & Chinese Culture",
   },
+
   {
     id: 3,
+    image: "/assets/4_RecitationAidTeamMonthly.jpg",
+    title: "Recitation Aid Team monthly online layperson",
+  },
+
+  {
+    id: 4,
+    image: "/assets/1_2026Events.jpg",
+    title: "2026 Events",
+  },
+
+  {
+    id: 5,
+    image: "/assets/5_PlaqueRegistration.jpg",
+    title: "Plaque Registration",
+  },
+
+  {
+    id: 6,
+    image: "/assets/saturday_events.jpg",
+    title: "Saturday Events",
+  },
+  {
+    id: 7,
     image: "/assets/yoga.jpg",
     title: "Yoga & Meditation",
   },
   {
-    id: 4,
+    id: 8,
     image: "/assets/Volunteer-Team.jpg",
     title: "Volunteer Team",
   },
   {
-    id: 5,
+    id: 9,
     image: "/assets/Saturday-Lecture.jpg",
     title: "Saturday Lecture",
   },
   {
-    id: 6,
+    id: 10,
     image: "/assets/GuanYin-Hall-Sponsorship.jpg",
     title: "Sponsorship for GuanYin Hall",
   },
   {
-    id: 7,
+    id: 11,
     image: "/assets/GCM.jpg",
     title: "Great Compassion Mantra Recitation Program",
   },
