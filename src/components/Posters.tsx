@@ -28,7 +28,7 @@ const samplePosters = [
 
   {
     id: 4,
-    image: "/assets/1_2026Events.jpg",
+    image: "/assets/1_new_2026Events.PNG",
     title: "2026 Events",
   },
 
