@@ -10,7 +10,7 @@ const samplePosters = [
 
   {
     id: 1,
-    image: "/assets/3_LunarNewYearBlessingCeremony.jpg",
+    image: "/assets/3_CaptureLunarNewYearBlessingCeremony.jpg",
     title: "Lunar New Year Blessing Ceremony",
   },
 
