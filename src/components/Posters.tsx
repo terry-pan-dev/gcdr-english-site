@@ -89,25 +89,27 @@ export function Posters() {
       className="py-24 relative overflow-hidden"
       style={{ backgroundColor: "#78584a" }}
     >
-      {/* 全屏放大模态框 */}
+      {/* 4. 全屏放大模态框 */}
       {selectedPoster && (
         <div
-          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/85 backdrop-blur-sm cursor-zoom-out p-4"
-          onClick={closeFullscreen}
+          className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-black/85 backdrop-blur-sm cursor-zoom-out p-4"
+          onClick={closeFullscreen} // 关键：确保最外层容器绑定了关闭函数
         >
-          <div
-            className="max-w-4xl w-full relative animate-in fade-in zoom-in duration-300"
-            onClick={(e) => e.stopPropagation()}
-          >
+          <div className="max-w-4xl w-full relative animate-in fade-in zoom-in duration-300">
+            {/* 图片部分 */}
             <ImageWithFallback
               src={selectedPoster.image}
               alt={selectedPoster.title}
-              className="w-full h-auto max-h-[85vh] object-contain rounded-lg shadow-2xl border-4"
-              //style={{ borderColor: "#c9a050" }}
+              // 注意：这里不要写任何 e.stopPropagation()
+              className="mx-auto max-w-full max-h-[80vh] object-contain rounded-lg shadow-2xl border-4"
               style={{ borderColor: "transparent" }}
             />
-            <h3 className="text-[#EBE9CF] text-center mt-4 text-2xl">{selectedPoster.title}</h3>
-            <p className="text-[#EBE9CF]/60 text-center text-sm mt-2">Click anywhere to close</p>
+
+            {/* 文字部分 */}
+            <div className="text-center mt-6">
+              <h3 className="text-[#EBE9CF] text-2xl font-medium">{selectedPoster.title}</h3>
+              <p className="text-[#EBE9CF]/60 text-sm mt-2">(Click anywhere to close)</p>
+            </div>
           </div>
         </div>
       )}
