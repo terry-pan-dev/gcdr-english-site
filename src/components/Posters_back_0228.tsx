@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
 import Masonry from "react-responsive-masonry";
 
@@ -29,7 +28,7 @@ const samplePosters = [
 
   {
     id: 4,
-    image: "/assets/2_new_2026Events.jpg",
+    image: "/assets/1_new_2026Events.PNG",
     title: "2026 Events",
   },
 
@@ -72,48 +71,12 @@ const samplePosters = [
 ];
 
 export function Posters() {
-  // 存储当前选中的海报对象
-  const [selectedPoster, setSelectedPoster] = useState<(typeof samplePosters)[0] | null>(null);
-  // 添加
-  const handlePosterClick = (poster: (typeof samplePosters)[0]) => {
-    setSelectedPoster(poster);
-  };
-  // 添加
-  const closeFullscreen = () => {
-    setSelectedPoster(null);
-  };
-
   return (
     <section
       id="posters"
       className="py-24 relative overflow-hidden"
       style={{ backgroundColor: "#78584a" }}
     >
-      {/* 4. 全屏放大模态框 */}
-      {selectedPoster && (
-        <div
-          className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-black/85 backdrop-blur-sm cursor-zoom-out p-4"
-          onClick={closeFullscreen} // 关键：确保最外层容器绑定了关闭函数
-        >
-          <div className="max-w-4xl w-full relative animate-in fade-in zoom-in duration-300">
-            {/* 图片部分 */}
-            <ImageWithFallback
-              src={selectedPoster.image}
-              alt={selectedPoster.title}
-              // 注意：这里不要写任何 e.stopPropagation()
-              className="mx-auto max-w-full max-h-[80vh] object-contain rounded-lg shadow-2xl border-4"
-              style={{ borderColor: "transparent" }}
-            />
-
-            {/* 文字部分 */}
-            <div className="text-center mt-6">
-              <h3 className="text-[#EBE9CF] text-2xl font-medium">{selectedPoster.title}</h3>
-              <p className="text-[#EBE9CF]/60 text-sm mt-2">(Click anywhere to close)</p>
-            </div>
-          </div>
-        </div>
-      )}
-
       {/* Wooden texture overlay */}
       <div className="absolute inset-0 opacity-20 mix-blend-overlay pointer-events-none">
         <div
@@ -145,11 +108,7 @@ export function Posters() {
         {/* Mobile: Single Column Grid */}
         <div className="md:hidden grid grid-cols-1 gap-8">
           {samplePosters.map((poster) => (
-            <div
-              key={poster.id}
-              className="group cursor-pointer relative mx-auto max-w-sm w-full"
-              onClick={() => handlePosterClick(poster)}
-            >
+            <div key={poster.id} className="group cursor-pointer relative mx-auto max-w-sm w-full">
               {/* Pin at the top */}
               <div
                 className="absolute -top-3 left-1/2 -translate-x-1/2 z-10 w-8 h-8 rounded-full flex items-center justify-center shadow-lg"
@@ -207,11 +166,7 @@ export function Posters() {
         <div className="hidden md:block lg:hidden">
           <Masonry columnsCount={2} gutter="24px">
             {samplePosters.map((poster) => (
-              <div
-                key={poster.id}
-                className="group cursor-pointer relative"
-                onClick={() => handlePosterClick(poster)}
-              >
+              <div key={poster.id} className="group cursor-pointer relative">
                 {/* Pin at the top */}
                 <div
                   className="absolute -top-3 left-1/2 -translate-x-1/2 z-10 w-8 h-8 rounded-full flex items-center justify-center shadow-lg"
@@ -270,11 +225,7 @@ export function Posters() {
         <div className="hidden lg:block">
           <Masonry columnsCount={3} gutter="24px">
             {samplePosters.map((poster) => (
-              <div
-                key={poster.id}
-                className="group cursor-pointer relative"
-                onClick={() => handlePosterClick(poster)}
-              >
+              <div key={poster.id} className="group cursor-pointer relative">
                 {/* Pin at the top */}
                 <div
                   className="absolute -top-3 left-1/2 -translate-x-1/2 z-10 w-8 h-8 rounded-full flex items-center justify-center shadow-lg"
