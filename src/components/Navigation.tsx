@@ -130,6 +130,10 @@ export function Navigation() {
         },
       ],
     },
+    // {
+    //   name: "Buildings",
+    //   href: "/buildings",
+    // },
     { name: "Visit", href: "/visit" },
     { name: "Volunteering", href: "/volunteering" },
   ];
