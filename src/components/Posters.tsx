@@ -10,6 +10,12 @@ const samplePosters = [
   // },
 
   {
+    id: 0,
+    image: "/assets/0_KIDS_CAMP_04182026.jpg",
+    title: "KID CAMP",
+  },
+
+  {
     id: 1,
     image: "/assets/3_CaptureLunarNewYearBlessingCeremony.jpg",
     title: "Lunar New Year Blessing Ceremony",
