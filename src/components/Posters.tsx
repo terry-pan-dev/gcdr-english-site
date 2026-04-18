@@ -1,77 +1,88 @@
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
 import Masonry from "react-responsive-masonry";
 
-const samplePosters = [
-  // {
-  //   id: 1,
-  //   image: "/assets/shirangama.jpg",
-  //   title: "Shurangama Dharma Retreat",
-  // },
+/** 横图（含正方形）在全屏预览时相对原始像素的宽度放大倍数，并受视口宽度限制 */
+const LIGHTBOX_LANDSCAPE_SCALE = 1.65;
+/** 全屏层含 p-4 等边距时，竖图可用高度需从 100vh 减去的量（不再预留标题区） */
+const LIGHTBOX_VERTICAL_RESERVE = "2rem";
 
+const samplePosters = [
   {
-    id: 0,
+    id: 1,
     image: "/assets/0_KIDS_CAMP_04182026.jpg",
     title: "KID CAMP",
   },
 
   {
-    id: 1,
+    id: 2,
+    image: "/assets/LHBC 2026.jpeg",
+    title: "Emperor Liang Jeweled Repentance",
+  },
+
+  {
+    id: 3,
+    image: "/assets/05052026ThreeRefugesFivePrecepts.jpeg",
+    title: "Transmission of the Three refuges & Five precepts",
+  },
+
+  {
+    id: 4,
     image: "/assets/3_CaptureLunarNewYearBlessingCeremony.jpg",
     title: "Lunar New Year Blessing Ceremony",
   },
 
   {
-    id: 2,
+    id: 5,
     image: "/assets/2_NewSundayClasses.jpg",
     title: "Sunday Classes: Calligraphy & Chinese Culture",
   },
 
   {
-    id: 3,
+    id: 6,
     image: "/assets/4_RecitationAidTeamMonthly.jpg",
     title: "Recitation Aid Team monthly online layperson",
   },
 
   {
-    id: 4,
+    id: 7,
     image: "/assets/2_new_2026Events.jpg",
     title: "2026 Events",
   },
 
   {
-    id: 5,
+    id: 8,
     image: "/assets/5_PlaqueRegistration.jpg",
     title: "Plaque Registration",
   },
 
   {
-    id: 6,
+    id: 9,
     image: "/assets/saturday_events.jpg",
     title: "Saturday Events",
   },
   {
-    id: 7,
+    id: 10,
     image: "/assets/yoga.jpg",
     title: "Yoga & Meditation",
   },
   {
-    id: 8,
+    id: 11,
     image: "/assets/Volunteer-Team.jpg",
     title: "Volunteer Team",
   },
   {
-    id: 9,
+    id: 12,
     image: "/assets/Saturday-Lecture.jpg",
     title: "Saturday Lecture",
   },
   {
-    id: 10,
+    id: 13,
     image: "/assets/GuanYin-Hall-Sponsorship.jpg",
     title: "Sponsorship for GuanYin Hall",
   },
   {
-    id: 11,
+    id: 14,
     image: "/assets/GCM.jpg",
     title: "Great Compassion Mantra Recitation Program",
   },
@@ -80,13 +91,55 @@ const samplePosters = [
 export function Posters() {
   // 存储当前选中的海报对象
   const [selectedPoster, setSelectedPoster] = useState<(typeof samplePosters)[0] | null>(null);
-  // 添加
+  /** 全屏预览图加载完成后的原始宽高，用于区分竖图 / 横图并计算尺寸 */
+  const [lightboxNaturalSize, setLightboxNaturalSize] = useState<{
+    w: number;
+    h: number;
+  } | null>(null);
+
+  useEffect(() => {
+    setLightboxNaturalSize(null);
+  }, [selectedPoster?.image]);
+
+  useEffect(() => {
+    if (!selectedPoster) return;
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setSelectedPoster(null);
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [selectedPoster]);
+
+  const lightboxImageStyle = useMemo(() => {
+    if (!lightboxNaturalSize) return undefined;
+    const { w: nw, h: nh } = lightboxNaturalSize;
+    if (nh > nw) {
+      return {
+        height: `calc(100vh - ${LIGHTBOX_VERTICAL_RESERVE})`,
+        width: "auto" as const,
+        maxWidth: "min(100vw - 2rem, 100%)",
+      };
+    }
+    const vw = typeof window !== "undefined" ? window.innerWidth : 1920;
+    const scaledW = Math.min(nw * LIGHTBOX_LANDSCAPE_SCALE, vw * 0.95);
+    return {
+      width: scaledW,
+      height: "auto" as const,
+      maxWidth: "95vw",
+    };
+  }, [lightboxNaturalSize]);
+
   const handlePosterClick = (poster: (typeof samplePosters)[0]) => {
     setSelectedPoster(poster);
   };
-  // 添加
+
   const closeFullscreen = () => {
     setSelectedPoster(null);
+  };
+
+  const handleLightboxImageLoad = (e: React.SyntheticEvent<HTMLImageElement>) => {
+    const el = e.currentTarget;
+    setLightboxNaturalSize({ w: el.naturalWidth, h: el.naturalHeight });
   };
 
   return (
@@ -99,23 +152,21 @@ export function Posters() {
       {selectedPoster && (
         <div
           className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-black/85 backdrop-blur-sm cursor-zoom-out p-4"
-          onClick={closeFullscreen} // 关键：确保最外层容器绑定了关闭函数
+          onClick={closeFullscreen}
+          role="presentation"
         >
-          <div className="max-w-4xl w-full relative animate-in fade-in zoom-in duration-300">
-            {/* 图片部分 */}
+          <div className="w-full max-w-[95vw] relative animate-in fade-in zoom-in duration-300 flex flex-col items-center justify-center min-h-0">
+            {/* 仅图片：竖图高度尽量占满视口（仅扣边距）；横图按倍数放大宽度 */}
             <ImageWithFallback
               src={selectedPoster.image}
               alt={selectedPoster.title}
-              // 注意：这里不要写任何 e.stopPropagation()
-              className="mx-auto max-w-full max-h-[80vh] object-contain rounded-lg shadow-2xl border-4"
-              style={{ borderColor: "transparent" }}
+              onLoad={handleLightboxImageLoad}
+              className="mx-auto max-w-full object-contain rounded-lg shadow-2xl border-4 max-h-[calc(100vh-2rem)]"
+              style={{
+                borderColor: "transparent",
+                ...lightboxImageStyle,
+              }}
             />
-
-            {/* 文字部分 */}
-            <div className="text-center mt-6">
-              <h3 className="text-[#EBE9CF] text-2xl font-medium">{selectedPoster.title}</h3>
-              <p className="text-[#EBE9CF]/60 text-sm mt-2">(Click anywhere to close)</p>
-            </div>
           </div>
         </div>
       )}
