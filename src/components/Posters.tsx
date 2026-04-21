@@ -14,7 +14,6 @@ const samplePosters = [
     title: "2026 Events",
   },
 
-const samplePosters = [
   {
     id: 2,
     image: "/assets/LHBC 2026.jpeg",
