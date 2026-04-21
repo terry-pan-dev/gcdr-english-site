@@ -10,8 +10,8 @@ const LIGHTBOX_VERTICAL_RESERVE = "2rem";
 const samplePosters = [
   {
     id: 1,
-    image: "/assets/0_KIDS_CAMP_04182026.jpg",
-    title: "KID CAMP",
+    image: "/assets/2_new_2026Events.jpg",
+    title: "2026 Events",
   },
 
   {
@@ -28,26 +28,26 @@ const samplePosters = [
 
   {
     id: 4,
+    image: "/assets/ShurangamaMantraDharmaAssembly.png",
+    title: "Shurangama Mantra Recitation Retreat",
+  },
+
+  {
+    id: 5,
     image: "/assets/3_CaptureLunarNewYearBlessingCeremony.jpg",
     title: "Lunar New Year Blessing Ceremony",
   },
 
   {
-    id: 5,
+    id: 6,
     image: "/assets/2_NewSundayClasses.jpg",
     title: "Sunday Classes: Calligraphy & Chinese Culture",
   },
 
   {
-    id: 6,
+    id: 7,
     image: "/assets/4_RecitationAidTeamMonthly.jpg",
     title: "Recitation Aid Team monthly online layperson",
-  },
-
-  {
-    id: 7,
-    image: "/assets/2_new_2026Events.jpg",
-    title: "2026 Events",
   },
 
   {
