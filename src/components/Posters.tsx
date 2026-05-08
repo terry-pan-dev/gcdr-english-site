@@ -66,11 +66,11 @@ const samplePosters = [
     image: "/assets/yoga.jpg",
     title: "Yoga & Meditation",
   },
-  {
-    id: 11,
-    image: "/assets/Volunteer-Team.jpg",
-    title: "Volunteer Team",
-  },
+  // {
+  //   id: 11,
+  //   image: "/assets/Volunteer-Team.jpg",
+  //   title: "Volunteer Team",
+  // },
   {
     id: 12,
     image: "/assets/Saturday-Lecture.jpg",
