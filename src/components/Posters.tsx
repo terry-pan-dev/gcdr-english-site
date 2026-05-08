@@ -13,56 +13,67 @@ const samplePosters = [
     image: "/assets/2_new_2026Events.jpg",
     title: "2026 Events",
   },
-
   {
     id: 2,
+    image: "/assets/53Visits.jpg",
+    title: "Avatamsaka Dharma Assembly Sudhana's Fifty-Three Visits",
+  },
+
+  {
+    id: 3,
+    image: "/assets/SundayKidClass.jpg",
+    title: "Sunday Kids Classes 2026",
+  },
+
+  {
+    id: 4,
     image: "/assets/LHBC 2026.jpeg",
     title: "Emperor Liang Jeweled Repentance",
   },
 
   {
-    id: 3,
+    id: 5,
     image: "/assets/05052026ThreeRefugesFivePrecepts.jpeg",
     title: "Transmission of the Three refuges & Five precepts",
   },
 
   {
-    id: 4,
+    id: 6,
     image: "/assets/ShurangamaMantraDharmaAssembly.png",
     title: "Shurangama Mantra Recitation Retreat",
   },
 
   {
-    id: 5,
+    id: 7,
     image: "/assets/3_CaptureLunarNewYearBlessingCeremony.jpg",
     title: "Lunar New Year Blessing Ceremony",
   },
 
   {
-    id: 6,
+    id: 8,
     image: "/assets/2_NewSundayClasses.jpg",
     title: "Sunday Classes: Calligraphy & Chinese Culture",
   },
 
   {
-    id: 7,
+    id: 9,
     image: "/assets/4_RecitationAidTeamMonthly.jpg",
     title: "Recitation Aid Team monthly online layperson",
   },
 
   {
-    id: 8,
+    id: 10,
     image: "/assets/5_PlaqueRegistration.jpg",
     title: "Plaque Registration",
   },
 
   {
-    id: 9,
+    id: 11,
     image: "/assets/saturday_events.jpg",
     title: "Saturday Events",
   },
   {
-    id: 10,
+    id: 12,
     image: "/assets/yoga.jpg",
     title: "Yoga & Meditation",
   },
@@ -72,17 +83,17 @@ const samplePosters = [
   //   title: "Volunteer Team",
   // },
   {
-    id: 12,
+    id: 13,
     image: "/assets/Saturday-Lecture.jpg",
     title: "Saturday Lecture",
   },
   {
-    id: 13,
+    id: 14,
     image: "/assets/GuanYin-Hall-Sponsorship.jpg",
     title: "Sponsorship for GuanYin Hall",
   },
   {
-    id: 14,
+    id: 15,
     image: "/assets/GCM.jpg",
     title: "Great Compassion Mantra Recitation Program",
   },
