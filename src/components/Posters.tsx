@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
 import Masonry from "react-responsive-masonry";
 
@@ -6,6 +6,14 @@ import Masonry from "react-responsive-masonry";
 const LIGHTBOX_LANDSCAPE_SCALE = 1.65;
 /** 全屏层含 p-4 等边距时，竖图可用高度需从 100vh 减去的量（不再预留标题区） */
 const LIGHTBOX_VERTICAL_RESERVE = "2rem";
+/** 全屏预览内点击逐级放大的倍数 */
+const LIGHTBOX_ZOOM_LEVELS = [1, 2, 3] as const;
+/** 滚轮缩放步进与上下限 */
+const LIGHTBOX_WHEEL_ZOOM_STEP = 0.2;
+const LIGHTBOX_MIN_ZOOM = 1;
+const LIGHTBOX_MAX_ZOOM = 4;
+/** 判定为拖拽而非点击的最小位移（px） */
+const LIGHTBOX_DRAG_THRESHOLD = 5;
 
 const samplePosters = [
   {
@@ -14,9 +22,28 @@ const samplePosters = [
     title: "2026 Events",
   },
   {
+    id: 4,
+    image: "/assets/2026AvatamsakaDharmaAssembly.jpg",
+    title: "Flower Garland Dhara Assembly",
+  },
+
+  {
+    id: 5,
+    image: "/assets/2026AvatamsakaDharmaAssembly_1.jpg",
+    title:
+      "19-DayThe Buddha's Flower Garland Sutra of Great Expansive Teachings Recitation Retreat",
+  },
+
+  {
+    id: 13,
+    image: "/assets/Saturday-Lecture.jpg",
+    title: "Saturday Lecture",
+  },
+
+  {
     id: 2,
     image: "/assets/53Visits.jpg",
-    title: "Avatamsaka Dharma Assembly Sudhana's Fifty-Three Visits",
+    title: "Sunday Lecture: Avatamsaka Dharma Assembly Sudhana's Fifty-Three Visits",
   },
 
   {
@@ -25,23 +52,23 @@ const samplePosters = [
     title: "Sunday Kids Classes 2026",
   },
 
-  {
-    id: 4,
-    image: "/assets/LHBC 2026.jpeg",
-    title: "Emperor Liang Jeweled Repentance",
-  },
+  // {
+  //   id: 4,
+  //   image: "/assets/LHBC 2026.jpeg",
+  //   title: "Emperor Liang Jeweled Repentance",
+  // },
 
-  {
-    id: 5,
-    image: "/assets/05052026ThreeRefugesFivePrecepts.jpeg",
-    title: "Transmission of the Three refuges & Five precepts",
-  },
+  // {
+  //   id: 5,
+  //   image: "/assets/05052026ThreeRefugesFivePrecepts.jpeg",
+  //   title: "Transmission of the Three refuges & Five precepts",
+  // },
 
-  {
-    id: 6,
-    image: "/assets/ShurangamaMantraDharmaAssembly.png",
-    title: "Shurangama Mantra Recitation Retreat",
-  },
+  // {
+  //   id: 6,
+  //   image: "/assets/ShurangamaMantraDharmaAssembly.png",
+  //   title: "Shurangama Mantra Recitation Retreat",
+  // },
 
   {
     id: 7,
@@ -82,11 +109,7 @@ const samplePosters = [
   //   image: "/assets/Volunteer-Team.jpg",
   //   title: "Volunteer Team",
   // },
-  {
-    id: 13,
-    image: "/assets/Saturday-Lecture.jpg",
-    title: "Saturday Lecture",
-  },
+
   {
     id: 14,
     image: "/assets/GuanYin-Hall-Sponsorship.jpg",
@@ -107,19 +130,124 @@ export function Posters() {
     w: number;
     h: number;
   } | null>(null);
+  /** 全屏预览内的额外缩放（在 fit 尺寸基础上） */
+  const [lightboxZoom, setLightboxZoom] = useState(1);
+  /** 放大后的平移偏移 */
+  const [lightboxPan, setLightboxPan] = useState({ x: 0, y: 0 });
+  const [isLightboxDragging, setIsLightboxDragging] = useState(false);
+  const lightboxDragRef = useRef<{
+    pointerId: number;
+    startX: number;
+    startY: number;
+    originPanX: number;
+    originPanY: number;
+    moved: boolean;
+  } | null>(null);
+  const lightboxClickBlockedRef = useRef(false);
+  const lightboxZoomRef = useRef(1);
+
+  useEffect(() => {
+    lightboxZoomRef.current = lightboxZoom;
+  }, [lightboxZoom]);
+
+  const resetLightboxView = useCallback(() => {
+    setLightboxZoom(1);
+    setLightboxPan({ x: 0, y: 0 });
+  }, []);
 
   useEffect(() => {
     setLightboxNaturalSize(null);
-  }, [selectedPoster?.image]);
+    resetLightboxView();
+  }, [selectedPoster?.image, resetLightboxView]);
+
+  useEffect(() => {
+    if (!selectedPoster) return;
+
+    const scrollY = window.scrollY;
+    const bodyStyle = document.body.style;
+    const htmlStyle = document.documentElement.style;
+    const previousBody = {
+      overflow: bodyStyle.overflow,
+      position: bodyStyle.position,
+      top: bodyStyle.top,
+      width: bodyStyle.width,
+      paddingRight: bodyStyle.paddingRight,
+    };
+    const previousHtmlOverflow = htmlStyle.overflow;
+    const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+
+    bodyStyle.overflow = "hidden";
+    bodyStyle.position = "fixed";
+    bodyStyle.top = `-${scrollY}px`;
+    bodyStyle.width = "100%";
+    if (scrollbarWidth > 0) {
+      bodyStyle.paddingRight = `${scrollbarWidth}px`;
+    }
+    htmlStyle.overflow = "hidden";
+
+    return () => {
+      bodyStyle.overflow = previousBody.overflow;
+      bodyStyle.position = previousBody.position;
+      bodyStyle.top = previousBody.top;
+      bodyStyle.width = previousBody.width;
+      bodyStyle.paddingRight = previousBody.paddingRight;
+      htmlStyle.overflow = previousHtmlOverflow;
+      window.scrollTo(0, scrollY);
+    };
+  }, [selectedPoster]);
+
+  useEffect(() => {
+    if (!selectedPoster) return;
+
+    const onWheel = (e: WheelEvent) => {
+      e.preventDefault();
+      e.stopPropagation();
+
+      const direction = e.deltaY > 0 ? -1 : 1;
+      const currentZoom = lightboxZoomRef.current;
+      const nextZoom = Math.min(
+        LIGHTBOX_MAX_ZOOM,
+        Math.max(LIGHTBOX_MIN_ZOOM, currentZoom + direction * LIGHTBOX_WHEEL_ZOOM_STEP)
+      );
+      setLightboxZoom(nextZoom);
+      if (nextZoom === 1) setLightboxPan({ x: 0, y: 0 });
+    };
+
+    window.addEventListener("wheel", onWheel, { passive: false, capture: true });
+
+    return () => {
+      window.removeEventListener("wheel", onWheel, { capture: true });
+    };
+  }, [selectedPoster]);
 
   useEffect(() => {
     if (!selectedPoster) return;
     const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setSelectedPoster(null);
+      if (e.key === "Escape") {
+        if (lightboxZoom > 1) {
+          resetLightboxView();
+          return;
+        }
+        setSelectedPoster(null);
+        return;
+      }
+      if (e.key === "0" || e.key === "Home") {
+        resetLightboxView();
+        return;
+      }
+      if (e.key === "+" || e.key === "=") {
+        setLightboxZoom((z) => Math.min(LIGHTBOX_MAX_ZOOM, z + LIGHTBOX_WHEEL_ZOOM_STEP));
+        return;
+      }
+      if (e.key === "-") {
+        const next = Math.max(LIGHTBOX_MIN_ZOOM, lightboxZoom - LIGHTBOX_WHEEL_ZOOM_STEP);
+        setLightboxZoom(next);
+        if (next === 1) setLightboxPan({ x: 0, y: 0 });
+      }
     };
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
-  }, [selectedPoster]);
+  }, [selectedPoster, lightboxZoom, resetLightboxView]);
 
   const lightboxImageStyle = useMemo(() => {
     if (!lightboxNaturalSize) return undefined;
@@ -145,7 +273,79 @@ export function Posters() {
   };
 
   const closeFullscreen = () => {
+    resetLightboxView();
     setSelectedPoster(null);
+  };
+
+  const handleLightboxBackdropClick = () => {
+    if (lightboxZoom > 1) {
+      resetLightboxView();
+      return;
+    }
+    closeFullscreen();
+  };
+
+  const handleLightboxImageClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    e.stopPropagation();
+    if (lightboxClickBlockedRef.current) return;
+
+    const nextLevel = LIGHTBOX_ZOOM_LEVELS.find((level) => level > lightboxZoom + 0.01);
+    if (nextLevel !== undefined) {
+      setLightboxZoom(nextLevel);
+      return;
+    }
+    resetLightboxView();
+  };
+
+  const handleLightboxPointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (lightboxZoom <= 1) return;
+    e.stopPropagation();
+    e.currentTarget.setPointerCapture(e.pointerId);
+    lightboxDragRef.current = {
+      pointerId: e.pointerId,
+      startX: e.clientX,
+      startY: e.clientY,
+      originPanX: lightboxPan.x,
+      originPanY: lightboxPan.y,
+      moved: false,
+    };
+    setIsLightboxDragging(true);
+  };
+
+  const handleLightboxPointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
+    const drag = lightboxDragRef.current;
+    if (!drag || drag.pointerId !== e.pointerId) return;
+
+    const deltaX = e.clientX - drag.startX;
+    const deltaY = e.clientY - drag.startY;
+    if (
+      !drag.moved &&
+      (Math.abs(deltaX) > LIGHTBOX_DRAG_THRESHOLD || Math.abs(deltaY) > LIGHTBOX_DRAG_THRESHOLD)
+    ) {
+      drag.moved = true;
+    }
+    if (!drag.moved) return;
+
+    setLightboxPan({
+      x: drag.originPanX + deltaX,
+      y: drag.originPanY + deltaY,
+    });
+  };
+
+  const finishLightboxPointer = (e: React.PointerEvent<HTMLDivElement>) => {
+    const drag = lightboxDragRef.current;
+    if (!drag || drag.pointerId !== e.pointerId) return;
+    if (e.currentTarget.hasPointerCapture(e.pointerId)) {
+      e.currentTarget.releasePointerCapture(e.pointerId);
+    }
+    if (drag.moved) {
+      lightboxClickBlockedRef.current = true;
+      window.setTimeout(() => {
+        lightboxClickBlockedRef.current = false;
+      }, 0);
+    }
+    lightboxDragRef.current = null;
+    setIsLightboxDragging(false);
   };
 
   const handleLightboxImageLoad = (e: React.SyntheticEvent<HTMLImageElement>) => {
@@ -162,22 +362,64 @@ export function Posters() {
       {/* 4. 全屏放大模态框 */}
       {selectedPoster && (
         <div
-          className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-black/85 backdrop-blur-sm cursor-zoom-out p-4"
-          onClick={closeFullscreen}
+          className={`fixed inset-0 z-[100] flex flex-col items-center justify-center bg-black/85 backdrop-blur-sm p-4 overscroll-none ${
+            lightboxZoom > 1 ? "cursor-default" : "cursor-zoom-out"
+          }`}
+          onClick={handleLightboxBackdropClick}
           role="presentation"
         >
-          <div className="w-full max-w-[95vw] relative animate-in fade-in zoom-in duration-300 flex flex-col items-center justify-center min-h-0">
-            {/* 仅图片：竖图高度尽量占满视口（仅扣边距）；横图按倍数放大宽度 */}
-            <ImageWithFallback
-              src={selectedPoster.image}
-              alt={selectedPoster.title}
-              onLoad={handleLightboxImageLoad}
-              className="mx-auto max-w-full object-contain rounded-lg shadow-2xl border-4 max-h-[calc(100vh-2rem)]"
-              style={{
-                borderColor: "transparent",
-                ...lightboxImageStyle,
+          {lightboxZoom > 1 && (
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                resetLightboxView();
               }}
-            />
+              className="absolute top-4 right-4 z-[110] rounded-full border border-accent-gold/40 bg-black/60 px-4 py-2 text-sm text-dark-text backdrop-blur-sm transition-colors hover:bg-black/80"
+            >
+              Reset zoom
+            </button>
+          )}
+
+          <p className="pointer-events-none absolute bottom-4 left-1/2 z-[110] -translate-x-1/2 rounded-full bg-black/50 px-4 py-2 text-xs text-dark-text/80 backdrop-blur-sm">
+            {lightboxZoom > 1
+              ? "Drag to pan · Scroll or click to adjust · Esc to reset"
+              : "Click image to zoom · Scroll to zoom · Esc to close"}
+          </p>
+
+          <div className="relative flex min-h-0 w-full max-w-[95vw] animate-in fade-in zoom-in flex-col items-center justify-center duration-300">
+            <div
+              className="flex max-h-[calc(100vh-2rem)] w-full items-center justify-center overflow-hidden"
+              onClick={handleLightboxImageClick}
+              onPointerDown={handleLightboxPointerDown}
+              onPointerMove={handleLightboxPointerMove}
+              onPointerUp={finishLightboxPointer}
+              onPointerCancel={finishLightboxPointer}
+              style={{
+                cursor: lightboxZoom > 1 ? (isLightboxDragging ? "grabbing" : "grab") : "zoom-in",
+                touchAction: lightboxZoom > 1 ? "none" : "auto",
+              }}
+            >
+              <div
+                style={{
+                  transform: `translate(${lightboxPan.x}px, ${lightboxPan.y}px) scale(${lightboxZoom})`,
+                  transformOrigin: "center center",
+                  transition: isLightboxDragging ? "none" : "transform 0.2s ease-out",
+                }}
+              >
+                <ImageWithFallback
+                  src={selectedPoster.image}
+                  alt={selectedPoster.title}
+                  onLoad={handleLightboxImageLoad}
+                  draggable={false}
+                  className="mx-auto max-w-full object-contain rounded-lg shadow-2xl border-4 max-h-[calc(100vh-2rem)] select-none"
+                  style={{
+                    borderColor: "transparent",
+                    ...lightboxImageStyle,
+                  }}
+                />
+              </div>
+            </div>
           </div>
         </div>
       )}
