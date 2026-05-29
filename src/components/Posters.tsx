@@ -21,7 +21,6 @@ const samplePosters = [
     image: "/assets/2_new_2026Events.jpg",
     title: "2026 Events",
   },
-
   {
     id: 4,
     image: "/assets/2026AvatamsakaDharmaAssembly.jpg",

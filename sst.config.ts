@@ -15,6 +15,10 @@ export default $config({
     };
   },
   async run() {
+    $transform(sst.aws.Function, (args, opts) => {
+      // Set the default if it's not set by the component
+      args.runtime ??= "nodejs22.x";
+    });
     // Use the stage stored from app() function
     // Only production stage deployments will have PUBLIC_IS_PRODUCTION = "true"
     const isProduction = currentStage === "production";
@@ -134,6 +138,9 @@ export default $config({
         command: "pnpm run dev",
         autostart: true,
         url: "http://localhost:4321",
+      },
+      server: {
+        runtime: "nodejs22.x",
       },
       buildCommand: "pnpm run build",
       link: [apiFn, blogPostsTable, blogStorage], // Link resources for blog access
