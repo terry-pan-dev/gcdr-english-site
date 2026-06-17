@@ -1,0 +1,17 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { OuterGatePage } from "../../components/buildings/pages/OuterGatePage";
+
+const title = "Outer Gate - Gold Coast Dharma Realm";
+const description =
+  "The outer gate welcomes visitors to the temple grounds, marking the entrance to a place of peace and spiritual practice.";
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  image="/assets/buildings/outergate/rsz_外山门.png.webp"
+  theme="light"
+>
+  <OuterGatePage client:load />
+</BaseLayout>

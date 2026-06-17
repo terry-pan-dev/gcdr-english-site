@@ -1,0 +1,17 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { WisdomPalacePage } from "../../components/buildings/pages/WisdomPalacePage";
+
+const title = "Wisdom Palace - Gold Coast Dharma Realm";
+const description =
+  "The Wisdom Palace is dedicated to Manjushri, the Bodhisattva of Wisdom, inspiring practitioners on the path to enlightenment.";
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  image="/assets/buildings/wisdom-palace/文殊殿-300x179.jpg.webp"
+  theme="light"
+>
+  <WisdomPalacePage client:load />
+</BaseLayout>

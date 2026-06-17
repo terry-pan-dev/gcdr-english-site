@@ -1,0 +1,17 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { MainGatePage } from "../../components/buildings/pages/MainGatePage";
+
+const title = "Main Gate - Gold Coast Dharma Realm";
+const description =
+  "The main gate serves as the primary entrance to the temple complex, embodying traditional Buddhist architecture and symbolism.";
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  image="/assets/buildings/main-gate/gate_1-scaled.jpg"
+  theme="light"
+>
+  <MainGatePage client:load />
+</BaseLayout>

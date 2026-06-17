@@ -1,0 +1,17 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { DiningRoomPage } from "../../components/buildings/pages/DiningRoomPage";
+
+const title = "Dining Room - Gold Coast Dharma Realm";
+const description =
+  "The Five Contemplations Hall is the place where the monastic community eats in a Buddhist temple; it is also called a dining hall.";
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  image="/assets/buildings/dinning-room/dinning_5-scaled.jpg"
+  theme="light"
+>
+  <DiningRoomPage client:load />
+</BaseLayout>

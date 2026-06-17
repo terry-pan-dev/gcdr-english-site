@@ -1,0 +1,17 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { LotusPoolPage } from "../../components/buildings/pages/LotusPoolPage";
+
+const title = "Lotus Pool - Gold Coast Dharma Realm";
+const description =
+  "A serene lotus pool that reflects the beauty and purity of Buddhist practice, creating a peaceful atmosphere.";
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  image="/assets/buildings/lotus-pool/pool_1-scaled.jpg"
+  theme="light"
+>
+  <LotusPoolPage client:load />
+</BaseLayout>

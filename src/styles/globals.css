@@ -177,7 +177,10 @@
   }
 
   html {
-    overflow-x: hidden;
+    /* Changed by maomao 20160112 */
+    /* overflow-x: hidden; */
+    /* Added by maomao 0112 */
+    scroll-behavior: smooth;
   }
 
   body {
@@ -185,7 +188,11 @@
     color: var(--color-foreground);
     /* Primary font - uses theme variable from tailwind config */
     font-family: var(--font-sans);
-    overflow-x: hidden;
+    /*Commented by maomao 20160112  */
+    /* overflow-x: hidden; */
+    /*Added by maomao  20160112*/
+    margin: 0;
+
     width: 100%;
     max-width: 100%;
   }

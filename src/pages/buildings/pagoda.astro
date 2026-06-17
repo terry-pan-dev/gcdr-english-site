@@ -1,0 +1,17 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { PagodaPage } from "../../components/buildings/pages/PagodaPage";
+
+const title = "Pagoda - Gold Coast Dharma Realm";
+const description =
+  "The pagoda stands as a sacred monument, housing relics and serving as a focal point for devotion and reverence.";
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  image="/assets/buildings/pagoda/shelita_1-scaled.jpg"
+  theme="light"
+>
+  <PagodaPage client:load />
+</BaseLayout>
