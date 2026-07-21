@@ -21,17 +21,17 @@ const samplePosters = [
     image: "/assets/2_new_2026Events.jpg",
     title: "2026 Events",
   },
+
   {
-    id: 4,
-    image: "/assets/2026AvatamsakaDharmaAssembly.jpg",
-    title: "Flower Garland Dhara Assembly",
+    id: 7211,
+    image: "/assets/0721_Guanyin Chinese 2026.jpeg",
+    title: "7-Day Guan Yin Recitation Session",
   },
 
   {
-    id: 5,
-    image: "/assets/2026AvatamsakaDharmaAssembly_1.jpg",
-    title:
-      "19-DayThe Buddha's Flower Garland Sutra of Great Expansive Teachings Recitation Retreat",
+    id: 7212,
+    image: "/assets/0721_Chan 2026.jpeg",
+    title: "10-Day Meditation Retreat",
   },
 
   {
@@ -74,18 +74,6 @@ const samplePosters = [
     id: 7,
     image: "/assets/3_CaptureLunarNewYearBlessingCeremony.jpg",
     title: "Lunar New Year Blessing Ceremony",
-  },
-
-  {
-    id: 8,
-    image: "/assets/2_NewSundayClasses.jpg",
-    title: "Sunday Classes: Calligraphy & Chinese Culture",
-  },
-
-  {
-    id: 9,
-    image: "/assets/4_RecitationAidTeamMonthly.jpg",
-    title: "Recitation Aid Team monthly online layperson",
   },
 
   {
