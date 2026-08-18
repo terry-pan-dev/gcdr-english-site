@@ -23,16 +23,34 @@ const samplePosters = [
   },
 
   {
-    id: 7211,
-    image: "/assets/0721_Guanyin Chinese 2026.jpeg",
-    title: "7-Day Guan Yin Recitation Session",
+    id: 8181,
+    image: "/assets/Celebration of Ullambana.png",
+    title: "Celebration of Ullambana",
   },
 
   {
-    id: 7212,
-    image: "/assets/0721_Chan 2026.jpeg",
-    title: "10-Day Meditation Retreat",
+    id: 8182,
+    image: "/assets/49_earth_store_2.jpg",
+    title: "49 Books of Earth Store Sutra Recitation",
   },
+
+  {
+    id: 8183,
+    image: "/assets/49_earth_store_1.jpg",
+    title: "49 Books of Earth Store Sutra Recitation",
+  },
+
+  // {
+  //   id: 7211,
+  //   image: "/assets/0721_Guanyin Chinese 2026.jpeg",
+  //   title: "7-Day Guan Yin Recitation Session",
+  // },
+
+  // {
+  //   id: 7212,
+  //   image: "/assets/0721_Chan 2026.jpeg",
+  //   title: "10-Day Meditation Retreat",
+  // },
 
   {
     id: 13,
