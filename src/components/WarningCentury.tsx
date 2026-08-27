@@ -570,14 +570,14 @@ export function WarningCentury() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.2 }}
           >
-            <h1 className="text-4xl md:text-6xl font-serif italic mb-4 tracking-wide text-[#c9a050]">
+            <h1 className="type-page-title text-4xl md:text-6xl italic mb-4 text-[#c9a050]">
               世紀末警鐘
             </h1>
             <div className="h-1 w-24 bg-[#c9a050] mx-auto mb-6" />
-            <p className="text-xl md:text-2xl font-light tracking-widest uppercase opacity-90">
+            <p className="type-subtitle text-xl md:text-2xl uppercase opacity-90">
               Warning of the Century
             </p>
-            <p className="text-lg md:text-xl font-serif italic text-[#c9a050]/80 mt-4">
+            <p className="type-subtitle text-lg md:text-xl italic text-[#c9a050]/80 mt-4">
               by Venerable Master Hsuan Hua
             </p>
           </motion.div>
@@ -598,16 +598,14 @@ export function WarningCentury() {
             >
               {/* Chinese Text */}
               <div className="mb-6 pb-6 border-b border-[#c9a050]/10">
-                <p className="text-base md:text-lg leading-loose text-stone-200 font-light">
+                <p className="type-body text-base md:text-lg leading-loose text-stone-200">
                   {teaching.chinese}
                 </p>
               </div>
 
               {/* English Text */}
               <div>
-                <p className="text-base md:text-lg leading-relaxed text-stone-300 font-light">
-                  {teaching.english}
-                </p>
+                <p className="type-body text-base md:text-lg text-stone-300">{teaching.english}</p>
               </div>
             </motion.div>
           ))}

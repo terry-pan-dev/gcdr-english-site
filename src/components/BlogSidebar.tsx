@@ -58,7 +58,7 @@ export function BlogSidebar({ categories, recentPosts, currentCategory, onCatego
         className="p-6 rounded-lg"
         style={{ backgroundColor: "white", border: "2px solid #c9a050" }}
       >
-        <h3 className="text-lg font-serif mb-4" style={{ color: "#1c1917" }}>
+        <h3 className="type-subtitle text-lg mb-4" style={{ color: "#1c1917" }}>
           Categories
         </h3>
         <ul className="space-y-2">
@@ -104,7 +104,7 @@ export function BlogSidebar({ categories, recentPosts, currentCategory, onCatego
         className="p-6 rounded-lg"
         style={{ backgroundColor: "white", border: "2px solid #c9a050" }}
       >
-        <h3 className="text-lg font-serif mb-4" style={{ color: "#1c1917" }}>
+        <h3 className="type-subtitle text-lg mb-4" style={{ color: "#1c1917" }}>
           Recent Posts
         </h3>
         <ul className="space-y-4">

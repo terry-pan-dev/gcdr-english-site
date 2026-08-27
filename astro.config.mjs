@@ -3,7 +3,6 @@ import react from "@astrojs/react";
 import tailwind from "@astrojs/tailwind";
 import mdx from "@astrojs/mdx";
 import sitemap from "@astrojs/sitemap";
-import partytown from "@astrojs/partytown";
 import aws from "astro-sst";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -14,6 +13,16 @@ export default defineConfig({
   site: "https://gcdr.org.au",
   output: "static",
   adapter: aws(),
+  redirects: {
+    "/master-about": {
+      status: 301,
+      destination: "/master-hua",
+    },
+    "/gcdr": {
+      status: 301,
+      destination: "/about",
+    },
+  },
   build: {
     inlineStylesheets: "never", // Ensure CSS is kept as external files for SSR
   },
@@ -26,11 +35,6 @@ export default defineConfig({
     sitemap({
       // Exclude admin pages from sitemap
       filter: (page) => !page.includes("/admin"),
-    }),
-    partytown({
-      config: {
-        forward: ["dataLayer.push"],
-      },
     }),
   ],
   vite: {

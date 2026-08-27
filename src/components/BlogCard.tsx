@@ -109,7 +109,7 @@ export function BlogCard({ post, index }: Props) {
         </div>
 
         <h2
-          className={`font-serif mb-2 sm:mb-3 ${
+          className={`type-subtitle mb-2 sm:mb-3 ${
             hasImage ? "text-xl sm:text-2xl" : "text-2xl sm:text-3xl"
           }`}
           style={{ color: "#1c1917" }}

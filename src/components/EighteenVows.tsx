@@ -1,5 +1,13 @@
-import { ImageWithFallback } from "./figma/ImageWithFallback";
-import { motion } from "motion/react";
+const bodyStyle = {
+  color: "var(--foreground)",
+} as const;
+
+const accentRuleStyle = {
+  width: 28,
+  height: 2,
+  backgroundColor: "var(--accent)",
+  marginBottom: "1.75rem",
+} as const;
 
 export function EighteenVows() {
   const vows = [
@@ -24,122 +32,86 @@ export function EighteenVows() {
   ];
 
   return (
-    <div className="min-h-screen bg-dark-bg text-dark-text">
+    <main
+      className="min-h-screen w-full overflow-x-hidden"
+      style={{ backgroundColor: "var(--background)" }}
+    >
       {/* Hero Banner */}
-      <div className="relative h-[50vh] min-h-[400px] w-full overflow-hidden">
-        <div className="absolute inset-0">
-          <ImageWithFallback
-            src="/assets/hero-bg.png"
-            alt="Background Texture"
-            className="w-full h-full object-cover opacity-50 grayscale"
-          />
-          <div className="absolute inset-0 bg-gradient-to-b from-dark-bg/40 via-dark-bg/60 to-dark-bg" />
+      <section className="pt-nav pb-14">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h1 className="type-page-title mb-6">The Eighteen Great Vows</h1>
+          <div style={accentRuleStyle} />
         </div>
-
-        <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-4">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.2 }}
-          >
-            <h1 className="text-4xl md:text-6xl font-serif italic mb-4 tracking-wide text-accent-gold">
-              The Eighteen Great Vows
-            </h1>
-            <div className="h-1 w-24 bg-accent-gold mx-auto mb-6" />
-            <p className="text-xl md:text-2xl font-light tracking-widest uppercase opacity-90">
-              of the Venerable Master Hsuan Hua
-            </p>
-          </motion.div>
-        </div>
-      </div>
+      </section>
 
       {/* Main Content */}
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 pb-32">
-        {/* Introduction */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          className="text-center mb-20 space-y-8 text-stone-300 font-light leading-relaxed text-lg"
-        >
-          <p>
-            When the Ven. Master Hua was cultivating the practice of filial mourning beside his
-            mother's grave, he made the following vows before the Buddhas on the 19th day of the
-            sixth lunar month of the year of Zhitong
-          </p>
-          <div className="p-8 border border-accent-gold/30 rounded-lg bg-dark-card/50 italic relative">
-            <span className="absolute top-4 left-4 text-4xl text-accent-gold/20">"</span>
-            <p className="mb-4">
-              Ven. Master Hua: I bow before the Buddhas of the ten directions, the Dharma of the
-              Tripitaka, and the Holy Sangha of the past and present, praying that they will hear
-              and bear witness.
-            </p>
+      <section className="border-t py-16" style={{ borderColor: "var(--border)" }}>
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Introduction */}
+          <div className="type-body mb-16 space-y-8" style={bodyStyle}>
             <p>
-              I, disciple To Lun, Shi An Tse, resolve never to seek for myself the blessings of gods
-              or humans, or the attainments of Shravakas, Pratyekabuddhas, or high Bodhisattvas.
-              Instead, I rely on the Supreme Vehicle, the One Buddha Vehicle, and bring forth the
-              Resolve for Bodhi, vowing that all living beings of the Dharma Realm will attain
-              Utmost, Right, and Equal, Proper Enlightenment at the same time as I.
+              When the Ven. Master Hua was cultivating the practice of filial mourning beside his
+              mother's grave, he made the following vows before the Buddhas on the 19th day of the
+              sixth lunar month of the year of Zhitong
             </p>
-            <span className="absolute bottom-4 right-4 text-4xl text-accent-gold/20 rotate-180">
-              "
-            </span>
-          </div>
-        </motion.div>
-
-        {/* Vows List */}
-        <div className="space-y-6">
-          {vows.map((vow, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{
-                duration: 0.5,
-                delay: index * 0.02,
-                ease: "easeOut",
-              }}
-              className="flex gap-6 p-6 rounded-lg hover:bg-white/5 transition-all duration-300 border-b border-white/5 cursor-default"
+            <blockquote
+              className="p-6 italic"
+              style={{ border: "0.5px solid var(--border)", borderRadius: 2 }}
             >
-              <motion.div
-                className="flex-shrink-0"
-                whileHover={{ scale: 1.1, rotate: 5 }}
-                transition={{ type: "spring", stiffness: 300 }}
+              <p className="mb-4">
+                Ven. Master Hua: I bow before the Buddhas of the ten directions, the Dharma of the
+                Tripitaka, and the Holy Sangha of the past and present, praying that they will hear
+                and bear witness.
+              </p>
+              <p>
+                I, disciple To Lun, Shi An Tse, resolve never to seek for myself the blessings of
+                gods or humans, or the attainments of Shravakas, Pratyekabuddhas, or high
+                Bodhisattvas. Instead, I rely on the Supreme Vehicle, the One Buddha Vehicle, and
+                bring forth the Resolve for Bodhi, vowing that all living beings of the Dharma Realm
+                will attain Utmost, Right, and Equal, Proper Enlightenment at the same time as I.
+              </p>
+            </blockquote>
+          </div>
+
+          {/* Vows List */}
+          <div>
+            {vows.map((vow, index) => (
+              <div
+                key={vow}
+                className="grid grid-cols-[2.5rem_1fr] gap-5 py-8"
+                style={{ borderTop: index === 0 ? undefined : "0.5px solid var(--border)" }}
               >
-                <div className="flex items-center justify-center w-10 h-10 rounded-full border-2 border-accent-gold text-accent-gold font-serif text-xl bg-accent-gold/10">
+                <div
+                  className="flex h-10 w-10 items-center justify-center rounded-full border font-serif text-xl"
+                  style={{ borderColor: "var(--accent)", color: "var(--accent)" }}
+                >
                   {index + 1}
                 </div>
-              </motion.div>
-              <p className="text-lg text-stone-300 leading-relaxed pt-1 flex-1">{vow}</p>
-            </motion.div>
-          ))}
-        </div>
-
-        {/* Final Quote */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="mt-24 pt-12 border-t border-stone-800"
-        >
-          <div className="p-8 border border-accent-gold/30 rounded-lg bg-dark-card/50 italic relative">
-            <span className="absolute top-4 left-4 text-4xl text-accent-gold/20">"</span>
-            <p className="text-lg md:text-xl text-stone-300 leading-relaxed mb-4">
-              Also: I vow to save the innumerable living beings. I vow to eradicate the
-              inexhaustible afflictions. I vow to study the illimitable Dharma-doors. I vow to
-              accomplish the unsurpassed Buddha Way.
-            </p>
-            <p className="text-accent-gold text-base md:text-lg font-serif not-italic">
-              <strong>Venerable Master Hsuan Hua</strong>
-            </p>
-            <span className="absolute bottom-4 right-4 text-4xl text-accent-gold/20 rotate-180">
-              "
-            </span>
+                <p className="type-body" style={bodyStyle}>
+                  {vow}
+                </p>
+              </div>
+            ))}
           </div>
-        </motion.div>
-      </div>
-    </div>
+
+          {/* Final Quote */}
+          <div className="mt-16 pt-10" style={{ borderTop: "0.5px solid var(--border)" }}>
+            <blockquote
+              className="p-6 italic"
+              style={{ border: "0.5px solid var(--border)", borderRadius: 2 }}
+            >
+              <p className="type-body mb-4 text-lg md:text-xl" style={bodyStyle}>
+                Also: I vow to save the innumerable living beings. I vow to eradicate the
+                inexhaustible afflictions. I vow to study the illimitable Dharma-doors. I vow to
+                accomplish the unsurpassed Buddha Way.
+              </p>
+              <p className="type-body" style={{ ...bodyStyle, color: "var(--foreground)" }}>
+                <strong>Venerable Master Hsuan Hua</strong>
+              </p>
+            </blockquote>
+          </div>
+        </div>
+      </section>
+    </main>
   );
 }

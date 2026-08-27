@@ -1,8 +1,12 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import { Visit as VisitComponent } from "../components/Visit";
+import { VisitIntro } from "../components/VisitIntro";
+import { VisitWhatToExpect } from "../components/VisitWhatToExpect";
+import { VisitGuidelines } from "../components/VisitGuidelines";
 ---
 
 <BaseLayout title="Visit - GCDR" theme="light">
-  <VisitComponent client:load />
+  <VisitIntro />
+  <VisitWhatToExpect />
+  <VisitGuidelines />
 </BaseLayout>

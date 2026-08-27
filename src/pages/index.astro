@@ -1,20 +1,18 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import { Hero } from "../components/Hero";
-import { About } from "../components/About";
-import { Teachings } from "../components/Teachings";
-import { Posters } from "../components/Posters";
-import { Visit } from "../components/Visit";
+import { HomeIntro } from "../components/HomeIntro";
+import { HomeMasterHua } from "../components/HomeMasterHua";
+import { HomeVisit } from "../components/HomeVisit";
+import { FeaturedEvent } from "../components/FeaturedEvent";
 ---
 
 <BaseLayout
   title="Gold Coast Dharma Realm"
-  description="Gold Coast Dharma Realm (GCDR) is the Australian branch of the Dharma Realm Buddhist Association founded by Venerable Master Hsuan Hua. Visit us for Buddhist teachings, meditation, and spiritual practice."
+  description="Gold Coast Dharma Realm is a Mahayana Buddhist monastery in Bonogin, Gold Coast hinterland. Home to resident monastics, offering teachings, ceremonies, and retreats open to all."
   theme="light"
 >
-  <Hero client:load />
-  <About client:visible />
-  <Teachings client:visible />
-  <Posters client:only="react" />
-  <Visit client:idle />
+  <HomeIntro />
+  <HomeVisit />
+  <FeaturedEvent />
+  <HomeMasterHua />
 </BaseLayout>

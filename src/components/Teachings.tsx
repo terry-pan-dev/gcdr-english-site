@@ -13,7 +13,7 @@ export function Teachings() {
     {
       icon: BookOpen,
       title: "Dharma Study",
-      time: "Sunday 12:30 PM - 3:00 PM",
+      time: "Sunday 1:30 PM - 3:00 PM",
       description: "Explore Buddhist scriptures and philosophy with our resident monks",
       zoomLink: "https://drba-org.zoom.us/j/84914586289",
     },

@@ -6,11 +6,10 @@ import "../styles/globals.css";
 import { Navigation } from "../components/Navigation";
 import { Footer } from "../components/Footer";
 import { BlogList } from "../components/BlogList";
-import { getGoogleFontsUrl, getPrimaryFontFamily, getSecondaryFontFamily } from "../config/fonts";
+import { getGoogleFontsUrl, getPrimaryFontFamily } from "../config/fonts";
 
 const googleFontsUrl = getGoogleFontsUrl();
 const primaryFont = getPrimaryFontFamily();
-const secondaryFont = getSecondaryFontFamily();
 
 // Get API base URL from environment
 const apiBaseUrl = import.meta.env.PUBLIC_API_BASE_URL || "";
@@ -28,6 +27,26 @@ const socialImageURL = new URL("/assets/hero-bg.png", Astro.site);
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script is:inline>
+      // Prototype theme switcher. Remove after final palette selection.
+      (() => {
+        try {
+          const theme = window.localStorage.getItem("gcdr-prototype-theme");
+          const themes = [
+            "slate-gold",
+            "dark-forest",
+            "ink-ochre",
+            "dusk-terracotta",
+            "forest-brass",
+            "smoke-copper",
+            "stone-rust",
+          ];
+          document.documentElement.dataset.theme = themes.includes(theme) ? theme : "forest-brass";
+        } catch {
+          document.documentElement.dataset.theme = "forest-brass";
+        }
+      })();
+    </script>
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonicalURL} />
@@ -87,12 +106,7 @@ const socialImageURL = new URL("/assets/hero-bg.png", Astro.site);
             <div class="h-px w-16 bg-accent-gold"></div>
           </div>
 
-          <h1
-            class="text-5xl md:text-6xl mb-6 font-serif text-dark-text"
-            style={`font-family: ${secondaryFont};`}
-          >
-            Dharma Insights
-          </h1>
+          <h1 class="type-page-title text-5xl md:text-6xl mb-6 text-dark-text">Dharma Insights</h1>
           <p
             class="text-xl max-w-3xl mx-auto text-dark-text/80"
             style={`font-family: ${primaryFont};`}

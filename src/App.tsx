@@ -1,9 +1,7 @@
 import { Navigation } from "./components/Navigation";
-import { Hero } from "./components/Hero";
-import { About } from "./components/About";
-import { AboutPage } from "./components/AboutPage";
-import { Teachings } from "./components/Teachings";
-import { Posters } from "./components/Posters";
+import { HomeVisit } from "./components/HomeVisit";
+//import { AboutPage } from "./components/AboutPage";
+import { GCDRPage } from "./components/GCDRPage";
 import { Events } from "./components/Events";
 import { MasterBio } from "./components/MasterBio";
 import { EighteenVows } from "./components/EighteenVows";
@@ -11,9 +9,25 @@ import { SixPrinciples } from "./components/SixPrinciples";
 import { WhiteUniverse } from "./components/WhiteUniverse";
 import { DharmaMasters } from "./components/DharmaMasters";
 import { Volunteering } from "./components/Volunteering";
-import { Visit } from "./components/Visit";
+import { VisitIntro } from "./components/VisitIntro";
+import { VisitWhatToExpect } from "./components/VisitWhatToExpect";
+import { VisitGuidelines } from "./components/VisitGuidelines";
+import { ChanMeditation } from "./components/ChanMeditation";
+import { WarningCentury } from "./components/WarningCentury";
 import { Footer } from "./components/Footer";
 import { useState, useEffect } from "react";
+import { HomeIntro } from "./components/HomeIntro";
+import { HomeMasterHua } from "./components/HomeMasterHua";
+import { HomeWhatToExpect } from "./components/HomeWhatToExpect";
+import { HomeEvents } from "./components/HomeEvents";
+
+function normalizePathname(pathname: string) {
+  if (!pathname || pathname === "/") {
+    return "/";
+  }
+
+  return pathname.replace(/\/+$/, "");
+}
 
 export default function App() {
   const [currentPage, setCurrentPage] = useState("home");
@@ -21,25 +35,33 @@ export default function App() {
   useEffect(() => {
     const handleRouteChange = () => {
       const hash = window.location.hash.slice(1);
-      const pathname = window.location.pathname;
+      const pathname = normalizePathname(window.location.pathname);
 
       // Check pathname first, then fall back to hash
       if (pathname === "/events" || hash === "events") {
         setCurrentPage("events");
-      } else if (pathname === "/master-about" || hash === "master-about") {
-        setCurrentPage("master-about");
+      } else if (pathname === "/visit" || hash === "visit") {
+        setCurrentPage("visit");
+      } else if (pathname === "/about" || hash === "about") {
+        setCurrentPage("about");
+      } else if (pathname === "/master-hua" || hash === "master-hua") {
+        setCurrentPage("master-hua");
       } else if (pathname === "/18-vows" || hash === "18-vows") {
         setCurrentPage("18-vows");
       } else if (pathname === "/six-principles" || hash === "six-principles") {
         setCurrentPage("six-principles");
       } else if (pathname === "/white-universe-poem" || hash === "white-universe-poem") {
         setCurrentPage("white-universe-poem");
-      } else if (pathname === "/about" || hash === "about") {
-        setCurrentPage("about");
+        //} else if (pathname === "/about" || hash === "about") {
+        //  setCurrentPage("about");
+      } else if (pathname === "/teachings" || hash === "teachings") {
+        setCurrentPage("teachings");
       } else if (pathname === "/dharma-masters" || hash === "dharma-masters") {
         setCurrentPage("dharma-masters");
       } else if (pathname === "/volunteering" || hash === "volunteering") {
         setCurrentPage("volunteering");
+      } else if (pathname === "/warning-century" || hash === "warning-century") {
+        setCurrentPage("warning-century");
       } else {
         setCurrentPage("home");
       }
@@ -56,7 +78,7 @@ export default function App() {
 
   if (currentPage === "events") {
     return (
-      <div className="min-h-screen bg-stone-50">
+      <div className="min-h-screen bg-background">
         <Navigation />
         <Events />
         <Footer />
@@ -64,9 +86,31 @@ export default function App() {
     );
   }
 
-  if (currentPage === "master-about") {
+  if (currentPage === "visit") {
     return (
-      <div className="min-h-screen bg-[#1c1917]">
+      <div className="min-h-screen bg-background">
+        <Navigation />
+        <VisitIntro />
+        <VisitWhatToExpect />
+        <VisitGuidelines />
+        <Footer />
+      </div>
+    );
+  }
+
+  if (currentPage === "about") {
+    return (
+      <div className="min-h-screen bg-dark-bg">
+        <Navigation />
+        <GCDRPage />
+        <Footer />
+      </div>
+    );
+  }
+
+  if (currentPage === "master-hua") {
+    return (
+      <div className="min-h-screen bg-dark-bg">
         <Navigation />
         <MasterBio />
         <Footer />
@@ -76,7 +120,7 @@ export default function App() {
 
   if (currentPage === "18-vows") {
     return (
-      <div className="min-h-screen bg-[#1c1917]">
+      <div className="min-h-screen bg-dark-bg">
         <Navigation />
         <EighteenVows />
         <Footer />
@@ -86,7 +130,7 @@ export default function App() {
 
   if (currentPage === "six-principles") {
     return (
-      <div className="min-h-screen bg-[#1c1917]">
+      <div className="min-h-screen bg-dark-bg">
         <Navigation />
         <SixPrinciples />
         <Footer />
@@ -96,7 +140,7 @@ export default function App() {
 
   if (currentPage === "white-universe-poem") {
     return (
-      <div className="min-h-screen bg-[#1c1917]">
+      <div className="min-h-screen bg-dark-bg">
         <Navigation />
         <WhiteUniverse />
         <Footer />
@@ -104,11 +148,31 @@ export default function App() {
     );
   }
 
-  if (currentPage === "about") {
+  if (currentPage === "teachings") {
     return (
-      <div className="min-h-screen bg-[#1c1917]">
+      <div className="min-h-screen bg-dark-bg">
+        <Navigation />
+        <ChanMeditation />
+        <Footer />
+      </div>
+    );
+  }
+
+  /*if (currentPage === "about") {
+    return (
+      <div className="min-h-screen bg-dark-bg">
         <Navigation />
         <AboutPage />
+        <Footer />
+      </div>
+    );
+  }*/
+
+  if (currentPage === "warning-century") {
+    return (
+      <div className="min-h-screen bg-dark-bg">
+        <Navigation />
+        <WarningCentury />
         <Footer />
       </div>
     );
@@ -116,7 +180,7 @@ export default function App() {
 
   if (currentPage === "dharma-masters") {
     return (
-      <div className="min-h-screen bg-[#1c1917]">
+      <div className="min-h-screen bg-dark-bg">
         <Navigation />
         <DharmaMasters />
         <Footer />
@@ -126,7 +190,7 @@ export default function App() {
 
   if (currentPage === "volunteering") {
     return (
-      <div className="min-h-screen bg-[#1c1917]">
+      <div className="min-h-screen bg-dark-bg">
         <Navigation />
         <Volunteering />
         <Footer />
@@ -135,13 +199,13 @@ export default function App() {
   }
 
   return (
-    <div className="min-h-screen bg-stone-50">
+    <div className="min-h-screen bg-background">
       <Navigation />
-      <Hero />
-      <About />
-      <Teachings />
-      <Posters />
-      <Visit />
+      <HomeIntro />
+      <HomeMasterHua />
+      <HomeWhatToExpect />
+      <HomeEvents />
+      <HomeVisit />
       <Footer />
     </div>
   );

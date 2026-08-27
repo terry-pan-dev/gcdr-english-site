@@ -18,6 +18,12 @@ export const fonts = {
     googleFontsUrl:
       "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&display=swap",
   },
+  title: {
+    name: "Crimson Pro",
+    weights: [400],
+    italic: [],
+    googleFontsUrl: "https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400&display=swap",
+  },
 } as const;
 
 /**
@@ -27,6 +33,7 @@ export function getGoogleFontsUrl(): string {
   const fontsList = [
     `family=${fonts.primary.name.replace(/\s+/g, "+")}:ital,wght@${fonts.primary.weights.map((w) => `0,${w}`).join(";")}${fonts.primary.italic.length > 0 ? `;${fonts.primary.italic.map((w) => `1,${w}`).join(";")}` : ""}`,
     `family=${fonts.secondary.name.replace(/\s+/g, "+")}:ital,wght@${fonts.secondary.weights.map((w) => `0,${w}`).join(";")}${fonts.secondary.italic.length > 0 ? `;${fonts.secondary.italic.map((w) => `1,${w}`).join(";")}` : ""}`,
+    `family=${fonts.title.name.replace(/\s+/g, "+")}:wght@${fonts.title.weights.join(";")}`,
   ];
   return `https://fonts.googleapis.com/css2?${fontsList.join("&")}&display=swap`;
 }

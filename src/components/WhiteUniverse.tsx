@@ -1,5 +1,17 @@
-import { ImageWithFallback } from "./figma/ImageWithFallback";
-import { motion } from "motion/react";
+const headingStyle = {
+  color: "var(--heading-foreground)",
+} as const;
+
+const bodyStyle = {
+  color: "var(--foreground)",
+} as const;
+
+const accentRuleStyle = {
+  width: 28,
+  height: 2,
+  backgroundColor: "var(--accent)",
+  marginBottom: "1.75rem",
+} as const;
 
 export function WhiteUniverse() {
   const poemLines = [
@@ -21,78 +33,52 @@ export function WhiteUniverse() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#1c1917] text-[#EBE9CF] overflow-x-hidden">
-      {/* Atmospheric Background */}
-      <div className="fixed inset-0 z-0">
-        <ImageWithFallback
-          src="/assets/white-universe-snow.jpg"
-          alt="White Universe Snow Scene"
-          className="w-full h-full object-cover opacity-20"
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#1c1917]/80 via-[#1c1917]/90 to-[#1c1917]" />
-      </div>
-
-      <div className="relative z-10">
-        {/* Hero Section with Poem */}
-        <div className="min-h-screen flex flex-col items-center justify-center py-20 px-4">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1 }}
-            className="text-center mb-16"
+    <main
+      className="min-h-screen w-full overflow-x-hidden"
+      style={{ backgroundColor: "var(--background)" }}
+    >
+      {/* Hero Section with Poem */}
+      <section className="pt-nav pb-14">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h1
+            className="type-page-title mb-6"
+            style={{
+              ...headingStyle,
+            }}
           >
-            <h1 className="text-5xl md:text-7xl font-serif text-[#c9a050] mb-6 tracking-tighter">
-              White Universe
-            </h1>
-            <p className="text-stone-400 italic tracking-widest uppercase text-sm md:text-base">
-              A Poem by Venerable Master Hsuan Hua
-            </p>
-          </motion.div>
+            White Universe
+          </h1>
+          <div className="sm:hidden" style={accentRuleStyle} />
 
-          <div className="max-w-3xl mx-auto space-y-6 text-center relative">
-            {/* Decorative lines */}
-            <div className="absolute left-0 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-[#c9a050]/30 to-transparent hidden md:block" />
-            <div className="absolute right-0 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-[#c9a050]/30 to-transparent hidden md:block" />
-
-            {poemLines.map((line, index) => (
-              <motion.p
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-10%" }}
-                transition={{ duration: 0.8, delay: index * 0.1 }}
-                className={`text-lg md:text-2xl font-serif leading-relaxed ${
-                  index % 2 === 0 ? "text-stone-200" : "text-stone-400"
-                }`}
+          <div className="mt-10 space-y-4">
+            {poemLines.map((line) => (
+              <p
+                key={line}
+                className="type-subtitle text-lg md:text-2xl"
+                style={{ ...headingStyle, lineHeight: 1.55 }}
               >
                 {line}
-              </motion.p>
+              </p>
             ))}
           </div>
-
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 2, duration: 1 }}
-            className="mt-16"
-          >
-            <span className="text-[#c9a050] text-2xl animate-bounce block">↓</span>
-          </motion.div>
         </div>
+      </section>
 
-        {/* Explanation Section */}
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-24 bg-[#1c1917]/80 backdrop-blur-sm rounded-t-3xl border-t border-[#c9a050]/20">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="mb-16 text-center"
+      {/* Explanation Section */}
+      <section className="border-t py-16" style={{ borderColor: "var(--border)" }}>
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="sm:hidden" style={accentRuleStyle} />
+          <h2
+            className="type-section-title mb-8"
+            style={{
+              ...headingStyle,
+              fontSize: "clamp(2rem, 4vw, 2.6rem)",
+            }}
           >
-            <h2 className="text-3xl md:text-4xl font-serif text-[#c9a050] mb-8">The Explanation</h2>
-            <div className="h-1 w-24 bg-[#c9a050]/50 mx-auto" />
-          </motion.div>
+            The Explanation
+          </h2>
 
-          <div className="space-y-12 text-lg font-light leading-relaxed text-stone-300 text-justify">
+          <div className="type-body space-y-8" style={bodyStyle}>
             <ExplanationBlock>
               Do you know what I want to tell you all today? I want to tell you about the
               "Six-Syllable Great Bright Mantra" Recitation Session held at Gold Mountain Monastery
@@ -170,26 +156,25 @@ export function WhiteUniverse() {
             </ExplanationBlock>
 
             {/* Snow Scene Image */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-              className="my-12"
-            >
+            <div className="my-12">
               <div className="md:float-right md:w-96 md:ml-10 mb-8 md:mb-4">
-                <div className="p-2 border border-[#c9a050]/30 rounded-sm bg-[#2a2522]">
-                  <ImageWithFallback
+                <div className="overflow-hidden" style={{ borderRadius: 2 }}>
+                  <img
                     src="/assets/white-universe-snow.jpg"
                     alt="White Universe Snow Scene - Ice in the sky, snow on the ground"
-                    className="w-full h-auto rounded-sm shadow-2xl opacity-90"
+                    className="h-auto w-full"
                   />
                 </div>
-                <p className="text-center text-[#c9a050]/60 text-sm mt-3 font-serif italic tracking-wide">
+                <p
+                  className="type-subtitle mt-3 text-center text-sm italic"
+                  style={{
+                    color: "var(--foreground)",
+                  }}
+                >
                   Ice in the sky, snow on the ground
                 </p>
               </div>
-            </motion.div>
+            </div>
 
             <ExplanationBlock>
               Since the ice is white, the poem is entitled "White Universe." That's to speak on a
@@ -210,7 +195,10 @@ export function WhiteUniverse() {
               "White Universe" which I wrote goes like this:"
             </ExplanationBlock>
 
-            <div className="my-12 p-8 border-l-2 border-[#c9a050] bg-[#2a2522]/50 italic text-stone-200 space-y-2">
+            <div
+              className="my-12 space-y-2 p-6 italic"
+              style={{ borderLeft: "2px solid var(--accent)" }}
+            >
               <p>
                 <i>Ice in the sky, snow on the ground.</i>
               </p>
@@ -480,26 +468,12 @@ export function WhiteUniverse() {
               one made vigorous progress anymore.
             </ExplanationBlock>
           </div>
-
-          {/* Footer Symbol */}
-          <div className="mt-24 text-center">
-            <span className="block text-[#c9a050] text-4xl">❖</span>
-          </div>
         </div>
-      </div>
-    </div>
+      </section>
+    </main>
   );
 }
 
 function ExplanationBlock({ children }: { children: React.ReactNode }) {
-  return (
-    <motion.p
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.5 }}
-    >
-      {children}
-    </motion.p>
-  );
+  return <p>{children}</p>;
 }

@@ -67,7 +67,7 @@ export function BlogNavigation({ previousPost, nextPost }: Props) {
                 Previous
               </div>
               <h3
-                className="font-serif text-sm sm:text-base mb-0.5 sm:mb-1 line-clamp-1"
+                className="type-subtitle text-sm sm:text-base mb-0.5 sm:mb-1 line-clamp-1"
                 style={{
                   color: "#1c1917",
                   marginTop: "1rem",
@@ -108,7 +108,7 @@ export function BlogNavigation({ previousPost, nextPost }: Props) {
                 Next
               </div>
               <h3
-                className="font-serif text-sm sm:text-base mb-0.5 sm:mb-1 line-clamp-1"
+                className="type-subtitle text-sm sm:text-base mb-0.5 sm:mb-1 line-clamp-1"
                 style={{
                   color: "#1c1917",
                   marginTop: "1rem",
