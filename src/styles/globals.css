@@ -8,8 +8,13 @@
 .ink-texture {
   position: relative;
   background:
-    radial-gradient(ellipse at 20% 30%, rgba(255, 255, 255, 0.025), transparent 60%),
-    radial-gradient(ellipse at 80% 80%, rgba(0, 0, 0, 0.12), transparent 55%), var(--dark-bg);
+    radial-gradient(
+      ellipse at 20% 30%,
+      rgba(255, 255, 255, 0.025),
+      transparent 60%
+    ),
+    radial-gradient(ellipse at 80% 80%, rgba(0, 0, 0, 0.12), transparent 55%),
+    var(--dark-bg);
 }
 
 .ink-texture::before {
@@ -31,7 +36,11 @@
 /* Texture for positioned overlays; deliberately does not alter position or stacking. */
 .ink-texture-panel {
   background-image:
-    radial-gradient(ellipse at 20% 30%, rgba(255, 255, 255, 0.025), transparent 60%),
+    radial-gradient(
+      ellipse at 20% 30%,
+      rgba(255, 255, 255, 0.025),
+      transparent 60%
+    ),
     radial-gradient(ellipse at 80% 80%, rgba(0, 0, 0, 0.12), transparent 55%),
     url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch' result='noise'/%3E%3CfeComponentTransfer in='noise'%3E%3CfeFuncA type='linear' slope='0.05'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   background-blend-mode: normal, normal, overlay;

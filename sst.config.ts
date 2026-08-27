@@ -103,7 +103,13 @@ export default $config({
         COGNITO_USER_POOL_ID: userPool.id,
         COGNITO_USER_POOL_CLIENT_ID: userPoolClient.id,
       },
-      link: [blogPostsTable, blogStorage, mediaAssetsTable, mediaStorage, userPool],
+      link: [
+        blogPostsTable,
+        blogStorage,
+        mediaAssetsTable,
+        mediaStorage,
+        userPool,
+      ],
     });
 
     // Create Cognito Identity Pool for AWS credentials
@@ -142,7 +148,10 @@ export default $config({
       permissions: [
         {
           actions: ["s3:GetObject", "s3:ListBucket"],
-          resources: [$interpolate`${blogStorage.arn}`, $interpolate`${blogStorage.arn}/*`],
+          resources: [
+            $interpolate`${blogStorage.arn}`,
+            $interpolate`${blogStorage.arn}/*`,
+          ],
         },
       ],
       // Force CloudFront invalidation for all paths including dynamic blog routes

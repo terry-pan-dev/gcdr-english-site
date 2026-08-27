@@ -60,7 +60,10 @@ const schedule: MonthBlock[] = [
         title: "Emperor Liang Jeweled Repentance",
         zoomLink: "https://zoom.us/j/127598942",
         sessions: [
-          { time: "8:00 – 10:15 AM", label: "Emperor Liang Jeweled Repentance" },
+          {
+            time: "8:00 – 10:15 AM",
+            label: "Emperor Liang Jeweled Repentance",
+          },
           {
             time: "1:00 – 3:30 PM",
             label: "Emperor Liang Jeweled Repentance & Transference of Merits",
@@ -149,7 +152,8 @@ const schedule: MonthBlock[] = [
       {
         date: "1 January 2027",
         time: "8:00 AM – 8:00 PM",
-        title: "Making Wishes and Ringing the Bell — 12-Hour Shurangama Mantra Recitation",
+        title:
+          "Making Wishes and Ringing the Bell — 12-Hour Shurangama Mantra Recitation",
       },
     ],
   },
@@ -362,7 +366,10 @@ export function EventsSchedule() {
                     entry.time &&
                     (Array.isArray(entry.time) ? (
                       entry.time.map((t, i) => (
-                        <div key={i} style={{ ...rowGrid, marginTop: "0.3rem" }}>
+                        <div
+                          key={i}
+                          style={{ ...rowGrid, marginTop: "0.3rem" }}
+                        >
                           <p style={timeStyle}>{t}</p>
                           <div />
                         </div>

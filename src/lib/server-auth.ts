@@ -6,13 +6,17 @@ import { CognitoJwtVerifier } from "aws-jwt-verify";
 // Get Cognito config from environment (works in both Node.js and Astro contexts)
 const getCognitoConfig = () => {
   const userPoolId =
-    (typeof process !== "undefined" && process.env?.PUBLIC_COGNITO_USER_POOL_ID) ||
-    (typeof import.meta !== "undefined" && import.meta.env?.PUBLIC_COGNITO_USER_POOL_ID) ||
+    (typeof process !== "undefined" &&
+      process.env?.PUBLIC_COGNITO_USER_POOL_ID) ||
+    (typeof import.meta !== "undefined" &&
+      import.meta.env?.PUBLIC_COGNITO_USER_POOL_ID) ||
     "";
 
   const clientId =
-    (typeof process !== "undefined" && process.env?.PUBLIC_COGNITO_USER_POOL_CLIENT_ID) ||
-    (typeof import.meta !== "undefined" && import.meta.env?.PUBLIC_COGNITO_USER_POOL_CLIENT_ID) ||
+    (typeof process !== "undefined" &&
+      process.env?.PUBLIC_COGNITO_USER_POOL_CLIENT_ID) ||
+    (typeof import.meta !== "undefined" &&
+      import.meta.env?.PUBLIC_COGNITO_USER_POOL_CLIENT_ID) ||
     "";
 
   return { userPoolId, clientId };
@@ -29,8 +33,12 @@ const getJwtVerifier = () => {
   const { userPoolId, clientId } = getCognitoConfig();
 
   if (!userPoolId) {
-    console.error("JWT Verifier: PUBLIC_COGNITO_USER_POOL_ID environment variable is not set");
-    throw new Error("PUBLIC_COGNITO_USER_POOL_ID environment variable is not set");
+    console.error(
+      "JWT Verifier: PUBLIC_COGNITO_USER_POOL_ID environment variable is not set",
+    );
+    throw new Error(
+      "PUBLIC_COGNITO_USER_POOL_ID environment variable is not set",
+    );
   }
 
   try {
@@ -60,10 +68,16 @@ export interface VerifiedUser {
  * @param accessToken - The Cognito access token (JWT)
  * @returns User information if token is valid, null otherwise
  */
-export async function verifyCognitoToken(accessToken: string): Promise<VerifiedUser | null> {
+export async function verifyCognitoToken(
+  accessToken: string,
+): Promise<VerifiedUser | null> {
   try {
     // Validate token format first (basic check)
-    if (!accessToken || typeof accessToken !== "string" || accessToken.split(".").length !== 3) {
+    if (
+      !accessToken ||
+      typeof accessToken !== "string" ||
+      accessToken.split(".").length !== 3
+    ) {
       console.error("Token verification error: Invalid token format");
       return null;
     }
@@ -76,7 +90,8 @@ export async function verifyCognitoToken(accessToken: string): Promise<VerifiedU
 
     // Extract user information from JWT payload
     // Access tokens contain: sub, username, email (if available), etc.
-    const email = (payload.email as string) || (payload.username as string) || "";
+    const email =
+      (payload.email as string) || (payload.username as string) || "";
     const sub = payload.sub as string;
 
     if (!sub) {
@@ -87,14 +102,29 @@ export async function verifyCognitoToken(accessToken: string): Promise<VerifiedU
     return { email, sub };
   } catch (error: any) {
     // Handle specific error types
-    if (error.name === "TokenExpiredError" || error.message?.includes("expired")) {
+    if (
+      error.name === "TokenExpiredError" ||
+      error.message?.includes("expired")
+    ) {
       console.error("Token verification error: Token has expired");
-    } else if (error.name === "TokenInvalidError" || error.message?.includes("invalid")) {
-      console.error("Token verification error: Token is invalid", error.message);
+    } else if (
+      error.name === "TokenInvalidError" ||
+      error.message?.includes("invalid")
+    ) {
+      console.error(
+        "Token verification error: Token is invalid",
+        error.message,
+      );
     } else if (error.message?.includes("PUBLIC_COGNITO_USER_POOL_ID")) {
-      console.error("Token verification error: Configuration missing -", error.message);
+      console.error(
+        "Token verification error: Configuration missing -",
+        error.message,
+      );
     } else {
-      console.error("Token verification error:", error.name || error.message || error);
+      console.error(
+        "Token verification error:",
+        error.name || error.message || error,
+      );
     }
     return null;
   }
@@ -111,7 +141,9 @@ export function extractTokenFromRequest(request: Request): string | null {
   const authHeader = request.headers.get("authorization");
   if (authHeader) {
     // Support both "Bearer <token>" and just "<token>"
-    const token = authHeader.startsWith("Bearer ") ? authHeader.substring(7) : authHeader;
+    const token = authHeader.startsWith("Bearer ")
+      ? authHeader.substring(7)
+      : authHeader;
     if (token) return token.trim();
   }
 
@@ -119,7 +151,9 @@ export function extractTokenFromRequest(request: Request): string | null {
   const cookieHeader = request.headers.get("cookie");
   if (cookieHeader) {
     const cookies = cookieHeader.split(";").map((c) => c.trim());
-    const tokenCookie = cookies.find((c) => c.startsWith("cognito_access_token="));
+    const tokenCookie = cookies.find((c) =>
+      c.startsWith("cognito_access_token="),
+    );
     if (tokenCookie) {
       // Extract value after "=", handling URL encoding
       const value = tokenCookie.substring("cognito_access_token=".length);

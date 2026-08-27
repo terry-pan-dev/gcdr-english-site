@@ -102,7 +102,10 @@ export function EventsRegular() {
                 borderBottom: "0.5px solid var(--border)",
               }}
             >
-              <p className="type-subtitle" style={{ fontSize: "1.2rem", marginBottom: "0.75rem" }}>
+              <p
+                className="type-subtitle"
+                style={{ fontSize: "1.2rem", marginBottom: "0.75rem" }}
+              >
                 Dharma Service and Lecture
               </p>
               <div
@@ -113,7 +116,9 @@ export function EventsRegular() {
                 }}
               >
                 <p>
-                  <span style={{ color: "var(--foreground)" }}>8:00 {"\u2013"} 9:30 AM</span>{" "}
+                  <span style={{ color: "var(--foreground)" }}>
+                    8:00 {"\u2013"} 9:30 AM
+                  </span>{" "}
                   Avatamsaka Repentance
                 </p>
                 <span
@@ -140,14 +145,17 @@ export function EventsRegular() {
                       title: "Morning Ceremony — Avatamsaka Repentance",
                       start: "20260502T080000",
                       end: "20260502T093000",
-                      details: "Avatamsaka Repentance\nhttps://zoom.us/j/127598942",
+                      details:
+                        "Avatamsaka Repentance\nhttps://zoom.us/j/127598942",
                       location: "https://zoom.us/j/127598942",
                       recurring: true,
                     })}
                   />
                 </span>
                 <p>
-                  <span style={{ color: "var(--foreground)" }}>9:30 {"\u2013"} 10:30 AM</span>{" "}
+                  <span style={{ color: "var(--foreground)" }}>
+                    9:30 {"\u2013"} 10:30 AM
+                  </span>{" "}
                   Dharma Talk by Dharma Master Jin Fu
                 </p>
               </div>
@@ -161,7 +169,10 @@ export function EventsRegular() {
                 borderBottom: "0.5px solid var(--border)",
               }}
             >
-              <p className="type-subtitle" style={{ fontSize: "1.2rem", marginBottom: "0.75rem" }}>
+              <p
+                className="type-subtitle"
+                style={{ fontSize: "1.2rem", marginBottom: "0.75rem" }}
+              >
                 Library Dharma Talk
               </p>
               <div
@@ -172,10 +183,13 @@ export function EventsRegular() {
                 }}
               >
                 <p>
-                  <span style={{ color: "var(--foreground)" }}>12:30 {"\u2013"} 1:30 PM</span>{" "}
+                  <span style={{ color: "var(--foreground)" }}>
+                    12:30 {"\u2013"} 1:30 PM
+                  </span>{" "}
                   Dharma talk by Rev. Heng Sure on
                   <em style={{ display: "block" }}>
-                    A Pictorial Biography of the Venerable Master Hsu Yun (Master Empty Cloud)
+                    A Pictorial Biography of the Venerable Master Hsu Yun
+                    (Master Empty Cloud)
                   </em>
                 </p>
                 <span
@@ -220,7 +234,10 @@ export function EventsRegular() {
                 borderBottom: "0.5px solid var(--border)",
               }}
             >
-              <p className="type-subtitle" style={{ fontSize: "1.2rem", marginBottom: "0.75rem" }}>
+              <p
+                className="type-subtitle"
+                style={{ fontSize: "1.2rem", marginBottom: "0.75rem" }}
+              >
                 Afternoon Recitation
               </p>
               <div
@@ -231,7 +248,9 @@ export function EventsRegular() {
                 }}
               >
                 <p>
-                  <span style={{ color: "var(--foreground)" }}>1:45 {"\u2013"} 3:00 PM</span>{" "}
+                  <span style={{ color: "var(--foreground)" }}>
+                    1:45 {"\u2013"} 3:00 PM
+                  </span>{" "}
                   Shurangama Mantra Recitation &amp; Transference of Merits
                 </p>
                 <span
@@ -292,7 +311,10 @@ export function EventsRegular() {
                 borderBottom: "0.5px solid var(--border)",
               }}
             >
-              <p className="type-subtitle" style={{ fontSize: "1.2rem", marginBottom: "0.75rem" }}>
+              <p
+                className="type-subtitle"
+                style={{ fontSize: "1.2rem", marginBottom: "0.75rem" }}
+              >
                 Yoga &amp; Meditation
               </p>
               <div
@@ -303,8 +325,11 @@ export function EventsRegular() {
                 }}
               >
                 <p>
-                  <span style={{ color: "var(--foreground)" }}>8:00 {"\u2013"} 10:00 AM</span> A
-                  guided session open to all. Sitting cushions, mats, and blankets are available.
+                  <span style={{ color: "var(--foreground)" }}>
+                    8:00 {"\u2013"} 10:00 AM
+                  </span>{" "}
+                  A guided session open to all. Sitting cushions, mats, and
+                  blankets are available.
                 </p>
                 <a
                   href="/yoga"
@@ -328,7 +353,10 @@ export function EventsRegular() {
                 borderBottom: "0.5px solid var(--border)",
               }}
             >
-              <p className="type-subtitle" style={{ fontSize: "1.2rem", marginBottom: "0.35rem" }}>
+              <p
+                className="type-subtitle"
+                style={{ fontSize: "1.2rem", marginBottom: "0.35rem" }}
+              >
                 Sunday Classes
               </p>
               <p
@@ -350,7 +378,9 @@ export function EventsRegular() {
                 }}
               >
                 <p>
-                  <span style={{ color: "var(--foreground)" }}>9:00 {"\u2013"} 11:00 AM</span>{" "}
+                  <span style={{ color: "var(--foreground)" }}>
+                    9:00 {"\u2013"} 11:00 AM
+                  </span>{" "}
                   Includes calligraphy and kids' Chinese culture classes.
                 </p>
               </div>
@@ -364,7 +394,10 @@ export function EventsRegular() {
                 borderBottom: "0.5px solid var(--border)",
               }}
             >
-              <p className="type-subtitle" style={{ fontSize: "1.2rem", marginBottom: "0.75rem" }}>
+              <p
+                className="type-subtitle"
+                style={{ fontSize: "1.2rem", marginBottom: "0.75rem" }}
+              >
                 Sutra Dharma Talk
               </p>
               <div
@@ -375,13 +408,17 @@ export function EventsRegular() {
                 }}
               >
                 <p>
-                  <span style={{ color: "var(--foreground)" }}>12:30 {"\u2013"} 3:00 PM</span>{" "}
+                  <span style={{ color: "var(--foreground)" }}>
+                    12:30 {"\u2013"} 3:00 PM
+                  </span>{" "}
                   Dharma talk by Rev. Heng Sure on
-                  <em style={{ display: "block" }}>Avatamsaka (Flower Adornment) Sūtra</em>
+                  <em style={{ display: "block" }}>
+                    Avatamsaka (Flower Adornment) Sūtra
+                  </em>
                 </p>
                 <p style={{ marginTop: "0.5rem" }}>
-                  Visitors are welcome to join in person. Please ring at the gate for entry, as this
-                  talk is after opening hours.
+                  Visitors are welcome to join in person. Please ring at the
+                  gate for entry, as this talk is after opening hours.
                 </p>
                 <span
                   style={{

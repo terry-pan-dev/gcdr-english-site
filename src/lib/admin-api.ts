@@ -75,7 +75,9 @@ const getApiUrl = async (endpoint: string): Promise<string> => {
 
   // Normalize base URL (remove trailing slash) and endpoint (ensure leading slash)
   const normalizedBase = baseUrl.replace(/\/+$/, "");
-  const normalizedEndpoint = endpoint.startsWith("/") ? endpoint : `/${endpoint}`;
+  const normalizedEndpoint = endpoint.startsWith("/")
+    ? endpoint
+    : `/${endpoint}`;
 
   // Combine: baseUrl + endpoint
   // e.g., https://xxx.lambda-url...on.aws + /api/admin/auth/login
@@ -155,7 +157,7 @@ interface ApiResponse<T> {
 
 const apiRequest = async <T>(
   endpoint: string,
-  options: RequestInit = {}
+  options: RequestInit = {},
 ): Promise<ApiResponse<T>> => {
   try {
     const url = await getApiUrl(endpoint);
@@ -201,7 +203,7 @@ const apiRequest = async <T>(
         console.error("Non-JSON response received. URL:", url);
         console.error("Response preview:", text.substring(0, 200));
         console.error(
-          "This usually means the API URL is pointing to the wrong endpoint (e.g., Astro page instead of Lambda function)"
+          "This usually means the API URL is pointing to the wrong endpoint (e.g., Astro page instead of Lambda function)",
         );
       }
       return {
@@ -226,7 +228,9 @@ const apiRequest = async <T>(
         });
 
         if (!retryResponse.ok) {
-          const errorData = await retryResponse.json().catch(() => ({ error: "Unknown error" }));
+          const errorData = await retryResponse
+            .json()
+            .catch(() => ({ error: "Unknown error" }));
           // If still 401 after refresh, authentication failed
           if (retryResponse.status === 401) {
             removeAuthToken();
@@ -246,7 +250,9 @@ const apiRequest = async <T>(
     }
 
     if (!response.ok) {
-      const errorData = await response.json().catch(() => ({ error: "Unknown error" }));
+      const errorData = await response
+        .json()
+        .catch(() => ({ error: "Unknown error" }));
       return { error: errorData.error || `HTTP ${response.status}` };
     }
 
@@ -281,7 +287,8 @@ export const authApi = {
       } else {
         // Sign-in requires additional steps (not expected for basic email/password)
         return {
-          error: "Sign-in requires additional steps. Please contact administrator.",
+          error:
+            "Sign-in requires additional steps. Please contact administrator.",
         };
       }
     } catch (error: any) {
@@ -404,7 +411,9 @@ export const blogApi = {
     });
   },
 
-  create: async (blog: Partial<BlogPost> & { content: string }): Promise<ApiResponse<BlogPost>> => {
+  create: async (
+    blog: Partial<BlogPost> & { content: string },
+  ): Promise<ApiResponse<BlogPost>> => {
     return apiRequest<BlogPost>("/api/admin/blogs", {
       method: "POST",
       body: JSON.stringify(blog),
@@ -413,7 +422,7 @@ export const blogApi = {
 
   update: async (
     id: string,
-    blog: Partial<BlogPost> & { content?: string }
+    blog: Partial<BlogPost> & { content?: string },
   ): Promise<ApiResponse<BlogPost>> => {
     return apiRequest<BlogPost>(`/api/admin/blogs/${id}`, {
       method: "PUT",
@@ -449,12 +458,15 @@ export const mediaApi = {
   upload: async (
     filename: string,
     type: "image" | "video",
-    size?: number
+    size?: number,
   ): Promise<ApiResponse<{ uploadUrl: string; media: MediaAsset }>> => {
-    return apiRequest<{ uploadUrl: string; media: MediaAsset }>("/api/admin/media", {
-      method: "POST",
-      body: JSON.stringify({ filename, type, size }),
-    });
+    return apiRequest<{ uploadUrl: string; media: MediaAsset }>(
+      "/api/admin/media",
+      {
+        method: "POST",
+        body: JSON.stringify({ filename, type, size }),
+      },
+    );
   },
 
   delete: async (id: string): Promise<ApiResponse<{ message: string }>> => {

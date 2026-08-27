@@ -54,9 +54,15 @@ export function Navigation() {
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const [isLangOpen, setIsLangOpen] = useState(false);
   const langRef = useRef<HTMLDivElement | null>(null);
-  const [mobileOpenSubmenu, setMobileOpenSubmenu] = useState<string | null>(null);
-  const [mobileOpenNestedSubmenu, setMobileOpenNestedSubmenu] = useState<string | null>(null);
-  const [openNestedDropdown, setOpenNestedDropdown] = useState<string | null>(null);
+  const [mobileOpenSubmenu, setMobileOpenSubmenu] = useState<string | null>(
+    null,
+  );
+  const [mobileOpenNestedSubmenu, setMobileOpenNestedSubmenu] = useState<
+    string | null
+  >(null);
+  const [openNestedDropdown, setOpenNestedDropdown] = useState<string | null>(
+    null,
+  );
   const [nestedDropdownDirections, setNestedDropdownDirections] = useState<
     Record<string, NestedDropdownDirection>
   >({});
@@ -65,7 +71,9 @@ export function Navigation() {
   const navRef = useRef<HTMLElement | null>(null);
   const [activeHash, setActiveHash] = useState("");
   const [isMounted, setIsMounted] = useState(false);
-  const nestedCloseTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const nestedCloseTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(
+    null,
+  );
 
   const clearNestedCloseTimeout = () => {
     if (nestedCloseTimeoutRef.current) {
@@ -89,9 +97,14 @@ export function Navigation() {
     const viewportPadding = 16;
     const triggerRect = triggerElement.getBoundingClientRect();
     const direction =
-      triggerRect.right + submenuWidth + viewportPadding > window.innerWidth ? "left" : "right";
+      triggerRect.right + submenuWidth + viewportPadding > window.innerWidth
+        ? "left"
+        : "right";
 
-    setNestedDropdownDirections((current) => ({ ...current, [nestedKey]: direction }));
+    setNestedDropdownDirections((current) => ({
+      ...current,
+      [nestedKey]: direction,
+    }));
     setOpenNestedDropdown(nestedKey);
   };
 
@@ -99,7 +112,8 @@ export function Navigation() {
     setIsMounted(true);
     setActiveHash(normalizePathname(window.location.pathname));
 
-    const handleNav = () => setActiveHash(normalizePathname(window.location.pathname));
+    const handleNav = () =>
+      setActiveHash(normalizePathname(window.location.pathname));
     document.addEventListener("astro:page-load", handleNav);
     return () => document.removeEventListener("astro:page-load", handleNav);
   }, []);
@@ -116,7 +130,10 @@ export function Navigation() {
     const handleClickOutside = (event: MouseEvent) => {
       if (openDropdown) {
         const dropdownElement = dropdownRefs.current[openDropdown];
-        if (dropdownElement && !dropdownElement.contains(event.target as Node)) {
+        if (
+          dropdownElement &&
+          !dropdownElement.contains(event.target as Node)
+        ) {
           setOpenDropdown(null);
           setOpenNestedDropdown(null);
         }
@@ -250,7 +267,8 @@ export function Navigation() {
                   forceSolidNav || isScrolled
                     ? "brightness(1.5)"
                     : "drop-shadow(0 2px 4px rgba(0,0,0,0.8))",
-                mixBlendMode: forceSolidNav || isScrolled ? "normal" : "overlay",
+                mixBlendMode:
+                  forceSolidNav || isScrolled ? "normal" : "overlay",
               }}
             />
           </a>
@@ -265,9 +283,13 @@ export function Navigation() {
           <div className="hidden min-[800px]:flex items-center gap-6 shrink-0">
             {navLinks.map((link) => {
               const isActive =
-                link.href === activeHash || (link.href === "/" && activeHash === "/");
-              const isSubmenuActive = link.submenu?.some((sub) => isSubLinkActive(sub, activeHash));
-              const shouldHighlight = isMounted && (isActive || isSubmenuActive);
+                link.href === activeHash ||
+                (link.href === "/" && activeHash === "/");
+              const isSubmenuActive = link.submenu?.some((sub) =>
+                isSubLinkActive(sub, activeHash),
+              );
+              const shouldHighlight =
+                isMounted && (isActive || isSubmenuActive);
 
               return (
                 <div key={link.name} className="relative">
@@ -280,7 +302,9 @@ export function Navigation() {
                     >
                       <button
                         onClick={() => {
-                          setOpenDropdown(openDropdown === link.name ? null : link.name);
+                          setOpenDropdown(
+                            openDropdown === link.name ? null : link.name,
+                          );
                           setOpenNestedDropdown(null);
                         }}
                         className="flex items-center gap-1 nav-link transition-colors"
@@ -298,7 +322,8 @@ export function Navigation() {
                           style={{ backgroundColor: "var(--color-dark-card)" }}
                         >
                           {link.submenu.map((sublink) => {
-                            const isSubActive = isMounted && isSubLinkActive(sublink, activeHash);
+                            const isSubActive =
+                              isMounted && isSubLinkActive(sublink, activeHash);
 
                             if (!hasHref(sublink)) {
                               const nestedKey = `${link.name}:${sublink.name}`;
@@ -310,7 +335,10 @@ export function Navigation() {
                                   key={sublink.name}
                                   className="relative"
                                   onMouseEnter={(event) =>
-                                    openNestedMenu(nestedKey, event.currentTarget)
+                                    openNestedMenu(
+                                      nestedKey,
+                                      event.currentTarget,
+                                    )
                                   }
                                   onMouseLeave={scheduleNestedClose}
                                 >
@@ -324,23 +352,29 @@ export function Navigation() {
                                       backgroundColor: isSubActive
                                         ? "var(--color-accent-gold-10)"
                                         : "transparent",
-                                      borderBottom: "1px solid var(--color-accent-gold-20)",
+                                      borderBottom:
+                                        "1px solid var(--color-accent-gold-20)",
                                     }}
                                     onClick={(event) =>
                                       openNestedDropdown === nestedKey
                                         ? setOpenNestedDropdown(null)
                                         : openNestedMenu(
                                             nestedKey,
-                                            event.currentTarget.parentElement ?? event.currentTarget
+                                            event.currentTarget.parentElement ??
+                                              event.currentTarget,
                                           )
                                     }
-                                    aria-expanded={openNestedDropdown === nestedKey}
+                                    aria-expanded={
+                                      openNestedDropdown === nestedKey
+                                    }
                                   >
                                     <span>{sublink.name}</span>
                                     <ChevronRight
                                       size={15}
                                       className={
-                                        nestedDirection === "left" ? "rotate-180" : undefined
+                                        nestedDirection === "left"
+                                          ? "rotate-180"
+                                          : undefined
                                       }
                                     />
                                   </button>
@@ -348,15 +382,21 @@ export function Navigation() {
                                     sublink.submenu.length > 0 && (
                                       <div
                                         className={`ink-texture-panel absolute top-0 min-w-[240px] rounded-lg shadow-lg overflow-hidden ${
-                                          nestedDirection === "left" ? "right-full" : "left-full"
+                                          nestedDirection === "left"
+                                            ? "right-full"
+                                            : "left-full"
                                         }`}
-                                        style={{ backgroundColor: "var(--color-dark-card)" }}
+                                        style={{
+                                          backgroundColor:
+                                            "var(--color-dark-card)",
+                                        }}
                                         onMouseEnter={clearNestedCloseTimeout}
                                         onMouseLeave={scheduleNestedClose}
                                       >
                                         {sublink.submenu.map((nestedLink) => {
                                           const isNestedActive =
-                                            isMounted && nestedLink.href === activeHash;
+                                            isMounted &&
+                                            nestedLink.href === activeHash;
 
                                           return (
                                             <a
@@ -394,11 +434,14 @@ export function Navigation() {
                                 href={sublink.href}
                                 className="dropdown-link block py-3 px-6"
                                 style={{
-                                  color: isSubActive ? "var(--color-accent-on-dark)" : undefined,
+                                  color: isSubActive
+                                    ? "var(--color-accent-on-dark)"
+                                    : undefined,
                                   backgroundColor: isSubActive
                                     ? "var(--color-accent-gold-10)"
                                     : "transparent",
-                                  borderBottom: "1px solid var(--color-accent-gold-20)",
+                                  borderBottom:
+                                    "1px solid var(--color-accent-gold-20)",
                                 }}
                                 onClick={() => {
                                   setOpenDropdown(null);
@@ -417,7 +460,9 @@ export function Navigation() {
                       href={link.href}
                       className="nav-link transition-colors"
                       style={{
-                        color: isActive ? "var(--color-accent-on-dark)" : "var(--color-dark-text)",
+                        color: isActive
+                          ? "var(--color-accent-on-dark)"
+                          : "var(--color-dark-text)",
                       }}
                     >
                       {link.name}
@@ -432,7 +477,10 @@ export function Navigation() {
           <div className="hidden min-[800px]:block flex-[1]" />
 
           {/* ── Globe ── */}
-          <div className="hidden min-[800px]:block relative shrink-0" ref={langRef}>
+          <div
+            className="hidden min-[800px]:block relative shrink-0"
+            ref={langRef}
+          >
             <button
               onClick={() => setIsLangOpen(!isLangOpen)}
               className="flex items-center gap-1.5 nav-link transition-colors"
@@ -492,9 +540,13 @@ export function Navigation() {
           >
             {navLinks.map((link) => {
               const isActive =
-                link.href === activeHash || (link.href === "/" && activeHash === "/");
-              const isSubmenuActive = link.submenu?.some((sub) => isSubLinkActive(sub, activeHash));
-              const shouldHighlight = isMounted && (isActive || isSubmenuActive);
+                link.href === activeHash ||
+                (link.href === "/" && activeHash === "/");
+              const isSubmenuActive = link.submenu?.some((sub) =>
+                isSubLinkActive(sub, activeHash),
+              );
+              const shouldHighlight =
+                isMounted && (isActive || isSubmenuActive);
 
               return (
                 <div key={link.name}>
@@ -508,7 +560,9 @@ export function Navigation() {
                             : "var(--color-dark-text)",
                         }}
                         onClick={() => {
-                          setMobileOpenSubmenu(mobileOpenSubmenu === link.name ? null : link.name);
+                          setMobileOpenSubmenu(
+                            mobileOpenSubmenu === link.name ? null : link.name,
+                          );
                           setMobileOpenNestedSubmenu(null);
                         }}
                       >
@@ -530,7 +584,8 @@ export function Navigation() {
                           }}
                         >
                           {link.submenu.map((sublink) => {
-                            const isSubActive = isMounted && isSubLinkActive(sublink, activeHash);
+                            const isSubActive =
+                              isMounted && isSubLinkActive(sublink, activeHash);
 
                             if (!hasHref(sublink)) {
                               const nestedKey = `${link.name}:${sublink.name}`;
@@ -550,16 +605,22 @@ export function Navigation() {
                                     }}
                                     onClick={() =>
                                       setMobileOpenNestedSubmenu(
-                                        mobileOpenNestedSubmenu === nestedKey ? null : nestedKey
+                                        mobileOpenNestedSubmenu === nestedKey
+                                          ? null
+                                          : nestedKey,
                                       )
                                     }
-                                    aria-expanded={mobileOpenNestedSubmenu === nestedKey}
+                                    aria-expanded={
+                                      mobileOpenNestedSubmenu === nestedKey
+                                    }
                                   >
                                     <span>{sublink.name}</span>
                                     <ChevronDown
                                       size={15}
                                       className={`transition-transform ${
-                                        mobileOpenNestedSubmenu === nestedKey ? "rotate-180" : ""
+                                        mobileOpenNestedSubmenu === nestedKey
+                                          ? "rotate-180"
+                                          : ""
                                       }`}
                                     />
                                   </button>
@@ -568,7 +629,8 @@ export function Navigation() {
                                       <div className="ml-4">
                                         {sublink.submenu.map((nestedLink) => {
                                           const isNestedActive =
-                                            isMounted && nestedLink.href === activeHash;
+                                            isMounted &&
+                                            nestedLink.href === activeHash;
 
                                           return (
                                             <a
@@ -586,7 +648,9 @@ export function Navigation() {
                                               onClick={() => {
                                                 setIsMobileMenuOpen(false);
                                                 setMobileOpenSubmenu(null);
-                                                setMobileOpenNestedSubmenu(null);
+                                                setMobileOpenNestedSubmenu(
+                                                  null,
+                                                );
                                               }}
                                             >
                                               {nestedLink.name}
@@ -630,7 +694,9 @@ export function Navigation() {
                       href={link.href}
                       className="block py-2 px-2 rounded transition-all hover:bg-white/10"
                       style={{
-                        color: isActive ? "var(--color-accent-on-dark)" : "var(--color-dark-text)",
+                        color: isActive
+                          ? "var(--color-accent-on-dark)"
+                          : "var(--color-dark-text)",
                       }}
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
@@ -646,11 +712,21 @@ export function Navigation() {
               className="mt-2 pt-2 flex items-center gap-3"
               style={{ borderTop: "1px solid var(--color-accent-gold-20)" }}
             >
-              <Globe size={15} style={{ color: "var(--color-dark-text)", opacity: 0.7 }} />
-              <span style={{ color: "var(--color-accent-on-dark)", fontSize: "0.875rem" }}>
+              <Globe
+                size={15}
+                style={{ color: "var(--color-dark-text)", opacity: 0.7 }}
+              />
+              <span
+                style={{
+                  color: "var(--color-accent-on-dark)",
+                  fontSize: "0.875rem",
+                }}
+              >
                 English
               </span>
-              <span style={{ color: "var(--color-dark-text)", opacity: 0.3 }}>|</span>
+              <span style={{ color: "var(--color-dark-text)", opacity: 0.3 }}>
+                |
+              </span>
               <a
                 href="https://gcdrchinese.com"
                 style={{

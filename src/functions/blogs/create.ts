@@ -66,7 +66,7 @@ export async function handler(event: any) {
         Key: s3Key,
         Body: content,
         ContentType: "text/markdown",
-      })
+      }),
     );
 
     // Save metadata to DynamoDB
@@ -93,7 +93,7 @@ export async function handler(event: any) {
       new PutCommand({
         TableName: tableName,
         Item: blogItem,
-      })
+      }),
     );
 
     return {

@@ -37,8 +37,9 @@ export function Footer() {
               </a>
             </div>
             <p style={{ color: "var(--color-dark-text)", opacity: 0.85 }}>
-              A Mahayana Buddhist monastery in the Gold Coast hinterland, affiliated with the Dharma
-              Realm Buddhist Association (founded by the Venerable Master Hsuan Hua).
+              A Mahayana Buddhist monastery in the Gold Coast hinterland,
+              affiliated with the Dharma Realm Buddhist Association (founded by
+              the Venerable Master Hsuan Hua).
             </p>
           </div>
 
@@ -47,13 +48,18 @@ export function Footer() {
             <h3 className="mb-4" style={{ color: "var(--color-dark-text)" }}>
               Links
             </h3>
-            <ul className="space-y-2" style={{ color: "var(--color-dark-text)", opacity: 0.85 }}>
+            <ul
+              className="space-y-2"
+              style={{ color: "var(--color-dark-text)", opacity: 0.85 }}
+            >
               {footerLinks.map(({ href, label, external }) => (
                 <li key={href}>
                   <a
                     href={href}
                     className="footer-link transition-colors duration-0.01"
-                    {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                    {...(external
+                      ? { target: "_blank", rel: "noopener noreferrer" }
+                      : {})}
                   >
                     {label}
                   </a>
@@ -67,10 +73,16 @@ export function Footer() {
             <h3 className="mb-4" style={{ color: "var(--color-dark-text)" }}>
               Contact
             </h3>
-            <p style={{ color: "var(--color-dark-text)", opacity: 0.85 }} className="mb-2">
+            <p
+              style={{ color: "var(--color-dark-text)", opacity: 0.85 }}
+              className="mb-2"
+            >
               Phone: +61 (07) 5522-8788
             </p>
-            <p style={{ color: "var(--color-dark-text)", opacity: 0.85 }} className="mb-4">
+            <p
+              style={{ color: "var(--color-dark-text)", opacity: 0.85 }}
+              className="mb-4"
+            >
               Email: gcdr.australia@gmail.com
             </p>
             <p style={{ color: "var(--color-dark-text)", opacity: 0.85 }}>

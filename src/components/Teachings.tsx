@@ -8,13 +8,15 @@ export function Teachings() {
       title: "Yoga & Meditation",
       time: "Sunday 8:00AM - 10:00AM",
       location: "Blessing House",
-      description: "Begin your day with yoga and guided meditation in a peaceful setting",
+      description:
+        "Begin your day with yoga and guided meditation in a peaceful setting",
     },
     {
       icon: BookOpen,
       title: "Dharma Study",
       time: "Sunday 1:30 PM - 3:00 PM",
-      description: "Explore Buddhist scriptures and philosophy with our resident monks",
+      description:
+        "Explore Buddhist scriptures and philosophy with our resident monks",
       zoomLink: "https://drba-org.zoom.us/j/84914586289",
     },
     {
@@ -28,7 +30,10 @@ export function Teachings() {
   ];
 
   return (
-    <section id="teachings" className="py-20 bg-stone-900 text-white relative overflow-hidden">
+    <section
+      id="teachings"
+      className="py-20 bg-stone-900 text-white relative overflow-hidden"
+    >
       {/* Decorative Background */}
       <div className="absolute inset-0 opacity-10">
         <ImageWithFallback
@@ -46,11 +51,18 @@ export function Teachings() {
           >
             Teachings & Programs
           </div>
-          <h2 className="text-4xl md:text-5xl mb-6" style={{ color: "#EBE9CF" }}>
+          <h2
+            className="text-4xl md:text-5xl mb-6"
+            style={{ color: "#EBE9CF" }}
+          >
             The Path to Enlightenment
           </h2>
-          <p className="max-w-2xl mx-auto text-lg" style={{ color: "#EBE9CF", opacity: 0.8 }}>
-            Join us in exploring the Buddha's teachings through meditation, study, and practice
+          <p
+            className="max-w-2xl mx-auto text-lg"
+            style={{ color: "#EBE9CF", opacity: 0.8 }}
+          >
+            Join us in exploring the Buddha's teachings through meditation,
+            study, and practice
           </p>
         </div>
 
@@ -69,17 +81,24 @@ export function Teachings() {
               <h3 className="text-xl mb-2" style={{ color: "#EBE9CF" }}>
                 {program.title}
               </h3>
-              <p className={`text-amber-400 ${program.location ? "mb-1" : "mb-3"}`}>
+              <p
+                className={`text-amber-400 ${program.location ? "mb-1" : "mb-3"}`}
+              >
                 {program.time}
               </p>
               {program.location && (
-                <p className="text-amber-400/80 text-sm mb-3">{program.location}</p>
+                <p className="text-amber-400/80 text-sm mb-3">
+                  {program.location}
+                </p>
               )}
               <p style={{ color: "#EBE9CF", opacity: 0.7 }} className="mb-4">
                 {program.description}
               </p>
               {program.note && (
-                <p className="text-xs italic mb-4" style={{ color: "#EBE9CF", opacity: 0.6 }}>
+                <p
+                  className="text-xs italic mb-4"
+                  style={{ color: "#EBE9CF", opacity: 0.6 }}
+                >
                   {program.note}
                 </p>
               )}

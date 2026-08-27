@@ -14,7 +14,8 @@ const REGION = "ap-southeast-2";
 // SST function names are prefixed with the app name and stage
 // Format: {app}-{stage}-{functionName}
 // You may need to adjust this based on your SST deployment
-const FUNCTION_NAME = process.env.FUNCTION_NAME || process.argv[2] || "gcdr-website-dev-AdminAPI";
+const FUNCTION_NAME =
+  process.env.FUNCTION_NAME || process.argv[2] || "gcdr-website-dev-AdminAPI";
 
 async function configureCORS() {
   const client = new LambdaClient({ region: REGION });
@@ -27,7 +28,9 @@ async function configureCORS() {
     const config = await client.send(getConfig);
 
     if (!config.FunctionUrl) {
-      console.error("Function URL not found. Make sure the function is deployed.");
+      console.error(
+        "Function URL not found. Make sure the function is deployed.",
+      );
       process.exit(1);
     }
 
@@ -55,7 +58,7 @@ async function configureCORS() {
     console.error("Error configuring CORS:", error.message);
     if (error.name === "ResourceNotFoundException") {
       console.error(
-        `Function '${FUNCTION_NAME}' not found. Make sure you're using the correct function name.`
+        `Function '${FUNCTION_NAME}' not found. Make sure you're using the correct function name.`,
       );
     }
     process.exit(1);

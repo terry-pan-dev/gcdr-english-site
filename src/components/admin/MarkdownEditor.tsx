@@ -21,7 +21,13 @@ import {
 } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 import { Separator } from "../ui/separator";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "../ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+} from "../ui/dialog";
 
 interface Props {
   content: string;
@@ -34,7 +40,11 @@ export function MarkdownEditor({ content, onChange }: Props) {
   const [selectedImage, setSelectedImage] = useState("");
 
   // Insert markdown syntax at cursor position
-  const insertMarkdown = (before: string, after: string = "", placeholder: string = "") => {
+  const insertMarkdown = (
+    before: string,
+    after: string = "",
+    placeholder: string = "",
+  ) => {
     const textarea = textareaRef.current;
     if (!textarea) return;
 
@@ -174,9 +184,14 @@ export function MarkdownEditor({ content, onChange }: Props) {
     if (listMatch) {
       // Remove list marker
       const indent = listMatch[1];
-      const withoutMarker = currentLine.replace(/^(\s*)([-*+]|\d+\.)\s+/, indent);
+      const withoutMarker = currentLine.replace(
+        /^(\s*)([-*+]|\d+\.)\s+/,
+        indent,
+      );
       newContent =
-        content.substring(0, lineStart) + withoutMarker + content.substring(actualLineEnd);
+        content.substring(0, lineStart) +
+        withoutMarker +
+        content.substring(actualLineEnd);
       newCursorStart = start - (listMatch[0].length - indent.length);
       newCursorEnd = end - (listMatch[0].length - indent.length);
     } else if (selectedText && selectedText.includes("\n")) {
@@ -189,7 +204,8 @@ export function MarkdownEditor({ content, onChange }: Props) {
           ? `${indent}${index + 1}. ${line.trimStart()}`
           : `${indent}- ${line.trimStart()}`;
       });
-      newContent = content.substring(0, lineStart) + prefixedLines.join("\n") + afterText;
+      newContent =
+        content.substring(0, lineStart) + prefixedLines.join("\n") + afterText;
       newCursorStart = lineStart;
       newCursorEnd = lineStart + prefixedLines.join("\n").length;
     } else if (selectedText) {
@@ -211,7 +227,8 @@ export function MarkdownEditor({ content, onChange }: Props) {
       const item1 = "item1";
       const item2 = "item2";
       const listContent = `${prefix1}${item1}\n${prefix2}${item2}`;
-      newContent = content.substring(0, start) + listContent + content.substring(start);
+      newContent =
+        content.substring(0, start) + listContent + content.substring(start);
       // Select "item1" for easy editing
       newCursorStart = start + prefix1.length;
       newCursorEnd = start + prefix1.length + item1.length;
@@ -395,7 +412,8 @@ export function MarkdownEditor({ content, onChange }: Props) {
     const afterText = content.substring(start);
 
     // Check if we need newlines
-    const needsNewlineBefore = !beforeText.endsWith("\n\n") && beforeText !== "";
+    const needsNewlineBefore =
+      !beforeText.endsWith("\n\n") && beforeText !== "";
     const needsNewlineAfter = !afterText.startsWith("\n\n") && afterText !== "";
 
     const before = needsNewlineBefore ? "\n\n" : "";
@@ -407,7 +425,8 @@ export function MarkdownEditor({ content, onChange }: Props) {
 
     setTimeout(() => {
       if (textareaRef.current) {
-        const newPos = start + before.length + hr.length + (needsNewlineAfter ? 1 : 0);
+        const newPos =
+          start + before.length + hr.length + (needsNewlineAfter ? 1 : 0);
         textareaRef.current.focus();
         textareaRef.current.setSelectionRange(newPos, newPos);
         textareaRef.current.scrollTop = scrollTop;
@@ -428,7 +447,8 @@ export function MarkdownEditor({ content, onChange }: Props) {
     const afterText = content.substring(start);
 
     // Check if we need newlines
-    const needsNewlineBefore = !beforeText.endsWith("\n\n") && beforeText !== "";
+    const needsNewlineBefore =
+      !beforeText.endsWith("\n\n") && beforeText !== "";
     const needsNewlineAfter = !afterText.startsWith("\n\n") && afterText !== "";
 
     const before = needsNewlineBefore ? "\n\n" : "";
@@ -467,7 +487,8 @@ export function MarkdownEditor({ content, onChange }: Props) {
     const afterText = content.substring(end);
 
     // Check if we need newlines
-    const needsNewlineBefore = !beforeText.endsWith("\n\n") && beforeText !== "";
+    const needsNewlineBefore =
+      !beforeText.endsWith("\n\n") && beforeText !== "";
     const needsNewlineAfter = !afterText.startsWith("\n\n") && afterText !== "";
 
     const before = needsNewlineBefore ? "\n\n" : "";
@@ -518,7 +539,8 @@ export function MarkdownEditor({ content, onChange }: Props) {
     const afterText = content.substring(end);
 
     // Check if we need newlines
-    const needsNewlineBefore = !beforeText.endsWith("\n\n") && beforeText !== "";
+    const needsNewlineBefore =
+      !beforeText.endsWith("\n\n") && beforeText !== "";
     const needsNewlineAfter = !afterText.startsWith("\n\n") && afterText !== "";
 
     const before = needsNewlineBefore ? "\n\n" : "";
@@ -569,14 +591,16 @@ export function MarkdownEditor({ content, onChange }: Props) {
     const afterText = content.substring(start);
 
     // Check if we need newlines
-    const needsNewlineBefore = !beforeText.endsWith("\n\n") && beforeText !== "";
+    const needsNewlineBefore =
+      !beforeText.endsWith("\n\n") && beforeText !== "";
     const needsNewlineAfter = !afterText.startsWith("\n\n") && afterText !== "";
 
     const before = needsNewlineBefore ? "\n\n" : "";
     const after = needsNewlineAfter ? "\n\n" : "";
 
     // YouTube embed iframe template
-    const videoUrl = "https://www.youtube.com/embed/_5i0PuBUdbI?si=gsMTGG2QhuJvgx2x";
+    const videoUrl =
+      "https://www.youtube.com/embed/_5i0PuBUdbI?si=gsMTGG2QhuJvgx2x";
     const iframe = `<iframe width="560" height="315" src="${videoUrl}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>`;
 
     const newContent = beforeText + before + iframe + after + afterText;
@@ -591,7 +615,7 @@ export function MarkdownEditor({ content, onChange }: Props) {
         textareaRef.current.focus();
         textareaRef.current.setSelectionRange(
           start + before.length + srcStart,
-          start + before.length + srcEnd
+          start + before.length + srcEnd,
         );
         textareaRef.current.scrollTop = scrollTop;
       }
@@ -611,7 +635,8 @@ export function MarkdownEditor({ content, onChange }: Props) {
     const afterText = content.substring(start);
 
     // Check if we need newlines
-    const needsNewlineBefore = !beforeText.endsWith("\n\n") && beforeText !== "";
+    const needsNewlineBefore =
+      !beforeText.endsWith("\n\n") && beforeText !== "";
     const needsNewlineAfter = !afterText.startsWith("\n\n") && afterText !== "";
 
     const before = needsNewlineBefore ? "\n\n" : "";
@@ -637,7 +662,7 @@ export function MarkdownEditor({ content, onChange }: Props) {
         textareaRef.current.focus();
         textareaRef.current.setSelectionRange(
           start + before.length + srcStart,
-          start + before.length + srcEnd
+          start + before.length + srcEnd,
         );
         textareaRef.current.scrollTop = scrollTop;
       }
@@ -688,7 +713,9 @@ export function MarkdownEditor({ content, onChange }: Props) {
               </TooltipTrigger>
               <TooltipContent>
                 <p className="text-xs font-medium">Bold</p>
-                <p className="text-xs text-muted-foreground">Make text bold (Ctrl+B)</p>
+                <p className="text-xs text-muted-foreground">
+                  Make text bold (Ctrl+B)
+                </p>
               </TooltipContent>
             </Tooltip>
             <Tooltip>
@@ -703,7 +730,9 @@ export function MarkdownEditor({ content, onChange }: Props) {
               </TooltipTrigger>
               <TooltipContent>
                 <p className="text-xs font-medium">Italic</p>
-                <p className="text-xs text-muted-foreground">Make text italic (Ctrl+I)</p>
+                <p className="text-xs text-muted-foreground">
+                  Make text italic (Ctrl+I)
+                </p>
               </TooltipContent>
             </Tooltip>
             <Tooltip>
@@ -727,35 +756,53 @@ export function MarkdownEditor({ content, onChange }: Props) {
           <div className="flex items-center gap-1 rounded-md border border-transparent p-1 hover:border-slate-200 transition-colors">
             <Tooltip>
               <TooltipTrigger asChild>
-                <Button variant="ghost" size="sm" onClick={() => insertHeading(1)}>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => insertHeading(1)}
+                >
                   <Heading1 className="size-4" />
                 </Button>
               </TooltipTrigger>
               <TooltipContent>
                 <p className="text-xs font-medium">Heading 1</p>
-                <p className="text-xs text-muted-foreground">Large section heading</p>
+                <p className="text-xs text-muted-foreground">
+                  Large section heading
+                </p>
               </TooltipContent>
             </Tooltip>
             <Tooltip>
               <TooltipTrigger asChild>
-                <Button variant="ghost" size="sm" onClick={() => insertHeading(2)}>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => insertHeading(2)}
+                >
                   <Heading2 className="size-4" />
                 </Button>
               </TooltipTrigger>
               <TooltipContent>
                 <p className="text-xs font-medium">Heading 2</p>
-                <p className="text-xs text-muted-foreground">Medium section heading</p>
+                <p className="text-xs text-muted-foreground">
+                  Medium section heading
+                </p>
               </TooltipContent>
             </Tooltip>
             <Tooltip>
               <TooltipTrigger asChild>
-                <Button variant="ghost" size="sm" onClick={() => insertHeading(3)}>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => insertHeading(3)}
+                >
                   <Heading3 className="size-4" />
                 </Button>
               </TooltipTrigger>
               <TooltipContent>
                 <p className="text-xs font-medium">Heading 3</p>
-                <p className="text-xs text-muted-foreground">Small section heading</p>
+                <p className="text-xs text-muted-foreground">
+                  Small section heading
+                </p>
               </TooltipContent>
             </Tooltip>
           </div>
@@ -764,24 +811,36 @@ export function MarkdownEditor({ content, onChange }: Props) {
           <div className="flex items-center gap-1 rounded-md border border-transparent p-1 hover:border-slate-200 transition-colors">
             <Tooltip>
               <TooltipTrigger asChild>
-                <Button variant="ghost" size="sm" onClick={() => insertListItem(false)}>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => insertListItem(false)}
+                >
                   <List className="size-4" />
                 </Button>
               </TooltipTrigger>
               <TooltipContent>
                 <p className="text-xs font-medium">Bullet List</p>
-                <p className="text-xs text-muted-foreground">Create an unordered list</p>
+                <p className="text-xs text-muted-foreground">
+                  Create an unordered list
+                </p>
               </TooltipContent>
             </Tooltip>
             <Tooltip>
               <TooltipTrigger asChild>
-                <Button variant="ghost" size="sm" onClick={() => insertListItem(true)}>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => insertListItem(true)}
+                >
                   <ListOrdered className="size-4" />
                 </Button>
               </TooltipTrigger>
               <TooltipContent>
                 <p className="text-xs font-medium">Numbered List</p>
-                <p className="text-xs text-muted-foreground">Create an ordered list</p>
+                <p className="text-xs text-muted-foreground">
+                  Create an ordered list
+                </p>
               </TooltipContent>
             </Tooltip>
           </div>
@@ -809,7 +868,9 @@ export function MarkdownEditor({ content, onChange }: Props) {
               </TooltipTrigger>
               <TooltipContent>
                 <p className="text-xs font-medium">Insert Image</p>
-                <p className="text-xs text-muted-foreground">Choose an image to insert</p>
+                <p className="text-xs text-muted-foreground">
+                  Choose an image to insert
+                </p>
               </TooltipContent>
             </Tooltip>
             <Tooltip>
@@ -820,7 +881,9 @@ export function MarkdownEditor({ content, onChange }: Props) {
               </TooltipTrigger>
               <TooltipContent>
                 <p className="text-xs font-medium">Insert YouTube Video</p>
-                <p className="text-xs text-muted-foreground">Embed a YouTube video</p>
+                <p className="text-xs text-muted-foreground">
+                  Embed a YouTube video
+                </p>
               </TooltipContent>
             </Tooltip>
             <Tooltip>
@@ -831,7 +894,9 @@ export function MarkdownEditor({ content, onChange }: Props) {
               </TooltipTrigger>
               <TooltipContent>
                 <p className="text-xs font-medium">Insert Audio</p>
-                <p className="text-xs text-muted-foreground">Embed an audio player</p>
+                <p className="text-xs text-muted-foreground">
+                  Embed an audio player
+                </p>
               </TooltipContent>
             </Tooltip>
           </div>
@@ -848,18 +913,26 @@ export function MarkdownEditor({ content, onChange }: Props) {
               </TooltipTrigger>
               <TooltipContent>
                 <p className="text-xs font-medium">Insert Table</p>
-                <p className="text-xs text-muted-foreground">Add a 3-column table</p>
+                <p className="text-xs text-muted-foreground">
+                  Add a 3-column table
+                </p>
               </TooltipContent>
             </Tooltip>
             <Tooltip>
               <TooltipTrigger asChild>
-                <Button variant="ghost" size="sm" onClick={insertHorizontalRule}>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={insertHorizontalRule}
+                >
                   <Minus className="size-4" />
                 </Button>
               </TooltipTrigger>
               <TooltipContent>
                 <p className="text-xs font-medium">Horizontal Rule</p>
-                <p className="text-xs text-muted-foreground">Add a divider line</p>
+                <p className="text-xs text-muted-foreground">
+                  Add a divider line
+                </p>
               </TooltipContent>
             </Tooltip>
           </div>
@@ -907,7 +980,8 @@ export function MarkdownEditor({ content, onChange }: Props) {
           className="w-full h-full p-6 font-mono text-sm resize-none focus:outline-none bg-background text-foreground overflow-auto"
           placeholder="Start writing your blog post in Markdown..."
           style={{
-            fontFamily: "'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace",
+            fontFamily:
+              "'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace",
           }}
         />
       </div>
@@ -923,7 +997,10 @@ export function MarkdownEditor({ content, onChange }: Props) {
           </DialogHeader>
 
           <div className="flex-1 overflow-hidden">
-            <ImageSelectorGrid value={selectedImage} onChange={setSelectedImage} />
+            <ImageSelectorGrid
+              value={selectedImage}
+              onChange={setSelectedImage}
+            />
           </div>
 
           <DialogFooter className="flex items-center justify-between border-t pt-4 mt-4">
@@ -957,7 +1034,9 @@ function ImageSelectorGrid({
   onChange: (url: string) => void;
 }) {
   const [loadErrors, setLoadErrors] = useState<Set<string>>(new Set());
-  const [s3Images, setS3Images] = useState<{ id: string; url: string; filename: string }[]>([]);
+  const [s3Images, setS3Images] = useState<
+    { id: string; url: string; filename: string }[]
+  >([]);
   const [loadingS3, setLoadingS3] = useState(true);
 
   // Static images from /public/assets folder
@@ -1083,7 +1162,9 @@ function ImageSelectorGrid({
                   </div>
                 )}
                 <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/60 to-transparent p-2">
-                  <span className="text-xs text-white truncate block">{img.filename}</span>
+                  <span className="text-xs text-white truncate block">
+                    {img.filename}
+                  </span>
                 </div>
               </button>
             ))}
@@ -1095,7 +1176,8 @@ function ImageSelectorGrid({
       <div>
         <h4 className="text-sm font-medium text-muted-foreground mb-3 flex items-center gap-2">
           <span className="inline-block size-2 rounded-full bg-green-500" />
-          Static Assets ({STATIC_IMAGES.filter((src) => !loadErrors.has(src)).length})
+          Static Assets (
+          {STATIC_IMAGES.filter((src) => !loadErrors.has(src)).length})
         </h4>
         <div className="grid grid-cols-3 gap-3">
           {STATIC_IMAGES.filter((src) => !loadErrors.has(src)).map((src) => (
@@ -1140,7 +1222,9 @@ function ImageSelectorGrid({
                 </div>
               )}
               <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/60 to-transparent p-2">
-                <span className="text-xs text-white truncate block">{src.split("/").pop()}</span>
+                <span className="text-xs text-white truncate block">
+                  {src.split("/").pop()}
+                </span>
               </div>
             </button>
           ))}

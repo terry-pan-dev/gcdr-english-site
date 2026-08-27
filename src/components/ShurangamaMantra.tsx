@@ -30,7 +30,13 @@ function SectionHeading({ children }: { children: React.ReactNode }) {
   );
 }
 
-function BodyPara({ children, mb = "1.25rem" }: { children: React.ReactNode; mb?: string }) {
+function BodyPara({
+  children,
+  mb = "1.25rem",
+}: {
+  children: React.ReactNode;
+  mb?: string;
+}) {
   return (
     <p
       className="type-body"
@@ -66,7 +72,13 @@ function InlineLink({
   );
 }
 
-function BlockQuote({ children, footer }: { children: React.ReactNode; footer?: React.ReactNode }) {
+function BlockQuote({
+  children,
+  footer,
+}: {
+  children: React.ReactNode;
+  footer?: React.ReactNode;
+}) {
   return (
     <blockquote
       style={{
@@ -116,8 +128,8 @@ export function ShurangamaMantra() {
               marginBottom: "2rem",
             }}
           >
-            One of the longest mantras recited in the Chinese Buddhist tradition, chanted daily by
-            monastics and lay practitioners alike.
+            One of the longest mantras recited in the Chinese Buddhist
+            tradition, chanted daily by monastics and lay practitioners alike.
           </p>
 
           {/* ── Practice UI ── */}
@@ -128,15 +140,16 @@ export function ShurangamaMantra() {
             <SectionRule />
             <SectionHeading>The Mantra</SectionHeading>
             <BodyPara>
-              Master Hua described the Shurangama Mantra as the king of mantras — the longest in the
-              Buddhist canon, and, in his words, "the most important." It has 554 lines, divided
-              into five sections.
+              Master Hua described the Shurangama Mantra as the king of mantras
+              — the longest in the Buddhist canon, and, in his words, "the most
+              important." It has 554 lines, divided into five sections.
             </BodyPara>
             <BodyPara mb="0">
-              The Mantra appears in the Shurangama Sutra, where it is described as the means by
-              which all Buddhas of the ten directions attained awakening. The Buddha Shakyamuni
-              first proclaimed it to protect his disciple Ananda, who had fallen into difficulty on
-              his almsround.
+              The Mantra appears in the Shurangama Sutra, where it is described
+              as the means by which all Buddhas of the ten directions attained
+              awakening. The Buddha Shakyamuni first proclaimed it to protect
+              his disciple Ananda, who had fallen into difficulty on his
+              almsround.
             </BodyPara>
           </div>
 
@@ -145,38 +158,44 @@ export function ShurangamaMantra() {
             <SectionRule />
             <SectionHeading>The practice</SectionHeading>
             <BodyPara>
-              The foundation of the practice is purity of conduct. Master Hua was direct about this:
-              precepts and virtuous conduct come first, because scattered thoughts and impure
-              motivations get in the way. The minimum standard he asked of practitioners was to hold
-              the five precepts and practise the ten good deeds. "The purity of your mind," he said,
-              "is what really dispels calamities."
+              The foundation of the practice is purity of conduct. Master Hua
+              was direct about this: precepts and virtuous conduct come first,
+              because scattered thoughts and impure motivations get in the way.
+              The minimum standard he asked of practitioners was to hold the
+              five precepts and practise the ten good deeds. "The purity of your
+              mind," he said, "is what really dispels calamities."
             </BodyPara>
             <BodyPara>
-              The mantra is traditionally recited daily, without interruption, and without concern
-              for whether or not anything seems to be "happening." Master Hua discouraged chasing
-              after responses: "Don't pay any attention to whether there are responses or not, just
-              keep reciting." The state this points toward is one where the mantra and the mind are
-              no longer separate — "the mantra is the mind and the mind is the mantra" — reached by
-              turning the hearing inward to listen to one's own nature, which connects the practice
+              The mantra is traditionally recited daily, without interruption,
+              and without concern for whether or not anything seems to be
+              "happening." Master Hua discouraged chasing after responses:
+              "Don't pay any attention to whether there are responses or not,
+              just keep reciting." The state this points toward is one where the
+              mantra and the mind are no longer separate — "the mantra is the
+              mind and the mind is the mantra" — reached by turning the hearing
+              inward to listen to one's own nature, which connects the practice
               to the Sutra's broader teaching on the ear faculty.
             </BodyPara>
             <BodyPara mb="0">
-              The Sutra singles out reciting the Mantra from memory as significant in itself,
-              sufficient to draw the Bodhisattvas' protection even without samadhi:
+              The Sutra singles out reciting the Mantra from memory as
+              significant in itself, sufficient to draw the Bodhisattvas'
+              protection even without samadhi:
             </BodyPara>
 
             <BlockQuote footer="— The Shurangama Sutra">
-              This mantra is always attended, day and night, by Bodhisattvas in the lineage of the
-              Bodhisattva-King Vajra-Treasury. These Bodhisattvas will always be present to protect
-              beings who recite this mantra and who are resolved to become enlightened. Indeed they
-              will even protect beings whose minds are scattered and disorderly and lack samadhi,
-              but who can nevertheless recite the mantra from memory.
+              This mantra is always attended, day and night, by Bodhisattvas in
+              the lineage of the Bodhisattva-King Vajra-Treasury. These
+              Bodhisattvas will always be present to protect beings who recite
+              this mantra and who are resolved to become enlightened. Indeed
+              they will even protect beings whose minds are scattered and
+              disorderly and lack samadhi, but who can nevertheless recite the
+              mantra from memory.
             </BlockQuote>
 
             <BodyPara mb="0">
-              The Sutra also teaches that reciting the Mantra with genuine devotion can restore
-              broken precepts to purity, and enable those who have not yet received precepts to
-              receive them.
+              The Sutra also teaches that reciting the Mantra with genuine
+              devotion can restore broken precepts to purity, and enable those
+              who have not yet received precepts to receive them.
             </BodyPara>
           </div>
 
@@ -185,13 +204,15 @@ export function ShurangamaMantra() {
             <SectionRule />
             <SectionHeading>At Gold Coast Dharma Realm</SectionHeading>
             <BodyPara>
-              The Shurangama Mantra is recited at the monastery every Saturday afternoon, and
-              everyone is welcome to join. An annual retreat is also held each year, open to all.
+              The Shurangama Mantra is recited at the monastery every Saturday
+              afternoon, and everyone is welcome to join. An annual retreat is
+              also held each year, open to all.
             </BodyPara>
             <BodyPara mb="0">
-              Those wanting to learn the Mantra will find both romanisation versions above. A copy
-              of the Shurangama Sutra, which contains the full Mantra text with Master Hua's
-              commentary, is available in the monastery library and through the links on our{" "}
+              Those wanting to learn the Mantra will find both romanisation
+              versions above. A copy of the Shurangama Sutra, which contains the
+              full Mantra text with Master Hua's commentary, is available in the
+              monastery library and through the links on our{" "}
               <InlineLink href="/resources">Resources page</InlineLink>.
             </BodyPara>
           </div>
@@ -201,9 +222,10 @@ export function ShurangamaMantra() {
             <SectionRule />
             <SectionHeading>Further listening</SectionHeading>
             <BodyPara>
-              Alan Nicholson, a longtime disciple of Master Hua, recalls travelling with him through
-              Malaysia in the late 1970s, and an eye-opening experience that convinced him of the
-              Mantra's protective power.
+              Alan Nicholson, a longtime disciple of Master Hua, recalls
+              travelling with him through Malaysia in the late 1970s, and an
+              eye-opening experience that convinced him of the Mantra's
+              protective power.
             </BodyPara>
             <div
               style={{

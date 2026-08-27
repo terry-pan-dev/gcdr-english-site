@@ -1,5 +1,8 @@
 import type { Config } from "tailwindcss";
-import { getPrimaryFontFamily, getSecondaryFontFamily } from "./src/config/fonts";
+import {
+  getPrimaryFontFamily,
+  getSecondaryFontFamily,
+} from "./src/config/fonts";
 
 export default {
   content: ["./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}"],

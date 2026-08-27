@@ -99,7 +99,9 @@ export function SixPrinciples() {
       {/* Hero Banner */}
       <section className="pt-nav pb-14">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 className="type-page-title mb-6">The Six Great Guiding Principles</h1>
+          <h1 className="type-page-title mb-6">
+            The Six Great Guiding Principles
+          </h1>
           <div style={accentRuleStyle} />
         </div>
       </section>
@@ -116,11 +118,19 @@ export function SixPrinciples() {
   );
 }
 
-function PrincipleItem({ principle, index }: { principle: Principle; index: number }) {
+function PrincipleItem({
+  principle,
+  index,
+}: {
+  principle: Principle;
+  index: number;
+}) {
   return (
     <article
       className="grid gap-5 py-12 md:grid-cols-[2.5rem_1fr]"
-      style={{ borderTop: index === 0 ? undefined : "0.5px solid var(--border)" }}
+      style={{
+        borderTop: index === 0 ? undefined : "0.5px solid var(--border)",
+      }}
     >
       <div
         className="flex h-10 w-10 items-center justify-center rounded-full border font-serif text-xl"

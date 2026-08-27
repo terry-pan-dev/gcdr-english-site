@@ -50,7 +50,10 @@ export default function App() {
         setCurrentPage("18-vows");
       } else if (pathname === "/six-principles" || hash === "six-principles") {
         setCurrentPage("six-principles");
-      } else if (pathname === "/white-universe-poem" || hash === "white-universe-poem") {
+      } else if (
+        pathname === "/white-universe-poem" ||
+        hash === "white-universe-poem"
+      ) {
         setCurrentPage("white-universe-poem");
         //} else if (pathname === "/about" || hash === "about") {
         //  setCurrentPage("about");
@@ -60,7 +63,10 @@ export default function App() {
         setCurrentPage("dharma-masters");
       } else if (pathname === "/volunteering" || hash === "volunteering") {
         setCurrentPage("volunteering");
-      } else if (pathname === "/warning-century" || hash === "warning-century") {
+      } else if (
+        pathname === "/warning-century" ||
+        hash === "warning-century"
+      ) {
         setCurrentPage("warning-century");
       } else {
         setCurrentPage("home");

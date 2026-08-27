@@ -6,7 +6,13 @@ import buddhaLotusPond from "@/assets/BuddhaLotusPond.webp";
 
 function CalendarIcon() {
   return (
-    <svg viewBox="0 0 24 24" width="25" height="25" fill="none" aria-hidden="true">
+    <svg
+      viewBox="0 0 24 24"
+      width="25"
+      height="25"
+      fill="none"
+      aria-hidden="true"
+    >
       <path
         d="M7 3v3M17 3v3M4 9h16M5 5h14a1 1 0 0 1 1 1v14H4V6a1 1 0 0 1 1-1Z"
         stroke="currentColor"
@@ -18,7 +24,13 @@ function CalendarIcon() {
 
 function PinIcon() {
   return (
-    <svg viewBox="0 0 24 24" width="27" height="27" fill="none" aria-hidden="true">
+    <svg
+      viewBox="0 0 24 24"
+      width="27"
+      height="27"
+      fill="none"
+      aria-hidden="true"
+    >
       <path
         d="M12 21s6-5.1 6-11a6 6 0 1 0-12 0c0 5.9 6 11 6 11Z"
         stroke="currentColor"
@@ -31,8 +43,18 @@ function PinIcon() {
 
 function MapIcon() {
   return (
-    <svg viewBox="0 0 24 24" width="27" height="27" fill="none" aria-hidden="true">
-      <path d="m3 6 5-2 8 3 5-2v13l-5 2-8-3-5 2V6Z" stroke="currentColor" strokeWidth="1.5" />
+    <svg
+      viewBox="0 0 24 24"
+      width="27"
+      height="27"
+      fill="none"
+      aria-hidden="true"
+    >
+      <path
+        d="m3 6 5-2 8 3 5-2v13l-5 2-8-3-5 2V6Z"
+        stroke="currentColor"
+        strokeWidth="1.5"
+      />
       <path d="M8 4v13M16 7v13" stroke="currentColor" strokeWidth="1.5" />
     </svg>
   );
@@ -44,7 +66,15 @@ function MapIcon() {
    Uses the SVG as a mask so all icons inherit currentColor.
 ───────────────────────────────────────────────────────────── */
 
-function CustomIcon({ src, width, height }: { src: string; width: number; height: number }) {
+function CustomIcon({
+  src,
+  width,
+  height,
+}: {
+  src: string;
+  width: number;
+  height: number;
+}) {
   return (
     <span
       aria-hidden="true"
@@ -155,9 +185,10 @@ export function Yoga() {
                   marginBottom: "2.2rem",
                 }}
               >
-                Every Sunday morning the monastery offers a two-hour session of yoga, Dharma talk,
-                and meditation, freely offered by the monastery and open to everyone. No experience
-                with yoga or meditation is needed.
+                Every Sunday morning the monastery offers a two-hour session of
+                yoga, Dharma talk, and meditation, freely offered by the
+                monastery and open to everyone. No experience with yoga or
+                meditation is needed.
               </p>
 
               <div
@@ -275,8 +306,8 @@ export function Yoga() {
                   margin: 0,
                 }}
               >
-                The session opens with yoga, led by a volunteer yoga instructor. No experience or
-                flexibility needed.
+                The session opens with yoga, led by a volunteer yoga instructor.
+                No experience or flexibility needed.
               </p>
             </div>
 
@@ -309,8 +340,8 @@ export function Yoga() {
                   margin: 0,
                 }}
               >
-                One of the resident monastics gives a short, informal talk on the Buddhist
-                teachings, questions are welcome.
+                One of the resident monastics gives a short, informal talk on
+                the Buddhist teachings, questions are welcome.
               </p>
             </div>
 
@@ -340,8 +371,8 @@ export function Yoga() {
                   margin: 0,
                 }}
               >
-                The session closes with seated meditation. Cushions, mats, chairs, and blankets are
-                available.
+                The session closes with seated meditation. Cushions, mats,
+                chairs, and blankets are available.
               </p>
             </div>
           </div>
@@ -380,7 +411,10 @@ export function Yoga() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-x-14">
             {/* What to wear */}
-            <div className="flex gap-5 py-5 border-b" style={{ borderColor: "var(--border)" }}>
+            <div
+              className="flex gap-5 py-5 border-b"
+              style={{ borderColor: "var(--border)" }}
+            >
               <InfoIcon>
                 <ShirtIcon />
               </InfoIcon>
@@ -404,9 +438,10 @@ export function Yoga() {
                     margin: 0,
                   }}
                 >
-                  As the session is held at the monastery, modest clothing is encouraged, shoulders
-                  and knees covered where possible. Loose-fitting clothing works well for both yoga
-                  and seated meditation.
+                  As the session is held at the monastery, modest clothing is
+                  encouraged, shoulders and knees covered where possible.
+                  Loose-fitting clothing works well for both yoga and seated
+                  meditation.
                 </p>
 
                 <p
@@ -416,14 +451,17 @@ export function Yoga() {
                     margin: "0.65rem 0 0",
                   }}
                 >
-                  If you arrive dressed differently, you are still welcome; we simply ask that you
-                  keep this in mind for future visits.
+                  If you arrive dressed differently, you are still welcome; we
+                  simply ask that you keep this in mind for future visits.
                 </p>
               </div>
             </div>
 
             {/* What to bring */}
-            <div className="flex gap-5 py-5 border-b" style={{ borderColor: "var(--border)" }}>
+            <div
+              className="flex gap-5 py-5 border-b"
+              style={{ borderColor: "var(--border)" }}
+            >
               <InfoIcon>
                 <MatIcon />
               </InfoIcon>
@@ -447,8 +485,8 @@ export function Yoga() {
                     margin: 0,
                   }}
                 >
-                  If you have a yoga mat, please bring it along, it helps us make sure there are
-                  enough for everyone who needs one.
+                  If you have a yoga mat, please bring it along, it helps us
+                  make sure there are enough for everyone who needs one.
                 </p>
               </div>
             </div>

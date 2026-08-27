@@ -40,12 +40,13 @@ export function HomeIntro() {
           }}
         >
           <p>
-            Gold Coast Dharma Realm is a Mahayana Buddhist monastery in Bonogin, home to resident
-            monastics who practise the teachings in full.
+            Gold Coast Dharma Realm is a Mahayana Buddhist monastery in Bonogin,
+            home to resident monastics who practise the teachings in full.
           </p>
           <p>
-            Dharma talks, ceremonies, and retreats are held throughout the year and open to all.
-            Visitors are welcome to attend, observe, or walk the grounds.
+            Dharma talks, ceremonies, and retreats are held throughout the year
+            and open to all. Visitors are welcome to attend, observe, or walk
+            the grounds.
           </p>
         </div>
       </div>

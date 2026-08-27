@@ -17,19 +17,19 @@ export default defineConfig({
       "input-otp@1.4.2": "input-otp",
       "figma:asset/f9dac75ce9e12aba10202006ff47f7c37ea46a33.png": path.resolve(
         __dirname,
-        "./src/assets/f9dac75ce9e12aba10202006ff47f7c37ea46a33.png"
+        "./src/assets/f9dac75ce9e12aba10202006ff47f7c37ea46a33.png",
       ),
       "figma:asset/c8367a591975cc33957b0c6bb3b4f9d0a17c9c3c.png": path.resolve(
         __dirname,
-        "./src/assets/c8367a591975cc33957b0c6bb3b4f9d0a17c9c3c.png"
+        "./src/assets/c8367a591975cc33957b0c6bb3b4f9d0a17c9c3c.png",
       ),
       "figma:asset/613127d6253458124fba09d80d9e1a3ee9a328d8.png": path.resolve(
         __dirname,
-        "./src/assets/613127d6253458124fba09d80d9e1a3ee9a328d8.png"
+        "./src/assets/613127d6253458124fba09d80d9e1a3ee9a328d8.png",
       ),
       "figma:asset/3da468f570793a4e09a4fdf4d2467dcd65e5923a.png": path.resolve(
         __dirname,
-        "./src/assets/3da468f570793a4e09a4fdf4d2467dcd65e5923a.png"
+        "./src/assets/3da468f570793a4e09a4fdf4d2467dcd65e5923a.png",
       ),
       "embla-carousel-react@8.6.0": "embla-carousel-react",
       "cmdk@1.1.1": "cmdk",
@@ -47,7 +47,8 @@ export default defineConfig({
       "@radix-ui/react-radio-group@1.2.3": "@radix-ui/react-radio-group",
       "@radix-ui/react-progress@1.1.2": "@radix-ui/react-progress",
       "@radix-ui/react-popover@1.1.6": "@radix-ui/react-popover",
-      "@radix-ui/react-navigation-menu@1.2.5": "@radix-ui/react-navigation-menu",
+      "@radix-ui/react-navigation-menu@1.2.5":
+        "@radix-ui/react-navigation-menu",
       "@radix-ui/react-menubar@1.1.6": "@radix-ui/react-menubar",
       "@radix-ui/react-label@2.1.2": "@radix-ui/react-label",
       "@radix-ui/react-hover-card@1.1.6": "@radix-ui/react-hover-card",

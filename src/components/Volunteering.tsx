@@ -20,7 +20,10 @@ export function Volunteering() {
       style={{ backgroundColor: "var(--background)" }}
     >
       {/* About Volunteering Section */}
-      <section className="py-16 border-t" style={{ borderColor: "var(--border)" }}>
+      <section
+        className="py-16 border-t"
+        style={{ borderColor: "var(--border)" }}
+      >
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="sm:hidden" style={accentRuleStyle} />
           <h2
@@ -35,17 +38,20 @@ export function Volunteering() {
 
           <div className="type-body space-y-5" style={bodyStyle}>
             <p>
-              Volunteering is a wonderful way to support the monastery and be part of a community
-              dedicated to kindness and service. Whether you can offer a few hours or a regular
-              commitment, your help makes a real difference. Tasks may include gardening, cleaning,
-              preparing vegetarian meals, assisting with events, translating sutra texts or helping
-              maintain the grounds.
+              Volunteering is a wonderful way to support the monastery and be
+              part of a community dedicated to kindness and service. Whether you
+              can offer a few hours or a regular commitment, your help makes a
+              real difference. Tasks may include gardening, cleaning, preparing
+              vegetarian meals, assisting with events, translating sutra texts
+              or helping maintain the grounds.
             </p>
             <p>
-              Volunteering is not only about giving—it's also an opportunity to learn, practise
-              mindfulness, and experience the joy of working together in harmony. Everyone is
-              welcome, and no prior experience is needed. If you'd like to contribute your time and
-              skills, please sign up below or speak to a monastic or volunteer during your visit.
+              Volunteering is not only about giving—it's also an opportunity to
+              learn, practise mindfulness, and experience the joy of working
+              together in harmony. Everyone is welcome, and no prior experience
+              is needed. If you'd like to contribute your time and skills,
+              please sign up below or speak to a monastic or volunteer during
+              your visit.
             </p>
           </div>
         </div>
@@ -69,10 +75,10 @@ export function Volunteering() {
             Sign Up to Volunteer
           </h2>
           <p className="type-body mb-10" style={bodyStyle}>
-            Want to lend a hand? Complete our Volunteer Registration Form to let us know your
-            interests and availability. This helps us match you with tasks that suit your skills.
-            Registering ensures smooth coordination and keeps you informed about upcoming
-            opportunities.
+            Want to lend a hand? Complete our Volunteer Registration Form to let
+            us know your interests and availability. This helps us match you
+            with tasks that suit your skills. Registering ensures smooth
+            coordination and keeps you informed about upcoming opportunities.
           </p>
 
           {/* Google Form Embed */}

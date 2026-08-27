@@ -5,7 +5,8 @@ import { mantraLines, type MantraScript } from "./ShurangamaMantraText";
 const body = "var(--font-body, Lora, Georgia, serif)";
 const accentOnCard = "var(--color-accent-on-card, var(--color-accent-gold))";
 const mutedOnCard = "var(--color-muted-on-card, var(--muted-foreground))";
-const practiceBackground = "color-mix(in srgb, var(--card) 50%, var(--background))";
+const practiceBackground =
+  "color-mix(in srgb, var(--card) 50%, var(--background))";
 
 const AUDIO_TRACKS = [
   {
@@ -41,7 +42,13 @@ function getSavedSpeed() {
 
 function PlayIcon() {
   return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" style={{ marginLeft: 2 }}>
+    <svg
+      width="18"
+      height="18"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      style={{ marginLeft: 2 }}
+    >
       <polygon points="5,3 19,12 5,21" />
     </svg>
   );
@@ -170,7 +177,8 @@ function PracticeHeading({ compact = false }: { compact?: boolean }) {
         style={{
           width: "1.5rem",
           height: 1,
-          backgroundColor: "var(--color-accent-on-dark, var(--color-accent-gold))",
+          backgroundColor:
+            "var(--color-accent-on-dark, var(--color-accent-gold))",
           opacity: 0.75,
         }}
       />
@@ -193,7 +201,8 @@ function PracticeHeading({ compact = false }: { compact?: boolean }) {
         style={{
           width: "1.5rem",
           height: 1,
-          backgroundColor: "var(--color-accent-on-dark, var(--color-accent-gold))",
+          backgroundColor:
+            "var(--color-accent-on-dark, var(--color-accent-gold))",
           opacity: 0.75,
         }}
       />
@@ -273,7 +282,10 @@ function useAudioPlayer() {
 
   const skip = (seconds: number) => {
     if (audioRef.current) {
-      audioRef.current.currentTime = Math.max(0, Math.min(duration, currentTime + seconds));
+      audioRef.current.currentTime = Math.max(
+        0,
+        Math.min(duration, currentTime + seconds),
+      );
     }
   };
 
@@ -354,7 +366,9 @@ function ControlIconButton({
         backgroundColor: muted
           ? "transparent"
           : "color-mix(in srgb, var(--foreground) 5%, transparent)",
-        border: muted ? "none" : "1px solid color-mix(in srgb, var(--foreground) 10%, transparent)",
+        border: muted
+          ? "none"
+          : "1px solid color-mix(in srgb, var(--foreground) 10%, transparent)",
         cursor: "pointer",
         color: muted ? mutedOnCard : "var(--foreground)",
         display: "flex",
@@ -386,12 +400,21 @@ function PlaybackControls({
         columnGap: "0.45rem",
       }}
     >
-      <ControlIconButton label="Playback settings" onClick={onOpenSettings} muted>
+      <ControlIconButton
+        label="Playback settings"
+        onClick={onOpenSettings}
+        muted
+      >
         <SettingsIcon />
       </ControlIconButton>
 
       <div
-        style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "0.85rem" }}
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          gap: "0.85rem",
+        }}
       >
         <ControlIconButton
           label="Skip back 10 seconds"
@@ -456,7 +479,11 @@ function AudioBar({
   rightSlot?: React.ReactNode;
 }) {
   const controls = (
-    <PlaybackControls player={player} onOpenSettings={onOpenSettings} rightSlot={rightSlot} />
+    <PlaybackControls
+      player={player}
+      onOpenSettings={onOpenSettings}
+      rightSlot={rightSlot}
+    />
   );
 
   return (
@@ -469,7 +496,9 @@ function AudioBar({
         marginBottom: minimal ? 0 : "1.5rem",
       }}
     >
-      {controlsFirst && <div style={{ marginBottom: "0.95rem" }}>{controls}</div>}
+      {controlsFirst && (
+        <div style={{ marginBottom: "0.95rem" }}>{controls}</div>
+      )}
 
       {!minimal && (
         <div
@@ -485,7 +514,14 @@ function AudioBar({
           }}
         >
           <span>{AUDIO_TRACKS[player.trackIndex].label}</span>
-          <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", flexShrink: 0 }}>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "0.75rem",
+              flexShrink: 0,
+            }}
+          >
             <button
               onClick={onOpenSettings}
               aria-label={`Playback speed ${player.speed.toFixed(2)}x. Open settings.`}
@@ -539,7 +575,11 @@ function AudioBar({
           step={0.1}
           value={player.currentTime}
           onChange={player.handleSeek}
-          style={{ width: "100%", accentColor: "var(--color-accent-gold)", cursor: "pointer" }}
+          style={{
+            width: "100%",
+            accentColor: "var(--color-accent-gold)",
+            cursor: "pointer",
+          }}
         />
         <div
           style={{
@@ -573,7 +613,9 @@ function AudioBar({
           ) : (
             <span aria-hidden="true" />
           )}
-          <span style={{ textAlign: "right" }}>{formatTime(player.duration)}</span>
+          <span style={{ textAlign: "right" }}>
+            {formatTime(player.duration)}
+          </span>
         </div>
       </div>
 
@@ -610,7 +652,9 @@ function SettingsSheet({
     if (open) {
       setMounted(true);
       setDragY(0);
-      const raf = requestAnimationFrame(() => requestAnimationFrame(() => setVisible(true)));
+      const raf = requestAnimationFrame(() =>
+        requestAnimationFrame(() => setVisible(true)),
+      );
       return () => cancelAnimationFrame(raf);
     } else {
       setVisible(false);
@@ -681,7 +725,9 @@ function SettingsSheet({
           transform: visible
             ? `translateX(-50%) translateY(${dragY}px)`
             : "translateX(-50%) translateY(100%)",
-          transition: isDragging ? "none" : "transform 260ms cubic-bezier(0.32, 0.72, 0, 1)",
+          transition: isDragging
+            ? "none"
+            : "transform 260ms cubic-bezier(0.32, 0.72, 0, 1)",
         }}
       >
         <div
@@ -744,7 +790,13 @@ function SettingsSheet({
           </div>
         </div>
 
-        <div style={{ maxWidth: "42rem", margin: "0 auto", textAlign: "center" as const }}>
+        <div
+          style={{
+            maxWidth: "42rem",
+            margin: "0 auto",
+            textAlign: "center" as const,
+          }}
+        >
           <div
             style={{
               fontFamily: body,
@@ -781,7 +833,10 @@ function SettingsSheet({
                   fontSize: "0.85rem",
                   padding: "0.5rem 0.9rem",
                   border: "1px solid",
-                  borderColor: script === opt.value ? "var(--color-accent-gold)" : "var(--border)",
+                  borderColor:
+                    script === opt.value
+                      ? "var(--color-accent-gold)"
+                      : "var(--border)",
                   backgroundColor: "transparent",
                   color: script === opt.value ? accentOnCard : mutedOnCard,
                   borderRadius: "2px",
@@ -793,7 +848,12 @@ function SettingsSheet({
             ))}
           </div>
 
-          <div style={{ borderTop: "1px solid var(--border)", margin: "0 0 1.25rem" }} />
+          <div
+            style={{
+              borderTop: "1px solid var(--border)",
+              margin: "0 0 1.25rem",
+            }}
+          />
 
           <div
             style={{
@@ -837,7 +897,9 @@ function SettingsSheet({
                   padding: "0.5rem 0.9rem",
                   border: "1px solid",
                   borderColor:
-                    player.trackIndex === i ? "var(--color-accent-gold)" : "var(--border)",
+                    player.trackIndex === i
+                      ? "var(--color-accent-gold)"
+                      : "var(--border)",
                   backgroundColor: "transparent",
                   color: player.trackIndex === i ? accentOnCard : mutedOnCard,
                   borderRadius: "2px",
@@ -881,7 +943,10 @@ function SettingsSheet({
                     player.speed === s && !player.customSpeed
                       ? "var(--color-accent-gold)"
                       : "var(--border)",
-                  color: player.speed === s && !player.customSpeed ? accentOnCard : mutedOnCard,
+                  color:
+                    player.speed === s && !player.customSpeed
+                      ? accentOnCard
+                      : mutedOnCard,
                   backgroundColor: "transparent",
                   borderRadius: "2px",
                   cursor: "pointer",
@@ -975,7 +1040,9 @@ function MantraDisplay({
         WebkitOverflowScrolling: "touch",
         touchAction: "pan-y",
         padding: minimal ? "1rem 0 1.25rem" : "1.25rem 1rem",
-        ...(fill ? { flex: 1, minHeight: 0, height: "100%" } : { maxHeight: "60vh" }),
+        ...(fill
+          ? { flex: 1, minHeight: 0, height: "100%" }
+          : { maxHeight: "60vh" }),
       }}
     >
       {lines.map((line, i) => {
@@ -1161,7 +1228,10 @@ export function ShurangamaMantraPractice() {
             onOpenSettings={() => setShowSettings(true)}
             onEnterPractice={() => setIsFullscreen(true)}
           />
-          <MantraDisplay script={script} onBeginAnotherRecitation={player.resetToBeginning} />
+          <MantraDisplay
+            script={script}
+            onBeginAnotherRecitation={player.resetToBeginning}
+          />
 
           <div
             style={{
@@ -1181,12 +1251,18 @@ export function ShurangamaMantraPractice() {
               }}
             >
               Two versions of the romanised text are available:{" "}
-              <strong style={{ color: "var(--foreground)", fontWeight: 500 }}>Pinyin</strong> and{" "}
-              <strong style={{ color: "var(--foreground)", fontWeight: 500 }}>Recitation</strong>.
-              Pinyin follows standard Mandarin romanisation, though several characters in the Mantra
-              carry traditional recitation readings that differ from everyday pronunciation.
-              Recitation offers a more approachable option for readers unfamiliar with pinyin. Both
-              can be selected from settings.
+              <strong style={{ color: "var(--foreground)", fontWeight: 500 }}>
+                Pinyin
+              </strong>{" "}
+              and{" "}
+              <strong style={{ color: "var(--foreground)", fontWeight: 500 }}>
+                Recitation
+              </strong>
+              . Pinyin follows standard Mandarin romanisation, though several
+              characters in the Mantra carry traditional recitation readings
+              that differ from everyday pronunciation. Recitation offers a more
+              approachable option for readers unfamiliar with pinyin. Both can
+              be selected from settings.
             </p>
             <p
               className="type-body"
@@ -1196,8 +1272,8 @@ export function ShurangamaMantraPractice() {
                 marginBottom: 0,
               }}
             >
-              The Romanised texts and audio recordings are courtesy of the Buddhist Text Translation
-              Society.
+              The Romanised texts and audio recordings are courtesy of the
+              Buddhist Text Translation Society.
             </p>
           </div>
         </>
@@ -1274,7 +1350,9 @@ export function ShurangamaMantraPractice() {
                 padding: "0 1.1rem env(safe-area-inset-bottom, 0.75rem)",
               }}
             >
-              <div style={{ borderTop: "1px solid var(--border)", flexShrink: 0 }} />
+              <div
+                style={{ borderTop: "1px solid var(--border)", flexShrink: 0 }}
+              />
               <MantraDisplay
                 script={script}
                 fill

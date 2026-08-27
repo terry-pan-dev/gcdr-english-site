@@ -28,7 +28,13 @@ function SectionHeading({ children }: { children: React.ReactNode }) {
   );
 }
 
-function BodyPara({ children, mb = "1.25rem" }: { children: React.ReactNode; mb?: string }) {
+function BodyPara({
+  children,
+  mb = "1.25rem",
+}: {
+  children: React.ReactNode;
+  mb?: string;
+}) {
   return (
     <p
       className="type-body"
@@ -43,10 +49,22 @@ function BodyPara({ children, mb = "1.25rem" }: { children: React.ReactNode; mb?
   );
 }
 
-function TeachingLink({ href, title, detail }: { href: string; title: string; detail: string }) {
+function TeachingLink({
+  href,
+  title,
+  detail,
+}: {
+  href: string;
+  title: string;
+  detail: string;
+}) {
   return (
     <div style={{ marginBottom: "1.5rem" }}>
-      <a href={href} className="type-link" style={{ fontWeight: "var(--font-weight-medium)" }}>
+      <a
+        href={href}
+        className="type-link"
+        style={{ fontWeight: "var(--font-weight-medium)" }}
+      >
         {title}
       </a>
       <p
@@ -77,7 +95,9 @@ export function MasterHuaTalks() {
           </h1>
 
           {/* ── Intro ── */}
-          <BodyPara mb="0">A selection of Master Hua's talks and answers to questions.</BodyPara>
+          <BodyPara mb="0">
+            A selection of Master Hua's talks and answers to questions.
+          </BodyPara>
 
           {/* ── Talks ── */}
           <div style={{ marginTop: "3rem" }}>

@@ -7,7 +7,13 @@ import guanYinRetreat from "@/assets/GuanYinRetreat.webp";
 
 function CalendarIcon() {
   return (
-    <svg viewBox="0 0 24 24" width="25" height="25" fill="none" aria-hidden="true">
+    <svg
+      viewBox="0 0 24 24"
+      width="25"
+      height="25"
+      fill="none"
+      aria-hidden="true"
+    >
       <path
         d="M7 3v3M17 3v3M4 9h16M5 5h14a1 1 0 0 1 1 1v14H4V6a1 1 0 0 1 1-1Z"
         stroke="currentColor"
@@ -19,7 +25,13 @@ function CalendarIcon() {
 
 function PinIcon() {
   return (
-    <svg viewBox="0 0 24 24" width="27" height="27" fill="none" aria-hidden="true">
+    <svg
+      viewBox="0 0 24 24"
+      width="27"
+      height="27"
+      fill="none"
+      aria-hidden="true"
+    >
       <path
         d="M12 21s6-5.1 6-11a6 6 0 1 0-12 0c0 5.9 6 11 6 11Z"
         stroke="currentColor"
@@ -32,8 +44,18 @@ function PinIcon() {
 
 function MapIcon() {
   return (
-    <svg viewBox="0 0 24 24" width="27" height="27" fill="none" aria-hidden="true">
-      <path d="m3 6 5-2 8 3 5-2v13l-5 2-8-3-5 2V6Z" stroke="currentColor" strokeWidth="1.5" />
+    <svg
+      viewBox="0 0 24 24"
+      width="27"
+      height="27"
+      fill="none"
+      aria-hidden="true"
+    >
+      <path
+        d="m3 6 5-2 8 3 5-2v13l-5 2-8-3-5 2V6Z"
+        stroke="currentColor"
+        strokeWidth="1.5"
+      />
       <path d="M8 4v13M16 7v13" stroke="currentColor" strokeWidth="1.5" />
     </svg>
   );
@@ -94,8 +116,9 @@ export function GuanYinRetreat2026() {
                   marginBottom: "2.2rem",
                 }}
               >
-                A seven-day meditation retreat exploring the practice of deep listening, led by Rev.
-                Heng Sure, Ven. Jin Chuan, Ven. Jin Wei, and other monastics (
+                A seven-day meditation retreat exploring the practice of deep
+                listening, led by Rev. Heng Sure, Ven. Jin Chuan, Ven. Jin Wei,
+                and other monastics (
                 <a
                   href="https://www.redwoodvihara.org/community"
                   target="_blank"
@@ -217,29 +240,37 @@ export function GuanYinRetreat2026() {
             When was the last time we really listened?
           </p>
 
-          <div className="type-body space-y-5" style={{ color: "var(--foreground)" }}>
+          <div
+            className="type-body space-y-5"
+            style={{ color: "var(--foreground)" }}
+          >
             <p>
-              Our lives are full of noise: messages, opinions, expectations, and the constant
-              chatter of our own minds. But beneath all that noise, what might we hear?
+              Our lives are full of noise: messages, opinions, expectations, and
+              the constant chatter of our own minds. But beneath all that noise,
+              what might we hear?
             </p>
 
             <p>
-              Together, we will slow down and explore the practice of deep listening: listening to
-              our bodies, our hearts, the natural world, and the stillness within.
+              Together, we will slow down and explore the practice of deep
+              listening: listening to our bodies, our hearts, the natural world,
+              and the stillness within.
             </p>
 
             <p>
-              Set in the grounds of Gold Coast Dharma Realm, this retreat will offer space to
-              meditate, walk in nature, reflect together, and explore practical Buddhist teachings
-              that can help us meet our lives with greater awareness and care.
+              Set in the grounds of Gold Coast Dharma Realm, this retreat will
+              offer space to meditate, walk in nature, reflect together, and
+              explore practical Buddhist teachings that can help us meet our
+              lives with greater awareness and care.
             </p>
 
             <p>
-              We will also learn from Guan Yin Bodhisattva, the embodiment of compassion and deep
-              listening in the Buddhist tradition. Guan Yin listens deeply to the cries of the world
-              and responds with wisdom and compassion. Through her practice, we will explore how we
-              too can listen more deeply to ourselves, to one another, and to the world around us,
-              and cultivate qualities of kindness, compassion, joy, and equanimity.
+              We will also learn from Guan Yin Bodhisattva, the embodiment of
+              compassion and deep listening in the Buddhist tradition. Guan Yin
+              listens deeply to the cries of the world and responds with wisdom
+              and compassion. Through her practice, we will explore how we too
+              can listen more deeply to ourselves, to one another, and to the
+              world around us, and cultivate qualities of kindness, compassion,
+              joy, and equanimity.
             </p>
           </div>
 
@@ -280,19 +311,23 @@ export function GuanYinRetreat2026() {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="type-subtitle mb-6">What the Retreat Includes</h2>
 
-          <div className="type-body space-y-5" style={{ color: "var(--foreground)" }}>
+          <div
+            className="type-body space-y-5"
+            style={{ color: "var(--foreground)" }}
+          >
             <p>
-              A typical day centres on the practice of reciting the name of Guan Yin Bodhisattva,{" "}
-              <em>Namo Guan Shr Yin Pu Sa</em>, together as a group. The recitation is used as a
-              form of meditation, helping us to settle the mind and connect with the qualities of
-              compassion embodied by Guan Yin. The day also includes talks on core Buddhist
-              teachings, suitable both for those familiar with Buddhism and those with no prior
-              background.
+              A typical day centres on the practice of reciting the name of Guan
+              Yin Bodhisattva, <em>Namo Guan Shr Yin Pu Sa</em>, together as a
+              group. The recitation is used as a form of meditation, helping us
+              to settle the mind and connect with the qualities of compassion
+              embodied by Guan Yin. The day also includes talks on core Buddhist
+              teachings, suitable both for those familiar with Buddhism and
+              those with no prior background.
             </p>
 
             <p>
-              Periods of sitting meditation are balanced with walking meditation, recitation, and
-              time on the monastery grounds.
+              Periods of sitting meditation are balanced with walking
+              meditation, recitation, and time on the monastery grounds.
             </p>
 
             <p>No previous experience with Buddhism or meditation is needed.</p>
@@ -301,14 +336,17 @@ export function GuanYinRetreat2026() {
       </div>
 
       {/* ── Join This Retreat ───────────────────────────────── */}
-      <div className="pt-10 pb-14 border-t" style={{ borderColor: "var(--border)" }}>
+      <div
+        className="pt-10 pb-14 border-t"
+        style={{ borderColor: "var(--border)" }}
+      >
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="type-subtitle mb-6">Join This Retreat</h2>
 
           <div className="space-y-4">
             <p className="type-body" style={{ color: "var(--foreground)" }}>
-              A contribution of $50 per night is requested to help cover accommodation and vegan
-              meals during the retreat.
+              A contribution of $50 per night is requested to help cover
+              accommodation and vegan meals during the retreat.
             </p>
 
             <p
@@ -318,8 +356,8 @@ export function GuanYinRetreat2026() {
                 fontStyle: "italic",
               }}
             >
-              We are still finalising the full daily schedule and will share more details as the
-              retreat gets closer.
+              We are still finalising the full daily schedule and will share
+              more details as the retreat gets closer.
             </p>
           </div>
 

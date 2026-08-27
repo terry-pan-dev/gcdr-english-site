@@ -14,7 +14,10 @@ export function Hero() {
           preload="auto"
           poster="/assets/hero-video-poster.jpg"
         >
-          <source src="https://d247v35vmupqs5.cloudfront.net/hero-video.mp4" type="video/mp4" />
+          <source
+            src="https://d247v35vmupqs5.cloudfront.net/hero-video.mp4"
+            type="video/mp4"
+          />
         </video>
         <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/30 to-black/50" />
 
@@ -52,8 +55,12 @@ export function Hero() {
               href="#visit"
               className="px-8 py-3 rounded transition-colors"
               style={{ backgroundColor: "#c9a050", color: "#1c1917" }}
-              onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#b8944a")}
-              onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "#c9a050")}
+              onMouseEnter={(e) =>
+                (e.currentTarget.style.backgroundColor = "#b8944a")
+              }
+              onMouseLeave={(e) =>
+                (e.currentTarget.style.backgroundColor = "#c9a050")
+              }
             >
               Plan Your Visit
             </a>

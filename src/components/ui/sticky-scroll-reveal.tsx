@@ -17,7 +17,9 @@ export const StickyScroll = ({
 }) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
-  const [stickyState, setStickyState] = useState<"before" | "sticky" | "after">("before");
+  const [stickyState, setStickyState] = useState<"before" | "sticky" | "after">(
+    "before",
+  );
 
   const sectionRef = useRef<HTMLElement>(null);
   const imageContainerRef = useRef<HTMLDivElement>(null);
@@ -59,7 +61,9 @@ export const StickyScroll = ({
       }
 
       // Calculate active panel based on text panel positions
-      const triggerPoint = mobile ? navHeight + viewportHeight * 0.45 : viewportHeight / 2;
+      const triggerPoint = mobile
+        ? navHeight + viewportHeight * 0.45
+        : viewportHeight / 2;
 
       let newActiveIndex = 0;
       textPanelsRef.current.forEach((panel, index) => {
@@ -112,7 +116,12 @@ export const StickyScroll = ({
       return {
         ...baseStyle,
         position: stickyState === "sticky" ? "fixed" : "absolute",
-        top: stickyState === "sticky" ? "80px" : stickyState === "before" ? "0" : "auto",
+        top:
+          stickyState === "sticky"
+            ? "80px"
+            : stickyState === "before"
+              ? "0"
+              : "auto",
         bottom: stickyState === "after" ? "0" : "auto",
         left: 0,
         right: 0,
@@ -123,7 +132,12 @@ export const StickyScroll = ({
       return {
         ...baseStyle,
         position: stickyState === "sticky" ? "fixed" : "absolute",
-        top: stickyState === "sticky" ? "0" : stickyState === "before" ? "0" : "auto",
+        top:
+          stickyState === "sticky"
+            ? "0"
+            : stickyState === "before"
+              ? "0"
+              : "auto",
         bottom: stickyState === "after" ? "0" : "auto",
         right: 0,
         height: "100vh",
@@ -160,7 +174,7 @@ export const StickyScroll = ({
             className={cn(
               "sticky-section__text-panel relative flex flex-col justify-center",
               "min-h-[50vh] md:min-h-screen py-10 px-6 md:py-16 md:px-12 lg:px-16 pt-12",
-              index === content.length - 1 && "pb-24 md:pb-16"
+              index === content.length - 1 && "pb-24 md:pb-16",
             )}
           >
             {/* Active indicator bar (desktop only) */}
@@ -168,7 +182,7 @@ export const StickyScroll = ({
               className={cn(
                 "absolute left-8 top-1/2 -translate-y-1/2 w-[3px] bg-[#e8c547] transition-all duration-500 ease-out",
                 "hidden md:block",
-                activeIndex === index ? "h-20 opacity-100" : "h-0 opacity-0"
+                activeIndex === index ? "h-20 opacity-100" : "h-0 opacity-0",
               )}
             />
 
@@ -177,7 +191,7 @@ export const StickyScroll = ({
               className={cn(
                 "font-serif text-sm tracking-widest text-[#e8c547] mb-4",
                 "transition-opacity duration-400 ease-out",
-                activeIndex === index ? "opacity-100" : "opacity-60"
+                activeIndex === index ? "opacity-100" : "opacity-60",
               )}
             >
               {String(index + 1).padStart(2, "0")}
@@ -188,7 +202,9 @@ export const StickyScroll = ({
               className={cn(
                 "font-serif text-3xl md:text-4xl lg:text-5xl font-semibold leading-tight tracking-tight text-white mb-6",
                 "transition-all duration-500 ease-out",
-                activeIndex === index ? "opacity-100 translate-x-0" : "opacity-30 -translate-x-5"
+                activeIndex === index
+                  ? "opacity-100 translate-x-0"
+                  : "opacity-30 -translate-x-5",
               )}
             >
               {item.title}
@@ -199,7 +215,9 @@ export const StickyScroll = ({
               className={cn(
                 "text-base md:text-lg font-light leading-relaxed text-[#888]",
                 "transition-all duration-500 ease-out delay-100",
-                activeIndex === index ? "opacity-100 translate-x-0" : "opacity-30 -translate-x-5"
+                activeIndex === index
+                  ? "opacity-100 translate-x-0"
+                  : "opacity-30 -translate-x-5",
               )}
             >
               {item.description}
@@ -237,7 +255,7 @@ export const StickyScroll = ({
               <div
                 className={cn(
                   "w-full h-full transition-transform duration-1000 ease-out",
-                  activeIndex === index ? "scale-100" : "scale-110"
+                  activeIndex === index ? "scale-100" : "scale-110",
                 )}
               >
                 {item.content ?? null}
@@ -262,7 +280,9 @@ export const StickyScroll = ({
                 key={`dot-${index}`}
                 className={cn(
                   "w-2 h-2 rounded-full transition-all duration-300",
-                  activeIndex === index ? "bg-[#e8c547] scale-125" : "bg-white/30"
+                  activeIndex === index
+                    ? "bg-[#e8c547] scale-125"
+                    : "bg-white/30",
                 )}
               />
             ))}

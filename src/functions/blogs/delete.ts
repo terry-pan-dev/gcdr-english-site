@@ -1,5 +1,9 @@
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
-import { DynamoDBDocumentClient, GetCommand, DeleteCommand } from "@aws-sdk/lib-dynamodb";
+import {
+  DynamoDBDocumentClient,
+  GetCommand,
+  DeleteCommand,
+} from "@aws-sdk/lib-dynamodb";
 import { S3Client, DeleteObjectCommand } from "@aws-sdk/client-s3";
 
 const dynamoClient = new DynamoDBClient({});
@@ -65,7 +69,7 @@ export async function handler(event: any) {
           new DeleteObjectCommand({
             Bucket: bucketName,
             Key: existing.Item.s3Key,
-          })
+          }),
         );
       } catch (s3Error: any) {
         console.error("Error deleting from S3:", s3Error);
@@ -78,7 +82,7 @@ export async function handler(event: any) {
       new DeleteCommand({
         TableName: tableName,
         Key: { id: blogId },
-      })
+      }),
     );
 
     return {

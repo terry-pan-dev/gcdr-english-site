@@ -38,7 +38,9 @@ const getJwtVerifier = () => {
   jwtVerifier = CognitoJwtVerifier.create({
     userPoolId: COGNITO_USER_POOL_ID,
     tokenUse: "access",
-    ...(COGNITO_USER_POOL_CLIENT_ID && { clientId: COGNITO_USER_POOL_CLIENT_ID }),
+    ...(COGNITO_USER_POOL_CLIENT_ID && {
+      clientId: COGNITO_USER_POOL_CLIENT_ID,
+    }),
   });
 
   return jwtVerifier;
@@ -244,7 +246,7 @@ async function handleBlogCreate(body: any) {
       Key: s3Key,
       Body: content,
       ContentType: "text/markdown",
-    })
+    }),
   );
 
   // Save to DynamoDB
@@ -267,7 +269,9 @@ async function handleBlogCreate(body: any) {
     updatedAt: now,
   };
 
-  await docClient.send(new PutCommand({ TableName: tableName, Item: blogItem }));
+  await docClient.send(
+    new PutCommand({ TableName: tableName, Item: blogItem }),
+  );
 
   return { statusCode: 201, body: JSON.stringify(blogItem) };
 }
@@ -303,7 +307,7 @@ async function handleBlogUpdate(id: string, body: any) {
         Key: s3Key,
         Body: body.content,
         ContentType: "text/markdown",
-      })
+      }),
     );
   }
 
@@ -326,7 +330,9 @@ async function handleBlogUpdate(id: string, body: any) {
     updatedAt: new Date().toISOString(),
   };
 
-  await docClient.send(new PutCommand({ TableName: tableName, Item: updatedItem }));
+  await docClient.send(
+    new PutCommand({ TableName: tableName, Item: updatedItem }),
+  );
 
   return { statusCode: 200, body: JSON.stringify(updatedItem) };
 }
@@ -360,7 +366,7 @@ async function handleBlogDelete(id: string) {
         new DeleteObjectCommand({
           Bucket: bucketName,
           Key: existing.Item.s3Key,
-        })
+        }),
       );
     } catch (_s3Error) {
       // Continue even if S3 delete fails
@@ -368,7 +374,9 @@ async function handleBlogDelete(id: string) {
   }
 
   // Delete from DynamoDB
-  await docClient.send(new DeleteCommand({ TableName: tableName, Key: { id } }));
+  await docClient.send(
+    new DeleteCommand({ TableName: tableName, Key: { id } }),
+  );
 
   return {
     statusCode: 200,
@@ -456,7 +464,9 @@ async function handleMediaUpload(body: any) {
     uploadedAt: new Date().toISOString(),
   };
 
-  await docClient.send(new PutCommand({ TableName: tableName, Item: mediaItem }));
+  await docClient.send(
+    new PutCommand({ TableName: tableName, Item: mediaItem }),
+  );
 
   return {
     statusCode: 200,
@@ -493,7 +503,7 @@ async function handleMediaDelete(id: string) {
         new DeleteObjectCommand({
           Bucket: bucketName,
           Key: existing.Item.s3Key,
-        })
+        }),
       );
     } catch (_s3Error) {
       // Continue even if S3 delete fails
@@ -501,7 +511,9 @@ async function handleMediaDelete(id: string) {
   }
 
   // Delete from DynamoDB
-  await docClient.send(new DeleteCommand({ TableName: tableName, Key: { id } }));
+  await docClient.send(
+    new DeleteCommand({ TableName: tableName, Key: { id } }),
+  );
 
   return {
     statusCode: 200,
@@ -512,7 +524,7 @@ async function handleMediaDelete(id: string) {
 // Helper function to verify Cognito access token using JWT verification
 // This is faster and more efficient than GetUserCommand (no API call needed)
 async function verifyCognitoToken(
-  accessToken: string
+  accessToken: string,
 ): Promise<{ email: string; sub: string } | null> {
   try {
     const verifier = getJwtVerifier();
@@ -521,7 +533,8 @@ async function verifyCognitoToken(
     const payload = await verifier.verify(accessToken);
 
     // Extract user information from JWT payload
-    const email = (payload.email as string) || (payload.username as string) || "";
+    const email =
+      (payload.email as string) || (payload.username as string) || "";
     const sub = payload.sub as string;
 
     if (!sub) {
@@ -544,7 +557,8 @@ async function verifyCognitoToken(
 
 // Helper function to extract token from Authorization header
 function extractToken(event: any): string | null {
-  const authHeader = event.headers?.authorization || event.headers?.Authorization;
+  const authHeader =
+    event.headers?.authorization || event.headers?.Authorization;
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
     return null;
   }
@@ -566,8 +580,10 @@ async function handleAuthLogin(_body: any) {
 
 // Main handler
 export async function handler(event: any) {
-  const method = event.requestContext?.http?.method || event.httpMethod || "GET";
-  const rawPath = event.requestContext?.http?.path || event.rawPath || event.path || "/";
+  const method =
+    event.requestContext?.http?.method || event.httpMethod || "GET";
+  const rawPath =
+    event.requestContext?.http?.path || event.rawPath || event.path || "/";
   const body = event.body
     ? typeof event.body === "string"
       ? JSON.parse(event.body)
@@ -613,7 +629,8 @@ export async function handler(event: any) {
     // Path format: /api/admin/blogs/{id} or /api/admin/media/{id}
     const pathParts = rawPath.split("/").filter(Boolean);
     const id = pathParts[pathParts.length - 1];
-    const isIdRoute = id && id !== "blogs" && id !== "media" && id !== "admin" && id !== "api";
+    const isIdRoute =
+      id && id !== "blogs" && id !== "media" && id !== "admin" && id !== "api";
 
     // Route based on path
     // Public routes (no auth required)
@@ -628,7 +645,10 @@ export async function handler(event: any) {
           body: JSON.stringify({ error: "Method not allowed" }),
         };
       }
-    } else if (rawPath.startsWith("/api/admin/auth/login") && method === "POST") {
+    } else if (
+      rawPath.startsWith("/api/admin/auth/login") &&
+      method === "POST"
+    ) {
       result = await handleAuthLogin(body);
     } else if (rawPath.startsWith("/api/admin/blogs")) {
       if (method === "GET" && isIdRoute) {

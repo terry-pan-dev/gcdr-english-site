@@ -37,7 +37,10 @@ const opacityReplacements = [
   { pattern: /bg-\[#1c1917\]\/(\d+)/g, replacement: "bg-dark-bg/$1" },
   { pattern: /bg-\[#2a2522\]\/(\d+)/g, replacement: "bg-dark-card/$1" },
   { pattern: /bg-\[#c9a050\]\/(\d+)/g, replacement: "bg-accent-gold/$1" },
-  { pattern: /border-\[#c9a050\]\/(\d+)/g, replacement: "border-accent-gold/$1" },
+  {
+    pattern: /border-\[#c9a050\]\/(\d+)/g,
+    replacement: "border-accent-gold/$1",
+  },
   { pattern: /from-\[#1c1917\]\/(\d+)/g, replacement: "from-dark-bg/$1" },
   { pattern: /via-\[#1c1917\]\/(\d+)/g, replacement: "via-dark-bg/$1" },
   { pattern: /to-\[#1c1917\]\/(\d+)/g, replacement: "to-dark-bg/$1" },
@@ -48,12 +51,14 @@ function replaceInFile(filePath) {
   let modified = false;
 
   // Apply all replacements
-  [...colorReplacements, ...opacityReplacements].forEach(({ pattern, replacement }) => {
-    if (pattern.test(content)) {
-      content = content.replace(pattern, replacement);
-      modified = true;
-    }
-  });
+  [...colorReplacements, ...opacityReplacements].forEach(
+    ({ pattern, replacement }) => {
+      if (pattern.test(content)) {
+        content = content.replace(pattern, replacement);
+        modified = true;
+      }
+    },
+  );
 
   if (modified) {
     fs.writeFileSync(filePath, content, "utf8");
@@ -70,9 +75,16 @@ function findComponentFiles(dir) {
   for (const entry of entries) {
     const fullPath = path.join(dir, entry.name);
 
-    if (entry.isDirectory() && entry.name !== "node_modules" && entry.name !== ".git") {
+    if (
+      entry.isDirectory() &&
+      entry.name !== "node_modules" &&
+      entry.name !== ".git"
+    ) {
       files.push(...findComponentFiles(fullPath));
-    } else if (entry.isFile() && (entry.name.endsWith(".tsx") || entry.name.endsWith(".jsx"))) {
+    } else if (
+      entry.isFile() &&
+      (entry.name.endsWith(".tsx") || entry.name.endsWith(".jsx"))
+    ) {
       files.push(fullPath);
     }
   }
@@ -105,7 +117,9 @@ function main() {
   console.log("\n📝 Next steps:");
   console.log("1. Review the changes");
   console.log("2. Run: pnpm run build");
-  console.log("3. Check that index.css now uses CSS variables instead of hardcoded values");
+  console.log(
+    "3. Check that index.css now uses CSS variables instead of hardcoded values",
+  );
 }
 
 if (require.main === module) {

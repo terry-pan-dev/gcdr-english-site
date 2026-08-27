@@ -4,7 +4,9 @@ type FeaturedEventProps = {
   href?: string;
 };
 
-export function FeaturedEvent({ href = "/events/Guan-Yin-English-2026" }: FeaturedEventProps) {
+export function FeaturedEvent({
+  href = "/events/Guan-Yin-English-2026",
+}: FeaturedEventProps) {
   return (
     <section style={{ backgroundColor: "var(--background)" }}>
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
@@ -14,7 +16,8 @@ export function FeaturedEvent({ href = "/events/Guan-Yin-English-2026" }: Featur
             overflow: "hidden",
             borderRadius: "0.4rem",
             backgroundColor: "var(--surface, var(--background))",
-            border: "1px solid color-mix(in srgb, var(--foreground) 10%, transparent)",
+            border:
+              "1px solid color-mix(in srgb, var(--foreground) 10%, transparent)",
           }}
         >
           {/* ── Image ───────────────────────────────────────── */}
@@ -102,7 +105,8 @@ export function FeaturedEvent({ href = "/events/Guan-Yin-English-2026" }: Featur
 
             <div
               style={{
-                borderTop: "1px solid color-mix(in srgb, var(--foreground) 15%, transparent)",
+                borderTop:
+                  "1px solid color-mix(in srgb, var(--foreground) 15%, transparent)",
                 marginBottom: "1.3rem",
               }}
             />
@@ -130,14 +134,16 @@ export function FeaturedEvent({ href = "/events/Guan-Yin-English-2026" }: Featur
                 maxWidth: "42rem",
               }}
             >
-              Slow down and explore the practice of deep listening. Listen to the body, the heart,
-              the natural world, and the stillness within. A week of meditation, reflection, nature
-              and Buddhist teachings at Gold Coast Dharma Realm.
+              Slow down and explore the practice of deep listening. Listen to
+              the body, the heart, the natural world, and the stillness within.
+              A week of meditation, reflection, nature and Buddhist teachings at
+              Gold Coast Dharma Realm.
             </p>
 
             <div
               style={{
-                borderTop: "1px solid color-mix(in srgb, var(--foreground) 15%, transparent)",
+                borderTop:
+                  "1px solid color-mix(in srgb, var(--foreground) 15%, transparent)",
                 marginBottom: "1.1rem",
                 maxWidth: "34rem",
               }}
@@ -153,7 +159,8 @@ export function FeaturedEvent({ href = "/events/Guan-Yin-English-2026" }: Featur
                 maxWidth: "36rem",
               }}
             >
-              Led by Rev. Heng Sure, Ven. Jin Chuan, Ven. Jin Wei &amp; other monastics
+              Led by Rev. Heng Sure, Ven. Jin Chuan, Ven. Jin Wei &amp; other
+              monastics
             </p>
 
             {/* CTA */}
