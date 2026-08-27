@@ -1,144 +1,120 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
-import Masonry from "react-responsive-masonry";
+import Masonry from "react-masonry-css";
 
-/** 横图（含正方形）在全屏预览时相对原始像素的宽度放大倍数，并受视口宽度限制 */
+// ---------------------------------------------------------------------------
+// Lightbox constants
+// ---------------------------------------------------------------------------
 const LIGHTBOX_LANDSCAPE_SCALE = 1.65;
-/** 全屏层含 p-4 等边距时，竖图可用高度需从 100vh 减去的量（不再预留标题区） */
 const LIGHTBOX_VERTICAL_RESERVE = "2rem";
-/** 全屏预览内点击逐级放大的倍数 */
-const LIGHTBOX_ZOOM_LEVELS = [1, 2, 3] as const;
-/** 滚轮缩放步进与上下限 */
+const LIGHTBOX_ZOOM_LEVELS = [1, 2] as const;
 const LIGHTBOX_WHEEL_ZOOM_STEP = 0.2;
 const LIGHTBOX_MIN_ZOOM = 1;
-const LIGHTBOX_MAX_ZOOM = 4;
-/** 判定为拖拽而非点击的最小位移（px） */
+const LIGHTBOX_MAX_ZOOM = 2;
 const LIGHTBOX_DRAG_THRESHOLD = 5;
 
-const samplePosters = [
-  {
-    id: 1,
-    image: "/assets/2_new_2026Events.jpg",
-    title: "2026 Events",
-  },
+// ---------------------------------------------------------------------------
+// Poster data
+// ---------------------------------------------------------------------------
+const today = new Date();
+today.setHours(0, 0, 0, 0);
 
+const allPosters = [
   {
-    id: 8181,
+    id: 16,
+    image: "/assets/Guanyin Chinese 2026.jpeg",
+    title: "Guanyin Dharma Assembly 2026",
+    endDate: "2026-08-01",
+  },
+  {
+    id: 17,
+    image: "/assets/Chan 2026.jpeg",
+    title: "Chan Session 2026",
+    endDate: "2026-08-16",
+  },
+  {
+    id: 22,
     image: "/assets/Celebration of Ullambana.png",
     title: "Celebration of Ullambana",
+    endDate: "2026-08-23",
   },
-
   {
-    id: 8182,
-    image: "/assets/49_earth_store_2.jpg",
-    title: "49 Books of Earth Store Sutra Recitation",
-  },
-
-  {
-    id: 8183,
+    id: 20,
     image: "/assets/49_earth_store_1.jpg",
-    title: "49 Books of Earth Store Sutra Recitation",
+    title: "Earth Store Dharma Assembly",
+    endDate: "2026-09-08",
   },
-
-  // {
-  //   id: 7211,
-  //   image: "/assets/0721_Guanyin Chinese 2026.jpeg",
-  //   title: "7-Day Guan Yin Recitation Session",
-  // },
-
-  // {
-  //   id: 7212,
-  //   image: "/assets/0721_Chan 2026.jpeg",
-  //   title: "10-Day Meditation Retreat",
-  // },
-
   {
-    id: 13,
-    image: "/assets/Saturday-Lecture.jpg",
-    title: "Saturday Lecture",
+    id: 21,
+    image: "/assets/49_earth_store_2.jpg",
+    title: "Earth Store Dharma Assembly",
+    endDate: "2026-09-08",
   },
-
+  {
+    id: 18,
+    image: "/assets/SundayKidClass.jpg",
+    title: "Sunday Kids Class",
+    endDate: "2026-12-06",
+  },
+  { id: 19, image: "/assets/53Visits.jpg", title: "53 Visits" },
+  { id: 1, image: "/assets/0_KIDS_CAMP_04182026.jpg", title: "Kids Camp", endDate: "2026-04-19" },
   {
     id: 2,
-    image: "/assets/53Visits.jpg",
-    title: "Sunday Lecture: Avatamsaka Dharma Assembly Sudhana's Fifty-Three Visits",
+    image: "/assets/LHBC 2026.jpeg",
+    title: "Emperor Liang Jeweled Repentance",
+    endDate: "2026-05-09",
   },
-
   {
     id: 3,
-    image: "/assets/SundayKidClass.jpg",
-    title: "Sunday Kids Classes 2026",
+    image: "/assets/05052026ThreeRefugesFivePrecepts.jpeg",
+    title: "Transmission of the Three Refuges & Five Precepts",
+    endDate: "2026-05-05",
   },
-
-  // {
-  //   id: 4,
-  //   image: "/assets/LHBC 2026.jpeg",
-  //   title: "Emperor Liang Jeweled Repentance",
-  // },
-
-  // {
-  //   id: 5,
-  //   image: "/assets/05052026ThreeRefugesFivePrecepts.jpeg",
-  //   title: "Transmission of the Three refuges & Five precepts",
-  // },
-
-  // {
-  //   id: 6,
-  //   image: "/assets/ShurangamaMantraDharmaAssembly.png",
-  //   title: "Shurangama Mantra Recitation Retreat",
-  // },
-
   {
-    id: 7,
+    id: 4,
+    image: "/assets/ShurangamaMantraDharmaAssembly.png",
+    title: "Shurangama Mantra Dharma Assembly",
+    endDate: "2026-05-17",
+  },
+  {
+    id: 5,
     image: "/assets/3_CaptureLunarNewYearBlessingCeremony.jpg",
     title: "Lunar New Year Blessing Ceremony",
   },
-
-  {
-    id: 10,
-    image: "/assets/5_PlaqueRegistration.jpg",
-    title: "Plaque Registration",
-  },
-
-  {
-    id: 11,
-    image: "/assets/saturday_events.jpg",
-    title: "Saturday Events",
-  },
-  {
-    id: 12,
-    image: "/assets/yoga.jpg",
-    title: "Yoga & Meditation",
-  },
-  // {
-  //   id: 11,
-  //   image: "/assets/Volunteer-Team.jpg",
-  //   title: "Volunteer Team",
-  // },
-
-  {
-    id: 14,
-    image: "/assets/GuanYin-Hall-Sponsorship.jpg",
-    title: "Sponsorship for GuanYin Hall",
-  },
-  {
-    id: 15,
-    image: "/assets/GCM.jpg",
-    title: "Great Compassion Mantra Recitation Program",
-  },
+  { id: 8, image: "/assets/2_new_2026Events.jpg", title: "2026 Events", endDate: "2027-01-01" },
+  { id: 9, image: "/assets/5_PlaqueRegistration.jpg", title: "Plaque Registration" },
+  { id: 10, image: "/assets/saturday_events.jpg", title: "Saturday Events" },
+  { id: 11, image: "/assets/yoga.jpg", title: "Yoga & Meditation" },
+  { id: 12, image: "/assets/Volunteer-Team.jpg", title: "Volunteer Team" },
+  { id: 13, image: "/assets/Saturday-Lecture.jpg", title: "Saturday Lecture" },
+  { id: 14, image: "/assets/GuanYin-Hall-Sponsorship.jpg", title: "Sponsorship for Guan Yin Hall" },
+  { id: 15, image: "/assets/GCM.jpg", title: "Great Compassion Mantra Recitation Program" },
 ];
 
+const breakpointColumns = {
+  default: 3,
+  1024: 2,
+  768: 1,
+};
+
+function isVisible(poster: (typeof allPosters)[0]): boolean {
+  if (!poster.endDate) return true;
+  const end = new Date(poster.endDate);
+  end.setHours(0, 0, 0, 0);
+  return end >= today;
+}
+
+// ---------------------------------------------------------------------------
+// Main component
+// ---------------------------------------------------------------------------
 export function Posters() {
-  // 存储当前选中的海报对象
-  const [selectedPoster, setSelectedPoster] = useState<(typeof samplePosters)[0] | null>(null);
-  /** 全屏预览图加载完成后的原始宽高，用于区分竖图 / 横图并计算尺寸 */
-  const [lightboxNaturalSize, setLightboxNaturalSize] = useState<{
-    w: number;
-    h: number;
-  } | null>(null);
-  /** 全屏预览内的额外缩放（在 fit 尺寸基础上） */
+  const [selectedPoster, setSelectedPoster] = useState<(typeof allPosters)[0] | null>(null);
+
+  // Lightbox state
+  const [lightboxNaturalSize, setLightboxNaturalSize] = useState<{ w: number; h: number } | null>(
+    null
+  );
   const [lightboxZoom, setLightboxZoom] = useState(1);
-  /** 放大后的平移偏移 */
   const [lightboxPan, setLightboxPan] = useState({ x: 0, y: 0 });
   const [isLightboxDragging, setIsLightboxDragging] = useState(false);
   const lightboxDragRef = useRef<{
@@ -150,6 +126,7 @@ export function Posters() {
     moved: boolean;
   } | null>(null);
   const lightboxClickBlockedRef = useRef(false);
+  const lightboxPointerStartedOnPosterRef = useRef(false);
   const lightboxZoomRef = useRef(1);
 
   useEffect(() => {
@@ -161,71 +138,73 @@ export function Posters() {
     setLightboxPan({ x: 0, y: 0 });
   }, []);
 
+  const closeLightbox = useCallback(() => {
+    resetLightboxView();
+    setSelectedPoster(null);
+  }, [resetLightboxView]);
+
+  // Reset view when poster changes
   useEffect(() => {
     setLightboxNaturalSize(null);
     resetLightboxView();
   }, [selectedPoster?.image, resetLightboxView]);
 
+  // Lock body scroll while lightbox is open
   useEffect(() => {
     if (!selectedPoster) return;
-
     const scrollY = window.scrollY;
     const bodyStyle = document.body.style;
     const htmlStyle = document.documentElement.style;
-    const previousBody = {
+    const prev = {
       overflow: bodyStyle.overflow,
       position: bodyStyle.position,
       top: bodyStyle.top,
       width: bodyStyle.width,
       paddingRight: bodyStyle.paddingRight,
     };
-    const previousHtmlOverflow = htmlStyle.overflow;
+    const prevHtmlOverflow = htmlStyle.overflow;
+    const prevHtmlScrollBehavior = htmlStyle.scrollBehavior;
     const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
 
     bodyStyle.overflow = "hidden";
     bodyStyle.position = "fixed";
     bodyStyle.top = `-${scrollY}px`;
     bodyStyle.width = "100%";
-    if (scrollbarWidth > 0) {
-      bodyStyle.paddingRight = `${scrollbarWidth}px`;
-    }
+    if (scrollbarWidth > 0) bodyStyle.paddingRight = `${scrollbarWidth}px`;
     htmlStyle.overflow = "hidden";
 
     return () => {
-      bodyStyle.overflow = previousBody.overflow;
-      bodyStyle.position = previousBody.position;
-      bodyStyle.top = previousBody.top;
-      bodyStyle.width = previousBody.width;
-      bodyStyle.paddingRight = previousBody.paddingRight;
-      htmlStyle.overflow = previousHtmlOverflow;
+      bodyStyle.overflow = prev.overflow;
+      bodyStyle.position = prev.position;
+      bodyStyle.top = prev.top;
+      bodyStyle.width = prev.width;
+      bodyStyle.paddingRight = prev.paddingRight;
+      htmlStyle.overflow = prevHtmlOverflow;
+      htmlStyle.scrollBehavior = "auto";
       window.scrollTo(0, scrollY);
+      htmlStyle.scrollBehavior = prevHtmlScrollBehavior;
     };
   }, [selectedPoster]);
 
+  // Scroll-to-zoom
   useEffect(() => {
     if (!selectedPoster) return;
-
     const onWheel = (e: WheelEvent) => {
       e.preventDefault();
       e.stopPropagation();
-
       const direction = e.deltaY > 0 ? -1 : 1;
-      const currentZoom = lightboxZoomRef.current;
-      const nextZoom = Math.min(
+      const next = Math.min(
         LIGHTBOX_MAX_ZOOM,
-        Math.max(LIGHTBOX_MIN_ZOOM, currentZoom + direction * LIGHTBOX_WHEEL_ZOOM_STEP)
+        Math.max(LIGHTBOX_MIN_ZOOM, lightboxZoomRef.current + direction * LIGHTBOX_WHEEL_ZOOM_STEP)
       );
-      setLightboxZoom(nextZoom);
-      if (nextZoom === 1) setLightboxPan({ x: 0, y: 0 });
+      setLightboxZoom(next);
+      if (next === 1) setLightboxPan({ x: 0, y: 0 });
     };
-
     window.addEventListener("wheel", onWheel, { passive: false, capture: true });
-
-    return () => {
-      window.removeEventListener("wheel", onWheel, { capture: true });
-    };
+    return () => window.removeEventListener("wheel", onWheel, { capture: true });
   }, [selectedPoster]);
 
+  // Keyboard shortcuts
   useEffect(() => {
     if (!selectedPoster) return;
     const onKeyDown = (e: KeyboardEvent) => {
@@ -234,7 +213,7 @@ export function Posters() {
           resetLightboxView();
           return;
         }
-        setSelectedPoster(null);
+        closeLightbox();
         return;
       }
       if (e.key === "0" || e.key === "Home") {
@@ -253,8 +232,9 @@ export function Posters() {
     };
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
-  }, [selectedPoster, lightboxZoom, resetLightboxView]);
+  }, [selectedPoster, lightboxZoom, resetLightboxView, closeLightbox]);
 
+  // Image sizing based on orientation
   const lightboxImageStyle = useMemo(() => {
     if (!lightboxNaturalSize) return undefined;
     const { w: nw, h: nh } = lightboxNaturalSize;
@@ -267,34 +247,27 @@ export function Posters() {
     }
     const vw = typeof window !== "undefined" ? window.innerWidth : 1920;
     const scaledW = Math.min(nw * LIGHTBOX_LANDSCAPE_SCALE, vw * 0.95);
-    return {
-      width: scaledW,
-      height: "auto" as const,
-      maxWidth: "95vw",
-    };
+    return { width: scaledW, height: "auto" as const, maxWidth: "95vw" };
   }, [lightboxNaturalSize]);
 
-  const handlePosterClick = (poster: (typeof samplePosters)[0]) => {
-    setSelectedPoster(poster);
-  };
-
-  const closeFullscreen = () => {
-    resetLightboxView();
-    setSelectedPoster(null);
-  };
-
+  // Backdrop click
   const handleLightboxBackdropClick = () => {
-    if (lightboxZoom > 1) {
-      resetLightboxView();
-      return;
-    }
-    closeFullscreen();
+    closeLightbox();
   };
 
+  // Image click cycles zoom levels
   const handleLightboxImageClick = (e: React.MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
+    const target = e.target;
+    const clickedPoster =
+      (target instanceof Element && Boolean(target.closest("[data-lightbox-poster]"))) ||
+      lightboxPointerStartedOnPosterRef.current;
+    lightboxPointerStartedOnPosterRef.current = false;
+    if (!clickedPoster) {
+      closeLightbox();
+      return;
+    }
     if (lightboxClickBlockedRef.current) return;
-
     const nextLevel = LIGHTBOX_ZOOM_LEVELS.find((level) => level > lightboxZoom + 0.01);
     if (nextLevel !== undefined) {
       setLightboxZoom(nextLevel);
@@ -303,8 +276,14 @@ export function Posters() {
     resetLightboxView();
   };
 
+  // Drag-to-pan handlers
   const handleLightboxPointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
     if (lightboxZoom <= 1) return;
+    const target = e.target;
+    const startedOnPoster =
+      target instanceof Element && Boolean(target.closest("[data-lightbox-poster]"));
+    lightboxPointerStartedOnPosterRef.current = startedOnPoster;
+    if (!startedOnPoster) return;
     e.stopPropagation();
     e.currentTarget.setPointerCapture(e.pointerId);
     lightboxDragRef.current = {
@@ -321,7 +300,6 @@ export function Posters() {
   const handleLightboxPointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
     const drag = lightboxDragRef.current;
     if (!drag || drag.pointerId !== e.pointerId) return;
-
     const deltaX = e.clientX - drag.startX;
     const deltaY = e.clientY - drag.startY;
     if (
@@ -331,19 +309,14 @@ export function Posters() {
       drag.moved = true;
     }
     if (!drag.moved) return;
-
-    setLightboxPan({
-      x: drag.originPanX + deltaX,
-      y: drag.originPanY + deltaY,
-    });
+    setLightboxPan({ x: drag.originPanX + deltaX, y: drag.originPanY + deltaY });
   };
 
   const finishLightboxPointer = (e: React.PointerEvent<HTMLDivElement>) => {
     const drag = lightboxDragRef.current;
     if (!drag || drag.pointerId !== e.pointerId) return;
-    if (e.currentTarget.hasPointerCapture(e.pointerId)) {
+    if (e.currentTarget.hasPointerCapture(e.pointerId))
       e.currentTarget.releasePointerCapture(e.pointerId);
-    }
     if (drag.moved) {
       lightboxClickBlockedRef.current = true;
       window.setTimeout(() => {
@@ -359,21 +332,48 @@ export function Posters() {
     setLightboxNaturalSize({ w: el.naturalWidth, h: el.naturalHeight });
   };
 
+  const visiblePosters = allPosters.filter(isVisible);
+  const hasNextZoomLevel = LIGHTBOX_ZOOM_LEVELS.some((level) => level > lightboxZoom + 0.01);
+
   return (
     <section
       id="posters"
-      className="py-24 relative overflow-hidden"
-      style={{ backgroundColor: "#78584a" }}
+      className="pt-nav py-24 relative overflow-hidden"
+      style={{ backgroundColor: "var(--muted)" }}
     >
-      {/* 4. 全屏放大模态框 */}
+      {/* Lightbox */}
       {selectedPoster && (
         <div
-          className={`fixed inset-0 z-[100] flex flex-col items-center justify-center bg-black/85 backdrop-blur-sm p-4 overscroll-none ${
-            lightboxZoom > 1 ? "cursor-default" : "cursor-zoom-out"
-          }`}
+          className="fixed inset-0 z-[100] flex cursor-default flex-col items-center justify-center bg-black/85 backdrop-blur-sm p-4 overscroll-none"
           onClick={handleLightboxBackdropClick}
           role="presentation"
         >
+          {/* X close button — always visible */}
+          <button
+            type="button"
+            aria-label="Close"
+            onClick={(e) => {
+              e.stopPropagation();
+              closeLightbox();
+            }}
+            className="absolute top-4 right-4 z-[110] flex items-center justify-center w-9 h-9 rounded-full bg-black/60 border border-white/20 text-white/80 backdrop-blur-sm transition-colors hover:bg-black/80 hover:text-white"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="w-4 h-4"
+            >
+              <line x1="18" y1="6" x2="6" y2="18" />
+              <line x1="6" y1="6" x2="18" y2="18" />
+            </svg>
+          </button>
+
+          {/* Reset zoom button — only when zoomed */}
           {lightboxZoom > 1 && (
             <button
               type="button"
@@ -381,19 +381,21 @@ export function Posters() {
                 e.stopPropagation();
                 resetLightboxView();
               }}
-              className="absolute top-4 right-4 z-[110] rounded-full border border-accent-gold/40 bg-black/60 px-4 py-2 text-sm text-dark-text backdrop-blur-sm transition-colors hover:bg-black/80"
+              className="absolute top-4 right-16 z-[110] rounded-full border border-white/20 bg-black/60 px-4 py-2 text-sm text-white/80 backdrop-blur-sm transition-colors hover:bg-black/80 hover:text-white"
             >
               Reset zoom
             </button>
           )}
 
-          <p className="pointer-events-none absolute bottom-4 left-1/2 z-[110] -translate-x-1/2 rounded-full bg-black/50 px-4 py-2 text-xs text-dark-text/80 backdrop-blur-sm">
+          {/* Hint text */}
+          <p className="pointer-events-none absolute bottom-4 left-1/2 z-[110] -translate-x-1/2 rounded-full bg-black/50 px-4 py-2 text-xs text-white/70 backdrop-blur-sm whitespace-nowrap">
             {lightboxZoom > 1
               ? "Drag to pan · Scroll or click to adjust · Esc to reset"
               : "Click image to zoom · Scroll to zoom · Esc to close"}
           </p>
 
-          <div className="relative flex min-h-0 w-full max-w-[95vw] animate-in fade-in zoom-in flex-col items-center justify-center duration-300">
+          {/* Image wrapper */}
+          <div className="relative flex min-h-0 w-full max-w-[95vw] flex-col items-center justify-center">
             <div
               className="flex max-h-[calc(100vh-2rem)] w-full items-center justify-center overflow-hidden"
               onClick={handleLightboxImageClick}
@@ -402,15 +404,23 @@ export function Posters() {
               onPointerUp={finishLightboxPointer}
               onPointerCancel={finishLightboxPointer}
               style={{
-                cursor: lightboxZoom > 1 ? (isLightboxDragging ? "grabbing" : "grab") : "zoom-in",
+                cursor: "default",
                 touchAction: lightboxZoom > 1 ? "none" : "auto",
               }}
             >
               <div
+                data-lightbox-poster
                 style={{
                   transform: `translate(${lightboxPan.x}px, ${lightboxPan.y}px) scale(${lightboxZoom})`,
                   transformOrigin: "center center",
                   transition: isLightboxDragging ? "none" : "transform 0.2s ease-out",
+                  cursor: isLightboxDragging
+                    ? "grabbing"
+                    : lightboxZoom > 1
+                      ? "grab"
+                      : hasNextZoomLevel
+                        ? "zoom-in"
+                        : "zoom-out",
                 }}
               >
                 <ImageWithFallback
@@ -418,9 +428,10 @@ export function Posters() {
                   alt={selectedPoster.title}
                   onLoad={handleLightboxImageLoad}
                   draggable={false}
-                  className="mx-auto max-w-full object-contain rounded-lg shadow-2xl border-4 max-h-[calc(100vh-2rem)] select-none"
+                  className="mx-auto max-w-full object-contain rounded shadow-2xl max-h-[calc(100vh-2rem)] select-none"
                   style={{
                     borderColor: "transparent",
+                    cursor: "inherit",
                     ...lightboxImageStyle,
                   }}
                 />
@@ -430,221 +441,72 @@ export function Posters() {
         </div>
       )}
 
-      {/* Wooden texture overlay */}
-      <div className="absolute inset-0 opacity-20 mix-blend-overlay pointer-events-none">
-        <div
-          className="w-full h-full"
-          style={{
-            backgroundImage: `repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(0,0,0,0.1) 2px, rgba(0,0,0,0.1) 4px)`,
-          }}
-        />
-      </div>
-
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-        {/* Decorative Header */}
-        <div className="text-center mb-16">
-          {/* Top ornament */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Header */}
+        <div className="text-center mb-8">
           <div className="flex items-center justify-center mb-6">
-            <div className="w-16 h-1 rounded-full" style={{ backgroundColor: "#c9a050" }} />
-            <div className="mx-4 text-4xl">📌</div>
-            <div className="w-16 h-1 rounded-full" style={{ backgroundColor: "#c9a050" }} />
+            <div className="w-16 h-px" style={{ backgroundColor: "var(--color-accent-gold)" }} />
+            <div
+              className="mx-4 text-sm tracking-[0.3em] uppercase"
+              style={{ color: "var(--color-accent-gold)" }}
+            >
+              Notices
+            </div>
+            <div className="w-16 h-px" style={{ backgroundColor: "var(--color-accent-gold)" }} />
           </div>
-
-          <h2 className="text-4xl mb-4" style={{ color: "#EBE9CF" }}>
+          <h2
+            className="type-section-title text-4xl mb-4"
+            style={{ color: "var(--heading-foreground)" }}
+          >
             Temple Notice Board
           </h2>
-          <p className="max-w-2xl mx-auto" style={{ color: "#EBE9CF", opacity: 0.8 }}>
-            Discover our upcoming events and special announcements
+          <p className="type-body max-w-2xl mx-auto" style={{ color: "var(--foreground)" }}>
+            Upcoming events and special announcements
           </p>
         </div>
 
-        {/* Mobile: Single Column Grid */}
-        <div className="md:hidden grid grid-cols-1 gap-8">
-          {samplePosters.map((poster) => (
-            <div
+        <Masonry
+          breakpointCols={breakpointColumns}
+          className="flex gap-5"
+          columnClassName="flex flex-col gap-5"
+        >
+          {visiblePosters.map((poster, index) => (
+            <PosterCard
               key={poster.id}
-              className="group cursor-pointer relative mx-auto max-w-sm w-full"
-              onClick={() => handlePosterClick(poster)}
-            >
-              {/* Pin at the top */}
-              <div
-                className="absolute -top-3 left-1/2 -translate-x-1/2 z-10 w-8 h-8 rounded-full flex items-center justify-center shadow-lg"
-                style={{ backgroundColor: "#c9a050" }}
-              >
-                <div className="w-2 h-2 rounded-full bg-stone-800" />
-              </div>
-
-              {/* Poster Container */}
-              <div
-                className="relative overflow-hidden rounded-lg transition-all duration-300 shadow-xl"
-                style={{
-                  backgroundColor: "#EBE9CF",
-                  border: "4px solid #c9a050",
-                  transform: "none",
-                }}
-              >
-                {/* Poster Image */}
-                <div className="p-3">
-                  <ImageWithFallback
-                    src={poster.image}
-                    alt={poster.title}
-                    className="w-full h-auto object-cover rounded shadow-md"
-                  />
-                </div>
-
-                {/* Title */}
-                <div className="px-4 pb-4 text-center">
-                  <h3 className="text-xl text-stone-900">{poster.title}</h3>
-                </div>
-
-                {/* Decorative corner elements */}
-                <div
-                  className="absolute top-1 left-1 w-4 h-4 border-t-2 border-l-2 rounded-tl"
-                  style={{ borderColor: "#c9a050" }}
-                />
-                <div
-                  className="absolute top-1 right-1 w-4 h-4 border-t-2 border-r-2 rounded-tr"
-                  style={{ borderColor: "#c9a050" }}
-                />
-                <div
-                  className="absolute bottom-1 left-1 w-4 h-4 border-b-2 border-l-2 rounded-bl"
-                  style={{ borderColor: "#c9a050" }}
-                />
-                <div
-                  className="absolute bottom-1 right-1 w-4 h-4 border-b-2 border-r-2 rounded-br"
-                  style={{ borderColor: "#c9a050" }}
-                />
-              </div>
-            </div>
+              poster={poster}
+              onClick={setSelectedPoster}
+              loading={index < 3 ? "eager" : "lazy"}
+            />
           ))}
-        </div>
-
-        {/* Tablet: Two Column Masonry Grid */}
-        <div className="hidden md:block lg:hidden">
-          <Masonry columnsCount={2} gutter="24px">
-            {samplePosters.map((poster) => (
-              <div
-                key={poster.id}
-                className="group cursor-pointer relative"
-                onClick={() => handlePosterClick(poster)}
-              >
-                {/* Pin at the top */}
-                <div
-                  className="absolute -top-3 left-1/2 -translate-x-1/2 z-10 w-8 h-8 rounded-full flex items-center justify-center shadow-lg"
-                  style={{ backgroundColor: "#c9a050" }}
-                >
-                  <div className="w-2 h-2 rounded-full bg-stone-800" />
-                </div>
-
-                {/* Poster Container */}
-                <div
-                  className="relative overflow-hidden rounded-lg transition-all duration-300 group-hover:scale-105 group-hover:rotate-1 shadow-xl"
-                  style={{
-                    backgroundColor: "#EBE9CF",
-                    border: "4px solid #c9a050",
-                    transform: "rotate(-1deg)",
-                  }}
-                >
-                  {/* Poster Image */}
-                  <div className="p-3">
-                    <ImageWithFallback
-                      src={poster.image}
-                      alt={poster.title}
-                      className="w-full h-auto object-cover rounded shadow-md"
-                    />
-                  </div>
-
-                  {/* Title */}
-                  <div className="px-4 pb-4 text-center">
-                    <h3 className="text-xl text-stone-900">{poster.title}</h3>
-                  </div>
-
-                  {/* Decorative corner elements */}
-                  <div
-                    className="absolute top-1 left-1 w-4 h-4 border-t-2 border-l-2 rounded-tl"
-                    style={{ borderColor: "#c9a050" }}
-                  />
-                  <div
-                    className="absolute top-1 right-1 w-4 h-4 border-t-2 border-r-2 rounded-tr"
-                    style={{ borderColor: "#c9a050" }}
-                  />
-                  <div
-                    className="absolute bottom-1 left-1 w-4 h-4 border-b-2 border-l-2 rounded-bl"
-                    style={{ borderColor: "#c9a050" }}
-                  />
-                  <div
-                    className="absolute bottom-1 right-1 w-4 h-4 border-b-2 border-r-2 rounded-br"
-                    style={{ borderColor: "#c9a050" }}
-                  />
-                </div>
-              </div>
-            ))}
-          </Masonry>
-        </div>
-
-        {/* Desktop: Three Column Masonry Grid */}
-        <div className="hidden lg:block">
-          <Masonry columnsCount={3} gutter="24px">
-            {samplePosters.map((poster) => (
-              <div
-                key={poster.id}
-                className="group cursor-pointer relative"
-                onClick={() => handlePosterClick(poster)}
-              >
-                {/* Pin at the top */}
-                <div
-                  className="absolute -top-3 left-1/2 -translate-x-1/2 z-10 w-8 h-8 rounded-full flex items-center justify-center shadow-lg"
-                  style={{ backgroundColor: "#c9a050" }}
-                >
-                  <div className="w-2 h-2 rounded-full bg-stone-800" />
-                </div>
-
-                {/* Poster Container */}
-                <div
-                  className="relative overflow-hidden rounded-lg transition-all duration-300 group-hover:scale-105 group-hover:rotate-1 shadow-xl"
-                  style={{
-                    backgroundColor: "#EBE9CF",
-                    border: "4px solid #c9a050",
-                    transform: "rotate(-1deg)",
-                  }}
-                >
-                  {/* Poster Image */}
-                  <div className="p-3">
-                    <ImageWithFallback
-                      src={poster.image}
-                      alt={poster.title}
-                      className="w-full h-auto object-cover rounded shadow-md"
-                    />
-                  </div>
-
-                  {/* Title */}
-                  <div className="px-4 pb-4 text-center">
-                    <h3 className="text-xl text-stone-900">{poster.title}</h3>
-                  </div>
-
-                  {/* Decorative corner elements */}
-                  <div
-                    className="absolute top-1 left-1 w-4 h-4 border-t-2 border-l-2 rounded-tl"
-                    style={{ borderColor: "#c9a050" }}
-                  />
-                  <div
-                    className="absolute top-1 right-1 w-4 h-4 border-t-2 border-r-2 rounded-tr"
-                    style={{ borderColor: "#c9a050" }}
-                  />
-                  <div
-                    className="absolute bottom-1 left-1 w-4 h-4 border-b-2 border-l-2 rounded-bl"
-                    style={{ borderColor: "#c9a050" }}
-                  />
-                  <div
-                    className="absolute bottom-1 right-1 w-4 h-4 border-b-2 border-r-2 rounded-br"
-                    style={{ borderColor: "#c9a050" }}
-                  />
-                </div>
-              </div>
-            ))}
-          </Masonry>
-        </div>
+        </Masonry>
       </div>
     </section>
+  );
+}
+
+// ---------------------------------------------------------------------------
+// Poster card
+// ---------------------------------------------------------------------------
+function PosterCard({
+  poster,
+  onClick,
+  loading,
+}: {
+  poster: (typeof allPosters)[0];
+  onClick: (poster: (typeof allPosters)[0]) => void;
+  loading?: "eager" | "lazy";
+}) {
+  return (
+    <div
+      className="poster-card cursor-pointer overflow-hidden rounded-sm"
+      onClick={() => onClick(poster)}
+    >
+      <ImageWithFallback
+        src={poster.image}
+        alt={poster.title}
+        className="w-full h-auto block"
+        loading={loading ?? "lazy"}
+      />
+    </div>
   );
 }

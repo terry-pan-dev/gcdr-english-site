@@ -48,16 +48,19 @@ export default {
           foreground: "var(--color-card-foreground)",
         },
         // GCDR Theme Colors
-        "dark-bg": "#1c1917",
-        "dark-text": "#EBE9CF",
-        "accent-gold": "#c9a050",
-        "dark-card": "#2a2522",
+        "dark-bg": "var(--dark-bg)",
+        "dark-text": "var(--dark-text)",
+        "accent-gold": "var(--accent-gold)",
+        "dark-card": "var(--dark-card)",
       },
       borderRadius: {
         sm: "var(--radius-sm)",
         md: "var(--radius-md)",
         lg: "var(--radius-lg)",
         xl: "var(--radius-xl)",
+      },
+      spacing: {
+        nav: "var(--nav-offset)",
       },
     },
   },

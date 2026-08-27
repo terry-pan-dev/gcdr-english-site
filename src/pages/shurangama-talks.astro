@@ -1,0 +1,8 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { ShurangamaTalks as ShurangamaTalksComponent } from "../components/ShurangamaTalks";
+---
+
+<BaseLayout title="Talks on the Shurangama - GCDR" theme="light">
+  <ShurangamaTalksComponent client:load />
+</BaseLayout>

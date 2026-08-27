@@ -1,345 +1,264 @@
-import { motion } from "motion/react";
-import { ImageCarousel } from "./ImageCarousel";
-import { ImageWithFallback } from "./figma/ImageWithFallback";
-import parallaxImage from "../assets/c8367a591975cc33957b0c6bb3b4f9d0a17c9c3c.png";
+import RosalineKangPhoto from "@/assets/RosalineKang.webp";
+
+// ─── Sub-components ───────────────────────────────────────────────────────────
+
+function SectionRule() {
+  return (
+    <div
+      className="sm:hidden"
+      style={{
+        width: 28,
+        height: 2,
+        backgroundColor: "var(--accent)",
+        marginBottom: "1.75rem",
+      }}
+    />
+  );
+}
+
+function SectionHeading({ children }: { children: React.ReactNode }) {
+  return (
+    <h2
+      className="type-section-title"
+      style={{
+        fontSize: "clamp(1.5rem, 3vw, 2rem)",
+        marginBottom: "1.25rem",
+      }}
+    >
+      {children}
+    </h2>
+  );
+}
+
+function BodyPara({ children, mb = "1.25rem" }: { children: React.ReactNode; mb?: string }) {
+  return (
+    <p
+      className="type-body"
+      style={{
+        color: "var(--foreground)",
+        lineHeight: 1.9,
+        marginBottom: mb,
+      }}
+    >
+      {children}
+    </p>
+  );
+}
+
+function InlineLink({ href, children }: { href: string; children: React.ReactNode }) {
+  return (
+    <a href={href} className="type-link">
+      {children}
+    </a>
+  );
+}
+
+function BlockQuote({ children, footer }: { children: React.ReactNode; footer?: React.ReactNode }) {
+  return (
+    <blockquote
+      style={{
+        borderLeft: "2px solid var(--accent)",
+        paddingLeft: "1.5rem",
+        margin: "2rem 0",
+        fontSize: "0.95rem",
+        lineHeight: 1.9,
+        fontStyle: "italic",
+        color: "var(--foreground)",
+      }}
+    >
+      {children}
+      {footer && (
+        <footer
+          style={{
+            marginTop: "0.75rem",
+            fontStyle: "normal",
+            fontSize: "0.85rem",
+            color: "var(--foreground)",
+          }}
+        >
+          {footer}
+        </footer>
+      )}
+    </blockquote>
+  );
+}
+
+function PageImage({
+  src,
+  alt,
+  caption,
+  width = "100%",
+}: {
+  src: string;
+  alt: string;
+  caption?: string;
+  width?: string;
+}) {
+  return (
+    <figure
+      style={{
+        margin: "2.5rem 0",
+        maxWidth: width,
+        marginLeft: "auto",
+        marginRight: "auto",
+      }}
+    >
+      <img
+        src={src}
+        alt={alt}
+        style={{
+          width: "100%",
+          height: "auto",
+          borderRadius: 2,
+          overflow: "hidden",
+          display: "block",
+        }}
+      />
+      {caption && (
+        <figcaption
+          className="type-body"
+          style={{
+            marginTop: "0.75rem",
+            fontSize: "0.85rem",
+            color: "var(--muted-foreground)",
+            fontStyle: "italic",
+          }}
+        >
+          {caption}
+        </figcaption>
+      )}
+    </figure>
+  );
+}
+
+// ─── Main component ───────────────────────────────────────────────────────────
 
 export function GCDRPage() {
-  const carouselImages = [
-    {
-      src: "/assets/temple-1.jpg",
-      alt: "Dharma Realm Temple",
-    },
-    {
-      src: "/assets/temple-2.jpg",
-      alt: "Main Gate Overview",
-    },
-    {
-      src: "/assets/temple-3.png",
-      alt: "Temple Gate",
-    },
-    {
-      src: "/assets/temple-4.jpg",
-      alt: "Temple Hall",
-    },
-    {
-      src: "/assets/temple-5.jpg",
-      alt: "Temple Hall",
-    },
-    {
-      src: "/assets/temple-6.jpg",
-      alt: "Main Hall",
-    },
-  ];
-
   return (
-    <div className="min-h-screen bg-[#1c1917] text-[#EBE9CF] overflow-x-hidden w-full">
-      {/* Hero Section */}
-      <section className="relative h-screen w-full overflow-hidden flex items-center justify-center">
-        <div className="absolute inset-0 z-0">
-          <ImageWithFallback
-            src={parallaxImage.src}
-            alt="Temple background"
-            className="w-full h-full object-cover"
-          />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/50 to-black/70" />
-        </div>
+    <section style={{ backgroundColor: "var(--background)" }}>
+      <div className="pt-nav pb-20">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          {/* ── Page title ── */}
+          <h1 className="type-page-title" style={{ marginBottom: "2.5rem" }}>
+            About Gold Coast Dharma Realm
+          </h1>
 
-        <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1 }}
-          >
-            <h1 className="text-5xl md:text-7xl lg:text-8xl font-light text-white mb-8 tracking-wide leading-tight">
-              About Us
-            </h1>
-            <div className="h-px w-32 bg-[#c9a050] mx-auto mb-12" />
-            <p className="text-xl md:text-2xl font-light tracking-wide text-white/90 max-w-3xl mx-auto">
-              A Place of Serenity and Enlightenment
-            </p>
-          </motion.div>
-        </div>
-      </section>
+          {/* ── Opening ── */}
+          <BodyPara mb="0">
+            Gold Coast Dharma Realm (GCDR) is a Mahayana Buddhist monastery in Bonogin, in the Gold
+            Coast hinterland, Queensland. It is the Australian branch of the Dharma Realm Buddhist
+            Association (DRBA), founded by Venerable Master Hsuan Hua, and is also known as
+            Shurangama Monastery.
+          </BodyPara>
 
-      {/* Main Introduction Section */}
-      <section className="py-24 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-5xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            className="text-center mb-20"
-          >
-            <h2 className="text-4xl md:text-6xl font-light mb-12 text-[#c9a050] tracking-wide">
-              Welcome to Gold Coast Dharma Realm
-            </h2>
-          </motion.div>
+          {/* ── History ── */}
+          <div style={{ marginTop: "3rem" }}>
+            <SectionRule />
+            <SectionHeading>History</SectionHeading>
 
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="space-y-8 text-lg md:text-xl font-light leading-relaxed text-stone-300 max-w-4xl mx-auto"
-          >
-            <div className="space-y-6 text-justify">
-              <p>
-                Welcome to a Buddhist monastery. You have entered an extraordinary place that is
-                devoted to spiritual practice and personal transformation. It is a place where you
-                can let go of worldly concerns and focus on some of the deeper questions in life:
-                "Who am I? Where am I going? And, how can I selflessly benefit others?"
-              </p>
-              <p>
-                The monastery is also the home of monks and nuns who have dedicated their lives to
-                following the Buddhist path to awakening. Their lives are simple, allowing them to
-                focus on the study and practice of Buddhism. There are many lay people and visitors
-                that frequent the monastery as well. Some are regular supporters of the monastery,
-                while others are simply curious about the lifestyle here.
-              </p>
-              <p>
-                We welcome you and hope your visit is meaningful and worthwhile. Here are some
-                background and basic information for you as new visitors and to give you a glimpse
-                of what life is like in the monastery.
-              </p>
-            </div>
-          </motion.div>
-        </div>
-      </section>
+            <BodyPara>
+              GCDR exists because of Rosaline Kang, a disciple of Venerable Master Hua, who set out
+              to find land for a monastery in the Mahayana Chinese tradition. In her own words:
+            </BodyPara>
 
-      {/* Buddhism Historical Perspective Section */}
-      <section className="py-24 px-4 sm:px-6 lg:px-8 bg-[#2a2522]/30">
-        <div className="max-w-7xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            className="mb-20"
-          >
-            <h2 className="text-4xl md:text-5xl font-light mb-8 text-[#c9a050] tracking-wide">
-              Buddhism: A Historical Perspective
-            </h2>
-            <div className="space-y-6 text-lg font-light leading-relaxed text-stone-300">
-              <p>
-                Several thousand years ago, Siddhartha Gautama was born as a prince in a small
-                kingdom. Upon his birth, a seer foretold that he would either become a spiritual
-                guide or a great ruler. His father wanted his son to be the next ruler to carry on
-                his family line, so he attempted to shield his son from all the unpleasantness of
-                life.
-              </p>
-              <p>
-                However, when Prince Siddhartha turned twenty-nine, he witnessed sickness, old age,
-                and death, and resolved to find an answer to these universal sufferings. He left the
-                palace and studied under meditation masters of his time, but after mastering their
-                techniques, he found that he had not answered his fundamental questions.
-              </p>
-              <p>
-                He then undertook strict ascetic practices, to a point where he was near death, but
-                found himself still no closer to liberation. Reflecting on his previous experiences,
-                he realized that the path consisted of the Middle Way, which avoided the extremes of
-                self-indulgence and self-mortification.
-              </p>
-              <p>
-                He then made a vow that he would sit under the Bodhi tree until he attained complete
-                liberation. During the very first night, Prince Siddhartha awoke to the Dharma, the
-                way things truly are, and became known as the Buddha, "The Awakened One."
-              </p>
-              <p>
-                Upon his awakening, Prince Siddhartha realized that all beings have the capacity to
-                be fully awake, but their inherent potential is covered by deluded thinking and
-                worldly attachments. Hence, his teachings over the next forty-nine years aimed at
-                helping people return to their original enlightened nature.
-              </p>
-            </div>
-          </motion.div>
+            <BlockQuote footer="— Rosaline Kang">
+              I visit Australia often and realised that there is a shortage of monasteries in the
+              Mahayana Chinese tradition. In my resolve to help the Master realise his vision, I
+              started my search for a suitable piece of land. In 1991, I found a 53-acre piece of
+              land. However, after we submitted a plan to the Gold Coast City Council, the
+              restrictive conditions they set made it unfeasible to develop this plot of land as a
+              monastery. I set forth to look for an alternative site and found the present 22-acre
+              lot in 1996. Within four months, we were able to purchase the land, apply to the
+              council for rezoning, and obtain approval from the City Council. Building plans and
+              environmental reports were subsequently submitted and approved.
+              <br />
+              <br />
+              In the months following the proposal, South-east Asia was hit by a severe economic
+              crisis towards the end of 1997. My stocks and shares were badly affected by the crash
+              of the stock and property markets, and almost overnight, my personal nett worth was
+              reduced to about ten percent of its pre-crash value. This financial crisis was a
+              severe ordeal for me, and I was extremely worried that I might not fulfil my vow of
+              building the monastery.
+              <br />
+              <br />
+              Despite this setback, I remained focused and drew strength by praying earnestly to
+              Guanyin Bodhisattva.
+              <br />
+              <br />
+              I sold the various properties that I had in Australia, and together with the help and
+              generous support of friends and fellow Buddhists, we continued to work towards the
+              Master's vision. The original plan was scaled down, and building began. I am now
+              pleased to report that we have made a modest start with the completion of the basic
+              facilities and amenities. Since April this year, we have had nuns and monks from CTTB
+              visit the place to give Dharma lectures. These lectures were attended and
+              well-received by both locals and well-wishers from Singapore and Malaysia.
+              <br />
+              <br />
+              In July this year, with the visit of Reverend Heng Tso and Reverend Heng Yuen, I
+              handed over the monastery to DRBA without any conditions, and I am sure that the place
+              will scale new heights in times to come.
+              <br />
+              <br />
+              Since I met the Master in 1978, his expedient teaching and guidance have influenced me
+              to change my ways and lifestyle for the better. I have also learned the higher values
+              of life in this material world. I sincerely hope that by establishing this branch of
+              CTTB in Australia, many people as well as sentient beings will hear the proper Dharma
+              and be able to similarly change their values and lifestyle. I wish for them to
+              experience the benefits of the Master's teachings, without which I would still be lost
+              in this samsaric ocean.
+              <br />
+              <br />I would like to take this opportunity to express my gratitude to all my friends
+              who supported me during the trials and tribulations that I experienced while pursuing
+              the fulfilment of my vows. In particular, I am grateful to Reverend Heng Sure for his
+              advice and words of encouragement. Finally, I would also like to say that I am, and
+              will always be grateful to the Buddhas, the Bodhisattvas, and the Venerable Master for
+              showing me the way. Amitabha!
+            </BlockQuote>
 
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            className="relative h-[500px] rounded-xl overflow-hidden shadow-2xl mb-20"
-          >
-            <ImageCarousel images={carouselImages} autoplaySpeed={4000} />
-          </motion.div>
+            <PageImage src={RosalineKangPhoto.src} alt="Rosaline Kang" width="60%" />
 
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            className="max-w-4xl mx-auto space-y-6 text-lg font-light leading-relaxed text-stone-300"
-          >
-            <p>
-              Over the millennia, the teachings of the Buddha have spread across many parts of Asia.
-              In Sri Lanka, Burma, Cambodia, Lao and Thailand, a form of Buddhism is practiced known
-              as the Theravada tradition, or "The Teaching of the Elders". In China, Japan, Vietnam,
-              Korea, and Tibet, the Buddha's teachings are widely practiced in a tradition known as
-              the Mahayana, "The Great Vehicle."
-            </p>
-            <p>
-              In the last one hundred years, all of these different cultural expressions and
-              Buddhist traditions have come to America. Since Buddhism has always adapted itself to
-              the cultures of the countries in which it was taught, how Buddhism will develop in
-              America still remains to be seen.
-            </p>
-          </motion.div>
-        </div>
-      </section>
+            <BodyPara mb="0">
+              In 2008, Master Heng Chih travelled from the United States to continue the work of
+              establishing Mahayana Chinese Buddhism in Australia, following Venerable Master Hua's
+              example.
+            </BodyPara>
+          </div>
 
-      {/* Introduction to the Founder Section */}
-      <section className="py-24 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid md:grid-cols-2 gap-16 items-center mb-20">
-            <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8 }}
-              className="order-2 md:order-1 relative h-[500px] rounded-xl overflow-hidden shadow-2xl"
-            >
-              <img
-                src="/assets/master-hua-giving-smile.jpg"
-                alt="Master Hua giving smile"
-                className="w-full h-full object-cover rounded-xl"
-                style={{ borderRadius: "0.75rem" }}
-              />
-            </motion.div>
+          {/* ── Lineage ── */}
+          <div style={{ marginTop: "3rem" }}>
+            <SectionRule />
+            <SectionHeading>Lineage</SectionHeading>
+            <BodyPara mb="0">
+              GCDR is affiliated with the City of Ten Thousand Buddhas (CTTB) in Ukiah, California,
+              DRBA's principal monastery, and follows the monastic tradition established by
+              Venerable Master Hsuan Hua.{" "}
+              <InlineLink href="/master-hua">Read more about Venerable Master Hsuan Hua</InlineLink>
+              .
+            </BodyPara>
+          </div>
 
-            <motion.div
-              initial={{ opacity: 0, x: 30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8 }}
-              className="order-1 md:order-2"
-            >
-              <h2 className="text-4xl md:text-5xl font-light mb-8 text-[#c9a050] tracking-wide">
-                Introduction to the Founder
-              </h2>
-              <div className="space-y-6 text-lg font-light leading-relaxed text-stone-300">
-                <p>
-                  The Venerable Master Hsuan Hua (1918-1995), founder of CTTB, was born into a poor
-                  family in a small village in Manchuria. He attended school for only two years
-                  before he had to return home to take care of his ailing mother. At home, he opened
-                  a free school for both children and adults who had even fewer opportunities than
-                  he did.
-                </p>
-                <p>
-                  Also as a young boy, he had his first encounter with death and became aware of the
-                  impermanence of life. Upon learning that Buddhism had a method for ending the
-                  cycle of death and rebirth, he resolved to become a monk.
-                </p>
-                <p>
-                  His mother died when he was nineteen, and he then spent three years in solitary
-                  meditation beside his mother's grave. He then entered the monastic life at Three
-                  Conditions Monastery in Harbin. Seeing firsthand the hungry and impoverished, he
-                  began to practice giving, often going without food himself in order to feed
-                  others.
-                </p>
-                <p>
-                  Master Hua's life was one of complete dedication to the Buddhist path, teaching,
-                  and helping all beings. His teachings continue to inspire and guide practitioners
-                  around the world.
-                </p>
-              </div>
-            </motion.div>
+          {/* ── Practice Today ── */}
+          <div style={{ marginTop: "3rem" }}>
+            <SectionRule />
+            <SectionHeading>Practice Today</SectionHeading>
+            <BodyPara>
+              GCDR follows the Five Schools of Mahayana Buddhism: the Vinaya School (precepts and
+              moral discipline), the Chan School (meditation), the Scholastic School (study of the
+              sutras), the Esoteric School (mantras), and the Pure Land School (chanting the
+              Buddha's name).
+            </BodyPara>
+            <BodyPara>
+              Dharma Master Jin Fu is the monastery's resident teacher.{" "}
+              <InlineLink href="/dharma-masters">Meet the teachers</InlineLink>.
+            </BodyPara>
+            <BodyPara mb="0">
+              The monastery holds sutra and mantra recitation, chanting, and meditation sessions on
+              weekends. <InlineLink href="/events">See current offerings</InlineLink> or{" "}
+              <InlineLink href="/visit">plan a visit</InlineLink>.
+            </BodyPara>
           </div>
         </div>
-      </section>
-
-      {/* Daily Life in the Monastery Section */}
-      <section className="py-24 px-4 sm:px-6 lg:px-8 bg-[#2a2522]/30">
-        <div className="max-w-6xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            className="text-center mb-20"
-          >
-            <h2 className="text-4xl md:text-5xl font-light mb-6 text-[#c9a050] tracking-wide">
-              Daily Life in the Monastery
-            </h2>
-            <p className="text-xl font-light text-stone-400 max-w-3xl mx-auto">
-              A glimpse into the daily practice and ceremonies
-            </p>
-          </motion.div>
-
-          <div className="space-y-12">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-              className="space-y-4"
-            >
-              <h3 className="text-2xl font-light mb-4 text-[#c9a050]">Morning Ceremony</h3>
-              <p className="text-lg font-light leading-relaxed text-stone-300">
-                The day begins at 4 AM with the morning ceremony. This ceremony includes chanting,
-                bowing, and meditation. The morning ceremony sets the tone for the day, reminding
-                everyone of the purpose of their practice and the importance of being mindful and
-                compassionate.
-              </p>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.1 }}
-              className="space-y-4"
-            >
-              <h3 className="text-2xl font-light mb-4 text-[#c9a050]">Noon Meal</h3>
-              <p className="text-lg font-light leading-relaxed text-stone-300">
-                The noon meal is the main meal of the day and is taken in silence. The meal is
-                vegetarian, as Buddhists practice non-harming and compassion toward all living
-                beings. Eating in silence helps us have clearer minds and more compassionate hearts.
-                There is a mutual relationship between laity and monastics, where the laity provides
-                sustenance and material support, and the monastics give teachings to the laity.
-              </p>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="space-y-4"
-            >
-              <h3 className="text-2xl font-light mb-4 text-[#c9a050]">
-                Great Compassion Repentance
-              </h3>
-              <p className="text-lg font-light leading-relaxed text-stone-300">
-                After the noon meal, there is the Great Compassion Repentance, which is a ceremony
-                focusing on Avalokiteshvara (Chinese: Guan Shi Yin), the Bodhisattva of Great
-                Compassion. Repentance is a central practice in Buddhism because it allows us to
-                turn a new leaf—to recognize what we have done wrong, to repent of our mistakes, and
-                to reform ourselves for the better. The ceremony gives a form to the very personal
-                act of repentance.
-              </p>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.3 }}
-              className="space-y-4"
-            >
-              <h3 className="text-2xl font-light mb-4 text-[#c9a050]">Evening Ceremony</h3>
-              <p className="text-lg font-light leading-relaxed text-stone-300">
-                The evening ceremony begins with the Incense Praise and is followed by either the
-                Amitabha Sutra or the Eighty-eight Buddhas Repentance. The Amitabha Sutra teaches
-                about Amitabha Buddha and his Pure Land, the Land of Ultimate Bliss. In the middle
-                of the ceremony, the entire congregation recites the Four Great Vows of the
-                Bodhisattva, followed by a Sutra lecture where the words of the Buddha are explained
-                in a traditional setting.
-              </p>
-            </motion.div>
-          </div>
-        </div>
-      </section>
-    </div>
+      </div>
+    </section>
   );
 }

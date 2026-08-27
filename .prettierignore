@@ -1,7 +1,0 @@
-node_modules
-dist
-build
-.astro
-.sst
-pnpm-lock.yaml
-*.md

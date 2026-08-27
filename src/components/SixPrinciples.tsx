@@ -1,13 +1,19 @@
-import { useState } from "react";
-import { ImageWithFallback } from "./figma/ImageWithFallback";
-import { motion, AnimatePresence } from "motion/react";
-import { ChevronDown, ChevronUp } from "lucide-react";
-
 interface Principle {
   title: string;
   abstract: string;
   content: string[];
 }
+
+const bodyStyle = {
+  color: "var(--foreground)",
+} as const;
+
+const accentRuleStyle = {
+  width: 28,
+  height: 2,
+  backgroundColor: "var(--accent)",
+  marginBottom: "1.75rem",
+} as const;
 
 export function SixPrinciples() {
   const principles: Principle[] = [
@@ -86,124 +92,56 @@ export function SixPrinciples() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#1c1917] text-[#EBE9CF]">
+    <main
+      className="min-h-screen w-full overflow-x-hidden"
+      style={{ backgroundColor: "var(--background)" }}
+    >
       {/* Hero Banner */}
-      <div className="relative h-[50vh] min-h-[400px] w-full overflow-hidden">
-        <div className="absolute inset-0">
-          <ImageWithFallback
-            src="/assets/hero-bg.png"
-            alt="Background Texture"
-            className="w-full h-full object-cover opacity-50 grayscale"
-          />
-          <div className="absolute inset-0 bg-gradient-to-b from-[#1c1917]/40 via-[#1c1917]/60 to-[#1c1917]" />
+      <section className="pt-nav pb-14">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h1 className="type-page-title mb-6">The Six Great Guiding Principles</h1>
+          <div style={accentRuleStyle} />
         </div>
-
-        <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-4">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.2 }}
-          >
-            <h1 className="text-4xl md:text-6xl font-serif italic mb-4 tracking-wide text-[#c9a050]">
-              The Six Great Guiding Principles
-            </h1>
-            <div className="h-1 w-24 bg-[#c9a050] mx-auto mb-6" />
-            <p className="text-xl md:text-2xl font-light tracking-widest uppercase opacity-90">
-              Core Teachings of Master Hsuan Hua
-            </p>
-          </motion.div>
-        </div>
-      </div>
+      </section>
 
       {/* Main Content */}
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-        <div className="space-y-8">
+      <section className="border-t" style={{ borderColor: "var(--border)" }}>
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           {principles.map((principle, index) => (
             <PrincipleItem key={index} principle={principle} index={index} />
           ))}
         </div>
-
-        {/* Footer Symbol */}
-        <div className="mt-24 text-center">
-          <span className="block text-[#c9a050] text-4xl">❖</span>
-        </div>
-      </div>
-    </div>
+      </section>
+    </main>
   );
 }
 
 function PrincipleItem({ principle, index }: { principle: Principle; index: number }) {
-  const [isOpen, setIsOpen] = useState(false);
-
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-50px" }}
-      transition={{ duration: 0.5, delay: index * 0.1 }}
-      className={`border rounded-lg transition-all duration-500 ${
-        isOpen
-          ? "bg-[#2a2522] border-[#c9a050]"
-          : "bg-[#2a2522]/40 border-[#c9a050]/30 hover:border-[#c9a050]/60"
-      }`}
+    <article
+      className="grid gap-5 py-12 md:grid-cols-[2.5rem_1fr]"
+      style={{ borderTop: index === 0 ? undefined : "0.5px solid var(--border)" }}
     >
-      <button
-        onClick={() => setIsOpen(!isOpen)}
-        className="w-full text-left px-4 sm:px-6 py-6 flex items-start gap-4 sm:gap-6 group"
+      <div
+        className="flex h-10 w-10 items-center justify-center rounded-full border font-serif text-xl"
+        style={{ borderColor: "var(--accent)", color: "var(--accent)" }}
       >
-        <span
-          className={`flex-shrink-0 flex items-center justify-center w-8 h-8 sm:w-12 sm:h-12 rounded-full border font-serif text-lg sm:text-2xl leading-none transition-colors duration-300 ${
-            isOpen
-              ? "bg-[#c9a050] text-[#1c1917] border-[#c9a050]"
-              : "border-[#c9a050]/50 text-[#c9a050] group-hover:border-[#c9a050]"
-          }`}
-        >
-          {index + 1}
-        </span>
+        {index + 1}
+      </div>
 
-        <div className="flex-grow">
-          <div className="flex items-center justify-between mb-3">
-            <h2
-              className={`text-2xl font-serif transition-colors duration-300 ${
-                isOpen ? "text-[#c9a050]" : "text-[#EBE9CF]"
-              }`}
-            >
-              {principle.title}
-            </h2>
-            {isOpen ? (
-              <ChevronUp className="text-[#c9a050] w-6 h-6" />
-            ) : (
-              <ChevronDown className="text-[#c9a050]/50 w-6 h-6 group-hover:text-[#c9a050]" />
-            )}
-          </div>
-
-          <p
-            className={`text-lg font-light leading-relaxed transition-colors duration-300 ${
-              isOpen ? "text-stone-300" : "text-stone-400"
-            }`}
-          >
-            {principle.abstract}
-          </p>
+      <div>
+        <h2 className="type-section-title mb-4" style={{ marginLeft: 0 }}>
+          {principle.title}
+        </h2>
+        <p className="type-body mb-6 italic" style={bodyStyle}>
+          {principle.abstract}
+        </p>
+        <div className="type-body space-y-5" style={bodyStyle}>
+          {principle.content.map((paragraph) => (
+            <p key={paragraph}>{paragraph}</p>
+          ))}
         </div>
-      </button>
-
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.3, ease: "easeInOut" }}
-            className="overflow-hidden"
-          >
-            <div className="px-4 sm:px-6 pb-8 pl-4 sm:pl-[5.5rem] pr-4 sm:pr-8 text-stone-300 space-y-4 font-light leading-relaxed border-t border-[#c9a050]/10 pt-6 mx-4 sm:mx-6 mt-2">
-              {principle.content.map((paragraph, i) => (
-                <p key={i}>{paragraph}</p>
-              ))}
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </motion.div>
+      </div>
+    </article>
   );
 }
