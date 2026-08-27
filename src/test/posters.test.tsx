@@ -14,7 +14,9 @@ describe("poster lightbox", () => {
 
     const imageArea = lightboxImage.parentElement?.parentElement;
     expect(imageArea).not.toBeNull();
-    Object.defineProperty(imageArea!, "setPointerCapture", { value: () => undefined });
+    Object.defineProperty(imageArea!, "setPointerCapture", {
+      value: () => undefined,
+    });
 
     fireEvent.pointerDown(lightboxImage, { pointerId: 1 });
     fireEvent.click(imageArea!);
@@ -23,6 +25,8 @@ describe("poster lightbox", () => {
     fireEvent.pointerDown(imageArea!, { pointerId: 2 });
     fireEvent.click(imageArea!);
 
-    expect(screen.queryByRole("button", { name: "Close" })).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole("button", { name: "Close" }),
+    ).not.toBeInTheDocument();
   });
 });

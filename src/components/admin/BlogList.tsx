@@ -1,7 +1,14 @@
 import type { BlogPost } from "../../lib/admin-api";
 import { blogApi } from "../../lib/admin-api";
 import { Button } from "../ui/button";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../ui/table";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "../ui/table";
 import { Badge } from "../ui/badge";
 import { Card, CardContent } from "../ui/card";
 import { Edit, Trash2, FileText, Pin } from "lucide-react";
@@ -69,8 +76,8 @@ export function BlogList({ blogs, onEdit, onDelete }: Props) {
           <FileText className="size-12 text-muted-foreground mb-4 opacity-50" />
           <h3 className="text-lg font-semibold mb-2">No blog posts yet</h3>
           <p className="text-muted-foreground text-center max-w-md">
-            Get started by creating your first blog post. Click the "New Blog Post" button above to
-            begin.
+            Get started by creating your first blog post. Click the "New Blog
+            Post" button above to begin.
           </p>
         </CardContent>
       </Card>
@@ -133,7 +140,9 @@ export function BlogList({ blogs, onEdit, onDelete }: Props) {
                       );
                     } else if (status === "planned") {
                       return (
-                        <Badge className="bg-blue-100 text-blue-700 border-blue-200">{label}</Badge>
+                        <Badge className="bg-blue-100 text-blue-700 border-blue-200">
+                          {label}
+                        </Badge>
                       );
                     } else {
                       return (
@@ -146,11 +155,19 @@ export function BlogList({ blogs, onEdit, onDelete }: Props) {
                 </TableCell>
                 <TableCell className="text-right">
                   <div className="flex justify-end gap-2">
-                    <Button variant="outline" size="sm" onClick={() => onEdit(blog.id)}>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => onEdit(blog.id)}
+                    >
                       <Edit className="mr-2 size-4" />
                       Edit
                     </Button>
-                    <Button variant="destructive" size="sm" onClick={() => handleDelete(blog.id)}>
+                    <Button
+                      variant="destructive"
+                      size="sm"
+                      onClick={() => handleDelete(blog.id)}
+                    >
                       <Trash2 className="mr-2 size-4" />
                       Delete
                     </Button>

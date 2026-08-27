@@ -22,8 +22,8 @@ export function EventsFeatured() {
             marginBottom: "3rem",
           }}
         >
-          To register or enquire about any of the following retreats, please contact the monastery
-          at{" "}
+          To register or enquire about any of the following retreats, please
+          contact the monastery at{" "}
           <a href="mailto:gcdr.australia@gmail.com" className="type-link">
             gcdr.australia@gmail.com
           </a>
@@ -60,8 +60,8 @@ export function EventsFeatured() {
                 fontSize: "0.92rem",
               }}
             >
-              A formal ceremony for those wishing to take refuge in the Buddha, Dharma, and Sangha
-              and receive the Five Precepts.
+              A formal ceremony for those wishing to take refuge in the Buddha,
+              Dharma, and Sangha and receive the Five Precepts.
             </p>
           </div>
 
@@ -137,8 +137,8 @@ export function EventsFeatured() {
                 fontSize: "0.92rem",
               }}
             >
-              A week-long retreat centred on the recitation of Guan Yin Bodhisattva&rsquo;s name,
-              conducted in English.
+              A week-long retreat centred on the recitation of Guan Yin
+              Bodhisattva&rsquo;s name, conducted in English.
             </p>
           </div>
         </div>

@@ -16,7 +16,8 @@ function readArg(name, fallback = "") {
   return fallback;
 }
 
-const useAdmin = args.includes("--admin") || process.env.BLOG_EXPORT_MODE === "admin";
+const useAdmin =
+  args.includes("--admin") || process.env.BLOG_EXPORT_MODE === "admin";
 const baseUrlArg = readArg("base-url", process.env.PUBLIC_API_BASE_URL || "");
 const siteUrlArg = readArg("site-url", process.env.SITE_URL || "");
 const token = readArg("token", process.env.BLOG_EXPORT_TOKEN || "");
@@ -37,7 +38,8 @@ function sanitizeFilename(value) {
 
 function yamlScalar(value) {
   if (value === undefined || value === null) return '""';
-  if (typeof value === "boolean" || typeof value === "number") return String(value);
+  if (typeof value === "boolean" || typeof value === "number")
+    return String(value);
   return JSON.stringify(String(value));
 }
 
@@ -50,7 +52,9 @@ function yamlValue(value, indent = 0) {
   }
 
   if (value && typeof value === "object") {
-    const entries = Object.entries(value).filter(([, child]) => child !== undefined);
+    const entries = Object.entries(value).filter(
+      ([, child]) => child !== undefined,
+    );
     if (entries.length === 0) return "{}";
     return `\n${entries
       .map(([key, child]) => `${pad}${key}: ${yamlValue(child, indent + 2)}`)
@@ -105,7 +109,9 @@ async function fetchJson(url, options = {}) {
   }
 
   if (!response.ok) {
-    throw new Error(`HTTP ${response.status} from ${url}: ${data.error || text}`);
+    throw new Error(
+      `HTTP ${response.status} from ${url}: ${data.error || text}`,
+    );
   }
 
   return data;
@@ -121,14 +127,14 @@ async function resolveBaseUrl() {
   }
 
   throw new Error(
-    "Missing API base URL. Pass --base-url=https://... or --site-url=https://your-site.example."
+    "Missing API base URL. Pass --base-url=https://... or --site-url=https://your-site.example.",
   );
 }
 
 async function main() {
   if (useAdmin && !token) {
     throw new Error(
-      "Admin export requires a Cognito access token. Pass --token=... or set BLOG_EXPORT_TOKEN."
+      "Admin export requires a Cognito access token. Pass --token=... or set BLOG_EXPORT_TOKEN.",
     );
   }
 
@@ -181,7 +187,7 @@ async function main() {
   await writeFile(
     path.join(outputDir, "_inventory.json"),
     `${JSON.stringify({ exportedAt, exportMode: useAdmin ? "admin" : "public", count: inventory.length, posts: inventory }, null, 2)}\n`,
-    "utf8"
+    "utf8",
   );
 
   const markdownInventory = [
@@ -195,12 +201,16 @@ async function main() {
     "| --- | --- | --- | --- | --- |",
     ...inventory.map(
       (post) =>
-        `| ${post.date || ""} | ${String(post.title).replaceAll("|", "\\|")} | ${String(post.category).replaceAll("|", "\\|")} | ${post.oldUrl} | ${post.mdxPath} |`
+        `| ${post.date || ""} | ${String(post.title).replaceAll("|", "\\|")} | ${String(post.category).replaceAll("|", "\\|")} | ${post.oldUrl} | ${post.mdxPath} |`,
     ),
     "",
   ].join("\n");
 
-  await writeFile(path.join(outputDir, "_inventory.md"), markdownInventory, "utf8");
+  await writeFile(
+    path.join(outputDir, "_inventory.md"),
+    markdownInventory,
+    "utf8",
+  );
 
   console.log(`Exported ${inventory.length} blog posts to ${outputDir}`);
   console.log(`Mode: ${useAdmin ? "admin" : "public"}`);

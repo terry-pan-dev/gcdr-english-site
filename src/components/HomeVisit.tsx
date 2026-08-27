@@ -26,7 +26,8 @@ export function HomeVisit() {
                 maxWidth: "26rem",
               }}
             >
-              Hours, directions, and what to expect if you're coming for the first time.
+              Hours, directions, and what to expect if you're coming for the
+              first time.
             </p>
 
             <a
@@ -115,7 +116,9 @@ export function HomeVisit() {
                   }}
                 >
                   <span>Saturday</span>
-                  <span style={{ whiteSpace: "nowrap" }}>7:30 AM {"\u2013"} 3:00 PM</span>
+                  <span style={{ whiteSpace: "nowrap" }}>
+                    7:30 AM {"\u2013"} 3:00 PM
+                  </span>
                 </div>
 
                 <div
@@ -127,7 +130,9 @@ export function HomeVisit() {
                   }}
                 >
                   <span>Sunday</span>
-                  <span style={{ whiteSpace: "nowrap" }}>7:30 AM {"\u2013"} 11:30 AM</span>
+                  <span style={{ whiteSpace: "nowrap" }}>
+                    7:30 AM {"\u2013"} 11:30 AM
+                  </span>
                 </div>
               </div>
             </div>

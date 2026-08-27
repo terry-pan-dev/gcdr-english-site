@@ -129,7 +129,10 @@ function TeacherArticle({
         }}
       >
         <picture>
-          <source media="(max-width: 639px)" srcSet={getImageSrc(master.mobileImage)} />
+          <source
+            media="(max-width: 639px)"
+            srcSet={getImageSrc(master.mobileImage)}
+          />
           <img
             src={getImageSrc(master.image)}
             alt={master.title}
@@ -150,7 +153,9 @@ function TeacherArticle({
         >
           {master.title}
         </h2>
-        {master.location && <span style={locationStyle}>{master.location}</span>}
+        {master.location && (
+          <span style={locationStyle}>{master.location}</span>
+        )}
         <p className="type-body" style={bodyStyle}>
           {master.description}
         </p>
@@ -243,7 +248,7 @@ export function DharmaMasters() {
                 master={master}
                 firstInGroup={index === 0}
               />
-            )
+            ),
           )}
 
           {/* Associated Teachers */}
@@ -256,14 +261,20 @@ export function DharmaMasters() {
               transform: "translateX(-50%)",
             }}
           >
-            <div style={{ maxWidth: "56rem", margin: "0 auto", padding: "0 1rem" }}>
+            <div
+              style={{ maxWidth: "56rem", margin: "0 auto", padding: "0 1rem" }}
+            >
               <span className="type-subtitle" style={sectionLabelStyle}>
                 Associated Teachers
               </span>
             </div>
           </div>
           {associatedTeachers.map((master, index) => (
-            <TeacherArticle key={master.title} master={master} firstInGroup={index === 0} />
+            <TeacherArticle
+              key={master.title}
+              master={master}
+              firstInGroup={index === 0}
+            />
           ))}
         </div>
       </section>

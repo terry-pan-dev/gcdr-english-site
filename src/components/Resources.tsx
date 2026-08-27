@@ -16,14 +16,38 @@ type ShurangamaVolume = {
 };
 
 const shurangamaVolumes: ShurangamaVolume[] = [
-  { vol: 1, href: "http://www.longbeachmonastery.org/Shurangama_Sutra_Part_1.pdf" },
-  { vol: 2, href: "http://www.longbeachmonastery.org/Shurangama_Sutra_Part_2.pdf" },
-  { vol: 3, href: "http://www.longbeachmonastery.org/Shurangama_Sutra_Part_3.pdf" },
-  { vol: 4, href: "http://www.longbeachmonastery.org/Shurangama_Sutra_Part_4.pdf" },
-  { vol: 5, href: "http://www.longbeachmonastery.org/Shurangama_Sutra_Part_5.pdf" },
-  { vol: 6, href: "http://www.longbeachmonastery.org/Shurangama_Sutra_Part_6.pdf" },
-  { vol: 7, href: "http://www.longbeachmonastery.org/Shurangama_Sutra_Part_7.pdf" },
-  { vol: 8, href: "http://www.longbeachmonastery.org/Shurangama_Sutra_Part_8.pdf" },
+  {
+    vol: 1,
+    href: "http://www.longbeachmonastery.org/Shurangama_Sutra_Part_1.pdf",
+  },
+  {
+    vol: 2,
+    href: "http://www.longbeachmonastery.org/Shurangama_Sutra_Part_2.pdf",
+  },
+  {
+    vol: 3,
+    href: "http://www.longbeachmonastery.org/Shurangama_Sutra_Part_3.pdf",
+  },
+  {
+    vol: 4,
+    href: "http://www.longbeachmonastery.org/Shurangama_Sutra_Part_4.pdf",
+  },
+  {
+    vol: 5,
+    href: "http://www.longbeachmonastery.org/Shurangama_Sutra_Part_5.pdf",
+  },
+  {
+    vol: 6,
+    href: "http://www.longbeachmonastery.org/Shurangama_Sutra_Part_6.pdf",
+  },
+  {
+    vol: 7,
+    href: "http://www.longbeachmonastery.org/Shurangama_Sutra_Part_7.pdf",
+  },
+  {
+    vol: 8,
+    href: "http://www.longbeachmonastery.org/Shurangama_Sutra_Part_8.pdf",
+  },
 ];
 
 const sutras: TextEntry[] = [
@@ -213,7 +237,13 @@ function SubHeading({ children }: { children: React.ReactNode }) {
   );
 }
 
-function PDFLink({ href, label = "Download PDF" }: { href: string; label?: string }) {
+function PDFLink({
+  href,
+  label = "Download PDF",
+}: {
+  href: string;
+  label?: string;
+}) {
   return (
     <a
       href={href}
@@ -334,7 +364,8 @@ export function Resources() {
                 marginBottom: "0.75rem",
               }}
             >
-              A small selection of texts and links for those wishing to explore further. The{" "}
+              A small selection of texts and links for those wishing to explore
+              further. The{" "}
               <a
                 href="https://www.buddhisttexts.org"
                 target="_blank"
@@ -343,12 +374,18 @@ export function Resources() {
               >
                 Buddhist Text Translation Society
               </a>{" "}
-              has many more titles available for free as print editions and ebooks, as well as
-              through their online bookstore.
+              has many more titles available for free as print editions and
+              ebooks, as well as through their online bookstore.
             </p>
 
             {/* ── Banner image ── */}
-            <div style={{ overflow: "hidden", borderRadius: "2px", marginTop: "1.75rem" }}>
+            <div
+              style={{
+                overflow: "hidden",
+                borderRadius: "2px",
+                marginTop: "1.75rem",
+              }}
+            >
               <img
                 src={sutrasImage.src}
                 alt="Sutra canon volumes at Gold Coast Dharma Realm"
@@ -363,7 +400,10 @@ export function Resources() {
             </div>
 
             {/* ── Section nav cards ── */}
-            <div className="grid md:grid-cols-3 gap-4" style={{ marginTop: "2.5rem" }}>
+            <div
+              className="grid md:grid-cols-3 gap-4"
+              style={{ marginTop: "2.5rem" }}
+            >
               {navSections.map(({ id, label }) => (
                 <a
                   key={id}
@@ -400,7 +440,11 @@ export function Resources() {
       </section>
 
       {/* ── Sutras ── */}
-      <div id="sutras" className="py-16 border-t" style={{ borderColor: "var(--border)" }}>
+      <div
+        id="sutras"
+        className="py-16 border-t"
+        style={{ borderColor: "var(--border)" }}
+      >
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <SectionRule />
           <SectionHeading>Sutras</SectionHeading>
@@ -413,7 +457,8 @@ export function Resources() {
               fontStyle: "italic",
             }}
           >
-            All texts below include commentary by the Venerable Master Hsuan Hua.
+            All texts below include commentary by the Venerable Master Hsuan
+            Hua.
           </p>
 
           {/* Shurangama — special treatment */}
@@ -443,9 +488,10 @@ export function Resources() {
                 marginBottom: "0.75rem",
               }}
             >
-              Covering the nature of the mind, the origin of delusion, and the path to liberation.
-              The 2017 edition with selected commentary excerpts is the best starting point; the
-              complete commentary is available in eight volumes for deeper study.
+              Covering the nature of the mind, the origin of delusion, and the
+              path to liberation. The 2017 edition with selected commentary
+              excerpts is the best starting point; the complete commentary is
+              available in eight volumes for deeper study.
             </p>
             <PDFLink
               href="https://dn721808.ca.archive.org/0/items/surangama-2017/Surangama_2017.pdf"
@@ -463,7 +509,13 @@ export function Resources() {
               >
                 Complete commentary in eight volumes:
               </p>
-              <div style={{ display: "flex", flexWrap: "wrap" as const, gap: "0.5rem 1rem" }}>
+              <div
+                style={{
+                  display: "flex",
+                  flexWrap: "wrap" as const,
+                  gap: "0.5rem 1rem",
+                }}
+              >
                 {shurangamaVolumes.map(({ vol, href }) => (
                   <a
                     key={vol}
@@ -508,8 +560,8 @@ export function Resources() {
               marginBottom: "2.5rem",
             }}
           >
-            Dharma talks, practice guides, and introductory texts from the Dharma Realm Buddhist
-            Association tradition.
+            Dharma talks, practice guides, and introductory texts from the
+            Dharma Realm Buddhist Association tradition.
           </p>
 
           <div style={{ borderTop: "0.5px solid var(--border)" }}>
@@ -542,10 +594,12 @@ export function Resources() {
                   marginBottom: "1.25rem",
                 }}
               >
-                Few figures in modern Buddhism lived as completely within the tradition as Master
-                Hsu Yun — decades of solitary practice, pilgrimage on foot across China, and
-                awakenings that drew students from across the country. Venerable Master Hsuan Hua
-                received Dharma transmission from him at Nanhua Monastery in 1948.
+                Few figures in modern Buddhism lived as completely within the
+                tradition as Master Hsu Yun — decades of solitary practice,
+                pilgrimage on foot across China, and awakenings that drew
+                students from across the country. Venerable Master Hsuan Hua
+                received Dharma transmission from him at Nanhua Monastery in
+                1948.
               </p>
               <div style={{ borderTop: "0.5px solid var(--border)" }}>
                 {emptyCloudBooks.map((entry) => (
@@ -558,7 +612,11 @@ export function Resources() {
       </div>
 
       {/* ── Links ── */}
-      <div id="links" className="py-16 border-t" style={{ borderColor: "var(--border)" }}>
+      <div
+        id="links"
+        className="py-16 border-t"
+        style={{ borderColor: "var(--border)" }}
+      >
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <SectionRule />
           <SectionHeading>Links</SectionHeading>
@@ -570,8 +628,8 @@ export function Resources() {
               marginBottom: "2.5rem",
             }}
           >
-            Monasteries, organisations, and online archives within the Dharma Realm Buddhist
-            Association network.
+            Monasteries, organisations, and online archives within the Dharma
+            Realm Buddhist Association network.
           </p>
           <div style={{ borderTop: "0.5px solid var(--border)" }}>
             {links.map((item) => (

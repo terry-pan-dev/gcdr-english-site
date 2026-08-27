@@ -32,7 +32,8 @@ export function BlogPreview({ content, frontmatter }: Props) {
               <div
                 className="absolute inset-0"
                 style={{
-                  background: "linear-gradient(to bottom, rgba(0,0,0,0.6), #1c1917)",
+                  background:
+                    "linear-gradient(to bottom, rgba(0,0,0,0.6), #1c1917)",
                 }}
               ></div>
             </>
@@ -42,7 +43,8 @@ export function BlogPreview({ content, frontmatter }: Props) {
               <div
                 className="absolute inset-0 opacity-10"
                 style={{
-                  backgroundImage: "radial-gradient(circle, #c9a050 1px, transparent 1px)",
+                  backgroundImage:
+                    "radial-gradient(circle, #c9a050 1px, transparent 1px)",
                   backgroundSize: "30px 30px",
                 }}
               ></div>
@@ -77,16 +79,45 @@ export function BlogPreview({ content, frontmatter }: Props) {
                     strokeWidth="1"
                     fill="none"
                   />
-                  <line x1="50" y1="5" x2="50" y2="95" stroke="currentColor" strokeWidth="1" />
-                  <line x1="5" y1="50" x2="95" y2="50" stroke="currentColor" strokeWidth="1" />
-                  <line x1="18" y1="18" x2="82" y2="82" stroke="currentColor" strokeWidth="1" />
-                  <line x1="82" y1="18" x2="18" y2="82" stroke="currentColor" strokeWidth="1" />
+                  <line
+                    x1="50"
+                    y1="5"
+                    x2="50"
+                    y2="95"
+                    stroke="currentColor"
+                    strokeWidth="1"
+                  />
+                  <line
+                    x1="5"
+                    y1="50"
+                    x2="95"
+                    y2="50"
+                    stroke="currentColor"
+                    strokeWidth="1"
+                  />
+                  <line
+                    x1="18"
+                    y1="18"
+                    x2="82"
+                    y2="82"
+                    stroke="currentColor"
+                    strokeWidth="1"
+                  />
+                  <line
+                    x1="82"
+                    y1="18"
+                    x2="18"
+                    y2="82"
+                    stroke="currentColor"
+                    strokeWidth="1"
+                  />
                 </svg>
               </div>
               <div
                 className="absolute inset-0"
                 style={{
-                  background: "linear-gradient(to bottom, transparent, #1c1917)",
+                  background:
+                    "linear-gradient(to bottom, transparent, #1c1917)",
                 }}
               ></div>
             </>

@@ -57,8 +57,8 @@ export function VisitGuidelines() {
               marginBottom: "3rem",
             }}
           >
-            To help maintain a peaceful and harmonious environment for everyone, we kindly ask
-            visitors to observe the following guidelines.
+            To help maintain a peaceful and harmonious environment for everyone,
+            we kindly ask visitors to observe the following guidelines.
           </p>
 
           {/* Guidelines list */}
@@ -101,8 +101,8 @@ export function VisitGuidelines() {
                 fontStyle: "italic",
               }}
             >
-              If you have any questions before your visit, please contact the monastery at +61 (07)
-              5522-8788 or at{" "}
+              If you have any questions before your visit, please contact the
+              monastery at +61 (07) 5522-8788 or at{" "}
               <a href="mailto:gcdr.australia@gmail.com" className="type-link">
                 gcdr.australia@gmail.com
               </a>

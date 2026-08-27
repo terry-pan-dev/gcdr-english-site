@@ -46,9 +46,11 @@ export function HomeMasterHua() {
             </h2>
 
             <p>
-              Gold Coast Dharma Realm is part of the Dharma Realm Buddhist Association, founded by
-              the Venerable Master Hsuan Hua (1918–1995). A disciple of Master Empty Cloud (Xū Yún),
-              Master Hua dedicated his life to bringing the Buddhist teachings to the Western world.
+              Gold Coast Dharma Realm is part of the Dharma Realm Buddhist
+              Association, founded by the Venerable Master Hsuan Hua
+              (1918–1995). A disciple of Master Empty Cloud (Xū Yún), Master Hua
+              dedicated his life to bringing the Buddhist teachings to the
+              Western world.
             </p>
 
             <a

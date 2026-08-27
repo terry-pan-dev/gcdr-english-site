@@ -96,6 +96,7 @@ astro.config.mjs     # Astro configuration
 ### SST Infrastructure (sst.config.ts)
 
 Resources created:
+
 - **DynamoDB:** BlogPosts, MediaAssets tables
 - **S3:** BlogStorage (private), MediaStorage (public)
 - **Cognito:** AdminUserPool + client (manual user creation)
@@ -135,6 +136,7 @@ import Footer from '../components/Footer.tsx';
 ```
 
 **Client directives:**
+
 - `client:load` - Load immediately
 - `client:idle` - Load when browser is idle
 - `client:visible` - Load when visible in viewport
@@ -155,12 +157,14 @@ import Footer from '../components/Footer.tsx';
 Choose based on need - both installed:
 
 ### Motion (Recommended for React)
+
 ```jsx
 import { motion } from "motion/react";
-<motion.div animate={{ opacity: 1 }} whileHover={{ scale: 1.1 }} />
+<motion.div animate={{ opacity: 1 }} whileHover={{ scale: 1.1 }} />;
 ```
 
 ### GSAP (For complex timelines/scroll effects)
+
 ```javascript
 import { gsap } from "gsap";
 gsap.to(".element", { x: 100, duration: 1 });
@@ -175,12 +179,14 @@ gsap.to(".element", { x: 100, duration: 1 });
 UI/UX design consultant for creating distinctive, production-grade interfaces.
 
 **When to use:**
+
 - Building web components, pages, or applications
 - Creating landing pages, dashboards, layouts
 - Styling or beautifying web UI
 - Need creative design that avoids generic aesthetics
 
 **How to invoke:**
+
 ```
 Use the frontend-design skill
 ```
@@ -191,9 +197,9 @@ Use the frontend-design skill
 
 For library documentation, use context7:
 
-| Library | ID |
-|---------|-----|
-| Astro | `/withastro/docs` |
-| SST | `/websites/sst_dev` |
-| Motion | `/websites/motion-dev-docs` |
-| GSAP | `/websites/gsap_v3` |
+| Library | ID                          |
+| ------- | --------------------------- |
+| Astro   | `/withastro/docs`           |
+| SST     | `/websites/sst_dev`         |
+| Motion  | `/websites/motion-dev-docs` |
+| GSAP    | `/websites/gsap_v3`         |

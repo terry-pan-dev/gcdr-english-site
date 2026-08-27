@@ -1,7 +1,13 @@
 import { useState, useEffect } from "react";
 import { ScrollArea } from "../ui/scroll-area";
 import { cn } from "../ui/utils";
-import { Check, Image as ImageIcon, Loader2, Cloud, FolderOpen } from "lucide-react";
+import {
+  Check,
+  Image as ImageIcon,
+  Loader2,
+  Cloud,
+  FolderOpen,
+} from "lucide-react";
 import { mediaApi, type MediaAsset } from "../../lib/admin-api";
 
 // Available images from /public/assets folder
@@ -137,7 +143,7 @@ export function ImageSelector({ value, onChange }: ImageSelectorProps) {
                         "relative aspect-video w-full overflow-hidden rounded-md border-2 transition-all focus:outline-none focus:ring-2 focus:ring-primary/50",
                         isSelected
                           ? "border-primary ring-2 ring-primary/30"
-                          : "border-transparent hover:border-slate-400"
+                          : "border-transparent hover:border-slate-400",
                       )}
                     >
                       <img
@@ -175,7 +181,8 @@ export function ImageSelector({ value, onChange }: ImageSelectorProps) {
           <div className="flex items-center gap-1.5 mb-2 text-xs text-muted-foreground">
             <FolderOpen className="size-3" />
             <span>
-              Static Assets ({STATIC_IMAGES.filter((src) => !loadErrors.has(src)).length})
+              Static Assets (
+              {STATIC_IMAGES.filter((src) => !loadErrors.has(src)).length})
             </span>
           </div>
           <div className="grid grid-cols-2 gap-2">
@@ -190,7 +197,7 @@ export function ImageSelector({ value, onChange }: ImageSelectorProps) {
                     "relative aspect-video w-full overflow-hidden rounded-md border-2 transition-all focus:outline-none focus:ring-2 focus:ring-primary/50",
                     isSelected
                       ? "border-primary ring-2 ring-primary/30"
-                      : "border-transparent hover:border-slate-400"
+                      : "border-transparent hover:border-slate-400",
                   )}
                 >
                   <img

@@ -18,10 +18,13 @@ export function HeroBanner({
   height = "default",
   className = "",
 }: HeroBannerProps) {
-  const heightClass = height === "tall" ? "h-[70vh] min-h-[600px]" : "h-[50vh] min-h-[400px]";
+  const heightClass =
+    height === "tall" ? "h-[70vh] min-h-[600px]" : "h-[50vh] min-h-[400px]";
 
   return (
-    <div className={`relative ${heightClass} w-full overflow-hidden ${className}`}>
+    <div
+      className={`relative ${heightClass} w-full overflow-hidden ${className}`}
+    >
       <div className="absolute inset-0">
         <ImageWithFallback
           src={backgroundImage}

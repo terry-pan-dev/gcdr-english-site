@@ -1,5 +1,9 @@
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
-import { DynamoDBDocumentClient, GetCommand, PutCommand } from "@aws-sdk/lib-dynamodb";
+import {
+  DynamoDBDocumentClient,
+  GetCommand,
+  PutCommand,
+} from "@aws-sdk/lib-dynamodb";
 import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 
 const dynamoClient = new DynamoDBClient({});
@@ -84,7 +88,7 @@ export async function handler(event: any) {
           Key: s3Key,
           Body: content,
           ContentType: "text/markdown",
-        })
+        }),
       );
     }
 
@@ -111,7 +115,7 @@ export async function handler(event: any) {
       new PutCommand({
         TableName: tableName,
         Item: updatedItem,
-      })
+      }),
     );
 
     return {

@@ -45,7 +45,11 @@ export function DashboardLayout() {
         // Still set blogs to empty array and stop loading
         setBlogs([]);
       } else if (result.data) {
-        console.log("DashboardLayout: Blogs loaded:", result.data.blogs?.length || 0, "blogs");
+        console.log(
+          "DashboardLayout: Blogs loaded:",
+          result.data.blogs?.length || 0,
+          "blogs",
+        );
         setBlogs(result.data.blogs || []);
       } else {
         console.warn("DashboardLayout: No data or error in result");
@@ -190,7 +194,7 @@ export function DashboardLayout() {
                       className={cn(
                         "hover:bg-slate-100 hover:text-slate-900 transition-colors",
                         currentView === "editor" &&
-                          "bg-blue-50 text-blue-900 font-semibold hover:bg-blue-100"
+                          "bg-blue-50 text-blue-900 font-semibold hover:bg-blue-100",
                       )}
                     >
                       <Plus className="size-4" />
@@ -205,7 +209,7 @@ export function DashboardLayout() {
                       className={cn(
                         "hover:bg-slate-100 hover:text-slate-900 transition-colors",
                         currentView === "blogs" &&
-                          "bg-blue-50 text-blue-900 font-semibold hover:bg-blue-100"
+                          "bg-blue-50 text-blue-900 font-semibold hover:bg-blue-100",
                       )}
                     >
                       <FileText className="size-4" />
@@ -220,7 +224,7 @@ export function DashboardLayout() {
                       className={cn(
                         "hover:bg-slate-100 hover:text-slate-900 transition-colors",
                         currentView === "media" &&
-                          "bg-blue-50 text-blue-900 font-semibold hover:bg-blue-100"
+                          "bg-blue-50 text-blue-900 font-semibold hover:bg-blue-100",
                       )}
                     >
                       <Image className="size-4" />
@@ -258,7 +262,11 @@ export function DashboardLayout() {
                 </div>
               </div>
               <div className="flex-1 overflow-auto p-6">
-                <BlogList blogs={blogs} onEdit={handleEditBlog} onDelete={loadBlogs} />
+                <BlogList
+                  blogs={blogs}
+                  onEdit={handleEditBlog}
+                  onDelete={loadBlogs}
+                />
               </div>
             </>
           )}

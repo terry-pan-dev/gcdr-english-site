@@ -57,7 +57,9 @@ export async function handler(event: any) {
       ContentType: contentType,
     });
 
-    const uploadUrl = await getSignedUrl(s3Client, putCommand, { expiresIn: 3600 });
+    const uploadUrl = await getSignedUrl(s3Client, putCommand, {
+      expiresIn: 3600,
+    });
 
     // Generate public URL (bucket is public)
     // Note: In production, you might want to use CloudFront or a custom domain
@@ -79,7 +81,7 @@ export async function handler(event: any) {
       new PutCommand({
         TableName: tableName,
         Item: mediaItem,
-      })
+      }),
     );
 
     return {

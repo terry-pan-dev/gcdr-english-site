@@ -22,7 +22,8 @@ export const fonts = {
     name: "Crimson Pro",
     weights: [400],
     italic: [],
-    googleFontsUrl: "https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400&display=swap",
+    googleFontsUrl:
+      "https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400&display=swap",
   },
 } as const;
 

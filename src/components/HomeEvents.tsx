@@ -4,7 +4,10 @@ export function HomeEvents() {
   return (
     <section
       className="border-t"
-      style={{ borderColor: "var(--border)", backgroundColor: "var(--background)" }}
+      style={{
+        borderColor: "var(--border)",
+        backgroundColor: "var(--background)",
+      }}
     >
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
         <div className="grid md:grid-cols-12 gap-10 md:gap-14 md:items-center">
@@ -25,7 +28,12 @@ export function HomeEvents() {
               }}
             >
               {/* Saturday */}
-              <div style={{ padding: "1.4rem 0", borderBottom: "0.5px solid var(--border)" }}>
+              <div
+                style={{
+                  padding: "1.4rem 0",
+                  borderBottom: "0.5px solid var(--border)",
+                }}
+              >
                 <p
                   className="type-subtitle"
                   style={{
@@ -41,7 +49,12 @@ export function HomeEvents() {
               </div>
 
               {/* Sunday */}
-              <div style={{ padding: "1.4rem 0", borderBottom: "0.5px solid var(--border)" }}>
+              <div
+                style={{
+                  padding: "1.4rem 0",
+                  borderBottom: "0.5px solid var(--border)",
+                }}
+              >
                 <p
                   className="type-subtitle"
                   style={{
@@ -52,7 +65,8 @@ export function HomeEvents() {
                   Sunday
                 </p>
                 <p className="type-body" style={{ color: "var(--foreground)" }}>
-                  Yoga and meditation, children{"\u2019"}s cultural activities, and Dharma talks
+                  Yoga and meditation, children{"\u2019"}s cultural activities,
+                  and Dharma talks
                 </p>
               </div>
             </div>

@@ -1,5 +1,11 @@
 import { ImageWithFallback } from "./figma/ImageWithFallback";
-import { Calendar, Clock, MapPin, ChevronLeft, ChevronRight } from "lucide-react";
+import {
+  Calendar,
+  Clock,
+  MapPin,
+  ChevronLeft,
+  ChevronRight,
+} from "lucide-react";
 import { useState } from "react";
 
 const sampleEvents = [
@@ -138,12 +144,16 @@ export function Events() {
   return (
     <div className="min-h-screen" style={{ backgroundColor: "#EBE9CF" }}>
       {/* Hero Section */}
-      <div className="relative pt-32 pb-16" style={{ backgroundColor: "#1c1917" }}>
+      <div
+        className="relative pt-32 pb-16"
+        style={{ backgroundColor: "#1c1917" }}
+      >
         <div className="absolute inset-0 opacity-10">
           <div
             className="absolute inset-0"
             style={{
-              backgroundImage: "radial-gradient(circle, #c9a050 1px, transparent 1px)",
+              backgroundImage:
+                "radial-gradient(circle, #c9a050 1px, transparent 1px)",
               backgroundSize: "50px 50px",
             }}
           />
@@ -152,21 +162,30 @@ export function Events() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
           <div className="text-center">
             <div className="inline-flex items-center justify-center mb-6">
-              <div className="h-px w-16" style={{ backgroundColor: "#c9a050" }} />
+              <div
+                className="h-px w-16"
+                style={{ backgroundColor: "#c9a050" }}
+              />
               <div
                 className="mx-4 w-16 h-16 rounded-full flex items-center justify-center"
                 style={{ backgroundColor: "#c9a050" }}
               >
                 <Calendar size={32} className="text-white" />
               </div>
-              <div className="h-px w-16" style={{ backgroundColor: "#c9a050" }} />
+              <div
+                className="h-px w-16"
+                style={{ backgroundColor: "#c9a050" }}
+              />
             </div>
             <h1 className="text-5xl mb-6" style={{ color: "#EBE9CF" }}>
               Dharma Calendar
             </h1>
-            <p className="text-xl max-w-3xl mx-auto" style={{ color: "#EBE9CF", opacity: 0.8 }}>
-              Join us for upcoming events, teachings, and spiritual gatherings at Gold Coast Dharma
-              Realm
+            <p
+              className="text-xl max-w-3xl mx-auto"
+              style={{ color: "#EBE9CF", opacity: 0.8 }}
+            >
+              Join us for upcoming events, teachings, and spiritual gatherings
+              at Gold Coast Dharma Realm
             </p>
           </div>
         </div>
@@ -220,26 +239,35 @@ export function Events() {
             <div className="grid grid-cols-7 gap-2">
               {calendarDays.map((day, index) => {
                 if (day === null) {
-                  return <div key={`empty-${index}`} className="aspect-square" />;
+                  return (
+                    <div key={`empty-${index}`} className="aspect-square" />
+                  );
                 }
 
                 const dayEvents = getEventsForDate(day);
                 const hasEvents = dayEvents.length > 0;
                 const isToday =
-                  new Date().toDateString() === new Date(year, month, day).toDateString();
+                  new Date().toDateString() ===
+                  new Date(year, month, day).toDateString();
 
                 return (
                   <div
                     key={day}
                     className="aspect-square p-2 rounded-lg transition-all cursor-pointer hover:shadow-lg"
                     style={{
-                      backgroundColor: hasEvents ? "#c9a050" : isToday ? "#EBE9CF" : "#f5f5f4",
-                      border: isToday ? "2px solid #c9a050" : "1px solid #e7e5e4",
+                      backgroundColor: hasEvents
+                        ? "#c9a050"
+                        : isToday
+                          ? "#EBE9CF"
+                          : "#f5f5f4",
+                      border: isToday
+                        ? "2px solid #c9a050"
+                        : "1px solid #e7e5e4",
                     }}
                     onClick={() =>
                       hasEvents &&
                       setSelectedDate(
-                        `${year}-${String(month + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`
+                        `${year}-${String(month + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`,
                       )
                     }
                   >
@@ -256,7 +284,10 @@ export function Events() {
                           <div className="flex-1 flex items-center justify-center md:hidden">
                             <div className="flex flex-col gap-0.5">
                               {dayEvents.slice(0, 3).map((_, i) => (
-                                <div key={i} className="w-1 h-1 rounded-full bg-white" />
+                                <div
+                                  key={i}
+                                  className="w-1 h-1 rounded-full bg-white"
+                                />
                               ))}
                             </div>
                           </div>
@@ -292,16 +323,22 @@ export function Events() {
             {selectedDate && (
               <div
                 className="mt-8 p-6 rounded-lg"
-                style={{ backgroundColor: "#EBE9CF", border: "2px solid #c9a050" }}
+                style={{
+                  backgroundColor: "#EBE9CF",
+                  border: "2px solid #c9a050",
+                }}
               >
                 <div className="flex items-center justify-between mb-4">
                   <h3 className="text-2xl text-stone-900">
                     Events on{" "}
-                    {new Date(selectedDate + "T00:00:00").toLocaleDateString("en-US", {
-                      month: "long",
-                      day: "numeric",
-                      year: "numeric",
-                    })}
+                    {new Date(selectedDate + "T00:00:00").toLocaleDateString(
+                      "en-US",
+                      {
+                        month: "long",
+                        day: "numeric",
+                        year: "numeric",
+                      },
+                    )}
                   </h3>
                   <button
                     onClick={() => setSelectedDate(null)}
@@ -317,10 +354,14 @@ export function Events() {
                       const dayOfWeek = new Date(
                         parseInt(y),
                         parseInt(m) - 1,
-                        parseInt(d)
+                        parseInt(d),
                       ).getDay();
                       if (event.date === selectedDate) return true;
-                      if (event.date === "recurring-saturday" && dayOfWeek === 6) return true;
+                      if (
+                        event.date === "recurring-saturday" &&
+                        dayOfWeek === 6
+                      )
+                        return true;
                       return false;
                     })
                     .map((event) => (
@@ -329,7 +370,9 @@ export function Events() {
                         className="p-4 bg-white rounded-lg shadow-md"
                         style={{ border: "2px solid #c9a050" }}
                       >
-                        <h4 className="text-xl text-stone-900 mb-2">{event.title}</h4>
+                        <h4 className="text-xl text-stone-900 mb-2">
+                          {event.title}
+                        </h4>
                         <div className="flex flex-col gap-2 text-stone-600">
                           <div className="flex items-center gap-2">
                             <Clock size={16} style={{ color: "#c9a050" }} />
@@ -398,7 +441,9 @@ export function Events() {
                   {/* Event Details */}
                   <div className="md:w-2/3 flex flex-col justify-center">
                     {/* Title */}
-                    <h3 className="text-3xl text-stone-900 mb-4">{event.title}</h3>
+                    <h3 className="text-3xl text-stone-900 mb-4">
+                      {event.title}
+                    </h3>
 
                     {/* Description */}
                     <p className="text-stone-600 mb-6">{event.description}</p>
@@ -414,7 +459,9 @@ export function Events() {
                         </div>
                         <div>
                           <div className="text-stone-500 text-sm">Date</div>
-                          <div className="text-stone-900">{event.displayDate}</div>
+                          <div className="text-stone-900">
+                            {event.displayDate}
+                          </div>
                         </div>
                       </div>
 
@@ -461,12 +508,18 @@ export function Events() {
                 {index < sampleEvents.length - 1 && (
                   <div className="flex justify-center py-4">
                     <div className="flex flex-col items-center">
-                      <div className="w-px h-8" style={{ backgroundColor: "#c9a050" }} />
+                      <div
+                        className="w-px h-8"
+                        style={{ backgroundColor: "#c9a050" }}
+                      />
                       <div
                         className="w-3 h-3 rounded-full"
                         style={{ backgroundColor: "#c9a050" }}
                       />
-                      <div className="w-px h-8" style={{ backgroundColor: "#c9a050" }} />
+                      <div
+                        className="w-px h-8"
+                        style={{ backgroundColor: "#c9a050" }}
+                      />
                     </div>
                   </div>
                 )}

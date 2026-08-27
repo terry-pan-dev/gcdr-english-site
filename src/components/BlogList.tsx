@@ -24,11 +24,17 @@ interface BlogListProps {
   initialPage?: number;
 }
 
-export function BlogList({ apiBaseUrl, initialCategory, initialPage = 1 }: BlogListProps) {
+export function BlogList({
+  apiBaseUrl,
+  initialCategory,
+  initialPage = 1,
+}: BlogListProps) {
   const [posts, setPosts] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [categoryFilter, setCategoryFilter] = useState<string | null>(initialCategory || null);
+  const [categoryFilter, setCategoryFilter] = useState<string | null>(
+    initialCategory || null,
+  );
   const [currentPage, setCurrentPage] = useState(initialPage);
 
   const postsPerPage = 10;
@@ -94,7 +100,10 @@ export function BlogList({ apiBaseUrl, initialCategory, initialPage = 1 }: BlogL
   const pageNumbers: Array<{ page: number; isEllipsis: boolean }> = [];
   let lastAdded = 0;
   for (let i = 1; i <= totalPages; i++) {
-    const showPage = i === 1 || i === totalPages || (i >= currentPage - 1 && i <= currentPage + 1);
+    const showPage =
+      i === 1 ||
+      i === totalPages ||
+      (i >= currentPage - 1 && i <= currentPage + 1);
 
     if (showPage) {
       if (i - lastAdded > 1) {
@@ -170,7 +179,11 @@ export function BlogList({ apiBaseUrl, initialCategory, initialPage = 1 }: BlogL
               style={
                 !categoryFilter
                   ? { backgroundColor: "#c9a050", color: "#1c1917" }
-                  : { backgroundColor: "white", border: "2px solid #c9a050", color: "#1c1917" }
+                  : {
+                      backgroundColor: "white",
+                      border: "2px solid #c9a050",
+                      color: "#1c1917",
+                    }
               }
             >
               All
@@ -185,7 +198,11 @@ export function BlogList({ apiBaseUrl, initialCategory, initialPage = 1 }: BlogL
                 style={
                   categoryFilter === category
                     ? { backgroundColor: "#c9a050", color: "#1c1917" }
-                    : { backgroundColor: "white", border: "2px solid #c9a050", color: "#1c1917" }
+                    : {
+                        backgroundColor: "white",
+                        border: "2px solid #c9a050",
+                        color: "#1c1917",
+                      }
                 }
               >
                 {category}
@@ -276,7 +293,10 @@ export function BlogList({ apiBaseUrl, initialCategory, initialPage = 1 }: BlogL
                   {pageNumbers.map((item, idx) => {
                     if (item.isEllipsis) {
                       return (
-                        <span key={`ellipsis-${idx}`} className="px-2 text-stone-500">
+                        <span
+                          key={`ellipsis-${idx}`}
+                          className="px-2 text-stone-500"
+                        >
                           ...
                         </span>
                       );
@@ -365,7 +385,8 @@ export function BlogList({ apiBaseUrl, initialCategory, initialPage = 1 }: BlogL
 
               {/* Page Info */}
               <p className="text-sm text-stone-600">
-                Showing {startIndex + 1}-{Math.min(endIndex, totalPosts)} of {totalPosts} posts
+                Showing {startIndex + 1}-{Math.min(endIndex, totalPosts)} of{" "}
+                {totalPosts} posts
                 {categoryFilter && ` in "${categoryFilter}"`}
               </p>
             </div>

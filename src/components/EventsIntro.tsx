@@ -5,7 +5,9 @@ export function EventsIntro() {
     <section id="events" style={{ backgroundColor: "var(--background)" }}>
       <div className="pt-nav pb-8">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 className="type-page-title mb-6">Activities, Events &amp; Retreats</h1>
+          <h1 className="type-page-title mb-6">
+            Activities, Events &amp; Retreats
+          </h1>
           <p
             className="type-body"
             style={{
@@ -13,9 +15,9 @@ export function EventsIntro() {
               marginBottom: "2.5rem",
             }}
           >
-            Activities and retreats take place at the monastery on weekends and throughout the year.
-            Visitors are welcome to attend or observe as they feel comfortable. Some sessions are
-            available online via Zoom.
+            Activities and retreats take place at the monastery on weekends and
+            throughout the year. Visitors are welcome to attend or observe as
+            they feel comfortable. Some sessions are available online via Zoom.
           </p>
         </div>
 

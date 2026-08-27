@@ -7,9 +7,9 @@ export function VisitIntro() {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <h1 className="type-page-title mb-6">Visiting the Monastery</h1>
           <p className="type-body" style={{ color: "var(--foreground)" }}>
-            Visitors are welcome to come during visiting hours, to attend activities, or just be
-            here as the monastery goes about its day. For Dharma talks, ceremonies, or retreats,
-            please see the{" "}
+            Visitors are welcome to come during visiting hours, to attend
+            activities, or just be here as the monastery goes about its day. For
+            Dharma talks, ceremonies, or retreats, please see the{" "}
             <a href="/events" className="type-link">
               Events page
             </a>{" "}
@@ -19,7 +19,10 @@ export function VisitIntro() {
       </div>
 
       {/* ── Grounds Photo ────────────────────────────────────── */}
-      <div className="mx-auto px-4 sm:px-6 lg:px-8 pb-4" style={{ maxWidth: "72rem" }}>
+      <div
+        className="mx-auto px-4 sm:px-6 lg:px-8 pb-4"
+        style={{ maxWidth: "72rem" }}
+      >
         <div
           style={{
             margin: "2.5rem 0",
@@ -42,7 +45,10 @@ export function VisitIntro() {
       </div>
 
       {/* ── Visiting Hours & Location ────────────────────────── */}
-      <div className="pt-10 pb-14 border-t" style={{ borderColor: "var(--border)" }}>
+      <div
+        className="pt-10 pb-14 border-t"
+        style={{ borderColor: "var(--border)" }}
+      >
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-2 gap-10">
             {/* Visiting Hours */}

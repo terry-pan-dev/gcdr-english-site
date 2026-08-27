@@ -104,5 +104,5 @@ export default tseslint.config(
   },
 
   // Prettier config (disables conflicting rules) - must be last
-  prettierConfig
+  prettierConfig,
 );

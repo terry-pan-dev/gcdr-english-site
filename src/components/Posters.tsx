@@ -57,7 +57,12 @@ const allPosters = [
     endDate: "2026-12-06",
   },
   { id: 19, image: "/assets/53Visits.jpg", title: "53 Visits" },
-  { id: 1, image: "/assets/0_KIDS_CAMP_04182026.jpg", title: "Kids Camp", endDate: "2026-04-19" },
+  {
+    id: 1,
+    image: "/assets/0_KIDS_CAMP_04182026.jpg",
+    title: "Kids Camp",
+    endDate: "2026-04-19",
+  },
   {
     id: 2,
     image: "/assets/LHBC 2026.jpeg",
@@ -81,14 +86,31 @@ const allPosters = [
     image: "/assets/3_CaptureLunarNewYearBlessingCeremony.jpg",
     title: "Lunar New Year Blessing Ceremony",
   },
-  { id: 8, image: "/assets/2_new_2026Events.jpg", title: "2026 Events", endDate: "2027-01-01" },
-  { id: 9, image: "/assets/5_PlaqueRegistration.jpg", title: "Plaque Registration" },
+  {
+    id: 8,
+    image: "/assets/2_new_2026Events.jpg",
+    title: "2026 Events",
+    endDate: "2027-01-01",
+  },
+  {
+    id: 9,
+    image: "/assets/5_PlaqueRegistration.jpg",
+    title: "Plaque Registration",
+  },
   { id: 10, image: "/assets/saturday_events.jpg", title: "Saturday Events" },
   { id: 11, image: "/assets/yoga.jpg", title: "Yoga & Meditation" },
   { id: 12, image: "/assets/Volunteer-Team.jpg", title: "Volunteer Team" },
   { id: 13, image: "/assets/Saturday-Lecture.jpg", title: "Saturday Lecture" },
-  { id: 14, image: "/assets/GuanYin-Hall-Sponsorship.jpg", title: "Sponsorship for Guan Yin Hall" },
-  { id: 15, image: "/assets/GCM.jpg", title: "Great Compassion Mantra Recitation Program" },
+  {
+    id: 14,
+    image: "/assets/GuanYin-Hall-Sponsorship.jpg",
+    title: "Sponsorship for Guan Yin Hall",
+  },
+  {
+    id: 15,
+    image: "/assets/GCM.jpg",
+    title: "Great Compassion Mantra Recitation Program",
+  },
 ];
 
 const breakpointColumns = {
@@ -108,12 +130,15 @@ function isVisible(poster: (typeof allPosters)[0]): boolean {
 // Main component
 // ---------------------------------------------------------------------------
 export function Posters() {
-  const [selectedPoster, setSelectedPoster] = useState<(typeof allPosters)[0] | null>(null);
+  const [selectedPoster, setSelectedPoster] = useState<
+    (typeof allPosters)[0] | null
+  >(null);
 
   // Lightbox state
-  const [lightboxNaturalSize, setLightboxNaturalSize] = useState<{ w: number; h: number } | null>(
-    null
-  );
+  const [lightboxNaturalSize, setLightboxNaturalSize] = useState<{
+    w: number;
+    h: number;
+  } | null>(null);
   const [lightboxZoom, setLightboxZoom] = useState(1);
   const [lightboxPan, setLightboxPan] = useState({ x: 0, y: 0 });
   const [isLightboxDragging, setIsLightboxDragging] = useState(false);
@@ -164,7 +189,8 @@ export function Posters() {
     };
     const prevHtmlOverflow = htmlStyle.overflow;
     const prevHtmlScrollBehavior = htmlStyle.scrollBehavior;
-    const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+    const scrollbarWidth =
+      window.innerWidth - document.documentElement.clientWidth;
 
     bodyStyle.overflow = "hidden";
     bodyStyle.position = "fixed";
@@ -195,13 +221,20 @@ export function Posters() {
       const direction = e.deltaY > 0 ? -1 : 1;
       const next = Math.min(
         LIGHTBOX_MAX_ZOOM,
-        Math.max(LIGHTBOX_MIN_ZOOM, lightboxZoomRef.current + direction * LIGHTBOX_WHEEL_ZOOM_STEP)
+        Math.max(
+          LIGHTBOX_MIN_ZOOM,
+          lightboxZoomRef.current + direction * LIGHTBOX_WHEEL_ZOOM_STEP,
+        ),
       );
       setLightboxZoom(next);
       if (next === 1) setLightboxPan({ x: 0, y: 0 });
     };
-    window.addEventListener("wheel", onWheel, { passive: false, capture: true });
-    return () => window.removeEventListener("wheel", onWheel, { capture: true });
+    window.addEventListener("wheel", onWheel, {
+      passive: false,
+      capture: true,
+    });
+    return () =>
+      window.removeEventListener("wheel", onWheel, { capture: true });
   }, [selectedPoster]);
 
   // Keyboard shortcuts
@@ -221,11 +254,16 @@ export function Posters() {
         return;
       }
       if (e.key === "+" || e.key === "=") {
-        setLightboxZoom((z) => Math.min(LIGHTBOX_MAX_ZOOM, z + LIGHTBOX_WHEEL_ZOOM_STEP));
+        setLightboxZoom((z) =>
+          Math.min(LIGHTBOX_MAX_ZOOM, z + LIGHTBOX_WHEEL_ZOOM_STEP),
+        );
         return;
       }
       if (e.key === "-") {
-        const next = Math.max(LIGHTBOX_MIN_ZOOM, lightboxZoom - LIGHTBOX_WHEEL_ZOOM_STEP);
+        const next = Math.max(
+          LIGHTBOX_MIN_ZOOM,
+          lightboxZoom - LIGHTBOX_WHEEL_ZOOM_STEP,
+        );
         setLightboxZoom(next);
         if (next === 1) setLightboxPan({ x: 0, y: 0 });
       }
@@ -260,7 +298,8 @@ export function Posters() {
     e.stopPropagation();
     const target = e.target;
     const clickedPoster =
-      (target instanceof Element && Boolean(target.closest("[data-lightbox-poster]"))) ||
+      (target instanceof Element &&
+        Boolean(target.closest("[data-lightbox-poster]"))) ||
       lightboxPointerStartedOnPosterRef.current;
     lightboxPointerStartedOnPosterRef.current = false;
     if (!clickedPoster) {
@@ -268,7 +307,9 @@ export function Posters() {
       return;
     }
     if (lightboxClickBlockedRef.current) return;
-    const nextLevel = LIGHTBOX_ZOOM_LEVELS.find((level) => level > lightboxZoom + 0.01);
+    const nextLevel = LIGHTBOX_ZOOM_LEVELS.find(
+      (level) => level > lightboxZoom + 0.01,
+    );
     if (nextLevel !== undefined) {
       setLightboxZoom(nextLevel);
       return;
@@ -281,7 +322,8 @@ export function Posters() {
     if (lightboxZoom <= 1) return;
     const target = e.target;
     const startedOnPoster =
-      target instanceof Element && Boolean(target.closest("[data-lightbox-poster]"));
+      target instanceof Element &&
+      Boolean(target.closest("[data-lightbox-poster]"));
     lightboxPointerStartedOnPosterRef.current = startedOnPoster;
     if (!startedOnPoster) return;
     e.stopPropagation();
@@ -304,12 +346,16 @@ export function Posters() {
     const deltaY = e.clientY - drag.startY;
     if (
       !drag.moved &&
-      (Math.abs(deltaX) > LIGHTBOX_DRAG_THRESHOLD || Math.abs(deltaY) > LIGHTBOX_DRAG_THRESHOLD)
+      (Math.abs(deltaX) > LIGHTBOX_DRAG_THRESHOLD ||
+        Math.abs(deltaY) > LIGHTBOX_DRAG_THRESHOLD)
     ) {
       drag.moved = true;
     }
     if (!drag.moved) return;
-    setLightboxPan({ x: drag.originPanX + deltaX, y: drag.originPanY + deltaY });
+    setLightboxPan({
+      x: drag.originPanX + deltaX,
+      y: drag.originPanY + deltaY,
+    });
   };
 
   const finishLightboxPointer = (e: React.PointerEvent<HTMLDivElement>) => {
@@ -327,13 +373,17 @@ export function Posters() {
     setIsLightboxDragging(false);
   };
 
-  const handleLightboxImageLoad = (e: React.SyntheticEvent<HTMLImageElement>) => {
+  const handleLightboxImageLoad = (
+    e: React.SyntheticEvent<HTMLImageElement>,
+  ) => {
     const el = e.currentTarget;
     setLightboxNaturalSize({ w: el.naturalWidth, h: el.naturalHeight });
   };
 
   const visiblePosters = allPosters.filter(isVisible);
-  const hasNextZoomLevel = LIGHTBOX_ZOOM_LEVELS.some((level) => level > lightboxZoom + 0.01);
+  const hasNextZoomLevel = LIGHTBOX_ZOOM_LEVELS.some(
+    (level) => level > lightboxZoom + 0.01,
+  );
 
   return (
     <section
@@ -413,7 +463,9 @@ export function Posters() {
                 style={{
                   transform: `translate(${lightboxPan.x}px, ${lightboxPan.y}px) scale(${lightboxZoom})`,
                   transformOrigin: "center center",
-                  transition: isLightboxDragging ? "none" : "transform 0.2s ease-out",
+                  transition: isLightboxDragging
+                    ? "none"
+                    : "transform 0.2s ease-out",
                   cursor: isLightboxDragging
                     ? "grabbing"
                     : lightboxZoom > 1
@@ -445,14 +497,20 @@ export function Posters() {
         {/* Header */}
         <div className="text-center mb-8">
           <div className="flex items-center justify-center mb-6">
-            <div className="w-16 h-px" style={{ backgroundColor: "var(--color-accent-gold)" }} />
+            <div
+              className="w-16 h-px"
+              style={{ backgroundColor: "var(--color-accent-gold)" }}
+            />
             <div
               className="mx-4 text-sm tracking-[0.3em] uppercase"
               style={{ color: "var(--color-accent-gold)" }}
             >
               Notices
             </div>
-            <div className="w-16 h-px" style={{ backgroundColor: "var(--color-accent-gold)" }} />
+            <div
+              className="w-16 h-px"
+              style={{ backgroundColor: "var(--color-accent-gold)" }}
+            />
           </div>
           <h2
             className="type-section-title text-4xl mb-4"
@@ -460,7 +518,10 @@ export function Posters() {
           >
             Temple Notice Board
           </h2>
-          <p className="type-body max-w-2xl mx-auto" style={{ color: "var(--foreground)" }}>
+          <p
+            className="type-body max-w-2xl mx-auto"
+            style={{ color: "var(--foreground)" }}
+          >
             Upcoming events and special announcements
           </p>
         </div>
