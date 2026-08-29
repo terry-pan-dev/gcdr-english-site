@@ -161,7 +161,8 @@ export function GuanYinRetreat2026() {
                         fontSize: "0.94rem",
                       }}
                     >
-                      3:00pm arrival {"\u00b7"} 4:00pm departure
+                      Arrival 3:00{"\u2013"}4:30pm {"\u00b7"} Retreat concludes
+                      at 4:00pm on the 31st
                     </p>
                   </div>
 
@@ -217,7 +218,7 @@ export function GuanYinRetreat2026() {
                 className="w-full h-full md:absolute md:inset-0"
                 style={{
                   objectFit: "cover",
-                  objectPosition: "center 20%",
+                  objectPosition: "center 30%",
                   display: "block",
                 }}
               />
@@ -226,10 +227,10 @@ export function GuanYinRetreat2026() {
         </div>
       </div>
 
-      {/* ── Reflection ───────────────────────────────────────── */}
+      {/* ── Introduction ─────────────────────────────────────── */}
       <div className="pt-16 pb-12">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <p
+          <h2
             className="type-subtitle text-center"
             style={{
               color: "var(--heading-foreground)",
@@ -238,99 +239,130 @@ export function GuanYinRetreat2026() {
             }}
           >
             When was the last time we really listened?
-          </p>
+          </h2>
 
           <div
             className="type-body space-y-5"
             style={{ color: "var(--foreground)" }}
           >
             <p>
-              Our lives are full of noise: messages, opinions, expectations, and
-              the constant chatter of our own minds. But beneath all that noise,
-              what might we hear?
+              Our days can become crowded with noise, activity, conversation,
+              and the constant movement of our own thoughts. This retreat offers
+              a week to step away from that usual pace and give our attention to
+              something quieter.
             </p>
 
             <p>
-              Together, we will slow down and explore the practice of deep
-              listening: listening to our bodies, our hearts, the natural world,
-              and the stillness within.
+              At the heart of the retreat is the recitation of Guan Yin
+              Bodhisattva&apos;s name. Guan Yin is often understood as “one who
+              listens to the sounds of the world.” Through recitation and
+              meditation, we will explore listening not only as something we do
+              with our ears, but as a way of becoming more attentive to
+              ourselves, to others, and to the world around us.
             </p>
 
             <p>
-              Set in the grounds of Gold Coast Dharma Realm, this retreat will
-              offer space to meditate, walk in nature, reflect together, and
-              explore practical Buddhist teachings that can help us meet our
-              lives with greater awareness and care.
+              The week will unfold within the daily rhythm of Gold Coast Dharma
+              Realm, with periods of meditation, recitation, Dharma teachings,
+              vegan meals, community service, and time in the monastery&apos;s
+              natural surroundings. Several days will also be observed in noble
+              silence, allowing more space for reflection and sustained
+              practice.
             </p>
 
             <p>
-              We will also learn from Guan Yin Bodhisattva, the embodiment of
-              compassion and deep listening in the Buddhist tradition. Guan Yin
-              listens deeply to the cries of the world and responds with wisdom
-              and compassion. Through her practice, we will explore how we too
-              can listen more deeply to ourselves, to one another, and to the
-              world around us, and cultivate qualities of kindness, compassion,
-              joy, and equanimity.
+              Whether you are familiar with Buddhist practice or encountering it
+              for the first time, the retreat offers an opportunity to slow
+              down, listen more carefully, and spend a week immersed in the life
+              and practice of a Buddhist monastery.
             </p>
-          </div>
-
-          {/* Listening stanza */}
-          <div
-            className="text-center"
-            style={{
-              margin: "3rem 0 0",
-              padding: "2.25rem 0",
-              borderTop: "0.5px solid var(--border)",
-              borderBottom: "0.5px solid var(--border)",
-            }}
-          >
-            {[
-              "Listen to the body.",
-              "Listen to the heart.",
-              "Listen to nature.",
-              "Listen within.",
-            ].map((line) => (
-              <p
-                key={line}
-                style={{
-                  fontFamily: "var(--font-serif)",
-                  color: "var(--color-dark-bg)",
-                  fontSize: "1.35rem",
-                  lineHeight: 1.9,
-                }}
-              >
-                {line}
-              </p>
-            ))}
           </div>
         </div>
       </div>
 
-      {/* ── What the Retreat Includes ──────────────────────── */}
+      {/* ── A Week to Step Out of the Usual Rhythm ─────────── */}
       <div className="pt-10 pb-14">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="type-subtitle mb-6">What the Retreat Includes</h2>
+          <h2
+            className="type-section-title"
+            style={{
+              fontSize: "clamp(1.5rem, 3vw, 2rem)",
+              marginBottom: "1.25rem",
+            }}
+          >
+            A Week to Step Out of the Usual Rhythm
+          </h2>
 
           <div
             className="type-body space-y-5"
             style={{ color: "var(--foreground)" }}
           >
             <p>
-              A typical day centres on the practice of reciting the name of Guan
-              Yin Bodhisattva, <em>Namo Guan Shr Yin Pu Sa</em>, together as a
-              group. The recitation is used as a form of meditation, helping us
-              to settle the mind and connect with the qualities of compassion
-              embodied by Guan Yin. The day also includes talks on core Buddhist
-              teachings, suitable both for those familiar with Buddhism and
-              those with no prior background.
+              A residential retreat is different from attending a class or a
+              single day of meditation. For one week, the ordinary routines of
+              daily life are replaced by a simpler rhythm of practice, meals,
+              work, rest, and silence.
             </p>
 
             <p>
-              Periods of sitting meditation are balanced with walking
-              meditation, recitation, and time on the monastery grounds.
+              Participants may be completely new to meditation, longtime
+              Buddhist practitioners, or simply interested in spending a week
+              exploring contemplative practice in a monastic setting.
             </p>
 
-            <p>No previous experience with Buddhism or meditation is needed.</p>
+            <p>
+              The emphasis is not on reaching a particular outcome, but on
+              creating the space to become quieter, more attentive, and more
+              present.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* ── What the Retreat Includes ───────────────────────── */}
+      <div
+        className="pt-10 pb-14 border-t"
+        style={{ borderColor: "var(--border)" }}
+      >
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2
+            className="type-section-title"
+            style={{
+              fontSize: "clamp(1.5rem, 3vw, 2rem)",
+              marginBottom: "1.25rem",
+            }}
+          >
+            Full Retreat Details
+          </h2>
+
+          <div
+            className="type-body space-y-5"
+            style={{ color: "var(--foreground)" }}
+          >
+            <p>
+              We are very fortunate to welcome Redwood Vihara&apos;s monastics
+              back to Gold Coast Dharma Realm this October to lead the retreat
+              for the second year. Their retreat page includes the full daily
+              schedule, guidelines, and practical information for participants.
+            </p>
+          </div>
+
+          <div className="mt-8">
+            <a
+              href="https://redwoodvihara.org/events/gcdr-guanyin/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="type-body inline-block"
+              style={{
+                border: "1px solid var(--color-accent)",
+                color: "var(--color-accent)",
+                padding: "0.75rem 1.5rem",
+                borderRadius: "var(--radius)",
+                fontWeight: 500,
+              }}
+            >
+              View Full Retreat Details {"\u2192"}
+            </a>
           </div>
         </div>
       </div>
@@ -341,24 +373,32 @@ export function GuanYinRetreat2026() {
         style={{ borderColor: "var(--border)" }}
       >
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="type-subtitle mb-6">Join This Retreat</h2>
+          <h2
+            className="type-section-title"
+            style={{
+              fontSize: "clamp(1.5rem, 3vw, 2rem)",
+              marginBottom: "1.25rem",
+            }}
+          >
+            Join This Retreat
+          </h2>
 
-          <div className="space-y-4">
-            <p className="type-body" style={{ color: "var(--foreground)" }}>
-              A contribution of $50 per night is requested to help cover
-              accommodation and vegan meals during the retreat.
+          <div
+            className="type-body space-y-5"
+            style={{ color: "var(--foreground)" }}
+          >
+            <p>
+              The retreat runs from{" "}
+              <strong>Saturday 24 October to Saturday 31 October 2026</strong>.
             </p>
 
-            <p
-              className="type-body"
-              style={{
-                color: "var(--medium-foreground)",
-                fontStyle: "italic",
-              }}
-            >
-              We are still finalising the full daily schedule and will share
-              more details as the retreat gets closer.
+            <p>
+              For those staying at the monastery overnight, a contribution of{" "}
+              <strong>$50 per night</strong> is requested to help cover
+              accommodation and vegan meals.
             </p>
+
+            <p>Daytime participation in Dharma activities is freely offered.</p>
           </div>
 
           <div className="mt-8">
@@ -375,7 +415,7 @@ export function GuanYinRetreat2026() {
                 fontWeight: 500,
               }}
             >
-              Register {"\u2192"}
+              Register for the Retreat {"\u2192"}
             </a>
           </div>
         </div>
