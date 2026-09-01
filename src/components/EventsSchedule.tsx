@@ -113,7 +113,8 @@ const schedule: MonthBlock[] = [
     entries: [
       {
         date: "7 – 16 August",
-        title: "10-Day Meditation Retreat",
+        title:
+          "10-Day Meditation Retreat (In Canonese with Mandarin and English Translation)",
       },
       {
         date: "22 August",
@@ -130,7 +131,7 @@ const schedule: MonthBlock[] = [
     month: "October",
     entries: [
       {
-        date: "25 – 31 October",
+        date: "24 – 31 October",
         title: "Guan Yin Recitation Retreat (English)",
         href: "/events/Guan-Yin-English-2026",
       },
@@ -193,9 +194,23 @@ export function EventsSchedule() {
           }}
         />
 
-        <h2 className="type-section-title" style={{ marginBottom: "0.75rem" }}>
+        <h2 className="type-section-title" style={{ marginBottom: "1rem" }}>
           2026 Events, Ceremonies &amp; Retreats
         </h2>
+
+        <p
+          className="type-body"
+          style={{
+            color: "var(--muted-foreground)",
+            fontSize: "0.98rem",
+            lineHeight: 1.7,
+            marginBottom: "2.5rem",
+          }}
+        >
+          Most ceremonies and retreats are conducted in{" "}
+          <strong>Chinese unless otherwise noted</strong>. Events offered in
+          English are identified in the schedule.
+        </p>
       </div>
 
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
