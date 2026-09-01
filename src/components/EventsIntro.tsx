@@ -1,4 +1,4 @@
-import altarImage from "@/assets/BuddhaHallAltar.webp";
+import qigongImage from "@/assets/QiGong.webp";
 
 export function EventsIntro() {
   return (
@@ -21,17 +21,23 @@ export function EventsIntro() {
           </p>
         </div>
 
-        {/* Altar image — wider than the text column */}
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div style={{ overflow: "hidden", borderRadius: "2px" }}>
+        {/* Qi Gong — wider than the text column */}
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div
+            className="h-[250px] sm:h-[450px]"
+            style={{
+              overflow: "hidden",
+              borderRadius: "2px",
+            }}
+          >
             <img
-              src={altarImage.src}
-              alt="Buddha Hall altar at Gold Coast Dharma Realm"
+              src={qigongImage.src}
+              alt="Qi Gong during Chan Session at Gold Coast Dharma Realm"
+              className="object-[center_100%]"
               style={{
                 width: "100%",
-                height: "420px",
+                height: "90%",
                 objectFit: "cover",
-                objectPosition: "center 0%",
                 display: "block",
               }}
             />

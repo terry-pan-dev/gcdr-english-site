@@ -23,10 +23,13 @@ function addToCalLink({
     details,
     location,
   });
+
   if (recurring) {
     params.set("recur", "RRULE:FREQ=WEEKLY");
   }
+
   params.set("ctz", "Australia/Brisbane");
+
   return `${base}?${params}`;
 }
 
@@ -74,9 +77,30 @@ export function EventsRegular() {
             marginBottom: "1.75rem",
           }}
         />
-        <h2 className="type-section-title" style={{ marginBottom: "3rem" }}>
-          Regular Activities
+
+        <h2
+          className="type-section-title"
+          style={{
+            marginBottom: "1rem",
+          }}
+        >
+          Weekend Activities
         </h2>
+
+        <p
+          className="type-body"
+          style={{
+            color: "var(--muted-foreground)",
+            fontSize: "0.98rem",
+            lineHeight: 1.7,
+            maxWidth: "44rem",
+            marginBottom: "3rem",
+          }}
+        >
+          Our weekend activities are open to everyone and do not require
+          registration. They take place most weekends and are in{" "}
+          <strong>English unless otherwise noted</strong>.
+        </p>
 
         <div className="grid md:grid-cols-2 gap-12">
           {/* Saturday */}
@@ -93,7 +117,7 @@ export function EventsRegular() {
               Saturday
             </h3>
 
-            {/* Morning Ceremony */}
+            {/* Dharma Service and Lecture */}
             <div
               style={{
                 borderTop: "0.5px solid var(--border)",
@@ -104,10 +128,14 @@ export function EventsRegular() {
             >
               <p
                 className="type-subtitle"
-                style={{ fontSize: "1.2rem", marginBottom: "0.75rem" }}
+                style={{
+                  fontSize: "1.2rem",
+                  marginBottom: "0.35rem",
+                }}
               >
                 Dharma Service and Lecture
               </p>
+
               <div
                 className="type-body"
                 style={{
@@ -120,6 +148,16 @@ export function EventsRegular() {
                     8:00 {"\u2013"} 9:30 AM
                   </span>{" "}
                   Avatamsaka Repentance
+                </p>
+                <p
+                  className="type-body"
+                  style={{
+                    color: "var(--muted-foreground)",
+                    fontSize: "0.88rem",
+                    fontStyle: "italic",
+                  }}
+                >
+                  In Chinese
                 </p>
                 <span
                   style={{
@@ -140,28 +178,41 @@ export function EventsRegular() {
                   >
                     Join via Zoom {"\u2192"}
                   </a>
+
                   <CalLink
                     href={addToCalLink({
                       title: "Morning Ceremony — Avatamsaka Repentance",
                       start: "20260502T080000",
                       end: "20260502T093000",
                       details:
-                        "Avatamsaka Repentance\nhttps://zoom.us/j/127598942",
+                        "Avatamsaka Repentance\nConducted in Chinese.\nhttps://zoom.us/j/127598942",
                       location: "https://zoom.us/j/127598942",
                       recurring: true,
                     })}
                   />
                 </span>
+
                 <p>
                   <span style={{ color: "var(--foreground)" }}>
                     9:30 {"\u2013"} 10:30 AM
                   </span>{" "}
                   Dharma Talk by Dharma Master Jin Fu
                 </p>
+                <p
+                  className="type-body"
+                  style={{
+                    color: "var(--muted-foreground)",
+                    fontSize: "0.88rem",
+                    fontStyle: "italic",
+                    marginBottom: "0.75rem",
+                  }}
+                >
+                  Chinese with English translation
+                </p>
               </div>
             </div>
 
-            {/* Library Lecture */}
+            {/* Library Dharma Talk */}
             <div
               style={{
                 paddingTop: "1.25rem",
@@ -171,10 +222,27 @@ export function EventsRegular() {
             >
               <p
                 className="type-subtitle"
-                style={{ fontSize: "1.2rem", marginBottom: "0.75rem" }}
+                style={{
+                  fontSize: "1.2rem",
+                  marginBottom: "0.35rem",
+                }}
               >
                 Library Dharma Talk
               </p>
+
+              <p
+                className="type-body"
+                style={{
+                  color: "var(--muted-foreground)",
+                  fontSize: "0.88rem",
+                  fontStyle: "italic",
+                  marginBottom: "0.75rem",
+                }}
+              >
+                Online year-round · In person when Rev. Heng Sure is at GCDR,
+                usually from mid-spring to mid-autumn
+              </p>
+
               <div
                 className="type-body"
                 style={{
@@ -192,6 +260,7 @@ export function EventsRegular() {
                     (Master Empty Cloud)
                   </em>
                 </p>
+
                 <span
                   style={{
                     display: "inline-flex",
@@ -211,13 +280,14 @@ export function EventsRegular() {
                   >
                     Join via Zoom {"\u2192"}
                   </a>
+
                   <CalLink
                     href={addToCalLink({
                       title: "Library Dharma Talk — Rev. Heng Sure",
                       start: "20260502T123000",
                       end: "20260502T133000",
                       details:
-                        "Dharma talk by Rev. Heng Sure on A Pictorial Biography of the Venerable Master Hsu Yun\nhttps://zoom.us/j/96191533015?pwd=291853",
+                        "Dharma talk by Rev. Heng Sure on A Pictorial Biography of the Venerable Master Hsu Yun.\nChinese with English translation.\nOnline year-round, with in-person attendance when Rev. Heng Sure is at Gold Coast Dharma Realm.\nhttps://zoom.us/j/96191533015?pwd=291853",
                       location: "https://zoom.us/j/96191533015?pwd=291853",
                       recurring: true,
                     })}
@@ -236,10 +306,14 @@ export function EventsRegular() {
             >
               <p
                 className="type-subtitle"
-                style={{ fontSize: "1.2rem", marginBottom: "0.75rem" }}
+                style={{
+                  fontSize: "1.2rem",
+                  marginBottom: "0.75rem",
+                }}
               >
                 Afternoon Recitation
               </p>
+
               <div
                 className="type-body"
                 style={{
@@ -253,6 +327,7 @@ export function EventsRegular() {
                   </span>{" "}
                   Shurangama Mantra Recitation &amp; Transference of Merits
                 </p>
+
                 <span
                   style={{
                     display: "inline-flex",
@@ -272,6 +347,7 @@ export function EventsRegular() {
                   >
                     Join via Zoom {"\u2192"}
                   </a>
+
                   <CalLink
                     href={addToCalLink({
                       title: "Afternoon Recitation — Shurangama Mantra",
@@ -313,10 +389,14 @@ export function EventsRegular() {
             >
               <p
                 className="type-subtitle"
-                style={{ fontSize: "1.2rem", marginBottom: "0.75rem" }}
+                style={{
+                  fontSize: "1.2rem",
+                  marginBottom: "0.75rem",
+                }}
               >
                 Yoga &amp; Meditation
               </p>
+
               <div
                 className="type-body"
                 style={{
@@ -331,6 +411,7 @@ export function EventsRegular() {
                   A guided session open to all. Sitting cushions, mats, and
                   blankets are available.
                 </p>
+
                 <a
                   href="/yoga"
                   className="type-link subtle-text-link"
@@ -355,10 +436,14 @@ export function EventsRegular() {
             >
               <p
                 className="type-subtitle"
-                style={{ fontSize: "1.2rem", marginBottom: "0.35rem" }}
+                style={{
+                  fontSize: "1.2rem",
+                  marginBottom: "0.35rem",
+                }}
               >
                 Sunday Classes
               </p>
+
               <p
                 className="type-body"
                 style={{
@@ -370,6 +455,7 @@ export function EventsRegular() {
               >
                 Term-based &mdash; running through 29 March
               </p>
+
               <div
                 className="type-body"
                 style={{
@@ -381,7 +467,7 @@ export function EventsRegular() {
                   <span style={{ color: "var(--foreground)" }}>
                     9:00 {"\u2013"} 11:00 AM
                   </span>{" "}
-                  Includes calligraphy and kids' Chinese culture classes.
+                  Includes calligraphy and kids&apos; Chinese culture classes.
                 </p>
               </div>
             </div>
@@ -396,10 +482,27 @@ export function EventsRegular() {
             >
               <p
                 className="type-subtitle"
-                style={{ fontSize: "1.2rem", marginBottom: "0.75rem" }}
+                style={{
+                  fontSize: "1.2rem",
+                  marginBottom: "0.35rem",
+                }}
               >
                 Sutra Dharma Talk
               </p>
+
+              <p
+                className="type-body"
+                style={{
+                  color: "var(--muted-foreground)",
+                  fontSize: "0.88rem",
+                  fontStyle: "italic",
+                  marginBottom: "0.75rem",
+                }}
+              >
+                Online year-round · In person when Rev. Heng Sure is at GCDR,
+                usually from mid-spring to mid-autumn
+              </p>
+
               <div
                 className="type-body"
                 style={{
@@ -416,10 +519,7 @@ export function EventsRegular() {
                     Avatamsaka (Flower Adornment) Sūtra
                   </em>
                 </p>
-                <p style={{ marginTop: "0.5rem" }}>
-                  Visitors are welcome to join in person. Please ring at the
-                  gate for entry, as this talk is after opening hours.
-                </p>
+
                 <span
                   style={{
                     display: "inline-flex",
@@ -439,13 +539,14 @@ export function EventsRegular() {
                   >
                     Join via Zoom {"\u2192"}
                   </a>
+
                   <CalLink
                     href={addToCalLink({
                       title: "Sutra Dharma Talk — Rev. Heng Sure",
                       start: "20260503T123000",
                       end: "20260503T150000",
                       details:
-                        "Dharma talk by Rev. Heng Sure on Avatamsaka (Flower Adornment) Sūtra.\nVisitors welcome in person — ring at the gate for entry.\nhttps://drba-org.zoom.us/j/84914586289",
+                        "Dharma talk by Rev. Heng Sure on Avatamsaka (Flower Adornment) Sūtra.\nOnline year-round, with in-person attendance when Rev. Heng Sure is at Gold Coast Dharma Realm.\nhttps://drba-org.zoom.us/j/84914586289",
                       location: "https://drba-org.zoom.us/j/84914586289",
                       recurring: true,
                     })}
