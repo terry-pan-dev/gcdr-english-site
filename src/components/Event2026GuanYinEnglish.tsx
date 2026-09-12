@@ -443,6 +443,7 @@ export function GuanYinRetreat2026() {
               The retreat runs from{" "}
               <strong>Saturday 24 October to Saturday 31 October 2026</strong>.
             </p>
+          </div>
 
             <p>
               For those staying at the monastery overnight, a contribution of{" "}
