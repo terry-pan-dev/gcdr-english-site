@@ -1,5 +1,16 @@
 import sutrasImage from "@/assets/Sutras.webp";
 import masterHsuYunImage from "@/assets/MasterHsuYun.webp";
+import EbookChan from "@/assets/EbookChan.webp";
+import EbookDeepKindness from "@/assets/EbookDeepKindness.webp";
+import EbookHeartSutra from "@/assets/EbookHeartSutra.webp";
+import EbookKindMonk from "@/assets/EbookKindMonk.webp";
+import EbookListenToYourself from "@/assets/EbookListenToYourself.webp";
+import EbookMeditationHandbook from "@/assets/EbookMeditationHandbook.webp";
+import EbookOneThought from "@/assets/EbookOneThought.webp";
+import EbookPathWithin from "@/assets/EbookPathWithin.webp";
+import EbookSixthPatriarch from "@/assets/EbookSixthPatriarch.webp";
+import EbookShurangama from "@/assets/EbookShurangama.webp";
+import type { ImageMetadata } from "astro";
 
 // ─── Data ────────────────────────────────────────────────────────────────────
 
@@ -8,6 +19,8 @@ type TextEntry = {
   description: string;
   href: string;
   linkLabel?: string;
+  image?: ImageMetadata;
+  imageFit?: "cover" | "contain";
 };
 
 type ShurangamaVolume = {
@@ -16,38 +29,14 @@ type ShurangamaVolume = {
 };
 
 const shurangamaVolumes: ShurangamaVolume[] = [
-  {
-    vol: 1,
-    href: "http://www.longbeachmonastery.org/Shurangama_Sutra_Part_1.pdf",
-  },
-  {
-    vol: 2,
-    href: "http://www.longbeachmonastery.org/Shurangama_Sutra_Part_2.pdf",
-  },
-  {
-    vol: 3,
-    href: "http://www.longbeachmonastery.org/Shurangama_Sutra_Part_3.pdf",
-  },
-  {
-    vol: 4,
-    href: "http://www.longbeachmonastery.org/Shurangama_Sutra_Part_4.pdf",
-  },
-  {
-    vol: 5,
-    href: "http://www.longbeachmonastery.org/Shurangama_Sutra_Part_5.pdf",
-  },
-  {
-    vol: 6,
-    href: "http://www.longbeachmonastery.org/Shurangama_Sutra_Part_6.pdf",
-  },
-  {
-    vol: 7,
-    href: "http://www.longbeachmonastery.org/Shurangama_Sutra_Part_7.pdf",
-  },
-  {
-    vol: 8,
-    href: "http://www.longbeachmonastery.org/Shurangama_Sutra_Part_8.pdf",
-  },
+  { vol: 1, href: "/resources/shurangama-vol-1.pdf" },
+  { vol: 2, href: "/resources/shurangama-vol-2.pdf" },
+  { vol: 3, href: "/resources/shurangama-vol-3.pdf" },
+  { vol: 4, href: "/resources/shurangama-vol-4.pdf" },
+  { vol: 5, href: "/resources/shurangama-vol-5.pdf" },
+  { vol: 6, href: "/resources/shurangama-vol-6.pdf" },
+  { vol: 7, href: "/resources/shurangama-vol-7.pdf" },
+  { vol: 8, href: "/resources/shurangama-vol-8.pdf" },
 ];
 
 const sutras: TextEntry[] = [
@@ -55,59 +44,69 @@ const sutras: TextEntry[] = [
     title: "The Heart of Prajna Paramita Sutra",
     description:
       "One of the most recited sutras in Mahayana Buddhism, on the nature of emptiness and the perfection of wisdom.",
-    href: "https://dn721807.ca.archive.org/0/items/heart-sutra_202305/Heart_Sutra.pdf",
+    href: "/resources/heart-sutra.pdf",
+    image: EbookHeartSutra,
   },
   {
     title: "The Sixth Patriarch's Dharma Jewel Platform Sutra",
     description:
       "The recorded teachings of Chan Master Hui Neng, the only Chinese text to carry the designation of sutra.",
-    href: "https://archive.org/download/the-sixth-patriarchs-dharmajewelplatformsutra/TheSixthPatriarch%27s%20Dharmajewelplatformsutra.pdf",
+    href: "/resources/the-sixth-patriarchs-dharma-jewel-platform-sutra.pdf",
+    image: EbookSixthPatriarch,
   },
   {
     title:
       "The Buddha Speaks the Sutra on the Deep Kindness of Parents and the Difficulty of Repaying It",
     description:
       "A sutra on the immeasurable kindness of parents and the Buddhist understanding of filial piety.",
-    href: "https://dn720707.ca.archive.org/0/items/b-698af-1cb-1c-2eea-96ed-542467e-582b-1d-1/b698af1cb1c2eea96ed542467e582b1d%20%281%29.pdf",
+    href: "/resources/sutra-on-the-deep-kindness-of-parents.pdf",
+    image: EbookDeepKindness,
   },
 ];
 
 const books: TextEntry[] = [
   {
     title: "The Chan Handbook",
-    description:
-      "Master Hua's instructions on Chan meditation — on posture, the method of huatou, and the investigation of the self.",
-    href: "http://www.longbeachmonastery.org/the_chan_handbook.pdf",
+    description: "Master Hua's instructions on Chan meditation.",
+    href: "/resources/chan-handbook.pdf",
+    image: EbookChan,
   },
   {
     title: "Ten Dharma Realms Are Not Beyond a Single Thought",
     description:
       "Verses composed and explained by Master Hua on the ten realms of existence, from the Buddha realm to the hells.",
-    href: "https://dn760004.eu.archive.org/0/items/ten-dharma-realms-2018/TenDharmaRealms_-_2018.pdf",
+    href: "/resources/one-thought-ten-dharma-realms.pdf",
+    image: EbookOneThought,
   },
   {
-    title: "Listen to Yourself — Think Everything Over",
+    title: "Listen to Yourself, Think Everything Over",
     description:
       "Dharma talks by Master Hua on Amitabha Buddha recitation and the practice of mindfulness of the Buddha.",
-    href: "https://ia800401.us.archive.org/23/items/listen-to-yourself-amitabha/Listen_to_yourself-Amitabha.pdf",
+    href: "/resources/listen-to-yourself.pdf",
+    image: EbookListenToYourself,
   },
   {
     title: "The Path Within",
     description:
       "Talks by teachers of the Dharma Realm Buddhist Association on practice, precepts, and cultivation.",
-    href: "https://dn721903.ca.archive.org/0/items/pb.PathWithin_04152024/pb.PathWithin_04152024.pdf",
+    href: "/resources/the-path-within.pdf",
+    image: EbookPathWithin,
+  },
+
+  {
+    title: "The Kind Monk",
+    description:
+      "A biography of Venerable Master Hsuan Hua written for young readers, tracing his life from Manchuria to the West.",
+    href: "/resources/the-kind-monk.pdf",
+    image: EbookKindMonk,
   },
   {
     title: "Meditation Handbook",
     description:
-      "An introduction to Buddhist meditation by Rev. Heng Sure and Chin He, covering Chan and Pure Land methods.",
-    href: "https://dn721606.ca.archive.org/0/items/meditation-handbook-english/Meditation_Handbook_English.pdf",
-  },
-  {
-    title: "Kind Monk",
-    description:
-      "A biography of Venerable Master Hsuan Hua written for young readers, tracing his life from Manchuria to the West.",
-    href: "https://dn721804.ca.archive.org/0/items/kind-monk-english-master-hua/Kind_Monk_English%20%28MasterHua%29.pdf",
+      "An introduction to Buddhist meditation by Rev. Heng Sure and Chin He.",
+    href: "/resources/meditation-handbook.pdf",
+    image: EbookMeditationHandbook,
+    imageFit: "contain",
   },
 ];
 
@@ -115,7 +114,7 @@ const emptyCloudBooks: TextEntry[] = [
   {
     title: "Empty Cloud: The Autobiography of Xu Yun",
     description:
-      "Master Hsu Yun's account of his own life — his years of wandering practice and the experience of sudden enlightenment at the age of fifty-six.",
+      "Master Hsu Yun's account of his own life: his years of wandering practice and the experience of sudden enlightenment at the age of fifty-six.",
     href: "http://www.thezensite.com/ZenTeachings/Translations/Empty-Cloud_The_Autobiography_of_Xu_Yun.pdf",
   },
   {
@@ -127,6 +126,12 @@ const emptyCloudBooks: TextEntry[] = [
 ];
 
 const links: { title: string; description: string; href: string }[] = [
+  {
+    title: "Buddhist Text Translation Society",
+    description:
+      "Publisher of Master Hua's sutra commentaries and Dharma talks, with many titles available in print, as ebooks, and free of charge.",
+    href: "https://www.buddhisttexts.org",
+  },
   {
     title: "City of Ten Thousand Buddhas",
     description:
@@ -144,6 +149,12 @@ const links: { title: string; description: string; href: string }[] = [
     description:
       "A liberal arts university at the City of Ten Thousand Buddhas offering programmes in Buddhist studies, languages, and the humanities.",
     href: "https://www.drbu.edu",
+  },
+  {
+    title: "Gold Coast Dharma Realm YouTube Channel",
+    description:
+      "Dharma talks, ceremonies, and recordings from Gold Coast Dharma Realm.",
+    href: "https://www.youtube.com/channel/UCLPAX1ehGG67tc655xVYy3Q",
   },
   {
     title: "Vajra Bodhi Sea",
@@ -265,31 +276,58 @@ function TextRow({ entry }: { entry: TextEntry }) {
   return (
     <div
       style={{
+        display: "flex",
+        gap: "1.25rem",
+        alignItems: "flex-start",
         paddingTop: "1.25rem",
         paddingBottom: "1.25rem",
         borderBottom: "0.5px solid var(--border)",
       }}
     >
-      <p
-        className="type-subtitle"
-        style={{
-          color: "var(--heading-foreground)",
-          fontSize: "1.2rem",
-          marginBottom: "0.4rem",
-        }}
-      >
-        {entry.title}
-      </p>
-      <p
-        className="type-body"
-        style={{
-          color: "var(--foreground)",
-          fontSize: "0.92rem",
-        }}
-      >
-        {entry.description}
-      </p>
-      <PDFLink href={entry.href} label={entry.linkLabel ?? "Download PDF"} />
+      {entry.image && (
+        <a
+          href={entry.href}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label={`Download ${entry.title} PDF`}
+          style={{ display: "block", flexShrink: 0 }}
+        >
+          <img
+            src={entry.image.src}
+            alt=""
+            style={{
+              width: "200px",
+              height: "289px",
+              objectFit: entry.imageFit ?? "cover",
+              objectPosition: "top",
+              display: "block",
+              borderRadius: "2px",
+            }}
+          />
+        </a>
+      )}
+      <div>
+        <p
+          className="type-subtitle"
+          style={{
+            color: "var(--heading-foreground)",
+            fontSize: "1.2rem",
+            marginBottom: "0.4rem",
+          }}
+        >
+          {entry.title}
+        </p>
+        <p
+          className="type-body"
+          style={{
+            color: "var(--foreground)",
+            fontSize: "0.92rem",
+          }}
+        >
+          {entry.description}
+        </p>
+        <PDFLink href={entry.href} label={entry.linkLabel ?? "Download PDF"} />
+      </div>
     </div>
   );
 }
@@ -367,7 +405,7 @@ export function Resources() {
               A small selection of texts and links for those wishing to explore
               further. The{" "}
               <a
-                href="https://www.buddhisttexts.org"
+                href="https://www.buddhisttexts.org/collections/free-english-ebooks"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="type-link"
@@ -457,79 +495,109 @@ export function Resources() {
               fontStyle: "italic",
             }}
           >
-            All texts below include commentary by the Venerable Master Hsuan
-            Hua.
+            These sutras include commentary by the Venerable Master Hsuan Hua
+            unless noted otherwise.
           </p>
 
           {/* Shurangama — special treatment */}
           <div
             style={{
+              display: "flex",
+              gap: "1.25rem",
+              alignItems: "flex-start",
               paddingTop: "1.25rem",
               paddingBottom: "1.25rem",
               borderTop: "0.5px solid var(--border)",
               borderBottom: "0.5px solid var(--border)",
             }}
           >
-            <p
-              className="type-subtitle"
-              style={{
-                color: "var(--heading-foreground)",
-                fontSize: "1.2rem",
-                marginBottom: "0.4rem",
-              }}
+            <a
+              href="/resources/shurangama-sutra-2017.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Download The Shurangama Sutra 2017 edition PDF"
+              style={{ display: "block", flexShrink: 0 }}
             >
-              The Shurangama Sutra
-            </p>
-            <p
-              className="type-body"
-              style={{
-                color: "var(--foreground)",
-                fontSize: "0.92rem",
-                marginBottom: "0.75rem",
-              }}
-            >
-              Covering the nature of the mind, the origin of delusion, and the
-              path to liberation. The 2017 edition with selected commentary
-              excerpts is the best starting point; the complete commentary is
-              available in eight volumes for deeper study.
-            </p>
-            <PDFLink
-              href="https://dn721808.ca.archive.org/0/items/surangama-2017/Surangama_2017.pdf"
-              label="Download 2017 edition (with commentary excerpts)"
-            />
-            <div style={{ marginTop: "1.25rem" }}>
+              <img
+                src={EbookShurangama.src}
+                alt=""
+                style={{
+                  width: "200px",
+                  height: "289px",
+                  objectFit: "cover",
+                  display: "block",
+                  borderRadius: "2px",
+                }}
+              />
+            </a>
+            <div>
+              <p
+                className="type-subtitle"
+                style={{
+                  color: "var(--heading-foreground)",
+                  fontSize: "1.2rem",
+                  marginBottom: "0.4rem",
+                }}
+              >
+                The Shurangama Sutra
+              </p>
               <p
                 className="type-body"
                 style={{
                   color: "var(--foreground)",
-                  fontSize: "0.85rem",
-                  marginBottom: "0.6rem",
-                  fontStyle: "italic",
+                  fontSize: "0.92rem",
+                  marginBottom: "0.75rem",
                 }}
               >
-                Complete commentary in eight volumes:
+                Covering the nature of the mind, the origin of delusion, and the
+                path to liberation. The 2017 edition with selected commentary
+                excerpts is the best starting point; the complete commentary is
+                available in eight volumes for deeper study.
               </p>
-              <div
-                style={{
-                  display: "flex",
-                  flexWrap: "wrap" as const,
-                  gap: "0.5rem 1rem",
-                }}
-              >
-                {shurangamaVolumes.map(({ vol, href }) => (
-                  <a
-                    key={vol}
-                    href={href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="type-link"
-                    style={{
-                      fontSize: "0.88rem",
-                    }}
-                  >
-                    Volume {vol}
-                  </a>
-                ))}
+              <PDFLink
+                href="/resources/shurangama-sutra-2017.pdf"
+                label="Download 2017 edition (with commentary excerpts)"
+              />
+              <div style={{ marginTop: "0.6rem" }}>
+                <PDFLink
+                  href="/resources/shurangama-sutra.pdf"
+                  label="Download sutra text only (no commentary)"
+                />
+              </div>
+              <div style={{ marginTop: "1.25rem" }}>
+                <p
+                  className="type-body"
+                  style={{
+                    color: "var(--foreground)",
+                    fontSize: "0.85rem",
+                    marginBottom: "0.6rem",
+                    fontStyle: "italic",
+                  }}
+                >
+                  Complete commentary in eight volumes:
+                </p>
+                <div
+                  style={{
+                    display: "flex",
+                    flexWrap: "wrap" as const,
+                    gap: "0.5rem 1rem",
+                  }}
+                >
+                  {shurangamaVolumes.map(({ vol, href }) => (
+                    <a
+                      key={vol}
+                      href={href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="type-link"
+                      style={{
+                        fontSize: "0.88rem",
+                      }}
+                    >
+                      Volume {vol}
+                    </a>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
@@ -595,7 +663,7 @@ export function Resources() {
                 }}
               >
                 Few figures in modern Buddhism lived as completely within the
-                tradition as Master Hsu Yun — decades of solitary practice,
+                tradition as Master Hsu Yun: decades of solitary practice,
                 pilgrimage on foot across China, and awakenings that drew
                 students from across the country. Venerable Master Hsuan Hua
                 received Dharma transmission from him at Nanhua Monastery in

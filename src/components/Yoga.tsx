@@ -1,7 +1,8 @@
 import buddhaLotusPond from "@/assets/BuddhaLotusPond.webp";
+import blessingsHouse from "@/assets/BlessingsHouse.webp";
 
 /* ─────────────────────────────────────────────────────────────
-   Hero icons — keeping the existing versions
+   Hero icons
 ───────────────────────────────────────────────────────────── */
 
 function CalendarIcon() {
@@ -111,19 +112,23 @@ function MeditationIcon() {
 }
 
 function ShirtIcon() {
-  return <CustomIcon src="/icons/IconShirt.svg" width={50} height={50} />;
+  return <CustomIcon src="/icons/IconShirt.svg" width={44} height={44} />;
 }
 
 function MatIcon() {
-  return <CustomIcon src="/icons/IconMat.svg" width={50} height={50} />;
+  return <CustomIcon src="/icons/IconMat.svg" width={44} height={44} />;
 }
 
 function ClockIcon() {
-  return <CustomIcon src="/icons/IconClock.svg" width={50} height={50} />;
+  return <CustomIcon src="/icons/IconClock.svg" width={44} height={44} />;
 }
 
-function QuestionIcon() {
-  return <CustomIcon src="/icons/IconQuestion.svg" width={50} height={50} />;
+function MeetPinIcon() {
+  return <CustomIcon src="/icons/IconPin.svg" width={44} height={44} />;
+}
+
+function CalendarClassesIcon() {
+  return <CustomIcon src="/icons/IconCallendar.svg" width={28} height={28} />;
 }
 
 function InfoIcon({ children }: { children: React.ReactNode }) {
@@ -131,10 +136,11 @@ function InfoIcon({ children }: { children: React.ReactNode }) {
     <div
       className="shrink-0 flex items-center justify-center rounded-full"
       style={{
-        width: 58,
-        height: 58,
-        color: "var(--color-icon-green)",
-        backgroundColor: "color-mix(in srgb, var(--muted) 86%, white 14%)",
+        width: 64,
+        height: 64,
+        color: "var(--color-icon-primary)",
+        backgroundColor:
+          "color-mix(in srgb, var(--color-icon-primary) 5%, var(--muted) 95%)",
       }}
     >
       {children}
@@ -198,7 +204,7 @@ export function Yoga() {
                 }}
               >
                 <div className="grid grid-cols-[30px_1fr] gap-x-4 gap-y-5 items-start">
-                  <div style={{ color: "var(--color-accent)" }}>
+                  <div style={{ color: "var(--color-icon-accent)" }}>
                     <CalendarIcon />
                   </div>
 
@@ -212,7 +218,7 @@ export function Yoga() {
                     Every Sunday · 8:00 – 10:00 AM
                   </p>
 
-                  <div style={{ color: "var(--color-accent)" }}>
+                  <div style={{ color: "var(--color-icon-accent)" }}>
                     <PinIcon />
                   </div>
 
@@ -225,7 +231,7 @@ export function Yoga() {
                         fontWeight: 600,
                       }}
                     >
-                      Blessing House, Gold Coast Dharma Realm
+                      Blessings House, Gold Coast Dharma Realm
                     </p>
 
                     <p
@@ -240,7 +246,7 @@ export function Yoga() {
                     </p>
                   </div>
 
-                  <div style={{ color: "var(--color-accent)" }}>
+                  <div style={{ color: "var(--color-icon-accent)" }}>
                     <MapIcon />
                   </div>
 
@@ -277,13 +283,13 @@ export function Yoga() {
       </div>
 
       {/* ── Session flow ─────────────────────────────────────── */}
-      <div className="py-14 md:py-16">
+      <div className="pt-14 md:pt-16 pb-12 md:pb-14">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-3">
             <div className="text-center px-5 md:px-7 py-4">
               <div
                 className="flex justify-center mb-3"
-                style={{ color: "var(--color-icon-green)" }}
+                style={{ color: "var(--color-icon-primary)" }}
               >
                 <YogaIcon />
               </div>
@@ -317,7 +323,7 @@ export function Yoga() {
             >
               <div
                 className="flex justify-center mb-3"
-                style={{ color: "var(--color-icon-green)" }}
+                style={{ color: "var(--color-icon-primary)" }}
               >
                 <LotusIcon />
               </div>
@@ -348,7 +354,7 @@ export function Yoga() {
             <div className="text-center px-5 md:px-7 py-4">
               <div
                 className="flex justify-center mb-3"
-                style={{ color: "var(--color-icon-green)" }}
+                style={{ color: "var(--color-icon-primary)" }}
               >
                 <MeditationIcon />
               </div>
@@ -374,6 +380,76 @@ export function Yoga() {
                 The session closes with seated meditation. Cushions, mats,
                 chairs, and blankets are available.
               </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* ── Additional Yoga Classes ──────────────────────────── */}
+      <div className="pb-14 md:pb-16">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div
+            style={
+              {
+                // borderTop: "1px solid var(--border)",
+                // paddingTop: "0.75rem",
+              }
+            }
+          >
+            <div
+              className="flex items-center gap-5"
+              style={{
+                backgroundColor:
+                  "color-mix(in srgb, var(--muted) 72%, var(--background) 28%)",
+                padding: "1.4rem 1.5rem",
+              }}
+            >
+              <div
+                className="shrink-0 flex items-center justify-center rounded-full"
+                style={{
+                  width: 56,
+                  height: 56,
+                  color: "var(--color-icon-primary)",
+                  backgroundColor:
+                    "color-mix(in srgb, var(--color-icon-primary) 5%, var(--muted) 95%)",
+                }}
+              >
+                <CalendarClassesIcon />
+              </div>
+
+              <div
+                aria-hidden="true"
+                className="hidden sm:block self-stretch"
+                style={{
+                  width: "1px",
+                  backgroundColor: "var(--border)",
+                }}
+              />
+
+              <div>
+                <h2
+                  className="type-subtitle"
+                  style={{
+                    color: "var(--heading-foreground)",
+                    fontSize: "1.3rem",
+                    marginBottom: "0.3rem",
+                  }}
+                >
+                  Additional Yoga Classes
+                </h2>
+
+                <p
+                  className="type-body"
+                  style={{
+                    color: "var(--foreground)",
+                    margin: 0,
+                  }}
+                >
+                  Yoga classes are also offered on Saturdays and most weekday
+                  mornings, with times varying from week to week. Current class
+                  times are shared with participants through the yoga group.
+                </p>
+              </div>
             </div>
           </div>
         </div>
@@ -457,9 +533,54 @@ export function Yoga() {
               </div>
             </div>
 
+            {/* Where to meet */}
+            <div
+              className="yoga-meet-grid py-5 border-b"
+              style={{ borderColor: "var(--border)" }}
+            >
+              <div style={{ gridArea: "icon" }}>
+                <InfoIcon>
+                  <MeetPinIcon />
+                </InfoIcon>
+              </div>
+
+              <h3
+                className="type-subtitle"
+                style={{
+                  gridArea: "heading",
+                  color: "var(--heading-foreground)",
+                  fontSize: "1.08rem",
+                }}
+              >
+                Where to meet
+              </h3>
+
+              <p
+                className="type-body"
+                style={{
+                  gridArea: "text",
+                  color: "var(--foreground)",
+                  margin: 0,
+                }}
+              >
+                The session is held in the Blessings House.
+              </p>
+
+              <div
+                className="md:overflow-hidden md:max-h-[190px]"
+                style={{ gridArea: "image", borderRadius: "2px" }}
+              >
+                <img
+                  src={blessingsHouse.src}
+                  alt="Entrance to Blessings House at Gold Coast Dharma Realm"
+                  className="w-full block md:h-auto md:rounded-sm"
+                />
+              </div>
+            </div>
+
             {/* What to bring */}
             <div
-              className="flex gap-5 py-5 border-b"
+              className="flex gap-5 py-5 border-b md:border-b-0"
               style={{ borderColor: "var(--border)" }}
             >
               <InfoIcon>
@@ -493,7 +614,7 @@ export function Yoga() {
 
             {/* When to arrive */}
             <div
-              className="flex gap-5 py-5 border-b md:border-b-0"
+              className="flex gap-5 py-5 md:border-b-0"
               style={{ borderColor: "var(--border)" }}
             >
               <InfoIcon>
@@ -520,40 +641,6 @@ export function Yoga() {
                   }}
                 >
                   Please arrive before 8:00 AM.
-                </p>
-              </div>
-            </div>
-
-            {/* Questions */}
-            <div className="flex gap-5 py-5">
-              <InfoIcon>
-                <QuestionIcon />
-              </InfoIcon>
-
-              <div>
-                <h3
-                  className="type-subtitle"
-                  style={{
-                    color: "var(--heading-foreground)",
-                    fontSize: "1.08rem",
-                    marginBottom: "0.35rem",
-                  }}
-                >
-                  Questions
-                </h3>
-
-                <p
-                  className="type-body"
-                  style={{
-                    color: "var(--foreground)",
-                    margin: 0,
-                  }}
-                >
-                  For any questions please contact Daniella at{" "}
-                  <a href="mailto:daniellaligc@gmail.com" className="type-link">
-                    daniellaligc@gmail.com
-                  </a>
-                  .
                 </p>
               </div>
             </div>
