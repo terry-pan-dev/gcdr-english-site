@@ -232,7 +232,8 @@
   --dark-card: #222e27;
   --accent-gold: #8a6a4a;
   --color-light-card: #6b7c74;
-  --color-icon-green: #6f8663;
+  --color-icon-primary: #6f8663;
+  --color-icon-accent: #a8875e;
 }
 
 :root {
@@ -761,4 +762,25 @@ h4 {
 }
 .dropdown-content[data-state="closed"] {
   animation-name: dropdown-fade-out;
+}
+
+/* Yoga page: "Where to meet" image block */
+.yoga-meet-grid {
+  display: grid;
+  column-gap: 1.25rem;
+  row-gap: 0.75rem;
+  grid-template-columns: auto 1fr;
+  grid-template-areas:
+    "icon    heading"
+    "icon    text"
+    "image   image";
+}
+
+@media (min-width: 768px) {
+  .yoga-meet-grid {
+    grid-template-areas:
+      "icon    heading"
+      "icon    text"
+      "icon    image";
+  }
 }

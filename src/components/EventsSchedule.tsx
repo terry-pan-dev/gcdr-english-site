@@ -114,7 +114,7 @@ const schedule: MonthBlock[] = [
       {
         date: "7 – 16 August",
         title:
-          "10-Day Meditation Retreat (In Canonese with Mandarin and English Translation)",
+          "10-Day Meditation Retreat (In Cantonese with Mandarin and English Translation)",
       },
       {
         date: "22 August",

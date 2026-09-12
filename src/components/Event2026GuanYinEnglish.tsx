@@ -137,7 +137,7 @@ export function GuanYinRetreat2026() {
                 }}
               >
                 <div className="grid grid-cols-[30px_1fr] gap-x-4 gap-y-5 items-start">
-                  <div style={{ color: "var(--color-accent)" }}>
+                  <div style={{ color: "var(--color-icon-accent)" }}>
                     <CalendarIcon />
                   </div>
 
@@ -166,7 +166,7 @@ export function GuanYinRetreat2026() {
                     </p>
                   </div>
 
-                  <div style={{ color: "var(--color-accent)" }}>
+                  <div style={{ color: "var(--color-icon-accent)" }}>
                     <PinIcon />
                   </div>
 
@@ -194,7 +194,7 @@ export function GuanYinRetreat2026() {
                     </p>
                   </div>
 
-                  <div style={{ color: "var(--color-accent)" }}>
+                  <div style={{ color: "var(--color-icon-accent)" }}>
                     <MapIcon />
                   </div>
 
@@ -264,10 +264,10 @@ export function GuanYinRetreat2026() {
             <p>
               The week will unfold within the daily rhythm of Gold Coast Dharma
               Realm, with periods of meditation, recitation, Dharma teachings,
-              vegan meals, community service, and time in the monastery&apos;s
-              natural surroundings. Several days will also be observed in noble
-              silence, allowing more space for reflection and sustained
-              practice.
+              vegetarian meals with vegan options, community service, and time
+              in the monastery&apos;s natural surroundings. Several days will
+              also be observed in noble silence, allowing more space for
+              reflection and sustained practice.
             </p>
 
             <p>
@@ -315,6 +315,58 @@ export function GuanYinRetreat2026() {
               creating the space to become quieter, more attentive, and more
               present.
             </p>
+          </div>
+        </div>
+      </div>
+
+      {/* ── A Little More About the Teachers ────────────────── */}
+      <div
+        className="pt-10 pb-14 border-t"
+        style={{ borderColor: "var(--border)" }}
+      >
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2
+            className="type-section-title"
+            style={{
+              fontSize: "clamp(1.5rem, 3vw, 2rem)",
+              marginBottom: "1.25rem",
+            }}
+          >
+            Meet Ven. Jin Chuan and Ven. Jin Wei
+          </h2>
+
+          <p
+            className="type-body"
+            style={{ color: "var(--foreground)", marginBottom: "1.25rem" }}
+          >
+            In this candid conversation, Ven. Jin Chuan and Ven. Jin Wei share
+            reflections on monastic life and their own paths of practice.
+          </p>
+
+          <div className="max-w-xl mx-auto">
+            <div
+              style={{
+                position: "relative",
+                width: "100%",
+                paddingBottom: "56.25%",
+                border: "1px solid var(--border)",
+              }}
+            >
+              <iframe
+                src="https://www.youtube.com/embed/8qcHSleQ4FE?start=198"
+                title="Ven. Jin Chuan and Ven. Jin Wei interview each other"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowFullScreen
+                style={{
+                  position: "absolute",
+                  top: 0,
+                  left: 0,
+                  width: "100%",
+                  height: "100%",
+                  border: "none",
+                }}
+              />
+            </div>
           </div>
         </div>
       </div>
@@ -395,7 +447,7 @@ export function GuanYinRetreat2026() {
             <p>
               For those staying at the monastery overnight, a contribution of{" "}
               <strong>$50 per night</strong> is requested to help cover
-              accommodation and vegan meals.
+              accommodation and meals.
             </p>
 
             <p>Daytime participation in Dharma activities is freely offered.</p>
