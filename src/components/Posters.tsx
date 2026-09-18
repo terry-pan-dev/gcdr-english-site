@@ -19,6 +19,9 @@ const LIGHTBOX_DRAG_THRESHOLD = 5;
 const today = new Date();
 today.setHours(0, 0, 0, 0);
 
+// NOTE: This array is the single source of truth for display order.
+// Nothing in this file sorts, shuffles, or otherwise reorders it —
+// visiblePosters below is a straight filter(), which preserves order.
 const allPosters = [
   {
     id: 16,
@@ -57,6 +60,11 @@ const allPosters = [
     endDate: "2026-12-06",
   },
   { id: 19, image: "/assets/53Visits.jpg", title: "53 Visits" },
+  {
+    id: 23,
+    image: "/assets/SaturdayAssembly.jpg",
+    title: "Saturday Assembly",
+  },
   {
     id: 1,
     image: "/assets/0_KIDS_CAMP_04182026.jpg",
