@@ -640,7 +640,8 @@ export function Yoga() {
                     margin: 0,
                   }}
                 >
-                  Please arrive before 8:00 AM.
+                  Please arrive before 8:00 AM. If it is your first visit,
+                  please allow a few extra minutes to find the Blessings House.
                 </p>
               </div>
             </div>

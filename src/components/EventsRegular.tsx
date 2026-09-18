@@ -1,4 +1,5 @@
 import { Calendar } from "lucide-react";
+import { useEffect, useState } from "react";
 
 function addToCalLink({
   title,
@@ -57,7 +58,72 @@ function CalLink({ href }: { href: string }) {
   );
 }
 
+/**
+ * Saturday morning repentance service rotation.
+ * "week" is the nth Saturday of the calendar month (1st through 5th).
+ */
+const SATURDAY_ROTATION = [
+  { week: 1, label: "1st Saturday", title: "Avatamsaka Repentance" },
+  { week: 2, label: "2nd Saturday", title: "Universal Door Chapter" },
+  { week: 3, label: "3rd Saturday", title: "Pure Land Repentance" },
+  { week: 4, label: "4th Saturday", title: "Earth Store Repentance" },
+  { week: 5, label: "5th Saturday", title: "Announced separately" },
+] as const;
+
+function getBrisbaneDateParts(): { year: number; month: number; day: number } {
+  const parts = new Intl.DateTimeFormat("en-CA", {
+    timeZone: "Australia/Brisbane",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).formatToParts(new Date());
+
+  const map: Record<string, string> = {};
+  for (const part of parts) {
+    if (part.type !== "literal") map[part.type] = part.value;
+  }
+
+  return {
+    year: Number(map.year),
+    month: Number(map.month),
+    day: Number(map.day),
+  };
+}
+
+/**
+ * Works out which Saturday of the month is "current":
+ * - On any day Sun–Fri, this is the upcoming Saturday.
+ * - On a Saturday itself, this stays on that same day (doesn't flip
+ *   ahead to next week until Sunday).
+ */
+function getCurrentSaturdayOfMonth(): number {
+  const { year, month, day } = getBrisbaneDateParts();
+  // Noon UTC avoids DST/rollover edge cases when shifting days.
+  const today = new Date(Date.UTC(year, month - 1, day, 12));
+
+  const daysUntilSaturday = (6 - today.getUTCDay() + 7) % 7;
+  const referenceSaturday = new Date(today);
+  referenceSaturday.setUTCDate(today.getUTCDate() + daysUntilSaturday);
+
+  return Math.ceil(referenceSaturday.getUTCDate() / 7);
+}
+
+function useCurrentSaturdayOfMonth(): number | null {
+  const [week, setWeek] = useState<number | null>(null);
+
+  useEffect(() => {
+    setWeek(getCurrentSaturdayOfMonth());
+  }, []);
+
+  return week;
+}
+
 export function EventsRegular() {
+  const currentSaturdayWeek = useCurrentSaturdayOfMonth();
+  const currentService = SATURDAY_ROTATION.find(
+    (item) => item.week === currentSaturdayWeek,
+  );
+
   return (
     <div
       className="py-16 border-t"
@@ -143,12 +209,40 @@ export function EventsRegular() {
                   fontSize: "0.95rem",
                 }}
               >
-                <p>
+                <p style={{ marginBottom: "0.35rem" }}>
                   <span style={{ color: "var(--foreground)" }}>
                     8:00 {"\u2013"} 9:30 AM
-                  </span>{" "}
-                  Avatamsaka Repentance
+                  </span>
                 </p>
+
+                <div style={{ marginBottom: "0.35rem" }}>
+                  {SATURDAY_ROTATION.map((item) => {
+                    const isCurrent = item.week === currentSaturdayWeek;
+                    return (
+                      <p
+                        key={item.week}
+                        style={{
+                          fontWeight: isCurrent ? 600 : 400,
+                        }}
+                      >
+                        {item.label}: {item.title}
+                        {isCurrent && (
+                          <span
+                            style={{
+                              color: "var(--muted-foreground)",
+                              fontStyle: "italic",
+                              fontWeight: 400,
+                            }}
+                          >
+                            {" "}
+                            {"\u00b7"} this week
+                          </span>
+                        )}
+                      </p>
+                    );
+                  })}
+                </div>
+
                 <p
                   className="type-body"
                   style={{
@@ -181,11 +275,15 @@ export function EventsRegular() {
 
                   <CalLink
                     href={addToCalLink({
-                      title: "Morning Ceremony — Avatamsaka Repentance",
+                      title: `Morning Ceremony ${"\u2014"} ${
+                        currentService
+                          ? currentService.title
+                          : "Repentance Service"
+                      }`,
                       start: "20260502T080000",
                       end: "20260502T093000",
                       details:
-                        "Avatamsaka Repentance\nConducted in Chinese.\nhttps://zoom.us/j/127598942",
+                        "Rotates weekly: 1st Sat Avatamsaka Repentance, 2nd Sat Universal Door Chapter, 3rd Sat Pure Land Repentance, 4th Sat Earth Store Repentance, 5th Sat announced separately.\nConducted in Chinese.\nhttps://zoom.us/j/127598942",
                       location: "https://zoom.us/j/127598942",
                       recurring: true,
                     })}

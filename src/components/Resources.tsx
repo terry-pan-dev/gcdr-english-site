@@ -21,6 +21,7 @@ type TextEntry = {
   linkLabel?: string;
   image?: ImageMetadata;
   imageFit?: "cover" | "contain";
+  imageAspectRatio?: string;
 };
 
 type ShurangamaVolume = {
@@ -107,6 +108,7 @@ const books: TextEntry[] = [
     href: "/resources/meditation-handbook.pdf",
     image: EbookMeditationHandbook,
     imageFit: "contain",
+    imageAspectRatio: "1 / 1",
   },
 ];
 
@@ -267,7 +269,7 @@ function PDFLink({
         fontSize: "0.9rem",
       }}
     >
-      {label} →
+      {label} {"\u2192"}
     </a>
   );
 }
@@ -275,10 +277,8 @@ function PDFLink({
 function TextRow({ entry }: { entry: TextEntry }) {
   return (
     <div
+      className="flex flex-col sm:flex-row gap-5 items-start"
       style={{
-        display: "flex",
-        gap: "1.25rem",
-        alignItems: "flex-start",
         paddingTop: "1.25rem",
         paddingBottom: "1.25rem",
         borderBottom: "0.5px solid var(--border)",
@@ -290,14 +290,14 @@ function TextRow({ entry }: { entry: TextEntry }) {
           target="_blank"
           rel="noopener noreferrer"
           aria-label={`Download ${entry.title} PDF`}
-          style={{ display: "block", flexShrink: 0 }}
+          className="block shrink-0 w-36 sm:w-[200px]"
         >
           <img
             src={entry.image.src}
             alt=""
             style={{
-              width: "200px",
-              height: "289px",
+              width: "100%",
+              aspectRatio: entry.imageAspectRatio ?? "200 / 289",
               objectFit: entry.imageFit ?? "cover",
               objectPosition: "top",
               display: "block",
@@ -371,7 +371,7 @@ function LinkRow({ item }: { item: (typeof links)[0] }) {
           fontSize: "0.9rem",
         }}
       >
-        Visit →
+        Visit {"\u2192"}
       </a>
     </div>
   );
@@ -501,10 +501,8 @@ export function Resources() {
 
           {/* Shurangama — special treatment */}
           <div
+            className="flex flex-col sm:flex-row gap-5 items-start"
             style={{
-              display: "flex",
-              gap: "1.25rem",
-              alignItems: "flex-start",
               paddingTop: "1.25rem",
               paddingBottom: "1.25rem",
               borderTop: "0.5px solid var(--border)",
@@ -516,14 +514,14 @@ export function Resources() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Download The Shurangama Sutra 2017 edition PDF"
-              style={{ display: "block", flexShrink: 0 }}
+              className="block shrink-0 w-36 sm:w-[200px]"
             >
               <img
                 src={EbookShurangama.src}
                 alt=""
                 style={{
-                  width: "200px",
-                  height: "289px",
+                  width: "100%",
+                  aspectRatio: "200 / 289",
                   objectFit: "cover",
                   display: "block",
                   borderRadius: "2px",
@@ -576,13 +574,7 @@ export function Resources() {
                 >
                   Complete commentary in eight volumes:
                 </p>
-                <div
-                  style={{
-                    display: "flex",
-                    flexWrap: "wrap" as const,
-                    gap: "0.5rem 1rem",
-                  }}
-                >
+                <div className="flex flex-wrap gap-2 sm:gap-x-4">
                   {shurangamaVolumes.map(({ vol, href }) => (
                     <a
                       key={vol}
