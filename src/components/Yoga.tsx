@@ -495,9 +495,7 @@ export function Yoga() {
               </InfoIcon>
 
               <div>
-                <h3 className="type-item-title">
-                  What to wear
-                </h3>
+                <h3 className="type-item-title">What to wear</h3>
 
                 <p
                   className="type-body"
@@ -506,7 +504,9 @@ export function Yoga() {
                     margin: 0,
                   }}
                 >
-                  As the session is held at the monastery, please wear modest clothing with shoulders and knees covered. Loose-fitting clothing works well for both yoga and seated meditation.
+                  As the session is held at the monastery, please wear modest
+                  clothing with shoulders and knees covered. Loose-fitting
+                  clothing works well for both yoga and seated meditation.
                 </p>
 
                 <p
@@ -533,9 +533,7 @@ export function Yoga() {
                 </InfoIcon>
               </div>
 
-              <h3 className="type-item-title">
-                Where to meet
-              </h3>
+              <h3 className="type-item-title">Where to meet</h3>
 
               <p
                 className="type-body"
@@ -550,7 +548,11 @@ export function Yoga() {
 
               <div
                 className="md:overflow-hidden md:max-h-[190px]"
-                style={{ gridArea: "image", borderRadius: "2px", marginTop: "1rem" }}
+                style={{
+                  gridArea: "image",
+                  borderRadius: "2px",
+                  marginTop: "1rem",
+                }}
               >
                 <img
                   src={blessingsHouse.src}
@@ -570,9 +572,7 @@ export function Yoga() {
               </InfoIcon>
 
               <div>
-                <h3 className="type-item-title">
-                  What to bring
-                </h3>
+                <h3 className="type-item-title">What to bring</h3>
 
                 <p
                   className="type-body"
@@ -597,9 +597,7 @@ export function Yoga() {
               </InfoIcon>
 
               <div>
-                <h3 className="type-item-title">
-                  When to arrive
-                </h3>
+                <h3 className="type-item-title">When to arrive</h3>
 
                 <p
                   className="type-body"

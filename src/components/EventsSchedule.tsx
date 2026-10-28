@@ -391,7 +391,10 @@ export function EventsSchedule() {
                     entry.time &&
                     (Array.isArray(entry.time) ? (
                       entry.time.map((t, i) => (
-                        <div key={i} style={{ ...rowGrid, marginTop: "0.3rem" }}>
+                        <div
+                          key={i}
+                          style={{ ...rowGrid, marginTop: "0.3rem" }}
+                        >
                           <p style={timeStyle}>{t}</p>
                           <div />
                         </div>

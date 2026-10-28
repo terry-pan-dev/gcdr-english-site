@@ -136,7 +136,8 @@ export function Footer() {
             <div
               className="mt-6 flex items-center gap-6"
               style={{
-                color: "color-mix(in srgb, var(--color-dark-text) 85%, transparent)",
+                color:
+                  "color-mix(in srgb, var(--color-dark-text) 85%, transparent)",
               }}
             >
               {socialLinks.map(({ href, label, icon }) => (

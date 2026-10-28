@@ -440,9 +440,11 @@ export function GuanYinRetreat2026() {
             style={{ color: "var(--foreground)" }}
           >
             <p>
-              Our evening sessions, <strong>7:00 {"\u2013"} 8:30 PM from 25 to 30 October</strong>,
+              Our evening sessions,{" "}
+              <strong>7:00 {"\u2013"} 8:30 PM from 25 to 30 October</strong>,
               are broadcast online. Join us from anywhere to hear Rev. Heng Sure
-              share stories from his life and the path that led him to the Dharma.
+              share stories from his life and the path that led him to the
+              Dharma.
             </p>
 
             <p>
@@ -490,7 +492,11 @@ export function GuanYinRetreat2026() {
               accommodation and meals.
             </p>
 
-            <p>Daytime participation in Dharma activities is very welcome and freely offered. If you plan to join us as a day visitor, please still register so we can prepare enough lunch for everyone.</p>
+            <p>
+              Daytime participation in Dharma activities is very welcome and
+              freely offered. If you plan to join us as a day visitor, please
+              still register so we can prepare enough lunch for everyone.
+            </p>
           </div>
 
           <div className="mt-8">

@@ -3,7 +3,9 @@ import masterHuaImage from "@/assets/MasterHuaBW.webp";
 export function HomeMasterHua() {
   return (
     <section style={{ backgroundColor: "var(--background)" }}>
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-16 md:pt-12 md:pb-20">        <div className="grid gap-8 md:gap-x-12 lg:gap-x-16 md:grid-cols-[minmax(280px,420px)_1fr] md:grid-rows-[auto_1fr] items-start">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-16 md:pt-12 md:pb-20">
+        {" "}
+        <div className="grid gap-8 md:gap-x-12 lg:gap-x-16 md:grid-cols-[minmax(280px,420px)_1fr] md:grid-rows-[auto_1fr] items-start">
           {/* Heading */}
           <h2
             className="type-section-title mb-0 ml-0 pl-0 md:col-start-2 md:row-start-1"

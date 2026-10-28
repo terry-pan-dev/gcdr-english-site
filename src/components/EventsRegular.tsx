@@ -237,7 +237,8 @@ export function EventsRegular() {
             marginBottom: "3rem",
           }}
         >
-          Our weekend activities are open to everyone, with no registration needed. They run most weekends and are in{" "}
+          Our weekend activities are open to everyone, with no registration
+          needed. They run most weekends and are in{" "}
           <strong>English unless otherwise noted</strong>.
         </p>
 
@@ -250,7 +251,7 @@ export function EventsRegular() {
                 letterSpacing: "0.06em",
                 textTransform: "uppercase",
                 marginBottom: "1.5rem",
-                fontSize: "1.4rem"
+                fontSize: "1.4rem",
               }}
             >
               Saturday
@@ -264,9 +265,7 @@ export function EventsRegular() {
                 borderBottom: "0.5px solid var(--border)",
               }}
             >
-              <h4 className="type-item-title">
-                Dharma Service
-              </h4>
+              <h4 className="type-item-title">Dharma Service</h4>
 
               <div
                 className="type-body"
@@ -362,9 +361,7 @@ export function EventsRegular() {
                 borderBottom: "0.5px solid var(--border)",
               }}
             >
-              <h4 className="type-item-title">
-                Buddha Hall Dharma Talk
-              </h4>
+              <h4 className="type-item-title">Buddha Hall Dharma Talk</h4>
 
               <div
                 className="type-body"
@@ -399,9 +396,7 @@ export function EventsRegular() {
                 borderBottom: "0.5px solid var(--border)",
               }}
             >
-              <h4 className="type-item-title">
-                Library Dharma Talk
-              </h4>
+              <h4 className="type-item-title">Library Dharma Talk</h4>
 
               <p
                 className="type-body"
@@ -477,9 +472,7 @@ export function EventsRegular() {
                 borderBottom: "0.5px solid var(--border)",
               }}
             >
-              <h4 className="type-item-title">
-                Afternoon Recitation
-              </h4>
+              <h4 className="type-item-title">Afternoon Recitation</h4>
 
               <div
                 className="type-body"
@@ -539,7 +532,7 @@ export function EventsRegular() {
                 letterSpacing: "0.06em",
                 textTransform: "uppercase",
                 marginBottom: "1.5rem",
-                fontSize: "1.4rem"
+                fontSize: "1.4rem",
               }}
             >
               Sunday
@@ -553,9 +546,7 @@ export function EventsRegular() {
                 borderBottom: "0.5px solid var(--border)",
               }}
             >
-              <h4 className="type-item-title">
-                Yoga &amp; Meditation
-              </h4>
+              <h4 className="type-item-title">Yoga &amp; Meditation</h4>
 
               <div
                 className="type-body"
@@ -565,8 +556,9 @@ export function EventsRegular() {
                 }}
               >
                 <p>
-                  <EventTime>8:00 {"\u2013"} 10:00 AM</EventTime>
-                  A guided session open to all, including yoga, meditation, and a short dharma talk. Sitting cushions, chairs, and mats are available.
+                  <EventTime>8:00 {"\u2013"} 10:00 AM</EventTime>A guided
+                  session open to all, including yoga, meditation, and a short
+                  dharma talk. Sitting cushions, chairs, and mats are available.
                 </p>
 
                 <a
@@ -591,9 +583,7 @@ export function EventsRegular() {
                 borderBottom: "0.5px solid var(--border)",
               }}
             >
-              <h4 className="type-item-title">
-                Sunday Classes
-              </h4>
+              <h4 className="type-item-title">Sunday Classes</h4>
 
               <p
                 className="type-body"
@@ -629,9 +619,7 @@ export function EventsRegular() {
                 borderBottom: "0.5px solid var(--border)",
               }}
             >
-              <h4 className="type-item-title">
-                Sutra Dharma Talk
-              </h4>
+              <h4 className="type-item-title">Sutra Dharma Talk</h4>
 
               <p
                 className="type-body"
@@ -665,7 +653,8 @@ export function EventsRegular() {
                       }}
                     >
                       {" "}
-                      {"\u00b7"} After hours: please ring the buzzer at the gate.
+                      {"\u00b7"} After hours: please ring the buzzer at the
+                      gate.
                     </span>
                   </EventTime>
                   Dharma talk by Rev. Heng Sure on
