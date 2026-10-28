@@ -266,7 +266,7 @@ export function Yoga() {
               </div>
             </div>
 
-            <div className="min-h-0">
+            <div className="min-h-0 overflow-hidden rounded-sm">
               <img
                 src={buddhaLotusPond.src}
                 alt="Buddha statue by the lotus pond at Gold Coast Dharma Realm"
@@ -313,7 +313,6 @@ export function Yoga() {
                 }}
               >
                 The session opens with yoga, led by a volunteer yoga instructor.
-                No experience or flexibility needed.
               </p>
             </div>
 
@@ -496,14 +495,7 @@ export function Yoga() {
               </InfoIcon>
 
               <div>
-                <h3
-                  className="type-subtitle"
-                  style={{
-                    color: "var(--heading-foreground)",
-                    fontSize: "1.08rem",
-                    marginBottom: "0.35rem",
-                  }}
-                >
+                <h3 className="type-item-title">
                   What to wear
                 </h3>
 
@@ -514,10 +506,7 @@ export function Yoga() {
                     margin: 0,
                   }}
                 >
-                  As the session is held at the monastery, modest clothing is
-                  encouraged, shoulders and knees covered where possible.
-                  Loose-fitting clothing works well for both yoga and seated
-                  meditation.
+                  As the session is held at the monastery, please wear modest clothing with shoulders and knees covered. Loose-fitting clothing works well for both yoga and seated meditation.
                 </p>
 
                 <p
@@ -544,14 +533,7 @@ export function Yoga() {
                 </InfoIcon>
               </div>
 
-              <h3
-                className="type-subtitle"
-                style={{
-                  gridArea: "heading",
-                  color: "var(--heading-foreground)",
-                  fontSize: "1.08rem",
-                }}
-              >
+              <h3 className="type-item-title">
                 Where to meet
               </h3>
 
@@ -568,7 +550,7 @@ export function Yoga() {
 
               <div
                 className="md:overflow-hidden md:max-h-[190px]"
-                style={{ gridArea: "image", borderRadius: "2px" }}
+                style={{ gridArea: "image", borderRadius: "2px", marginTop: "1rem" }}
               >
                 <img
                   src={blessingsHouse.src}
@@ -588,14 +570,7 @@ export function Yoga() {
               </InfoIcon>
 
               <div>
-                <h3
-                  className="type-subtitle"
-                  style={{
-                    color: "var(--heading-foreground)",
-                    fontSize: "1.08rem",
-                    marginBottom: "0.35rem",
-                  }}
-                >
+                <h3 className="type-item-title">
                   What to bring
                 </h3>
 
@@ -622,14 +597,7 @@ export function Yoga() {
               </InfoIcon>
 
               <div>
-                <h3
-                  className="type-subtitle"
-                  style={{
-                    color: "var(--heading-foreground)",
-                    fontSize: "1.08rem",
-                    marginBottom: "0.35rem",
-                  }}
-                >
+                <h3 className="type-item-title">
                   When to arrive
                 </h3>
 

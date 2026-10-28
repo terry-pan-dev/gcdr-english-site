@@ -80,7 +80,7 @@ const books: TextEntry[] = [
     image: EbookOneThought,
   },
   {
-    title: "Listen to Yourself, Think Everything Over",
+    title: "Listen to Yourself, Think Everything Over: Amitabha Recitation",
     description:
       "Dharma talks by Master Hua on Amitabha Buddha recitation and the practice of mindfulness of the Buddha.",
     href: "/resources/listen-to-yourself.pdf",
@@ -638,9 +638,12 @@ export function Resources() {
                 alt="Venerable Master Hsu Yun (Empty Cloud)"
                 loading="lazy"
                 style={{
-                  width: "100%",
+                  width: "auto",
                   height: "auto",
+                  maxWidth: "100%",
+                  maxHeight: "480px",
                   display: "block",
+                  margin: "0 auto",
                   borderRadius: "2px",
                 }}
               />

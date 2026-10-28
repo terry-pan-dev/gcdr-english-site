@@ -1,8 +1,7 @@
 export function HomeVisit() {
   return (
     <section>
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-20">
-        {/* ── Visit + Events ─────────────────────────────────── */}
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-10 md:pt-12 md:pb-12">
         <div className="grid lg:grid-cols-2 gap-10 lg:gap-0">
           {/* Visit */}
           <div className="lg:pr-10">

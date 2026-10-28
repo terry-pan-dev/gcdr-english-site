@@ -211,7 +211,7 @@ export function GuanYinRetreat2026() {
               </div>
             </div>
 
-            <div className="relative h-[320px] md:h-auto md:min-h-0 overflow-hidden">
+            <div className="relative h-[320px] md:h-auto md:min-h-0 overflow-hidden rounded-sm">
               <img
                 src={guanYinRetreat.src}
                 alt="Bronze Guan Yin statue among green foliage at Gold Coast Dharma Realm"
@@ -419,6 +419,46 @@ export function GuanYinRetreat2026() {
         </div>
       </div>
 
+      {/* ── Join Online ─────────────────────────────────────── */}
+      <div
+        className="pt-10 pb-14 border-t"
+        style={{ borderColor: "var(--border)" }}
+      >
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2
+            className="type-section-title"
+            style={{
+              fontSize: "clamp(1.5rem, 3vw, 2rem)",
+              marginBottom: "1.25rem",
+            }}
+          >
+            Join Online
+          </h2>
+
+          <div
+            className="type-body space-y-5"
+            style={{ color: "var(--foreground)" }}
+          >
+            <p>
+              Our evening sessions, <strong>7:00 {"\u2013"} 8:30 PM from 25 to 30 October</strong>,
+              are broadcast online. Join us from anywhere to hear Rev. Heng Sure
+              share stories from his life and the path that led him to the Dharma.
+            </p>
+
+            <p>
+              <a
+                href="https://drba-org.zoom.us/j/127598942"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="type-link"
+              >
+                Join via Zoom {"\u2192"}
+              </a>
+            </p>
+          </div>
+        </div>
+      </div>
+
       {/* ── Join This Retreat ───────────────────────────────── */}
       <div
         className="pt-10 pb-14 border-t"
@@ -450,7 +490,7 @@ export function GuanYinRetreat2026() {
               accommodation and meals.
             </p>
 
-            <p>Daytime participation in Dharma activities is freely offered.</p>
+            <p>Daytime participation in Dharma activities is very welcome and freely offered. If you plan to join us as a day visitor, please still register so we can prepare enough lunch for everyone.</p>
           </div>
 
           <div className="mt-8">

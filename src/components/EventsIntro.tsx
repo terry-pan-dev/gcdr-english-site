@@ -3,7 +3,7 @@ import qigongImage from "@/assets/QiGong.webp";
 export function EventsIntro() {
   return (
     <section id="events" style={{ backgroundColor: "var(--background)" }}>
-      <div className="pt-nav pb-8">
+      <div className="pt-nav pb-20">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <h1 className="type-page-title mb-6">
             Activities, Events &amp; Retreats
@@ -21,25 +21,12 @@ export function EventsIntro() {
           </p>
         </div>
 
-        {/* Qi Gong — wider than the text column */}
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div
-            className="h-[250px] sm:h-[450px]"
-            style={{
-              overflow: "hidden",
-              borderRadius: "2px",
-            }}
-          >
+          <div className="h-[225px] sm:h-[405px] overflow-hidden rounded-sm">
             <img
               src={qigongImage.src}
               alt="Qi Gong during Chan Session at Gold Coast Dharma Realm"
-              className="object-[center_100%]"
-              style={{
-                width: "100%",
-                height: "90%",
-                objectFit: "cover",
-                display: "block",
-              }}
+              className="block w-full h-full object-cover object-[center_100%]"
             />
           </div>
         </div>

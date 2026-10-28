@@ -19,7 +19,7 @@ export function VisitWhatToExpect() {
           What to Expect
         </h2>
 
-        {/* The Grounds — text left, image right */}
+        {/* The Grounds - text left, image right */}
         <div
           className="flex flex-col gap-6 sm:flex-row sm:gap-8"
           style={{ alignItems: "flex-start", marginBottom: "2.5rem" }}
@@ -69,11 +69,9 @@ export function VisitWhatToExpect() {
           <h3 className="type-subtitle mb-4">Monastic Life and Practice</h3>
           <p className="type-body" style={{ color: "var(--foreground)" }}>
             Gold Coast Dharma Realm is an active monastery where monastics
-            engage in daily practice and cultivation — meditation, ceremonies,
+            engage in daily practice and cultivation - meditation, ceremonies,
             study, and caring for the community and monastery. You may see this
-            life going on around you as you spend time here. Visitors are
-            welcome to observe quietly, and to join any public activities taking
-            place during their visit.
+            life going on around you as you spend time here.
           </p>
         </div>
 
@@ -86,12 +84,12 @@ export function VisitWhatToExpect() {
           <p className="type-body" style={{ color: "var(--foreground)" }}>
             Ceremonies, meditation, and chanting take place in the Buddha Hall
             as part of the monastery's regular practice. At times there may be
-            periods of silence or bowing. Visitors are welcome to observe
-            quietly or participate as they feel comfortable.
+            periods of silence or bowing. Visitors are welcome to join these
+            activities or to observe quietly.
           </p>
         </div>
 
-        {/* Buddha Hall photo — landscape, natural height */}
+        {/* Buddha Hall photo - landscape, natural height */}
         <div
           style={{
             margin: "2.5rem 0",

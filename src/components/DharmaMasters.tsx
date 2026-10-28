@@ -53,11 +53,47 @@ const groupDescriptionStyle = {
   marginBottom: 0,
 } as const;
 
+/**
+ * Renders a plain-text bio that may contain markdown-style links,
+ * e.g. "[Dharma Realm Buddhist University](https://www.drbu.edu)".
+ * Any text outside of [label](url) pairs is rendered as-is.
+ */
+function renderDescription(text: string) {
+  const linkPattern = /\[([^\]]+)\]\(([^)]+)\)/g;
+  const parts: React.ReactNode[] = [];
+  let lastIndex = 0;
+  let match: RegExpExecArray | null;
+
+  while ((match = linkPattern.exec(text)) !== null) {
+    if (match.index > lastIndex) {
+      parts.push(text.slice(lastIndex, match.index));
+    }
+    parts.push(
+      <a
+        key={match.index}
+        href={match[2]}
+        target="_blank"
+        rel="noopener noreferrer"
+        style={{
+          textDecoration: "underline",
+          textUnderlineOffset: "3px",
+          textDecorationThickness: "1px",
+        }}
+      >
+        {match[1]}
+      </a>,
+    );
+    lastIndex = linkPattern.lastIndex;
+  }
+  parts.push(text.slice(lastIndex));
+
+  return parts;
+}
+
 const residentTeachers = [
   {
     title: "Rev. Heng Sure",
-    description:
-      "Rev. Heng Sure was ordained as a Buddhist monk in 1976. For the sake of world peace, he undertook an over six-hundred-mile pilgrimage from South Pasadena to Ukiah, repeatedly taking three steps and one bow to cover the entire journey. In the entire two years taken to make the pilgrimage, he observed a practice of total silence. Rev. Heng Sure has an M.A. in Oriental Languages from UC Berkeley, and a Ph.D. from the Graduate Theological Union in Berkeley. He serves as the Managing Director of the Berkeley Buddhist Monastery and teaches on the staff at the Institute for World Religions. He is based at Gold Coast Dharma Realm for half the year, and the other half in the United States. He lectures on the Avatamsaka Sūtra at every Sunday afternoon. He is actively involved in interfaith dialogue and in the ongoing conversation between spirituality and technology.",
+    description: "Rev. Heng Sure was ordained as a Buddhist monk in 1976. For the sake of world peace, he undertook a pilgrimage of more than six hundred miles from South Pasadena to Ukiah, repeatedly taking three steps and one bow to cover the entire journey. He was accompanied by fellow monk Heng Chau, now known as [Dr Martin Verhoeven](https://www.drbu.edu/people/martin-verhoeven/). Throughout the two years it took to complete the pilgrimage, Rev. Heng Sure observed total silence. Rev. Heng Sure now serves as Managing Director of Berkeley Buddhist Monastery and teaches at the Institute for World Religions. He is based at Gold Coast Dharma Realm for half the year, and in the United States for the other half. He gives Sunday-afternoon lectures on the Avatamsaka Sūtra and is actively involved in interfaith dialogue and the ongoing conversation between spirituality and technology.",
     image: RevHengSureImg,
     mobileImage: RevHengSureMobileImg,
     imageClassName: "object-cover",
@@ -209,7 +245,7 @@ function TeacherArticle({
           ))}
 
         <p className="type-body" style={bodyStyle}>
-          {master.description}
+          {renderDescription(master.description)}
         </p>
       </div>
     </article>
@@ -245,7 +281,7 @@ function FeaturedTeacherArticle({
       {master.role && <span style={roleLabelStyle}>{master.role}</span>}
 
       <p className="type-body" style={bodyStyle}>
-        {master.description}
+        {renderDescription(master.description)}
       </p>
     </article>
   );
