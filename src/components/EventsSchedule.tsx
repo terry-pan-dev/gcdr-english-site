@@ -133,6 +133,8 @@ const schedule: MonthBlock[] = [
       {
         date: "24 – 31 October",
         title: "Guan Yin Recitation Retreat (English)",
+        note: "Evening sessions (7:00 – 8:30 PM, 25 – 30 October) are broadcast online.",
+        zoomLink: "https://drba-org.zoom.us/j/127598942",
         href: "/events/Guan-Yin-English-2026",
       },
     ],
@@ -207,9 +209,9 @@ export function EventsSchedule() {
             marginBottom: "2.5rem",
           }}
         >
-          Most ceremonies and retreats are conducted in{" "}
+          Most ceremonies and retreats are in{" "}
           <strong>Chinese unless otherwise noted</strong>. Events offered in
-          English are identified in the schedule.
+          English are marked in the schedule.
         </p>
       </div>
 
@@ -303,36 +305,44 @@ export function EventsSchedule() {
                         </p>
                       )}
 
-                      {entry.zoomLink && !entry.sessions && (
-                        <a
-                          href={entry.zoomLink}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="type-link"
+                      {((entry.zoomLink && !entry.sessions) || entry.href) && (
+                        <div
                           style={{
-                            ...labelStyle,
-                            display: "inline-block",
+                            display: "flex",
+                            flexDirection: "column",
+                            alignItems: "flex-start",
+                            gap: "0.35rem",
                             marginTop: "0.35rem",
-                            color: "var(--color-accent-on-light)",
                           }}
                         >
-                          Join on Zoom
-                        </a>
-                      )}
+                          {entry.zoomLink && !entry.sessions && (
+                            <a
+                              href={entry.zoomLink}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="type-link"
+                              style={{
+                                ...labelStyle,
+                                color: "var(--color-accent-on-light)",
+                              }}
+                            >
+                              Join on Zoom
+                            </a>
+                          )}
 
-                      {entry.href && (
-                        <a
-                          href={entry.href}
-                          className="type-link"
-                          style={{
-                            ...labelStyle,
-                            display: "inline-block",
-                            marginTop: "0.35rem",
-                            color: "var(--color-accent-on-light)",
-                          }}
-                        >
-                          View retreat details →
-                        </a>
+                          {entry.href && (
+                            <a
+                              href={entry.href}
+                              className="type-link"
+                              style={{
+                                ...labelStyle,
+                                color: "var(--color-accent-on-light)",
+                              }}
+                            >
+                              View retreat details →
+                            </a>
+                          )}
+                        </div>
                       )}
                     </div>
                   </div>

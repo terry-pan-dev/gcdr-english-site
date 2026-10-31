@@ -2,7 +2,7 @@ export function VisitGuidelines() {
   const guidelines = [
     {
       title: "Dress Comfortably and Modestly",
-      body: "Comfortable, modest clothing is encouraged (shoulders and knees covered). Loose-fitting clothing is recommended, as it can make it easier to bow or sit during meditation.\n\nIf you arrive dressed differently, you are still very welcome. We simply ask that you keep this in mind for future visits.",
+      body: "Please wear comfortable, modest clothing with shoulders and knees covered. Loose-fitting clothing is recommended, as it makes bowing and sitting in meditation easier.\n\nIf you arrive dressed differently, you are still very welcome. We simply ask that you keep this in mind for future visits.",
     },
     {
       title: "What to Leave at Home",
@@ -18,7 +18,7 @@ export function VisitGuidelines() {
     },
     {
       title: "Shared Spaces and Seating",
-      body: "In some areas of the monastery, such as the Buddha Hall, visitors may notice that seating may be arranged separately for men and women. This follows the monastery's traditional practice and helps support a focused and respectful environment. Visitors are welcome to follow the general arrangement in these spaces.",
+      body: "In some areas of the monastery, such as the Buddha Hall, seating may be arranged separately for men and women. This follows the monastery's traditional practice and helps support a focused and respectful environment. Visitors are welcome to follow the general arrangement in these spaces.",
     },
     {
       title: "Respect for Buddhist Texts",

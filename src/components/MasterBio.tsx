@@ -57,7 +57,7 @@ export function MasterBio() {
       {/* Hero image */}
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         <div
-          className="w-full overflow-hidden"
+          className="w-full overflow-hidden rounded-sm"
           style={{
             height: "clamp(220px, 38vw, 480px)",
             backgroundColor: "var(--card)",
@@ -135,7 +135,7 @@ export function MasterBio() {
               </h2>
               <div style={{ overflow: "hidden" }}>
                 <figure className="mb-6 w-full md:float-right md:mb-4 md:ml-10 md:w-[35%] md:max-w-[320px]">
-                  <div className="overflow-hidden">
+                  <div className="overflow-hidden rounded-sm">
                     <img
                       src={youngMeditationSrc.src}
                       alt="Master Hua in meditation, early period, Manchuria"
@@ -195,7 +195,7 @@ export function MasterBio() {
               </h2>
               <div style={{ overflow: "hidden" }}>
                 <figure className="mb-6 w-full md:float-right md:mb-4 md:ml-10 md:w-[35%] md:max-w-[320px]">
-                  <div className="overflow-hidden">
+                  <div className="overflow-hidden rounded-sm">
                     <img
                       src={xuyunNanhuaSrc.src}
                       alt="Young Master Hua with Elder Master Xuyun at Nanhua Monastery, 1948"
@@ -275,7 +275,7 @@ export function MasterBio() {
               </h2>
               <div style={{ overflow: "hidden" }}>
                 <figure className="mb-6 w-full md:float-right md:mb-4 md:ml-10 md:w-[55%] md:max-w-[480px]">
-                  <div className="overflow-hidden">
+                  <div className="overflow-hidden rounded-sm">
                     <img
                       src={sfPondSrc.src}
                       alt="Master Hua by a pond in San Francisco, early 1960s"
@@ -427,7 +427,7 @@ export function MasterBio() {
               </h2>
               <div style={{ overflow: "hidden" }}>
                 <figure className="mb-6 w-full md:float-right md:mb-4 md:ml-10 md:w-[55%] md:max-w-[480px]">
-                  <div className="overflow-hidden">
+                  <div className="overflow-hidden rounded-sm">
                     <img
                       src={laterLifeSrc.src}
                       alt="Venerable Master Hsuan Hua in later life"

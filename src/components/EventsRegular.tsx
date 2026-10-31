@@ -1,5 +1,6 @@
 import { Calendar } from "lucide-react";
 import { useEffect, useState } from "react";
+import type { ReactNode } from "react";
 
 function addToCalLink({
   title,
@@ -59,6 +60,26 @@ function CalLink({ href }: { href: string }) {
 }
 
 /**
+ * Time range shown on its own line above an event description.
+ */
+function EventTime({ children }: { children: ReactNode }) {
+  return (
+    <span
+      style={{
+        display: "block",
+        color: "var(--foreground)",
+        fontSize: "0.9rem",
+        fontWeight: 600,
+        letterSpacing: "0.01em",
+        marginBottom: "0.3rem",
+      }}
+    >
+      {children}
+    </span>
+  );
+}
+
+/**
  * Saturday morning repentance service rotation.
  * "week" is the nth Saturday of the calendar month (1st through 5th).
  */
@@ -70,7 +91,13 @@ const SATURDAY_ROTATION = [
   { week: 5, label: "5th Saturday", title: "Announced separately" },
 ] as const;
 
-function getBrisbaneDateParts(): { year: number; month: number; day: number } {
+type DateParts = { year: number; month: number; day: number };
+
+function pad2(n: number): string {
+  return String(n).padStart(2, "0");
+}
+
+function getBrisbaneDateParts(): DateParts {
   const parts = new Intl.DateTimeFormat("en-CA", {
     timeZone: "Australia/Brisbane",
     year: "numeric",
@@ -90,22 +117,49 @@ function getBrisbaneDateParts(): { year: number; month: number; day: number } {
   };
 }
 
+function getBrisbaneToday(): Date {
+  const { year, month, day } = getBrisbaneDateParts();
+  // Noon UTC avoids DST/rollover edge cases when shifting days.
+  return new Date(Date.UTC(year, month - 1, day, 12));
+}
+
+/**
+ * Returns the date of the next occurrence of a given weekday
+ * (0 = Sunday ... 6 = Saturday), staying on today if today already
+ * is that weekday rather than jumping a full week ahead.
+ */
+function getNextDateForDow(targetDow: number): DateParts {
+  const today = getBrisbaneToday();
+  const daysUntil = (targetDow - today.getUTCDay() + 7) % 7;
+  const target = new Date(today);
+  target.setUTCDate(today.getUTCDate() + daysUntil);
+
+  return {
+    year: target.getUTCFullYear(),
+    month: target.getUTCMonth() + 1,
+    day: target.getUTCDate(),
+  };
+}
+
+function formatEventDateTime(
+  dateParts: DateParts,
+  hour: number,
+  minute: number,
+): string {
+  return `${dateParts.year}${pad2(dateParts.month)}${pad2(dateParts.day)}T${pad2(
+    hour,
+  )}${pad2(minute)}00`;
+}
+
 /**
  * Works out which Saturday of the month is "current":
- * - On any day Sun–Fri, this is the upcoming Saturday.
+ * - On any day Sun-Fri, this is the upcoming Saturday.
  * - On a Saturday itself, this stays on that same day (doesn't flip
  *   ahead to next week until Sunday).
  */
 function getCurrentSaturdayOfMonth(): number {
-  const { year, month, day } = getBrisbaneDateParts();
-  // Noon UTC avoids DST/rollover edge cases when shifting days.
-  const today = new Date(Date.UTC(year, month - 1, day, 12));
-
-  const daysUntilSaturday = (6 - today.getUTCDay() + 7) % 7;
-  const referenceSaturday = new Date(today);
-  referenceSaturday.setUTCDate(today.getUTCDate() + daysUntilSaturday);
-
-  return Math.ceil(referenceSaturday.getUTCDate() / 7);
+  const { day } = getNextDateForDow(6);
+  return Math.ceil(day / 7);
 }
 
 function useCurrentSaturdayOfMonth(): number | null {
@@ -118,11 +172,32 @@ function useCurrentSaturdayOfMonth(): number | null {
   return week;
 }
 
+/**
+ * Dates for the calendar-link anchors, computed client-side (like the
+ * rotation week above) so server and client renders match on first paint.
+ */
+function useNextWeekendDates(): {
+  saturday: DateParts | null;
+  sunday: DateParts | null;
+} {
+  const [dates, setDates] = useState<{
+    saturday: DateParts | null;
+    sunday: DateParts | null;
+  }>({ saturday: null, sunday: null });
+
+  useEffect(() => {
+    setDates({
+      saturday: getNextDateForDow(6),
+      sunday: getNextDateForDow(0),
+    });
+  }, []);
+
+  return dates;
+}
+
 export function EventsRegular() {
   const currentSaturdayWeek = useCurrentSaturdayOfMonth();
-  const currentService = SATURDAY_ROTATION.find(
-    (item) => item.week === currentSaturdayWeek,
-  );
+  const { saturday, sunday } = useNextWeekendDates();
 
   return (
     <div
@@ -159,12 +234,11 @@ export function EventsRegular() {
             color: "var(--muted-foreground)",
             fontSize: "0.98rem",
             lineHeight: 1.7,
-            maxWidth: "44rem",
             marginBottom: "3rem",
           }}
         >
-          Our weekend activities are open to everyone and do not require
-          registration. They take place most weekends and are in{" "}
+          Our weekend activities are open to everyone, with no registration
+          needed. They run most weekends and are in{" "}
           <strong>English unless otherwise noted</strong>.
         </p>
 
@@ -172,35 +246,26 @@ export function EventsRegular() {
           {/* Saturday */}
           <div>
             <h3
-              className="type-subtitle"
+              className="type-subtitle flex items-center gap-5 before:content-[''] before:h-px before:flex-1 before:bg-[var(--color-accent-subtle)] after:content-[''] after:h-px after:flex-1 after:bg-[var(--color-accent-subtle)]"
               style={{
-                fontSize: "1.25rem",
                 letterSpacing: "0.06em",
                 textTransform: "uppercase",
                 marginBottom: "1.5rem",
+                fontSize: "1.4rem",
               }}
             >
               Saturday
             </h3>
 
-            {/* Dharma Service and Lecture */}
+            {/* Dharma Service */}
             <div
               style={{
-                borderTop: "0.5px solid var(--border)",
                 paddingTop: "1.25rem",
                 paddingBottom: "1.25rem",
                 borderBottom: "0.5px solid var(--border)",
               }}
             >
-              <p
-                className="type-subtitle"
-                style={{
-                  fontSize: "1.2rem",
-                  marginBottom: "0.35rem",
-                }}
-              >
-                Dharma Service and Lecture
-              </p>
+              <h4 className="type-item-title">Dharma Service</h4>
 
               <div
                 className="type-body"
@@ -209,19 +274,16 @@ export function EventsRegular() {
                   fontSize: "0.95rem",
                 }}
               >
-                <p style={{ marginBottom: "0.35rem" }}>
-                  <span style={{ color: "var(--foreground)" }}>
-                    8:00 {"\u2013"} 9:30 AM
-                  </span>
-                </p>
+                <EventTime>8:00 {"\u2013"} 9:30 AM</EventTime>
 
-                <div style={{ marginBottom: "0.35rem" }}>
+                <div style={{ marginBottom: "0.6rem" }}>
                   {SATURDAY_ROTATION.map((item) => {
                     const isCurrent = item.week === currentSaturdayWeek;
                     return (
                       <p
                         key={item.week}
                         style={{
+                          lineHeight: 1.55,
                           fontWeight: isCurrent ? 600 : 400,
                         }}
                       >
@@ -249,6 +311,7 @@ export function EventsRegular() {
                     color: "var(--muted-foreground)",
                     fontSize: "0.88rem",
                     fontStyle: "italic",
+                    marginBottom: "0.35rem",
                   }}
                 >
                   In Chinese
@@ -273,27 +336,42 @@ export function EventsRegular() {
                     Join via Zoom {"\u2192"}
                   </a>
 
-                  <CalLink
-                    href={addToCalLink({
-                      title: `Morning Ceremony ${"\u2014"} ${
-                        currentService
-                          ? currentService.title
-                          : "Repentance Service"
-                      }`,
-                      start: "20260502T080000",
-                      end: "20260502T093000",
-                      details:
-                        "Rotates weekly: 1st Sat Avatamsaka Repentance, 2nd Sat Universal Door Chapter, 3rd Sat Pure Land Repentance, 4th Sat Earth Store Repentance, 5th Sat announced separately.\nConducted in Chinese.\nhttps://zoom.us/j/127598942",
-                      location: "https://zoom.us/j/127598942",
-                      recurring: true,
-                    })}
-                  />
+                  {saturday && (
+                    <CalLink
+                      href={addToCalLink({
+                        title: "Morning Dharma Service",
+                        start: formatEventDateTime(saturday, 8, 0),
+                        end: formatEventDateTime(saturday, 9, 30),
+                        details:
+                          "Rotates weekly: 1st Sat Avatamsaka Repentance, 2nd Sat Universal Door Chapter, 3rd Sat Pure Land Repentance, 4th Sat Earth Store Repentance, 5th Sat announced separately.\nConducted in Chinese.\nhttps://zoom.us/j/127598942",
+                        location: "https://zoom.us/j/127598942",
+                        recurring: true,
+                      })}
+                    />
+                  )}
                 </span>
+              </div>
+            </div>
 
+            {/* Buddha Hall Dharma Talk */}
+            <div
+              style={{
+                paddingTop: "1.25rem",
+                paddingBottom: "1.25rem",
+                borderBottom: "0.5px solid var(--border)",
+              }}
+            >
+              <h4 className="type-item-title">Buddha Hall Dharma Talk</h4>
+
+              <div
+                className="type-body"
+                style={{
+                  color: "var(--foreground)",
+                  fontSize: "0.95rem",
+                }}
+              >
                 <p>
-                  <span style={{ color: "var(--foreground)" }}>
-                    9:30 {"\u2013"} 10:30 AM
-                  </span>{" "}
+                  <EventTime>9:30 {"\u2013"} 10:30 AM</EventTime>
                   Dharma Talk by Dharma Master Jin Fu
                 </p>
                 <p
@@ -318,15 +396,7 @@ export function EventsRegular() {
                 borderBottom: "0.5px solid var(--border)",
               }}
             >
-              <p
-                className="type-subtitle"
-                style={{
-                  fontSize: "1.2rem",
-                  marginBottom: "0.35rem",
-                }}
-              >
-                Library Dharma Talk
-              </p>
+              <h4 className="type-item-title">Library Dharma Talk</h4>
 
               <p
                 className="type-body"
@@ -349,9 +419,7 @@ export function EventsRegular() {
                 }}
               >
                 <p>
-                  <span style={{ color: "var(--foreground)" }}>
-                    12:30 {"\u2013"} 1:30 PM
-                  </span>{" "}
+                  <EventTime>12:30 {"\u2013"} 1:30 PM</EventTime>
                   Dharma talk by Rev. Heng Sure on
                   <em style={{ display: "block" }}>
                     A Pictorial Biography of the Venerable Master Hsu Yun
@@ -379,17 +447,19 @@ export function EventsRegular() {
                     Join via Zoom {"\u2192"}
                   </a>
 
-                  <CalLink
-                    href={addToCalLink({
-                      title: "Library Dharma Talk — Rev. Heng Sure",
-                      start: "20260502T123000",
-                      end: "20260502T133000",
-                      details:
-                        "Dharma talk by Rev. Heng Sure on A Pictorial Biography of the Venerable Master Hsu Yun.\nChinese with English translation.\nOnline year-round, with in-person attendance when Rev. Heng Sure is at Gold Coast Dharma Realm.\nhttps://zoom.us/j/96191533015?pwd=291853",
-                      location: "https://zoom.us/j/96191533015?pwd=291853",
-                      recurring: true,
-                    })}
-                  />
+                  {saturday && (
+                    <CalLink
+                      href={addToCalLink({
+                        title: "Library Dharma Talk — Rev. Heng Sure",
+                        start: formatEventDateTime(saturday, 12, 30),
+                        end: formatEventDateTime(saturday, 13, 30),
+                        details:
+                          "Dharma talk by Rev. Heng Sure on A Pictorial Biography of the Venerable Master Hsu Yun.\nChinese with English translation.\nOnline year-round, with in-person attendance when Rev. Heng Sure is at Gold Coast Dharma Realm.\nhttps://zoom.us/j/96191533015?pwd=291853",
+                        location: "https://zoom.us/j/96191533015?pwd=291853",
+                        recurring: true,
+                      })}
+                    />
+                  )}
                 </span>
               </div>
             </div>
@@ -402,15 +472,7 @@ export function EventsRegular() {
                 borderBottom: "0.5px solid var(--border)",
               }}
             >
-              <p
-                className="type-subtitle"
-                style={{
-                  fontSize: "1.2rem",
-                  marginBottom: "0.75rem",
-                }}
-              >
-                Afternoon Recitation
-              </p>
+              <h4 className="type-item-title">Afternoon Recitation</h4>
 
               <div
                 className="type-body"
@@ -420,9 +482,7 @@ export function EventsRegular() {
                 }}
               >
                 <p>
-                  <span style={{ color: "var(--foreground)" }}>
-                    1:45 {"\u2013"} 3:00 PM
-                  </span>{" "}
+                  <EventTime>1:45 {"\u2013"} 3:00 PM</EventTime>
                   Shurangama Mantra Recitation &amp; Transference of Merits
                 </p>
 
@@ -446,17 +506,19 @@ export function EventsRegular() {
                     Join via Zoom {"\u2192"}
                   </a>
 
-                  <CalLink
-                    href={addToCalLink({
-                      title: "Afternoon Recitation — Shurangama Mantra",
-                      start: "20260502T134500",
-                      end: "20260502T150000",
-                      details:
-                        "Shurangama Mantra Recitation & Transference of Merits\nhttps://zoom.us/j/127598942",
-                      location: "https://zoom.us/j/127598942",
-                      recurring: true,
-                    })}
-                  />
+                  {saturday && (
+                    <CalLink
+                      href={addToCalLink({
+                        title: "Afternoon Recitation — Shurangama Mantra",
+                        start: formatEventDateTime(saturday, 13, 45),
+                        end: formatEventDateTime(saturday, 15, 0),
+                        details:
+                          "Shurangama Mantra Recitation & Transference of Merits\nhttps://zoom.us/j/127598942",
+                        location: "https://zoom.us/j/127598942",
+                        recurring: true,
+                      })}
+                    />
+                  )}
                 </span>
               </div>
             </div>
@@ -465,12 +527,12 @@ export function EventsRegular() {
           {/* Sunday */}
           <div>
             <h3
-              className="type-subtitle"
+              className="type-subtitle flex items-center gap-5 before:content-[''] before:h-px before:flex-1 before:bg-[var(--color-accent-subtle)] after:content-[''] after:h-px after:flex-1 after:bg-[var(--color-accent-subtle)]"
               style={{
-                fontSize: "1.25rem",
                 letterSpacing: "0.06em",
                 textTransform: "uppercase",
                 marginBottom: "1.5rem",
+                fontSize: "1.4rem",
               }}
             >
               Sunday
@@ -479,21 +541,12 @@ export function EventsRegular() {
             {/* Yoga & Meditation */}
             <div
               style={{
-                borderTop: "0.5px solid var(--border)",
                 paddingTop: "1.25rem",
                 paddingBottom: "1.25rem",
                 borderBottom: "0.5px solid var(--border)",
               }}
             >
-              <p
-                className="type-subtitle"
-                style={{
-                  fontSize: "1.2rem",
-                  marginBottom: "0.75rem",
-                }}
-              >
-                Yoga &amp; Meditation
-              </p>
+              <h4 className="type-item-title">Yoga &amp; Meditation</h4>
 
               <div
                 className="type-body"
@@ -503,11 +556,9 @@ export function EventsRegular() {
                 }}
               >
                 <p>
-                  <span style={{ color: "var(--foreground)" }}>
-                    8:00 {"\u2013"} 10:00 AM
-                  </span>{" "}
-                  A guided session open to all. Sitting cushions, mats, and
-                  blankets are available.
+                  <EventTime>8:00 {"\u2013"} 10:00 AM</EventTime>A guided
+                  session open to all, including yoga, meditation, and a short
+                  dharma talk. Sitting cushions, chairs, and mats are available.
                 </p>
 
                 <a
@@ -532,26 +583,18 @@ export function EventsRegular() {
                 borderBottom: "0.5px solid var(--border)",
               }}
             >
-              <p
-                className="type-subtitle"
-                style={{
-                  fontSize: "1.2rem",
-                  marginBottom: "0.35rem",
-                }}
-              >
-                Sunday Classes
-              </p>
+              <h4 className="type-item-title">Sunday Classes</h4>
 
               <p
                 className="type-body"
                 style={{
-                  color: "var(--foreground)",
+                  color: "var(--muted-foreground)",
                   fontSize: "0.88rem",
-                  marginBottom: "0.75rem",
                   fontStyle: "italic",
+                  marginBottom: "0.75rem",
                 }}
               >
-                Term-based &mdash; running through 29 March
+                Term-based
               </p>
 
               <div
@@ -562,9 +605,7 @@ export function EventsRegular() {
                 }}
               >
                 <p>
-                  <span style={{ color: "var(--foreground)" }}>
-                    9:00 {"\u2013"} 11:00 AM
-                  </span>{" "}
+                  <EventTime>9:00 {"\u2013"} 11:00 AM</EventTime>
                   Includes calligraphy and kids&apos; Chinese culture classes.
                 </p>
               </div>
@@ -578,15 +619,7 @@ export function EventsRegular() {
                 borderBottom: "0.5px solid var(--border)",
               }}
             >
-              <p
-                className="type-subtitle"
-                style={{
-                  fontSize: "1.2rem",
-                  marginBottom: "0.35rem",
-                }}
-              >
-                Sutra Dharma Talk
-              </p>
+              <h4 className="type-item-title">Sutra Dharma Talk</h4>
 
               <p
                 className="type-body"
@@ -609,9 +642,21 @@ export function EventsRegular() {
                 }}
               >
                 <p>
-                  <span style={{ color: "var(--foreground)" }}>
+                  <EventTime>
                     12:30 {"\u2013"} 3:00 PM
-                  </span>{" "}
+                    <span
+                      style={{
+                        color: "var(--muted-foreground)",
+                        fontSize: "0.88rem",
+                        fontStyle: "italic",
+                        fontWeight: 400,
+                      }}
+                    >
+                      {" "}
+                      {"\u00b7"} After hours: please ring the buzzer at the
+                      gate.
+                    </span>
+                  </EventTime>
                   Dharma talk by Rev. Heng Sure on
                   <em style={{ display: "block" }}>
                     Avatamsaka (Flower Adornment) Sūtra
@@ -638,17 +683,19 @@ export function EventsRegular() {
                     Join via Zoom {"\u2192"}
                   </a>
 
-                  <CalLink
-                    href={addToCalLink({
-                      title: "Sutra Dharma Talk — Rev. Heng Sure",
-                      start: "20260503T123000",
-                      end: "20260503T150000",
-                      details:
-                        "Dharma talk by Rev. Heng Sure on Avatamsaka (Flower Adornment) Sūtra.\nOnline year-round, with in-person attendance when Rev. Heng Sure is at Gold Coast Dharma Realm.\nhttps://drba-org.zoom.us/j/84914586289",
-                      location: "https://drba-org.zoom.us/j/84914586289",
-                      recurring: true,
-                    })}
-                  />
+                  {sunday && (
+                    <CalLink
+                      href={addToCalLink({
+                        title: "Sutra Dharma Talk — Rev. Heng Sure",
+                        start: formatEventDateTime(sunday, 12, 30),
+                        end: formatEventDateTime(sunday, 15, 0),
+                        details:
+                          "Dharma talk by Rev. Heng Sure on Avatamsaka (Flower Adornment) Sūtra.\nOnline year-round, with in-person attendance when Rev. Heng Sure is at Gold Coast Dharma Realm.\nhttps://drba-org.zoom.us/j/84914586289",
+                        location: "https://drba-org.zoom.us/j/84914586289",
+                        recurring: true,
+                      })}
+                    />
+                  )}
                 </span>
               </div>
             </div>

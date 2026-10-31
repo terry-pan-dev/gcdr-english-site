@@ -55,11 +55,11 @@ const allPosters = [
   },
   {
     id: 18,
-    image: "/assets/SundayKidClass.jpg",
+    image: "/assets/SundayKidClass.webp",
     title: "Sunday Kids Class",
     endDate: "2026-12-06",
   },
-  { id: 19, image: "/assets/53Visits.jpg", title: "53 Visits" },
+  { id: 19, image: "/assets/53Visits.webp", title: "53 Visits" },
   {
     id: 23,
     image: "/assets/SaturdayAssembly.jpg",
@@ -91,7 +91,7 @@ const allPosters = [
   },
   {
     id: 5,
-    image: "/assets/3_CaptureLunarNewYearBlessingCeremony.jpg",
+    image: "/assets/3_CaptureLunarNewYearBlessingCeremony.webp",
     title: "Lunar New Year Blessing Ceremony",
   },
   {
