@@ -59,6 +59,12 @@ const allPosters = [
     title: "Sunday Kids Class",
     endDate: "2026-12-06",
   },
+  {
+    id: 24,
+    image: "/assets/AmitabhaRetreat26.jpeg",
+    title: "Amitabha Recitation Retreat",
+    endDate: "2026-12-11",
+  },
   { id: 19, image: "/assets/53Visits.webp", title: "53 Visits" },
   {
     id: 23,
