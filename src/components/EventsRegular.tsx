@@ -9,6 +9,7 @@ function addToCalLink({
   details = "",
   location = "",
   recurring = false,
+  timeZone = "Australia/Brisbane",
 }: {
   title: string;
   start: string;
@@ -16,6 +17,7 @@ function addToCalLink({
   details?: string;
   location?: string;
   recurring?: boolean;
+  timeZone?: string;
 }) {
   const base = "https://calendar.google.com/calendar/render";
   const params = new URLSearchParams({
@@ -30,7 +32,7 @@ function addToCalLink({
     params.set("recur", "RRULE:FREQ=WEEKLY");
   }
 
-  params.set("ctz", "Australia/Brisbane");
+  params.set("ctz", timeZone);
 
   return `${base}?${params}`;
 }
@@ -141,6 +143,18 @@ function getNextDateForDow(targetDow: number): DateParts {
   };
 }
 
+/**
+ * The calendar day before the given date.
+ */
+function dayBefore(d: DateParts): DateParts {
+  const t = new Date(Date.UTC(d.year, d.month - 1, d.day - 1));
+  return {
+    year: t.getUTCFullYear(),
+    month: t.getUTCMonth() + 1,
+    day: t.getUTCDate(),
+  };
+}
+
 function formatEventDateTime(
   dateParts: DateParts,
   hour: number,
@@ -195,9 +209,100 @@ function useNextWeekendDates(): {
   return dates;
 }
 
+/**
+ * Sutra Dharma Talk time.
+ *
+ * The talk is fixed to California time (Saturday 7:30 PM Pacific), so the
+ * Brisbane time shifts by an hour when California changes its clocks
+ * (2nd Sunday of March, 1st Sunday of November). The first Brisbane talk
+ * at the new time is the Sunday AFTER the California change, because the
+ * Sunday talk that falls on the change date is still Saturday evening in
+ * California, before the clocks move.
+ *
+ * The time shown is always for the upcoming Sunday talk, so it switches the
+ * Monday before the first Sunday at the new time. A notice shows for 3 weeks
+ * before that Sunday and for 1 week after.
+ */
+const DAY_MS = 864e5;
+const BRISBANE_OFFSET_MS = 10 * 36e5;
+
+const SUTRA_TIME_SUMMER = "12:30 \u2013 2:00 PM"; // California on daylight time
+const SUTRA_TIME_WINTER = "1:30 \u2013 3:00 PM"; // California on standard time
+
+/** nth Sunday of a month (month is 0-based), as a UTC timestamp. */
+function nthSunday(year: number, month: number, n: number): number {
+  const first = new Date(Date.UTC(year, month, 1));
+  const offset = (7 - first.getUTCDay()) % 7;
+  return Date.UTC(year, month, 1 + offset + (n - 1) * 7);
+}
+
+/**
+ * Midnight Brisbane time on the first Sunday at the new time: the Sunday
+ * after California's change (nth Sunday of the given month, plus a week).
+ */
+function firstNewTimeSunday(year: number, month: number, n: number): number {
+  return nthSunday(year, month, n) + 7 * DAY_MS - BRISBANE_OFFSET_MS;
+}
+
+function formatBrisbaneDay(ms: number): string {
+  return new Date(ms + BRISBANE_OFFSET_MS).toLocaleDateString("en-AU", {
+    weekday: "long",
+    day: "numeric",
+    month: "long",
+    timeZone: "UTC",
+  });
+}
+
+function getSutraTalkTime(now = new Date()): {
+  time: string;
+  notice: string | null;
+} {
+  const y = now.getUTCFullYear();
+  const changes = [y - 1, y, y + 1]
+    .flatMap((year) => [
+      { time: SUTRA_TIME_SUMMER, starts: firstNewTimeSunday(year, 2, 2) },
+      { time: SUTRA_TIME_WINTER, starts: firstNewTimeSunday(year, 10, 1) },
+    ])
+    .sort((a, b) => a.starts - b.starts);
+
+  const t = now.getTime();
+
+  // The time shown is for the NEXT Sunday talk, so it switches on the Monday
+  // before the first Sunday at the new time (like the Saturday rotation,
+  // it stays put until the current weekend is over).
+  const shown = [...changes].reverse().find((c) => c.starts - 6 * DAY_MS <= t)!;
+  const upcoming = changes.find((c) => c.starts > t)!;
+  const recent = [...changes].reverse().find((c) => c.starts <= t)!;
+
+  const showUpcoming = (upcoming.starts - t) / (7 * DAY_MS) <= 3;
+  const showRecent = (t - recent.starts) / (7 * DAY_MS) < 1;
+
+  return {
+    time: shown.time,
+    notice: showUpcoming
+      ? `Time change: from ${formatBrisbaneDay(upcoming.starts)}, this talk will run ${upcoming.time}.`
+      : showRecent
+        ? `Time changed on ${formatBrisbaneDay(recent.starts)}. This talk now runs ${recent.time}.`
+        : null,
+  };
+}
+
+function useSutraTalkTime(): ReturnType<typeof getSutraTalkTime> | null {
+  const [info, setInfo] = useState<ReturnType<typeof getSutraTalkTime> | null>(
+    null,
+  );
+
+  useEffect(() => {
+    setInfo(getSutraTalkTime());
+  }, []);
+
+  return info;
+}
+
 export function EventsRegular() {
   const currentSaturdayWeek = useCurrentSaturdayOfMonth();
   const { saturday, sunday } = useNextWeekendDates();
+  const sutra = useSutraTalkTime();
 
   return (
     <div
@@ -231,7 +336,7 @@ export function EventsRegular() {
         <p
           className="type-body"
           style={{
-            color: "var(--muted-foreground)",
+            color: "var(--medium-foreground)",
             fontSize: "0.98rem",
             lineHeight: 1.7,
             marginBottom: "3rem",
@@ -239,7 +344,9 @@ export function EventsRegular() {
         >
           Our weekend activities are open to everyone, with no registration
           needed. They run most weekends and are in{" "}
-          <strong>English unless otherwise noted</strong>.
+          <strong>English unless otherwise noted</strong>. All are welcome at
+          both English and Chinese sessions, with romanized texts and
+          translations available to follow along.
         </p>
 
         <div className="grid md:grid-cols-2 gap-12">
@@ -485,7 +592,17 @@ export function EventsRegular() {
                   <EventTime>1:45 {"\u2013"} 3:00 PM</EventTime>
                   Shurangama Mantra Recitation &amp; Transference of Merits
                 </p>
-
+                <p
+                  className="type-body"
+                  style={{
+                    color: "var(--muted-foreground)",
+                    fontSize: "0.88rem",
+                    fontStyle: "italic",
+                    marginBottom: "0.35rem",
+                  }}
+                >
+                  Mantra chanted phonetically. Merit transference in Chinese.
+                </p>
                 <span
                   style={{
                     display: "inline-flex",
@@ -643,7 +760,7 @@ export function EventsRegular() {
               >
                 <p>
                   <EventTime>
-                    12:30 {"\u2013"} 3:00 PM
+                    {sutra?.time ?? "\u00a0"}
                     <span
                       style={{
                         color: "var(--muted-foreground)",
@@ -657,6 +774,19 @@ export function EventsRegular() {
                       gate.
                     </span>
                   </EventTime>
+                  {sutra?.notice && (
+                    <span
+                      style={{
+                        display: "block",
+                        color: "var(--muted-foreground)",
+                        fontSize: "0.88rem",
+                        fontStyle: "italic",
+                        marginBottom: "0.5rem",
+                      }}
+                    >
+                      {sutra.notice}
+                    </span>
+                  )}
                   Dharma talk by Rev. Heng Sure on
                   <em style={{ display: "block" }}>
                     Avatamsaka (Flower Adornment) Sūtra
@@ -687,10 +817,14 @@ export function EventsRegular() {
                     <CalLink
                       href={addToCalLink({
                         title: "Sutra Dharma Talk — Rev. Heng Sure",
-                        start: formatEventDateTime(sunday, 12, 30),
-                        end: formatEventDateTime(sunday, 15, 0),
+                        // Anchored to California time (Saturday 7:30 to 9:00 PM
+                        // Pacific) so calendar apps shift the local time
+                        // automatically when daylight saving changes.
+                        start: formatEventDateTime(dayBefore(sunday), 19, 30),
+                        end: formatEventDateTime(dayBefore(sunday), 21, 0),
+                        timeZone: "America/Los_Angeles",
                         details:
-                          "Dharma talk by Rev. Heng Sure on Avatamsaka (Flower Adornment) Sūtra.\nOnline year-round, with in-person attendance when Rev. Heng Sure is at Gold Coast Dharma Realm.\nhttps://drba-org.zoom.us/j/84914586289",
+                          "Dharma talk by Rev. Heng Sure on Avatamsaka (Flower Adornment) Sūtra.\nOnline year-round, with in-person attendance when Rev. Heng Sure is at Gold Coast Dharma Realm.\nThe local time shifts by one hour when California changes its clocks.\nhttps://drba-org.zoom.us/j/84914586289",
                         location: "https://drba-org.zoom.us/j/84914586289",
                         recurring: true,
                       })}

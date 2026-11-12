@@ -200,8 +200,8 @@ export function Navigation() {
       name: "Events",
       submenu: [
         { name: "Events & Activities", href: "/events" },
-        { name: "Noticeboard", href: "/noticeboard" },
         { name: "Yoga & Meditation", href: "/yoga" },
+        { name: "Noticeboard", href: "/noticeboard" },
       ],
     },
     {
@@ -209,6 +209,7 @@ export function Navigation() {
       submenu: [
         { name: "GCDR", href: "/about" },
         { name: "Our Teachers", href: "/dharma-masters" },
+        //{ name: "Gallery", href: "/gallery" },
         { name: "Volunteering", href: "/volunteering" },
       ],
     },
