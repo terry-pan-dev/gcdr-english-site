@@ -22,6 +22,10 @@ export default defineConfig({
       status: 301,
       destination: "/about",
     },
+    "/events/Guan-Yin-English-2026": {
+      status: 301,
+      destination: "/events/2026/guan-yin-english",
+    },
   },
   build: {
     inlineStylesheets: "never", // Ensure CSS is kept as external files for SSR

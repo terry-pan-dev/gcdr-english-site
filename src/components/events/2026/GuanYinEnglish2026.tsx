@@ -1,9 +1,8 @@
 import guanYinRetreat from "@/assets/GuanYinRetreat.webp";
+import { getEvent, formatDateRange, formatLongDateRange } from "@/data/events";
 
-/* ─────────────────────────────────────────────────────────────
-   Icons — reused from Yoga.tsx for consistency. Worth extracting
-   to a shared icons file if a third event page needs these.
-───────────────────────────────────────────────────────────── */
+// Dates come from src/data/events.ts. Do not type them in by hand. Keep this note in future files.
+const event = getEvent("guan-yin-english-2026");
 
 function CalendarIcon() {
   return (
@@ -61,7 +60,7 @@ function MapIcon() {
   );
 }
 
-export function GuanYinRetreat2026() {
+export function GuanYinEnglish2026() {
   return (
     <section style={{ backgroundColor: "var(--background)" }}>
       {/* ── Hero ─────────────────────────────────────────────── */}
@@ -150,7 +149,7 @@ export function GuanYinRetreat2026() {
                         fontWeight: 600,
                       }}
                     >
-                      24 {"\u2013"} 31 October 2026
+                      {formatDateRange(event, { showYear: true })}
                     </p>
 
                     <p
@@ -483,7 +482,7 @@ export function GuanYinRetreat2026() {
           >
             <p>
               The retreat runs from{" "}
-              <strong>Saturday 24 October to Saturday 31 October 2026</strong>.
+              <strong>{formatLongDateRange(event)}</strong>.
             </p>
 
             <p>
