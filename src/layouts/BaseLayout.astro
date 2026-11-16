@@ -14,7 +14,7 @@ interface Props {
 const {
   title = "Gold Coast Dharma Realm",
   description = "Gold Coast Dharma Realm (GCDR) is the Australian branch of the Dharma Realm Buddhist Association founded by Venerable Master Hsuan Hua, located on the Gold Coast, Queensland, Australia.",
-  image = "/assets/BuddhaHallPreview.jpg",
+  image = "/BuddhaHallPreview.jpg",
   theme = "light",
 } = Astro.props;
 
@@ -30,26 +30,7 @@ const socialImageURL = new URL(image, Astro.site);
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script is:inline>
-      // Prototype theme switcher. Remove after final palette selection.
-      (() => {
-        try {
-          const theme = window.localStorage.getItem("gcdr-prototype-theme");
-          const themes = [
-            "slate-gold",
-            "dark-forest",
-            "ink-ochre",
-            "dusk-terracotta",
-            "forest-brass",
-            "smoke-copper",
-            "stone-rust",
-          ];
-          document.documentElement.dataset.theme = themes.includes(theme) ? theme : "forest-brass";
-        } catch {
-          document.documentElement.dataset.theme = "forest-brass";
-        }
-      })();
-    </script>
+    <meta name="color-scheme" content="light" />
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
     <title>{title}</title>
     <meta name="description" content={description} />

@@ -1,12 +1,32 @@
-import guanYinImage from "@/assets/GuanYinRetreat.webp";
+import { useEffect, useState } from "react";
+import { formatDateRange, getToday } from "@/data/events";
+import { getFeaturedEvent } from "@/data/featuredEvents";
+
+// Dates come from src/data/events.ts. Do not type them in by hand. Keep this note in future files.
+// Card content lives in src/data/featuredEvents.ts.
 
 type FeaturedEventProps = {
-  href?: string;
+  /**
+   * Today's Brisbane date ("YYYY-MM-DD") as computed when the site was built.
+   * Pass it from the Astro page so the first render matches the server HTML.
+   * After the page loads, the card re-checks the date in the visitor's browser.
+   */
+  buildDate?: string;
 };
 
-export function FeaturedEvent({
-  href = "/events/Guan-Yin-English-2026",
-}: FeaturedEventProps) {
+export function FeaturedEvent({ buildDate }: FeaturedEventProps) {
+  const [today, setToday] = useState<string>(buildDate ?? getToday());
+
+  useEffect(() => {
+    setToday(getToday());
+  }, []);
+
+  const featured = getFeaturedEvent(today);
+  if (!featured) return null;
+
+  const { content, event } = featured;
+  const href = content.href ?? event.href ?? "/events";
+
   return (
     <section style={{ backgroundColor: "var(--background)" }}>
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
@@ -20,29 +40,28 @@ export function FeaturedEvent({
               "1px solid color-mix(in srgb, var(--foreground) 10%, transparent)",
           }}
         >
-          {/* ── Image ───────────────────────────────────────── */}
           <a
             href={href}
             className="relative block"
-            aria-label="View Listen to the Heart — Guan Yin Meditation Retreat"
+            aria-label={`View ${content.title}`}
             style={{
               minHeight: "clamp(18rem, 40vw, 30rem)",
               overflow: "hidden",
             }}
           >
             <img
-              src={guanYinImage.src}
-              alt="Guan Yin Bodhisattva at Gold Coast Dharma Realm"
-              className="absolute inset-0 w-full h-full object-cover object-[center_20%] md:object-[center_30%]"
+              src={content.image.src}
+              alt={content.imageAlt}
+              className={`absolute inset-0 w-full h-full object-cover ${
+                content.imageClassName ?? "object-center"
+              }`}
             />
           </a>
 
-          {/* ── Content ─────────────────────────────────────── */}
           <div
             className="flex flex-col justify-center px-6 py-8 sm:px-8 md:px-10 lg:px-12 md:py-10"
             style={{ color: "var(--foreground)" }}
           >
-            {/* Eyebrow */}
             <div style={{ marginBottom: "1.4rem" }}>
               <p
                 style={{
@@ -55,7 +74,7 @@ export function FeaturedEvent({
                   marginBottom: "0.6rem",
                 }}
               >
-                Featured Retreat
+                {content.label}
               </p>
 
               <div
@@ -67,31 +86,51 @@ export function FeaturedEvent({
               />
             </div>
 
-            {/* Title */}
             <h2
               className="type-page-title"
               style={{
-                marginBottom: "0.3rem",
+                marginBottom:
+                  content.chineseTitle || content.subtitle
+                    ? "0.3rem"
+                    : "1.25rem",
                 lineHeight: 1.05,
               }}
             >
-              Listen to the Heart
+              {content.title}
             </h2>
 
-            <p
-              style={{
-                fontFamily: "var(--font-heading)",
-                fontStyle: "italic",
-                fontSize: "clamp(1.2rem, 2vw, 1.55rem)",
-                lineHeight: 1.25,
-                marginBottom: "1.25rem",
-                color: "var(--foreground)",
-              }}
-            >
-              Guan Yin Meditation Retreat
-            </p>
+            {content.chineseTitle && (
+              <p
+                lang="zh-Hant"
+                style={{
+                  fontFamily: "var(--font-heading)",
+                  fontStyle: "normal",
+                  fontSize: "clamp(1.2rem, 2vw, 1.55rem)",
+                  lineHeight: 1.25,
+                  letterSpacing: "0.08em",
+                  marginBottom: content.subtitle ? "0.3rem" : "1.25rem",
+                  color: "var(--foreground)",
+                }}
+              >
+                {content.chineseTitle}
+              </p>
+            )}
 
-            {/* Date */}
+            {content.subtitle && (
+              <p
+                style={{
+                  fontFamily: "var(--font-heading)",
+                  fontStyle: "italic",
+                  fontSize: "clamp(1.2rem, 2vw, 1.55rem)",
+                  lineHeight: 1.25,
+                  marginBottom: "1.25rem",
+                  color: "var(--foreground)",
+                }}
+              >
+                {content.subtitle}
+              </p>
+            )}
+
             <p
               className="type-body"
               style={{
@@ -100,7 +139,7 @@ export function FeaturedEvent({
                 marginBottom: "1.4rem",
               }}
             >
-              24–31 October 2026
+              {formatDateRange(event, { showYear: true })}
             </p>
 
             <div
@@ -111,20 +150,20 @@ export function FeaturedEvent({
               }}
             />
 
-            {/* Pull quote */}
-            <p
-              style={{
-                fontFamily: "var(--font-heading)",
-                fontStyle: "italic",
-                fontSize: "clamp(1.15rem, 1.8vw, 1.4rem)",
-                lineHeight: 1.4,
-                marginBottom: "1rem",
-              }}
-            >
-              When was the last time we really listened?
-            </p>
+            {content.tagline && (
+              <p
+                style={{
+                  fontFamily: "var(--font-heading)",
+                  fontStyle: "italic",
+                  fontSize: "clamp(1.15rem, 1.8vw, 1.4rem)",
+                  lineHeight: 1.4,
+                  marginBottom: "1rem",
+                }}
+              >
+                {content.tagline}
+              </p>
+            )}
 
-            {/* Description */}
             <p
               className="type-body"
               style={{
@@ -134,42 +173,40 @@ export function FeaturedEvent({
                 maxWidth: "42rem",
               }}
             >
-              Slow down and explore the practice of deep listening. Listen to
-              the body, the heart, the natural world, and the stillness within.
-              A week of meditation, reflection, nature and Buddhist teachings at
-              Gold Coast Dharma Realm.
+              {content.description}
             </p>
 
-            <div
-              style={{
-                borderTop:
-                  "1px solid color-mix(in srgb, var(--foreground) 15%, transparent)",
-                marginBottom: "1.1rem",
-                maxWidth: "34rem",
-              }}
-            />
+            {content.ledBy && (
+              <>
+                <div
+                  style={{
+                    borderTop:
+                      "1px solid color-mix(in srgb, var(--foreground) 15%, transparent)",
+                    marginBottom: "1.1rem",
+                    maxWidth: "34rem",
+                  }}
+                />
 
-            {/* Teachers */}
-            <p
-              className="type-body"
-              style={{
-                fontSize: "0.95rem",
-                lineHeight: 1.55,
-                marginBottom: "1.2rem",
-                maxWidth: "36rem",
-              }}
-            >
-              Led by Rev. Heng Sure, Ven. Jin Chuan, Ven. Jin Wei &amp; other
-              monastics
-            </p>
+                <p
+                  className="type-body"
+                  style={{
+                    fontSize: "0.95rem",
+                    lineHeight: 1.55,
+                    marginBottom: "1.2rem",
+                    maxWidth: "36rem",
+                  }}
+                >
+                  Led by {content.ledBy}
+                </p>
+              </>
+            )}
 
-            {/* CTA */}
             <a
               href={href}
               className="type-link inline-block font-medium"
               style={{ marginTop: "0.25rem" }}
             >
-              View retreat {"\u2192"}
+              {content.linkText ?? "View event"} {"\u2192"}
             </a>
           </div>
         </div>

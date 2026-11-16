@@ -590,7 +590,7 @@ export function EventsRegular() {
               >
                 <p>
                   <EventTime>1:45 {"\u2013"} 3:00 PM</EventTime>
-                  Shurangama Mantra Recitation &amp; Transference of Merits
+                  Shurangama Mantra Recitation &amp; Dedication of Merits
                 </p>
                 <p
                   className="type-body"
@@ -601,7 +601,7 @@ export function EventsRegular() {
                     marginBottom: "0.35rem",
                   }}
                 >
-                  Mantra chanted phonetically. Merit transference in Chinese.
+                  Mantra chanted phonetically. Dedication of Merits in Chinese.
                 </p>
                 <span
                   style={{
