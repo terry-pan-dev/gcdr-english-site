@@ -8,11 +8,11 @@ const event = getEvent("amitabha-retreat-2026");
 const schedule = [
   {
     time: "8:00 to 10:00 am",
-    en: "Recitation of the Amitabha Sutra and Amitabha Buddha’s name",
+    en: "Pure Land Praise, Amitabha Sutra, Bowing to the 48 Vows, Amitabha Great Praise, Amitabha Praise, and Reciting Buddha’s Name",
   },
   {
     time: "1:30 to 3:30 pm",
-    en: "Recitation of the Amitabha Sutra, Amitabha Buddha’s name and Rebirth Merit Dedication",
+    en: "Pure Land Praise, Amitabha Sutra, Amitabha Praise, Reciting Buddha’s Name, and Rebirth Dedication of Merit",
   },
   {
     time: "7:00 to 8:00 pm",
